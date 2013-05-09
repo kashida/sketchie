@@ -1,0 +1,19 @@
+::NameGenerator
+  @date\Date\ &Date()
+  @index\n\ -1
+
+:nextName\s\
+  @index++
+  => [#].join('_') + '.html'
+    @zeroPad(@date.getFullYear(), 4)
+    @zeroPad(@date.getMonth() + 1, 2)
+    @zeroPad(@date.getDate(), 2)
+    @zeroPad(@index, 4)
+
+:@zeroPad\s\
+  num\n\$
+  digits\n\$
+  num_str := num + ''
+  for i := 0; i < digits - num_str.length; i++
+    num_str = '0' + num_str
+  => num_str

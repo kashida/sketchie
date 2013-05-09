@@ -1,0 +1,33 @@
+<html><head>
+    <title>File List: <%= @path %></title>
+    <style>
+      a:link {text-decoration:none;}
+      body {
+        background-image: url('images/eggshell.jpg');
+        background-repeat: repeat;
+      }
+      #filelist a {
+        border: 1.5px solid LightSteelBlue;
+        display: block;
+        margin: 2px 5px;
+        padding: 1px 5px;
+        font-size: 20px;
+        line-height: 25px;
+        background-color: rgba(240, 240, 255, 0.2);
+      }
+      #filelist a:hover {
+        background-color: rgba(200, 230, 255, 0.2);
+      }
+      #header {
+        margin: 10px 2px 15px 2px;
+      }
+    </style>
+    </head><body>
+    <div id="header">files under: <%= @path %></div>
+    <div id="filelist">
+      <a href="<%= @newname %>">[Create New]</a>
+      <% for file in @files: %>
+      <a href="<%= file %>"><%= file %></a>
+      <% end %>
+    </div>
+</body></html>

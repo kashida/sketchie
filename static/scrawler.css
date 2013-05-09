@@ -1,0 +1,173 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  background-image: url('images/seamlesspaper4.png');
+  background-repeat: repeat;
+  overflow: hidden;
+}
+.itemlist {
+  /* TODO: we can get rid of these 5 lines if we use input_layer for the viewport size
+   * it'd be cleaner because this isn't position:fixed.  */
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+
+  top: 0px;
+  left: 0px;
+  position: absolute;
+  overflow: visible;
+}
+#input_layer {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 1005;
+
+  cursor: crosshair;
+
+  display: none;
+}
+.itemlist > div {
+  border: 1.5px solid LightSteelBlue;
+  margin: 2px 5px;
+  padding: 1px 5px;
+  font-size: 20px;
+  line-height: 25px;
+}
+.itemlist > div, img {
+  position: absolute;
+}
+.itemlist > div[active]:hover, img[active]:hover {
+  box-shadow:
+      0px 0px 5px 5px rgba(20, 40, 200, 0.2),
+      0px 0px 2px 3px rgba(120, 240, 100, 0.3)
+}
+.selected {
+  background-color: rgba(130, 180, 170, 0.35);
+}
+.selected_secondary {
+  background-color: rgba(130, 180, 170, 0.1);
+}
+#surface {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+#stroke_layer {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+#draw_cursor {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  -webkit-user-select: none;
+  z-index: 1003;
+  display: none;
+  border-style: solid;
+  border-color: #fa9;
+}
+#draw_cursor div {
+  margin-left: -1em;
+  margin-top: -1em;
+}
+.palette_container {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  z-index: 1006;
+  background-color: rgba(120, 140, 200, 0.2);
+}
+.palette {
+  box-shadow: 0px 1px 7px #222;
+  display: none;
+}
+#color_sel div {
+  display: inline-block;
+  margin: 3px 3px 3px 3px;
+  height: 30px;
+  width: 30px;
+}
+.color_sel_selected {
+  box-shadow: inset 1px 2px 7px #222;
+}
+.color_sel_unselected {
+  box-shadow: 1px 2px 7px #222;
+}
+#tool_sample {
+  width: 50px;
+  height: 50px;
+}
+.color_sample {
+  display: inline-block;
+  margin: 3px 3px 3px 3px;
+  border-width: 5px;
+  height: 30px;
+  width: 30px;
+}
+#color_sample0 {
+  border-style: double;
+  border-color: #666;
+}
+#color_sample1 {
+  border-style: solid;
+  border-color: #bbb;
+}
+#sample_size {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+}
+.box {
+  display: inline-block;
+}
+.control_box {
+  display: inline-block;
+  border-style: groove;
+  border-width: 2px;
+  padding: 3px 7px;
+}
+.control_hilite {
+  background-color: #eec;
+  border-style: solid;
+}
+#color_name {
+  margin-left: 5px;
+}
+#sample_box {
+  display: inline-block;
+  position: relative;
+}
+.vdivider {
+  display: inline-block;
+  width: 2px;
+  height: 40px;
+  border-style: groove;
+  border-width: 2px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+#img_undolist {
+  display: none;
+}
+#control_root {
+  z-index: 1004;
+  position: fixed;
+  display: none;
+}

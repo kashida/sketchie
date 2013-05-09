@@ -1,0 +1,344 @@
+::ColorPalette <Palette
+  @mix\Slider\ &Slider('color_mix', 'mix%', 0, 100, 0, 10)
+  @hue\Slider\ &Slider('color_hue', 'hue%', -300, 300, 0, 10)
+  @sat\Slider\ &Slider('color_sat', 'sat%', -100, 100, 0, 20)
+  @lgt\Slider\ &Slider('color_lgt', 'lgt%', -100, 100, 0, 40)
+  @color_sel\Element|data.Hsl\
+  @prev_color\data.Hsl\
+  ^('color_palette')
+  update_cb := ##
+    @update()
+  @mix.callback_update(update_cb)
+  @mix.callback_render(##)
+    val\n\$
+    => @value_render({m:val / 100})
+  @hue.callback_update(update_cb)
+  @hue.callback_render(##)
+    val\n\$
+    => @value_render({h:val / 100})
+  @sat.callback_update(update_cb)
+  @sat.callback_render(##)
+    val\n\$
+    => @value_render({s:val / 100})
+  @lgt.callback_update(update_cb)
+  @lgt.callback_render(##)
+    val\n\$
+    => @value_render({l:val / 100})
+  @create_color_selectors()
+
+:mix_adjust
+  incr\n\$
+  @mix.adjust(incr)
+
+:hue_adjust
+  incr\n\$
+  @hue.adjust(incr)
+
+:sat_adjust
+  incr\n\$
+  @sat.adjust(incr)
+
+:lgt_adjust
+  incr\n\$
+  @lgt.adjust(incr)
+
+:activate_control
+  p\s\$
+  ({m: @mix, h:@hue, s:@sat, l:@lgt})[p].activate()
+
+:unselect
+  if @color_sel instanceof Element
+    @color_sel.className = 'color_sel_unselected'
+
+:select
+  if @color_sel instanceof Element
+    @color_sel.className = 'color_sel_selected'
+
+:@current_color\data.Hsl\
+  if @color_sel instanceof Element
+    => @color_sel.hsl
+  else if @color_sel instanceof Array
+    => @color_sel
+  else
+    => &data.Hsl(0, 0, 0)
+
+  
+:selected_color
+  params := @color_adjust_params()
+  => @adjusted_color(#)
+    params[0]
+    params[1]
+    params[2]
+    params[3]
+
+:@color_adjust_params
+  => [#]
+    @hue.value / 100
+    @sat.value / 100
+    @lgt.value / 100
+    @mix.value / 100
+
+:@adjusted_color
+  adj_h\n\$
+  adj_s\n\$
+  adj_l\n\$
+  adj_m\n\$
+  cc := @current_color()
+  h := cc[0]
+  s := cc[1]
+  l := cc[2]
+  a := f_tool_palette ? f_tool_palette.alpha() / 100.0 : 1
+  h = (1.0 - adj_m) * h + adj_m * @prev_color.h
+  s = (1.0 - adj_m) * s + adj_m * @prev_color.s
+  l = (1.0 - adj_m) * l + adj_m * @prev_color.l
+  if h
+    h += adj_h
+  s += adj_s
+  l += adj_l
+  => col_spec(h, s, l, a)
+
+:@value_render
+  params\O\$
+  cap := @color_adjust_params()
+  ah := cap[0]
+  as := cap[1]
+  al := cap[2]
+  am := cap[3]
+  if params.h
+    ah = params.h
+  if params.s
+    as = params.s
+  if params.l
+    al = params.l
+  if params.m
+    am = params.m
+  col := @adjusted_color(ah, as, al, am)
+  => {c:col.rgb}
+
+:set_color_rgb
+  r\n\$
+  g\n\$
+  b\n\$
+   @set_color(rgb_to_hsl(r, g, b))
+
+:@set_color
+  hsl\data.Hsl\$
+  @mix.reset()
+  @hue.reset()
+  @sat.reset()
+  @lgt.reset()
+  @prev_color = @current_color()
+  if @color_sel instanceof Element
+    @color_sel.className = 'color_sel_unselected'
+  @color_sel = hsl
+  id('color_name').innerText = '---'
+  @update()
+
+:swap_colors
+  @set_color(@prev_color)
+
+:@create_color_selectors
+  colors := [#]
+    ['40404F', 'Paynes gray']
+    ['36454F', 'Charcoal']
+    ['708090', 'Slate gray']
+    ['F0EAD6', 'Eggshell']
+    ['007FFF', 'Azure']
+    ['0047AB', 'Cobalt blue']
+    //['1034A6', 'Egyptian blue']
+    //['1C39BB', 'Persian blue']
+    ['120A8F', 'Ultramarine']
+    ['4B0082', 'Indigo']
+    ['B57EDC', 'Lavender']
+    ['E0B0FF', 'Meuve']
+    ['C8A2C8', 'Lilac']
+    ['FF00FF', 'Fuchsia']
+    ['DA70D6', 'Orchid']
+    ['8E4585', 'Plum']
+    ['614051', 'Eggplant']
+    //['66424D', 'Tuscan red']
+    ['722F37', 'Wine']
+    ['960018', 'Carmine']
+    //['92000A', 'Sangria']
+    //['800000', 'Maroon']
+    ['DC143C', 'Crimson']
+    //['CC3333', 'Persian red']
+    ['E34234', 'Vermilion']
+    ['FA8072', 'Salmon']
+    ['8A3324', 'Burnt umber']
+    //['954535', 'Chestnut']
+    ['882D17', 'Sienna']
+    ['FF7F50', 'Coral']
+    //['CB410B', 'Sinopia']
+    ['C04000', 'Mahogany']
+    ['EC5800', 'Persimmon']
+    ['FF7518', 'Pumpkin']
+    ['CC7722', 'Ochre']
+    ['704214', 'Sepia']
+    ['7B3F00', 'Chocolate']
+    ['ED9121', 'Carrot orange']
+    //['E49B0F', 'Gamboge']
+    ['FFBF00', 'Amber']
+    ['FFF700', 'Lemon']
+    ['808000', 'Olive']
+    ['D1E231', 'Pear']
+    ['BFFF00', 'Lime']
+    ['228B22', 'Forest green']
+    ['50C878', 'Emerald']
+    ['3EB489', 'Mint']
+    ['40826D', 'Viridian']
+    ['40E0D0', 'Turquoise']
+    ['007BA7', 'Cerulean']
+  //verify = &VerifyColors()
+  cname := id('color_name')
+  csel := id('color_sel')
+  colors.forEach(##)
+    c\A\$
+    i\n\$
+    //verify.check c...
+    elem := create('div')
+    elem.color_name = c[1]
+    elem.style['background-color'] = '#' + c[0]
+    elem.className = 'color_sel_unselected'
+    c_values := [0, 1, 2].map(##)
+      j\n\$
+      => parseInt(c[0].substr(j * 2, 2), 16)
+    elem.hsl = rgb_to_hsl(c_values[0], c_values[1], c_values[2])
+    listen(elem, 'click', ##)
+      evt\Event\$
+      @mix.reset()
+      @hue.reset()
+      @sat.reset()
+      @lgt.reset()
+      @prev_color = @current_color()
+      if @color_sel instanceof Element
+        @color_sel.className = 'color_sel_unselected'
+      @color_sel = \Element\(evt.target)
+      cname.innerText = @color_sel.color_name
+      @color_sel.className = 'color_sel_selected'
+      @update()
+    csel.appendChild(elem)
+    if i == 0
+      // Select the first one.
+      cname.innerText = c[1]
+      elem.className = 'color_sel_selected'
+      @color_sel = elem
+      @prev_color = @current_color()
+  @update()
+
+:@update
+  id('color_sample0').style['background-color'] = @.selected_color().rgb
+  id('color_sample1').style['background-color'] = col_spec(#).rgb
+    @prev_color[0]
+    @prev_color[1]
+    @prev_color[2]
+    @prev_color[3]
+
+::VerifyColors
+  @last_rgb\A\ null
+
+:check
+  col\s\$
+  name\s\$
+  rgb := colorhex_to_rgb(col)
+  if @last_rgb
+    distsq := 0
+    [0, 1, 2].forEach(##)
+      i\n\$
+      d := rgb[i] - @last_rgb[i]
+      distsq += d * d
+    l(Math.sqrt(distsq) + ' ' + name)
+  @last_rgb = rgb
+  l(rgb_to_hsl(rgb[0], rgb[1], rgb[2])[0] + ' ' + name)
+
+Expects r, g, b in [0, 255] and a in [0, 1].
+:::col_spec = ##
+  h\n\$
+  s\n\$
+  l\n\$
+  a\n\$
+  rgb := hsl_to_rgb(h, s, l)
+  r := rgb[0]
+  g := rgb[1]
+  b := rgb[2]
+  => {#}
+    rgba: "rgba(#{r},#{g},#{b},#{a})"
+    rgb: "rgb(#{r},#{g},#{b})"
+    r: r
+    g: g
+    b: b
+    h: h
+    s: s
+    l: l
+    a: a
+
+Convert hexadecimal color code, e.g. FFFFFF to [r, g, b] value array in
+[0, 255] range.
+:::colorhex_to_rgb = ##
+  hex\s\$
+  => [#]
+    parseInt(hex.substr(0, 2), 16)
+    parseInt(hex.substr(2, 2), 16)
+    parseInt(hex.substr(4, 2), 16)
+
+Expects the r, g, b in [0, 255] range.
+Produces hue in [0, 6) range, or 0 for gray. Saturation and lightness are in
+[0, 1] range.
+:::rgb_to_hsl = ##
+  r\n\$
+  g\n\$
+  b\n\$
+  r = inrange(0, 255, r) / 255.0
+  g = inrange(0, 255, g) / 255.0
+  b = inrange(0, 255, b) / 255.0
+  max_rgb := max_all([r, g, b])
+  min_rgb := min_all([r, g, b])
+  c := max_rgb - min_rgb
+  l := (max_rgb + min_rgb) / 2
+  if c == 0
+    h := 0
+  else if r >= g && r >= b
+    h = (g - b) / c
+  else if g >= r && g >= b
+    h = (b - r) / c + 2
+  else
+    h = (r - g) / c + 4
+  if h < 0
+    h += 6
+  s := c == 0 ? 0 : c / (1 - Math.abs(max_rgb + min_rgb - 1))
+  => [h, s, l]
+
+Produces rgb in [0, 255] range.
+:::hsl_to_rgb = ##
+  h\n\$
+  s\n\$
+  l\n\$
+  s = inrange(0, 1, s)
+  l = inrange(0, 1, l)
+  c := (1 - Math.abs(2 * l - 1)) * s
+  m := l - c / 2
+  final_adjust := ##
+    r\n\$
+    g\n\$
+    b\n\$
+    => [#]
+      Math.floor(inrange(0, 255, (r + m) * 255))
+      Math.floor(inrange(0, 255, (g + m) * 255))
+      Math.floor(inrange(0, 255, (b + m) * 255))
+  if !h
+    => final_adjust(0, 0, 0)
+
+  h = (h + 6) % 6
+  x := c * (1 - Math.abs(h % 2 - 1))
+  if h < 1
+    => final_adjust(c, x, 0)
+  if h < 2
+    => final_adjust(x, c, 0)
+  if h < 3
+    => final_adjust(0, c, x)
+  if h < 4
+    => final_adjust(0, x, c)
+  if h < 5
+    => final_adjust(x, 0, c)
+  if h < 6
+    => final_adjust(c, 0, x)

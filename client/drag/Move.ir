@@ -1,0 +1,36 @@
+::Move
+  @elem\Element\$
+  @mouse_x\?n\
+  @mouse_y\?n\
+  @base_x\?n\
+  @base_y\?n\
+  listen(@elem, 'mousedown', ##)
+    evt\Event\$
+    @drag_start(evt)
+
+:position_state
+  => @elem.offsetLeft + ' ' + @elem.offsetTop + ' '
+
+:@drag_start
+  evt\Event\$
+  if !@elem.getAttribute('active')
+    =>
+  if evt.shiftKey || evt.ctrlKey
+    => false
+  @mouse_x = evt.clientX
+  @mouse_y = evt.clientY
+  @base_x = @elem.offsetLeft
+  @base_y = @elem.offsetTop
+  f_dispatcher.drag_start(@)
+  evt.preventDefault()
+  => true
+
+:@drag_update
+  evt\Event\$
+  @elem.style.left = @base_x + (evt.clientX - @mouse_x) / f_viewport.scale() + 'px'
+  @elem.style.top = @base_y + (evt.clientY - @mouse_y) / f_viewport.scale() + 'px'
+  => false
+
+:drag_end
+  evt\Event\$
+  @drag_update(evt)

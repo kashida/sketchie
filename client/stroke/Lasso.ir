@@ -1,0 +1,43 @@
+::Lasso < %.Stroke
+
+:reset
+  color\A\$
+  radius\n\$
+  lerp\n\$
+  alpha_lock\b\$
+  ^(color, radius, lerp, alpha_lock)
+  @points = []
+
+:draw
+  x\n\$
+  y\n\$
+  @points.push([x, y])
+  if @points.length < 2
+    =>
+  f_stroke_layer.clear()
+  @draw_lasso(f_stroke_layer.ctx())
+
+:blit
+  @draw_lasso(f_surface.ctx())
+
+:@draw_lasso
+  ctx\CanvasRenderingContext2D\$
+  if @points.length < 2
+    =>
+  ctx.fillStyle = @c.rgba
+  ctx.beginPath()
+  i := 0
+  while i < @points.length
+    p := @points[i++]
+    if i == 1
+      // First point.
+      ctx.moveTo(p.x, p.y)
+    else if i < @points.length
+      // Still have two or more points. Draw a quadratic curve.
+      end_p := @points[i++]
+      ctx.quadraticCurveTo(p.x, p.y, end_p.x, end_p.y)
+    else
+      // There's only one more left.  draw a line.
+      ctx.lineTo(p.x, p.y)
+  ctx.closePath()
+  ctx.fill()

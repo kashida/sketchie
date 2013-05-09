@@ -1,0 +1,396 @@
+Convenience wrapper for the html canvas.
+::Canvas
+  // If two values, (width, height).  if one value, (canvas_element).
+  // x and y, if provided, specify the logical position of this canvas in
+  // document coords.
+  canvas_or_w\HTMLCanvasElement|n\$
+  h\n\?
+  @canvas+\HTMLCanvasElement\
+  @ctx+\CanvasRenderingContext2D\
+  if h
+    @canvas = create('canvas')
+    @canvas.width = canvas_or_w
+    @canvas.height = h
+  else
+    @canvas = \HTMLCanvasElement\(canvas_or_w)
+  @ctx = @canvas.getContext('2d')
+  @scale = 1.0
+
+:clear
+  @ctx.clearRect(0, 0, @canvas.width, @canvas.height)
+
+:data_url
+  => @canvas.toDataURL()
+
+:@set_scale
+  scale\n\$
+  @scale = scale
+  @canvas.width = @canvas.clientWidth / @scale
+  @canvas.height = @canvas.clientHeight / @scale
+
+:pixels
+  => @ctx.getImageData(0, 0, @canvas.width, @canvas.height)
+
+:@copy_image
+  img\Image\$
+  if !img
+    =>
+  xform_draw_image(#)
+    @ctx
+    img
+    f_viewport.item_to_surface(elem_position(img))
+
+:duplicate_canvas
+  cvs := create('canvas')
+  cvs.width = @canvas.width
+  cvs.height = @canvas.height
+  cvs.getContext('2d').putImageData(@.pixels(), 0, 0)
+  => cvs
+
+:copy_canvas
+  cvs\HTMLCanvasElement\$
+  @ctx.putImageData(cvs.getContext('2d').getImageData(#), 0, 0)
+    0
+    0
+    @canvas.width
+    @canvas.height
+
+Canvas that's fixed to the viewport size.
+::Surface <Canvas
+  canvas_or_w\HTMLCanvasElement|n\$
+  h\n\?
+  ^(canvas_or_w, h)
+
+:activate
+  img\Image\$
+  alpha_lock\b\$
+  // Need to match the backing store resolution with screen resolution.
+  @canvas.style.display = 'block'
+  @set_scale(f_viewport.scale())
+  @copy_image(img)
+  @.update_alpha_lock(alpha_lock)
+
+:update_alpha_lock
+  alpha_lock\b\$
+  @ctx.globalCompositeOperation = alpha_lock ? 'source-atop' : 'source-over'
+
+:deactivate
+  @.clear()
+  @canvas.style.display = 'none'
+  @ctx.globalCompositeOperation = ''
+
+Val is the opacity value [0, 1.0], but resets to default when null.
+:set_opacity
+  val\s\$
+  @canvas.style.opacity = val
+
+Takes view coordinates and returns [r, g, b, a] array in [0, 255] range.
+:pick_color
+  x\n\$
+  y\n\$
+  scale := f_viewport.scale()
+  pixels := @ctx.getImageData(x / scale, y / scale, 1, 1)
+  d := pixels.data
+  => [d[0], d[1], d[2], d[3]]
+
+:image_spec
+  orig_img\Image\?
+  // Produce image spec of this surface plus the original image.
+  // Size of the image is reduced to the tight bound.
+  pixels := @.pixels()
+  => #?
+    orig_img
+    merged_image_spec(pixels, orig_img)
+    image_rect_spec(pixels)
+
+Orig_img gets added to the outside of the pixels bound.
+Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordinates.
+:::merged_image_spec = ##
+  pixels\ImageData\$
+  orig_img\Image\$
+  pixels_rect := find_pixel_rect(pixels)
+  if !pixels_rect
+    => null
+  x0 := pixels_rect[0]
+  y0 := pixels_rect[1]
+  x1 := pixels_rect[2]
+  y1 := pixels_rect[3]
+  w := x1 - x0 + 1
+  h := y1 - y0 + 1
+
+  // Find the rect that can contain pixels_rect and the transformed image
+  // in document coords.
+  its := f_viewport.item_to_surface(elem_position(orig_img))
+  imgx0 := its[0]
+  imgy0 := its[1]
+  its_br := f_viewport.item_to_surface(elem_position_br(orig_img))
+  imgx1 := its_br[0]
+  imgy1 := its_br[1]
+  rect := union_rect([orig_img], pixels_rect, [[imgx0, imgy0, imgx1, imgy1]])
+  if !rect
+    => null
+  ux0 := rect[0]
+  uy0 := rect[1]
+  ux1 := rect[2]
+  uy1 := rect[3]
+  uw := ux1 - ux0 + 1
+  uh := uy1 - uy0 + 1
+
+  // New temp canvas, logically located at (ux0, uy0) in surface coords.
+  cvs := &Canvas(uw, uh)
+  ctx := cvs.ctx
+  xform_draw_image(ctx, orig_img, &data.Point(imgx0 - ux0, imgy0 - uy0))
+  ctx.clearRect(-ux0, -uy0, pixels.width, pixels.height)
+  ctx.putImageData(pixels, -ux0, -uy0, x0, y0, w, h)
+  => image_rect_spec(cvs.pixels(), null, ux0, uy0)
+
+:::image_rect_spec = ##
+  pixels\ImageData\$
+  rect\A\?
+  offset_x\n\? 0
+  offset_y\n\? 0
+  if !rect
+    rect = find_pixel_rect(pixels)
+    if !rect
+      => null
+  item_xy := f_viewport.surface_to_item(#)
+    rect[0] + offset_x
+    rect[1] + offset_y
+  => [item_xy[0], item_xy[1], sized_image_data(pixels, rect)]
+
+:::xform_draw_image = ##
+  ctx\CanvasRenderingContext2D\$
+  img\Image\$
+  offset\data.Point\$
+  use_alpha\b\? false
+  xf_r := attr(img, 'xf_r')
+  xf_s := attr(img, 'xf_s')
+  alpha := use_alpha ? attr(img, 'blend_alpha') : null
+  if !(xf_r || xf_s || alpha)
+    ctx.drawImage(img, offset.x, offset.y)
+    =>
+  half_w := 0.5 * img.width
+  half_h := 0.5 * img.height
+  ctx.save()
+  ctx.translate(offset.x + half_w, offset.y + half_h)
+  if xf_r
+    ctx.rotate(xf_r)
+  if xf_s
+    ctx.scale(xf_s, xf_s)
+  if alpha
+    ctx.globalAlpha = parseInt(alpha, 10) / 100.0
+  ctx.drawImage(img, -half_w, -half_h)
+  ctx.restore()
+
+:::image_region = ##
+  img\Image\$
+  region_pixels\ImageData\$
+  diff\b\? false
+  // Take either intersection or diff of the images.
+  cvs := &Canvas(img.width, img.height)
+  cvs.ctx.drawImage(img, 0, 0)
+  pixels := cvs.pixels()
+  sti := f_viewport.surface_to_item(0, 0)
+  mx := sti[0]
+  my := sti[1]
+  intersect_pixel_region(#)
+    pixels
+    region_pixels
+    Math.floor(img.offsetLeft - mx)
+    Math.floor(img.offsetTop - my)
+    diff
+  rect := find_pixel_rect(pixels)
+  if !rect
+    => null
+  => [#]
+    rect[0] + img.offsetLeft
+    rect[1] + img.offsetTop
+    sized_image_data(pixels, rect)
+
+:::blend_images = ##
+  images\A.<Image>\$
+  if images.length < 1
+    => null
+  ur := union_rect(images)
+  minx := ur[0]
+  miny := ur[1]
+  maxx := ur[2]
+  maxy := ur[3]
+  w := maxx - minx + 1
+  h := maxy - miny + 1
+  cvs := &Canvas(w, h)
+  ctx := cvs.ctx
+  images.forEach(##)
+    img\Image\$
+    xform_draw_image(ctx, img, &data.Point(#), true)
+      img.offsetLeft - minx
+      img.offsetTop - miny
+
+  // Now we have the image. Find a tighter bound.
+  pixels := cvs.pixels()
+  rect := find_pixel_rect(pixels)
+  if !rect
+    => null
+  => [#]
+    rect[0] + minx
+    rect[1] + miny
+    sized_image_data(pixels, rect)
+
+:::find_pixel_rect = ##
+  pixels\ImageData\$
+  // Find the rectangle in the image where pixels actually have colors.
+  // Resulting coordinates are relative to the pixels.
+  miny := minx := maxy := maxx := null
+  has_value := ##
+    x\n\$
+    y\n\$
+    // only check alpha.
+    => pixels.data[(x + y * pixels.width) * 4 + 3] > 0
+
+  // Find the minimum and maximum y values that has any pixel.
+  row_has_value := ##
+    y\n\$
+    for x := 0; x < pixels.width; x++
+      if has_value(x, y)
+        => true
+    => false
+  for y := 0; y < pixels.height; y++
+    if row_has_value(y)
+      miny = y
+      break
+  if !miny
+    => null
+  for y = pixels.height - 1; y >= miny; y--
+    if row_has_value(y)
+      maxy = y
+      break
+  if !maxy
+    => null
+
+  // Find the minimum and maximum x values that has any pixel.
+  col_has_value := ##
+    x\n\$
+    for y = miny; y <= maxy; y++
+      if has_value(x, y)
+        => true
+    => false
+  for x := 0; x < pixels.width; x++
+    if col_has_value(x)
+      minx = x
+      break
+  if !minx
+    => null
+  for x = pixels.width - 1; x >= minx; x--
+    if col_has_value(x)
+      maxx = x
+      break
+  if !maxx
+    => null
+  => [minx, miny, maxx, maxy]
+
+:::union_rect = ##
+  images\A.<Image>\$
+  init_rect\A\?
+  image_dimensions\A\? []
+  if images.length < 1
+    => null
+  result := init_rect
+  images.forEach(##)
+    img\Image\$
+    i\n\$
+    imgx0 := img.offsetLeft
+    imgy0 := img.offsetTop
+    imgx1 := img.offsetLeft + img.offsetWidth
+    imgy1 := img.offsetTop + img.offsetHeight
+    if image_dimensions.length > i
+      imgx0 = image_dimensions[i][0]
+      imgy0 = image_dimensions[i][1]
+      imgx1 = image_dimensions[i][2]
+      imgy1 = image_dimensions[i][3]
+    xf_r := attr(img, 'xf_r')
+    xf_s := attr(img, 'xf_s')
+    if !(xf_r || xf_s)
+      x0 := imgx0
+      y0 := imgy0
+      x1 := imgx1
+      y1 := imgy1
+    else
+      half_w := 0.5 * (imgx1 - imgx0)
+      half_h := 0.5 * (imgy1 - imgy0)
+      // Corner coord from the center of the image (doesn't matter which
+      // corner).
+      x := half_w
+      y := half_h
+      if xf_s
+        x = x * xf_s
+        y = y * xf_s
+      if xf_r
+        c := Math.abs(Math.cos(xf_r))
+        s := Math.abs(Math.sin(xf_r))
+        x = c * x + s * y
+        y = s * x + c * y
+      x0 = imgx0 + half_w - x
+      y0 = imgy0 + half_h - y
+      x1 = x0 + 2.0 * x
+      y1 = y0 + 2.0 * y
+    if result
+      if x0 < result[0]
+        result[0] = x0
+      if y0 < result[1]
+        result[1] = y0
+      if x1 > result[2]
+        result[2] = x1
+      if y1 > result[3]
+        result[3] = y1
+    else
+      result = [x0, y0, x1, y1]
+  => result
+
+:::intersect_pixel_region = ##
+  pixels\ImageData\$
+  region_pixels\ImageData\$
+  dx\n\$
+  dy\n\$
+  diff\b\$
+  // Modify pixels to make intersection or diff of the region_pixels.
+  // Go thru all the pixels and modify the values.
+  max_alpha := Math.floor(255.0 * 0.3)
+    // This 0.3 needs to match the alpha in Stencil.draw_segment.
+  for y := 0; y < pixels.height; y++
+    for x := 0; x < pixels.width; x++
+      sx := x + dx
+      sy := y + dy
+      stencil := 0.0
+
+      if #&&
+        sx >= 0
+        sx < region_pixels.width
+        sy >= 0
+        sy < region_pixels.height
+        --
+        stencil_alpha := region_pixels.data[#]
+          (sx + sy * region_pixels.width) * 4 + 3
+        stencil = stencil_alpha >= max_alpha ? 1.0 : stencil_alpha / max_alpha
+      if diff
+        stencil = 1.0 - stencil
+      if stencil < 1.0
+        base := (x + y * pixels.width) * 4
+        alpha_idx := base + 3
+        alpha := #?
+          stencil <= 0.0
+          0
+          Math.floor(pixels.data[alpha_idx] * stencil)
+        if alpha == 0
+          each i in [1, 2, 3]
+            pixels.data[base + i] = 0
+        pixels.data[alpha_idx] = alpha
+
+:::sized_image_data = ##
+  pixels\ImageData\$
+  rect\data.Rect\$
+  // Takes coordinates relative to pixels.
+  w := rect.w + 1
+  h := rect.h + 1
+  cvs := &Canvas(w, h)
+  cvs.ctx.putImageData(pixels, -rect.x0, -rect.y0, rect.x0, rect.y0, w, h)
+  => cvs.data_url()

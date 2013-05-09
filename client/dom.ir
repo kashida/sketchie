@@ -1,0 +1,143 @@
+:::id = ##
+  str\s\$
+  => document.getElementById(str)
+
+:::create = ##
+  tag\s\$
+  attrs\O\?
+  children\A.<Element>\?
+  elem := document.createElement(tag)
+  if attrs
+    each attr in attrs
+      elem.setAttribute(attr, attrs[attr])
+  if children
+    children.forEach(##)
+      child\Element\$
+      elem.appendChild(child)
+  => elem
+
+:::create_div = ##
+  name\s\?
+  class_name\s\?
+  children\A.<Element>\?
+  div := create('div', null, children)
+  if name
+    div.setAttribute('id', name)
+  if class_name
+    div.setAttribute('class', class_name)
+  => div
+
+:::create_text = ##
+  str\s\$
+  => document.createTextNode(str)
+
+:::node_text = ##
+  node\Element\$
+  if node.nodeType == Node.ELEMENT_NODE
+    => node.innerText
+  else
+    // Assume it's a text node.
+    => node.nodeValue
+
+:::append_children = ##
+  parent\Element\$
+  children\A.<Node>\$
+  children.forEach(##)
+    child\Node\$
+    parent.appendChild(child)
+
+:::find_or_create = ##
+  tag\s\$
+  attrs\O\$
+  children\A.<Element>\?
+  if attrs.id
+    elem := document.getElementById(attrs.id)
+    if elem
+      elem.parentNode.removeChild(elem)
+      => elem
+  elem = create(tag, attrs, children)
+  => elem
+
+:::remove_named_div = ##
+  id\s\$
+  elem := document.getElementById(id)
+  if !elem
+    =>
+  elem.parentNode.removeChild(elem)
+
+:::listen = ##
+  elem\Element\$
+  type\s\$
+  listener\F\$
+  capture\b\? false
+  elem.addEventListener(type, listener, capture)
+
+:::trigger_all = ##
+  type\s\$
+  node\Element\? document.body
+  name\s\? ''
+  handler := ##
+    evt\Event\$
+    l("#{name}:#{evt.eventPhase}")
+  listen(node, type, handler)
+  listen(node, type, handler, true)
+  for i := 0; i < node.childNodes.length; i++
+    child := node.childNodes[i]
+    trigger_all(type, child, name + '.' + #)
+      child.nodeType == Node.ELEMENT_NODE && child.id ? child.id : i
+
+:::attr = ##
+  node\Element\$
+  name\s\$
+  => node.getAttribute(name)
+:::set_attr = ##
+  node\Element\$
+  name\s\$
+  value\s\?
+  if value
+    node.setAttribute(name, value)
+  else
+    node.removeAttribute(name)
+
+:::is_attr = ##
+  node\Element\$
+  name\s\$
+  a := attr(node, name)
+  if !a
+    => false
+  => a == '1' || a == 'true'
+:::set_is_attr = ##
+  node\Element\$
+  name\s\$
+  value\s\$
+  if value
+    node.setAttribute(name, 'true')
+  else
+    node.removeAttribute(name)
+        
+:::set_xform = ##
+  item\Element\$
+  xforms := []
+  r := attr(item, 'xf_r')
+  if r
+    xforms.push("rotate(#{r}rad)")
+  s := attr(item, 'xf_s')
+  if s
+    xforms.push("scale(#{s})")
+  item.style['-webkit-transform'] = xforms.join(' ')
+
+:::elem_position = ##
+  elem\Element\$
+  => [elem.offsetLeft, elem.offsetTop]
+:::elem_position_br = ##
+  elem\Element\$
+  // Bottom right corner coordinate.
+  => [#]
+    elem.offsetLeft + elem.offsetWidth
+    elem.offsetTop + elem.offsetHeight
+
+:::eachChild = ##
+  el\Element\$
+  cb\f(Element,n)\$
+  for i := 0; i < el.childNodes.length; i++
+    cb(el, i)

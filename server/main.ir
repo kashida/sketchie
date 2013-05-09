@@ -1,0 +1,23 @@
+:
+  _eco = require('eco')
+  _fs = require('fs')
+  _http = require('http')
+  _path = require('path')
+  _url = require('url')
+  _util = require('util')
+  _ir2js = require('ir2js')
+
+:::log = console.log
+
+
+############################################################
+# start the main control loop.
+
+:
+  port := 1357
+  host := '127.0.0.1'
+  _http.createServer(##).listen(port, host)
+    req\_http.ServerRequest\$
+    res\_http.ServerResponse\$
+    &RequestHandler(&RequestContext(req, res)).process()
+  log('Server running at http://' + host + ':' + port)

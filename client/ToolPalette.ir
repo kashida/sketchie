@@ -1,0 +1,151 @@
+::ToolPalette < Palette
+  @lerp\Slider\ &Slider('tool_lerp', 'lerp%', 0, 100, 0, 20)
+  @alpha\Slider\ &Slider('tool_alpha', 'alpha%', 0, 100, 100, 20)
+  @radius\RadiusSlider\ &RadiusSlider('tool_radius', 'size', 1, 100, 1, 20)
+  @param_set\O\ {}
+  @current_tool\s\ 'P'
+  ^('tool_palette')
+  update_cb := ##
+    @update()
+  @lerp.callback_update(update_cb)
+  @alpha.callback_update(update_cb)
+  @radius.callback_update(update_cb)
+  each tool in defaultParamSet
+    val := defaultParamSet[tool]
+    @param_set[tool] = &BrushParam(tool, val[0], val[1], val[2])
+  @load_param()
+
+:alpha
+  => @alpha.value
+:radius
+  => @radius.value
+:lerp
+  => @lerp.value
+
+:@set_alpha
+  val\n\$
+  @alpha.set_value(val)
+:@set_radius
+  val\n\$
+  @radius.set_value(val)
+:@set_lerp
+  val\n\$
+  @lerp.set_value(val)
+
+:alpha_adjust
+  incr\n\$
+  @alpha.adjust(incr)
+:lerp_adjust
+  incr\n\$
+   @lerp.adjust(incr)
+:size_adjust
+  incr\n\$
+  @radius.adjust(incr)
+
+:@scaled_radius
+  // Scale the radius so it looks good in 50x50 tool sample area.
+  r := @.radius()
+  factor := 0
+  if r < 5
+    factor = 0.2
+  else if r < 25
+    factor = 1
+  else
+    factor = 5
+  => [r / factor, factor]
+
+:@param
+  => @param_set[@current_tool]
+
+:@store_param
+  p := @param()
+  p.alpha = @.alpha()
+  p.radius = @.radius()
+  p.lerp = @.lerp()
+
+:@load_param
+  p := @param()
+  @set_alpha(p.alpha)
+  @set_radius(p.radius)
+  @set_lerp(p.lerp)
+  @update()
+
+:set_param
+  tool\s\$
+  if !(tool in @param_set)
+    =>
+  if tool == @current_tool
+    =>
+  @store_param()
+  f_color_palette.unselect()
+  @current_tool = tool
+  @load_param()
+  f_color_palette.select()
+  @update()
+
+:@update
+  // The sample canvas could have been hidden after this object is constructed,
+  // so we need to re-establish the connection to it every time.
+  sample := id('tool_sample')
+  sample.style = 'block'
+  sample.width = sample.clientWidth
+  sample.height = sample.clientHeight
+  ctx := sample.getContext('2d')
+
+  // Draw grid.
+  w := sample.width
+  h := sample.height
+  ctx.fillStyle = '#fff'
+  ctx.fillRect(0, 0, w, h)
+  ctx.fillStyle = '#aaa'
+  //for x in [0...Math.floor(w / 10)]
+    //for y in [0...Math.floor(h / 10)]
+      //ctx.fillRect x * 10, y * 10, 10, 10 if (x + y) % 2 is 1
+  ctx.fillRect(0, 0, w / 2, h / 2)
+  ctx.fillRect(w / 2, h / 2, w / 2, h / 2)
+
+  // Draw circle.
+  r_f := @scaled_radius()
+  draw_brush_circle(#)
+    ctx
+    w / 2
+    w / 2
+    r_f[0]
+    @.lerp()
+    f_color_palette.selected_color()
+
+  // Update the size marker.
+  id('sample_size').innerText = 'x' + r_f[1]
+
+  // Cursor is another sample.
+  if f_cursor
+    f_cursor.update()
+
+:tool
+  => @param().tool
+
+:is_visible_tool
+  switch @tool
+    case 'E'
+    case 'S'
+    => false
+
+    default
+    => true
+
+::BrushParam
+  @tool&\s\$
+  @alpha&\n\$
+  @radius&\n\$
+  @lerp&\n\$
+
+:
+  defaultParamSet := {#}
+    P: [50, 1, 0]
+    E: [100, 20, 15]
+    B: [30, 10, 0]
+    S: [50, 7, 15]
+    R: [100, 1, 0]
+    A: [50, 7, 15]
+    L: [100, 1, 0]
+    I: [50, 5, 0]

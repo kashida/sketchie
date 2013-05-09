@@ -1,0 +1,229 @@
+::HexControl
+  @svg\Element\ id('control_root')
+  @svg_root\Element\ svg_create('g')
+  @controller\Slider\
+  @state\O\
+  @dragging\b\ false
+  @text_scale\n\ 0
+  append_children(@svg, [@svg_root])
+
+:activate
+  controller\Slider\$
+  if @controller
+    @.deactivate()
+  @controller = controller
+  f_dispatcher.push_mouse_control(@)
+  f_dispatcher.hide_cursor()
+  @svg.style.display = 'block'
+  f_cursor.hide()
+  @dragging = false
+  @state = @controller.cursor()
+  @draw_hexes()
+
+:deactivate
+  @controller.deactivate()
+  @controller = null
+  @svg.style.display = 'none'
+  f_dispatcher.pop_mouse_control()
+  f_dispatcher.show_cursor()
+  f_cursor.update()
+  @svg_clear()
+
+:mouse_down
+  evt\Event\$
+  @base_x = evt.clientX
+  @base_y = evt.clientY
+  @dragging = true
+  @state = @controller.control_state()
+  @draw_hexes()
+
+:mouse_move
+  evt\Event\$
+  if !@state
+    =>
+  if @dragging
+    @drag(evt)
+  else
+    @cursor(evt)
+
+:mouse_up
+  evt\Event\$
+  // Execute the callback for the center.
+  if @state && @state.length > 0
+    @state[0][1]()
+  @dragging = false
+  @state = @controller.cursor()
+  @draw_hexes()
+
+:@drag
+  evt\Event\$
+  x := evt.clientX
+  y := evt.clientY
+  dx := x - @base_x
+  dy := y - @base_y
+  d := [#]
+    dx * 0.5 - dy * cos_30
+    dx
+    dx * 0.5 + dy * cos_30
+  each i in [0, 1, 2]
+    d.push(-d[i])
+  max_i := 0
+  [1, 2, 3, 4, 5].forEach(##)
+    j\n\$
+    if d[j] > d[max_i]
+      max_i = j
+  if !(d[max_i] > hex_size_cos_30)
+    =>
+  @svg_clear()
+  ito := @index_to_offset(max_i + 1)
+  ox := ito[0]
+  oy := ito[1]
+  @base_x += ox
+  @base_y += oy
+
+  // Execute the callback for the selected command, and update.
+  hex_index := max_i + 1
+  if @state.length <= hex_index || !@state[hex_index]
+    @state = null
+  else
+    @state = @state[hex_index][1]()
+    @draw_hexes()
+
+:@cursor
+  evt\Event\$
+  @base_x = evt.clientX
+  @base_y = evt.clientY
+  set_attr(#)
+    @svg_root
+    'transform'
+    "translate(#{evt.clientX},#{evt.clientY})"
+
+:@draw_hexes
+  if !@state
+    =>
+  @svg_clear()
+  set_attr(@svg_root, 'transform', 'translate(' + @base_x + ',' + @base_y + ')')
+  if @dragging
+    @state.forEach(##)
+      s\s\$
+      i\n\$
+      if s
+        @draw_hex(s[0], i, (i == 0))
+  else
+    @draw_hex(@state, 0)
+
+:@draw_hex
+  label\O\$
+  hex_index\n\$
+  selected\b\? false
+  if !label
+    =>
+  if label.i
+    hex_index = label.i
+  ito := @index_to_offset(hex_index)
+    // TODO: this is wrong.
+  ox := ito[0]
+  oy := ito[1]
+  if label.d
+    ox = ox * label.d
+    oy = oy * label.d
+  hex := svg_create('path', {#})
+    d: hex_path
+    stroke:'#232'
+    'stroke-width':'1'
+    opacity: '0.2'
+    fill: selected ? '#eb9' : '#468'
+  g := svg_create('g')
+  append_children(@svg_root, [g])
+  append_children(g, [hex])
+  if label.c
+    color_band := svg_create('path', {#})
+      d: hex_path
+      stroke: label.c
+      'stroke-width':'8'
+      fill: 'none'
+    set_attr(color_band, 'transform', color_band_scale)
+    append_children(g, [color_band])
+  if label.t
+    if !@text_scale
+      @set_text_scale(g)
+    text := svg_create_text(label.t)
+    append_children(g, [text])
+    bbox := text['getBBox']()
+    tx := -bbox.x - bbox.width / 2
+    ty := -bbox.y - bbox.height / 2
+    set_attr(#)
+      text
+      'transform'
+      'scale(' + @text_scale + '),translate(' + tx + ',' + ty + ')'
+
+  set_attr(g, 'transform', "translate(#{ox},#{oy})")
+
+:@set_text_scale
+  g\Element\$
+  // Text box calculation needs to be done after it is added to svg (so we
+  // get the bbox).
+  ref_text := svg_create_text('WWW')
+  append_children(g, [ref_text])
+  bbox := ref_text['getBBox']()
+  @text_scale = hex_size / bbox.width
+  g.removeChild(ref_text)
+
+0 for the current hex. 1-6 for the surrounding hexes starting top right
+in clockwise order.
+:@index_to_offset
+  hex_index\n\$
+  => hex_center_offsets[hex_index]
+
+:@svg_clear
+  while @svg_root.firstChild
+    @svg_root.removeChild(@svg_root.firstChild)
+
+From center of hex to the corner. hafl of hex height.
+:
+  hex_size := 30
+  hex_size_half := 0.5 * hex_size
+  cos_30 := Math.cos(Math.PI / 6.0)
+  hex_size_cos_30 := hex_size * cos_30
+  hex_center_offsets := [#]
+    [0, 0]
+    [hex_size_cos_30, -hex_size_half * 3]
+    [hex_size_cos_30 * 2, 0]
+    [hex_size_cos_30, hex_size_half * 3]
+    [-hex_size_cos_30, hex_size_half * 3]
+    [-hex_size_cos_30 * 2, 0]
+    [-hex_size_cos_30, -hex_size_half * 3]
+  hex_path := [#].join(' ')
+    'M', 0, - hex_size
+    'l', hex_size_cos_30, hex_size_half
+    'l', 0, hex_size
+    'l', -hex_size_cos_30, hex_size_half
+    'l', -hex_size_cos_30, -hex_size_half
+    'l', 0, -hex_size
+    'l', hex_size_cos_30, -hex_size_half
+    'z'
+  color_band_scale := "scale(#{(hex_size - 8) / hex_size})"
+
+:::svg_create = ##
+  \Element\
+  tag\s\$
+  attrs\O\?
+  children\A.<Element>\?
+  ns := 'http://www.w3.org/2000/svg'
+  elem := document.createElementNS(ns, tag)
+  if attrs
+    each attr in attrs
+      elem.setAttribute(attr, attrs[attr])
+  if children
+    children.forEach(##)
+      child\Element\$
+      elem.appendChild(child)
+  => elem
+
+:::svg_create_text = ##
+  \Element\
+  text\s\$
+  attrs\O\?
+  elem := svg_create('text', attrs)
+  append_children(elem, [document.createTextNode(text)])
+  => elem

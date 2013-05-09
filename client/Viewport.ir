@@ -1,0 +1,149 @@
+::Viewport
+  @viewport\Element\ id('itemlist')
+  @active\b\ true
+  @drag_active\b\ false
+  @.reset()
+  listen(document.body, 'mousedown', ##)
+    evt\Event\$
+    @drag_start(evt)
+
+:activate
+  @active = true
+:deactivate
+  @active = false
+
+:reset
+  @scale = 1.0
+  @offset_x = 0
+  @offset_y = 0
+  @set_viewport()
+
+:scale
+  => @scale
+
+:offset
+  => [@offset_x, @offset_y]
+
+:item_to_view
+  x\n\$
+  y\n\$
+  half_w := @viewport.offsetWidth / 2
+  half_h := @viewport.offsetHeight / 2
+  => [#]
+    (x + @offset_x - half_w) * @scale + half_w
+    (y + @offset_y - half_h) * @scale + half_h
+
+:item_to_surface
+  p\data.Point\$
+  half_w := @viewport.offsetWidth / 2
+  half_h := @viewport.offsetHeight / 2
+  => &data.Point(#)
+    p.x + @offset_x - half_w + half_w / @scale
+    p.y + @offset_y - half_h + half_h / @scale
+
+:@view_to_item
+  x\n\$
+  y\n\$
+  half_w := @viewport.offsetWidth / 2
+  half_h := @viewport.offsetHeight / 2
+  => [#]
+    (x - half_w) / @scale - @offset_x + half_w
+    (y - half_h) / @scale - @offset_y + half_h
+
+:surface_to_item
+  x\n\$
+  y\n\$
+  half_w := @viewport.offsetWidth / 2
+  half_h := @viewport.offsetHeight / 2
+  => [#]
+    x - @offset_x + half_w - half_w / @scale
+    y - @offset_y + half_h - half_h / @scale
+
+incr should be -1, 0, or 1 where positive is zooming in
+:zoom
+  incr\n\$
+  if incr > 0
+    @scale = @scale * 1.5
+  if incr < 0
+    @scale = @scale / 1.5
+  @set_viewport()
+
+:move
+  dx\n\$
+  dy\n\$
+  w := @viewport.offsetWidth
+  h := @viewport.offsetHeight
+  @offset_x += dx * @viewport.clientWidth / 3 / @scale
+  @offset_y += dy * @viewport.clientHeight / 3 / @scale
+  @set_viewport()
+
+Change offset (but not scaling) to put the item in view.
+:show_item
+  item\Element\$
+  // Viewport and the item in item coord space.
+  vp0 := @view_to_item(0, 0)
+  vp1 := @view_to_item(@viewport.offsetWidth, @viewport.offsetHeight)
+  p0 := elem_position(item)
+  p1 := elem_position_br(item)
+
+  // Find center positin delta.
+  dcx := (vp0.x + vp1.x - p0.x - p1.x) * 0.5
+  dcy := (vp0.y + vp1.y - p0.y - p1.y) * 0.5
+  // Find the minimum distance we need to move to get the item in the view.
+  @offset_x += #?
+    dcx > 0
+    inrange(0, dcx, vp0.x - p0.x)
+    inrange(dcx, 0, vp1.x - p1.x)
+  @offset_y += #?
+    dcy > 0
+    inrange(0, dcy, vp0.y - p0.y)
+    inrange(dcy, 0, vp1.y - p1.y)
+  @set_viewport()
+
+Change scaling and offset to put all the items in view.
+:show_all_items
+  r := union_rect(f_item_list.children)
+  vw := @viewport.offsetWidth
+  vh := @viewport.offsetHeight
+  @scale = r.w / r.h > vw / vh ? vw / r.w : vh / r.h
+  @offset_x = -r.x0 - r.w * 0.5 + vw * 0.5
+  @offset_y = -r.y0 - r.h * 0.5 + vh * 0.5
+  @set_viewport()
+
+:@set_viewport
+  @viewport.style['-webkit-transform'] = [#].join(' ')
+    'scale(' + @scale + ')'
+    'translate(' + Math.floor(@offset_x) + 'px, ' + Math.floor(@offset_y) + 'px)'
+
+:copy_to
+  div\Element\$
+  div.style['-webkit-transform'] = @viewport.style['-webkit-transform']
+
+:@drag_start
+  evt\Event\$
+  if !@active
+    =>
+  if !evt.ctrlKey
+    =>
+  @mouse_x = evt.clientX
+  @mouse_y = evt.clientY
+  @base_x = @offset_x
+  @base_y = @offset_y
+  f_dispatcher.drag_start(@)
+  evt.preventDefault()
+  => true
+
+:@drag_update
+  evt\Event\$
+  if !@active
+    =>
+  @offset_x = @base_x + (evt.clientX - @mouse_x) / @scale
+  @offset_y = @base_y + (evt.clientY - @mouse_y) / @scale
+  @set_viewport()
+  => false
+
+:drag_end
+  evt\Event\$
+  if !@active
+    =>
+  @drag_update(evt)

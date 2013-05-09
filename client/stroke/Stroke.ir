@@ -1,0 +1,41 @@
+::Stroke
+
+:reset
+  color\A\$
+  radius\n\$
+  lerp\n\$
+  alpha_lock\b\$
+  @c = color
+  @r = radius
+  @lerp = lerp
+  @alpha_lock = alpha_lock
+
+:draw
+  x\n\$
+  y\n\$
+
+:blit
+
+:in_circle
+  w\n\$
+  r\n\$
+  proc\F\$
+  // Iterator for all the pixels in circle.
+  rmod := (1.0 - 0.01 * @lerp) * r
+  rsq := rmod * rmod
+  r2sq := (r + 1) * (r + 1)
+  hw := 0.5 * w
+  for iy := 0; iy < w; iy++
+    for ix := 0; ix < w; ix++
+      base := (ix + iy * w) * 4
+      dx := hw - ix
+      dy := hw - iy
+      dsq := dx * dx + dy * dy
+
+      // Anti-alias around the edge.
+      if dsq < rsq
+        // Fully inside the circle.
+        proc(base, 1.0)
+      else if dsq < r2sq
+        f := (r2sq - dsq) / (r2sq - rsq)
+        proc(base, f)

@@ -1,0 +1,208 @@
+::Image
+  @deactivate_callback+\F\ null
+  @undo\UndoImage\ &UndoImage
+  @is_drawing\b\ false
+  @stroke&\s\ 'P'
+  @prev_stroke\s\ 'E'
+  @last_open_palette\s\ 'c'
+  @image\Image\
+  @alpha_lock+\b\ false
+
+:start_segment
+  evt\Event\$
+
+:activate
+  image\Image\$
+  cb\F\$
+  @image = image
+  @alpha_lock = @image && is_attr(@image, 'alpha_lock')
+  @deactivate_callback = cb
+
+  f_surface.activate(@image, @alpha_lock)
+  f_viewport.deactivate()
+  f_stroke_layer.activate()
+  f_dispatcher.push_mouse_control(@)
+  f_dispatcher.activate()
+  f_tool_palette.set_param(@stroke)
+    // set_param doesn't update sample and cursor if the tool doesn't change,
+    // but color palette's update does update brush config too.
+  f_color_palette.update()
+
+  if @image
+    @image.style.visibility = 'hidden'
+
+:deactivate
+  if @image
+    @image.style.visibility = ''
+
+  @undo.reset()
+  f_viewport.activate()
+  f_surface.deactivate()
+  f_stroke_layer.deactivate()
+  f_dispatcher.deactivate()
+  f_cursor.hide()
+
+  @image = null
+  @deactivate_callback = null
+
+:mouse_down
+  evt\Event\$
+  if evt.ctrlKey
+    f_color_palette.set_color_rgb(f_surface.pick_color(evt.clientX, evt.clientY))
+    =>
+  @undo.push()
+  @.start_segment(evt)
+  @is_drawing = true
+  evt.preventDefault()
+
+:mouse_move
+  evt\Event\$
+  if @is_drawing
+    @draw_segment(evt)
+  f_cursor.move(evt.clientX, evt.clientY)
+  evt.preventDefault()
+
+:mouse_up
+  evt\Event\$
+  if @is_drawing
+    @end_segment(evt)
+    f_stroke_layer.clear()
+    @is_drawing = false
+  evt.preventDefault()
+
+:mouse_out
+  evt\Event\$
+  if @is_drawing
+    @end_segment(evt)
+    f_stroke_layer.clear()
+    @is_drawing = false
+  f_cursor.hide()
+
+:mouse_in
+  evt\Event\$
+  @is_drawing = false
+  f_cursor.update()
+
+:viewport_resize
+  evt\Event\$
+  // Same as cancel.
+  @deactivate_callback()
+
+:@draw_segment
+  evt\Event\$
+  scale := f_viewport.scale()
+  @.get_stroke(f_tool_palette.tool()).draw(evt.clientX / scale, evt.clientY / scale)
+
+:@end_segment
+  evt\Event\$
+  @.get_stroke(f_tool_palette.tool()).blit()
+
+:get_stroke\stroke.Stroke\
+  tool\s\$
+  => {#}[tool]
+    B: f_brush_stroke
+    P: f_pen_stroke
+    E: f_eraser_stroke
+    S: f_smudge_stroke
+    R: f_rect_stroke
+    A: f_average_stroke
+    I: f_ink_stroke
+    L: f_lasso_stroke
+
+:dispatch\b\
+  evt\Event\$
+  if evt.keyCode == DOM_VK_BACK_SPACE
+    @undo.push()
+    f_surface.clear()
+
+  else if evt.keyCode == c('Z')
+    if !@is_drawing
+      @undo.pop()
+
+  else if evt.keyCode == c(' ')
+    if @last_open_palette == 'c'
+      f_color_palette.toggle()
+    else
+      f_tool_palette.toggle()
+
+  else if evt.keyCode == c('B')
+    @last_open_palette = 'b'
+    f_tool_palette.toggle()
+    f_color_palette.close()
+
+  else if evt.keyCode == c('C')
+    @last_open_palette = 'c'
+    f_tool_palette.close()
+    f_color_palette.toggle()
+
+  else if evt.keyCode == c('D')
+    if @prev_stroke && @stroke != @prev_stroke
+      tmp := @stroke
+      @stroke = @prev_stroke
+      @prev_stroke = tmp
+      f_tool_palette.set_param(@stroke)
+
+  else if evt.keyCode == c('V')
+    f_item_editor.z_order_move_all(@image, evt.shiftKey)
+  else if evt.keyCode == c('N')
+    f_item_editor.z_order_move(@image, evt.shiftKey)
+
+  else if evt.keyCode == c('X')
+    @alpha_lock = !@alpha_lock
+    f_surface.update_alpha_lock(@alpha_lock)
+
+  else if evt.keyCode == c('F')
+    f_color_palette.swap_colors()
+
+  else if evt.keyCode == c('M')
+    f_color_palette.activate_control('m')
+  else if evt.keyCode == c('H')
+    f_color_palette.activate_control('h')
+  else if evt.keyCode == c('J')
+    f_color_palette.activate_control('s')
+  else if evt.keyCode == c('L')
+    f_color_palette.activate_control('l')
+
+  else if #||
+      evt.keyCode == DOM_VK_OPEN_BRACKET
+      evt.keyCode == DOM_VK_CLOSE_BRACKET
+      --
+      incr := evt.keyCode == DOM_VK_CLOSE_BRACKET
+      if evt.shiftKey && evt.ctrlKey
+        f_color_palette.mix_adjust(incr)
+      else if evt.shiftKey
+        f_color_palette.sat_adjust(incr)
+      else if evt.ctrlKey
+        f_color_palette.hue_adjust(incr)
+      else
+        f_color_palette.lgt_adjust(incr)
+
+  else if evt.keyCode == DOM_VK_COMMA || evt.keyCode == DOM_VK_PERIOD
+      incr := evt.keyCode == DOM_VK_PERIOD
+      if evt.shiftKey
+        f_tool_palette.alpha_adjust(incr)
+      else if evt.ctrlKey
+        f_tool_palette.lerp_adjust(incr)
+      else
+        f_tool_palette.size_adjust(incr)
+
+  else
+    keystr := String.fromCharCode(evt.keyCode)
+    if keystr in brushKeys
+      new_stroke := brushKeys[keystr]
+      if new_stroke != @stroke
+        @prev_stroke = @stroke
+        @stroke = new_stroke
+        f_tool_palette.set_param(@stroke)
+  => false
+
+:
+  brushKeys := {#}
+    W: 'P'
+    E: 'E'
+    R: 'B'
+    T: 'S'
+    Y: 'R'
+    U: 'A'
+    I: 'I'
+    O: 'L'

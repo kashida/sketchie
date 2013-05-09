@@ -1,0 +1,140 @@
+::Dispatcher
+  @mode\s\ '_'
+  @drag_control\Element\
+  @mouse_controls\A\ []
+  @input_layer\Element\ id('input_layer')
+  @control_active\b\ false
+  listen(@input_layer, 'mousedown', ##)
+    evt\Event\$
+    @mouse_dispatch('mouse_down', evt)
+  listen(@input_layer, 'mousemove', ##)
+    evt\Event\$
+    @mouse_dispatch('mouse_move', evt)
+  listen(@input_layer, 'mouseup', ##)
+    evt\Event\$
+    @mouse_dispatch('mouse_up', evt)
+  listen(@input_layer, 'mouseout', ##)
+    evt\Event\$
+    @mouse_dispatch('mouse_out', evt)
+  listen(@input_layer, 'mousein', ##)
+    evt\Event\$
+    @mouse_dispatch('mouse_in', evt)
+  listen(@input_layer, 'resize', ##)
+    evt\Event\$
+    @mouse_dispatch('viewport_resize', evt)
+  listen(@input_layer, 'dragstart', ##)
+    evt\Event\$
+    @cancel_events(evt)
+  listen(@input_layer, 'selectstart', ##)
+    evt\Event\$
+    @cancel_events(evt)
+
+  // Capture mouse move and up here for dragging.
+  listen(document.body, 'mousemove', ##)
+    evt\Event\$
+    @drag_update(evt)
+  listen(document.body, 'mouseup', ##)
+    evt\Event\$
+    @drag_end(evt)
+
+  // Key control.
+  listen(document.body, 'keyup', ##)
+    evt\Event\$
+    @dispatch(evt)
+  listen(document.body, 'paste', ##)
+    evt\Event\$
+    if @mode == '_'
+      f_item_editor.paste_image(evt)
+
+:set_mode
+  mode\s\$
+  if mode != @mode
+    // Close all the palette currently open.
+    f_tool_palette.close()
+    f_color_palette.close()
+    f_item_palette.close()
+  @mode = mode
+
+:set_control
+  active\b\$
+  @control_active = active
+
+:@mouse_dispatch
+  msg\s\$
+  evt\Event\$
+  if @mouse_controls.length == 0
+    =>
+  ctrl := @mouse_controls[@mouse_controls.length - 1]
+  if !(msg in ctrl)
+    =>
+  ctrl[msg](evt)
+
+:@cancel_events
+  evt\Event\$
+  evt.preventDefault()
+  evt.cancel = true
+
+:drag_start
+  control\Element\$
+  @drag_control = control
+:drag_terminate
+  control\Element\$
+  @drag_control = null
+
+:@drag_update
+  evt\Event\$
+  if !@drag_control
+    =>
+  if @drag_control.drag_update
+    @drag_control.drag_update(evt)
+
+:@drag_end
+  evt\Event\$
+  if !@drag_control
+    =>
+  if @drag_control.drag_end
+    @drag_control.drag_end(evt)
+  @drag_control = null
+
+:push_mouse_control
+  control\Element\$
+  @mouse_controls.push(control)
+:pop_mouse_control
+  => @mouse_controls.pop()
+:show_cursor
+  @input_layer.style.cursor = ''
+:hide_cursor
+  @input_layer.style.cursor = 'none'
+
+:activate
+  @input_layer.style.display = 'block'
+
+:deactivate
+  @mouse_controls = []
+  @input_layer.style.display = 'none'
+
+:@dispatch
+  evt\Event\$
+  l(@mode + ': "' + String.fromCharCode(evt.keyCode) + '"(' + evt.keyCode + ')')
+  if #&&
+    evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
+    @mouse_controls.length > 1
+    --
+    f_hex_control.deactivate()
+    =>
+  switch @mode
+    case '_'
+      f_item_editor.global_dispatch(evt)
+      break
+    case 't'
+      f_item_editor.textmode_dispatch(evt)
+      break
+    case 'r'
+      f_item_editor.transfermmode_dispatch(evt)
+      break
+    case 'd'
+      f_draw.dispatch(evt)
+      break
+    case 's'
+      f_stencil.dispatch(evt)
+      break

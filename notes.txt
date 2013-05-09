@@ -1,0 +1,166 @@
+[TODO]
+start using git.
+  start with client and server dir.
+
+split text mode and transfer mode from editor/Item.
+  start with the dispatcher.
+
+fix save and open the page.
+
+fix item mode:
+  selection control keys.
+  z control keys.
+  item rotate mode.
+  translate mode.
+  open palette.
+  alpha control keys.
+  merge items.
+  zoom to show all -- shift+'0'.
+
+fix client code to run.
+  document features at the same time.
+  add todos here.
+
+auto-save.
+
+chrome extension / app packaging.
+
+refactor: move surface into item list div during draw mode, but cancel the transformation with a div.[J]
+  itemlist div
+    div to cancel transofrm -- need to set the inverse transform of itemlist
+      canvas
+      original image item?
+    other items...
+refactor: make checkbox UI.[I]
+>>[J]bug: image item stays in upper items and not able to drag move items anymore.
+2.tool palette
+  hex 6 dir multi-level selection.[H]
+  >>[H]2.stroke type selection into the tool palette.[C]
+  >>[C]1.shift qwerty for updating brush config.
+  >>[C]2.show only tool control that are meaningful for the selected tool.
+  >>[C]2.ink stroke parameter contorl (iri/nuki length and speed sensitivity).
+  >>[E][C]random brush control.
+  >>[G][C]gradient brush control.
+  3.tool selection icons (same as tool sample) on the right edge with keyboard key assignment.
+2.item mode selection
+  2.key to move selection to up / down in overlapped z order.
+  2.rectangle and free draw for item selection.[D]
+  2.implement click select and item drag move with input layer.[F]
+  3.remember current item position key / snap back to the remembered position key -- for easier selection.
+3.stroke
+  3.random position, rotation, size, color, image, etc.[E]
+  3.image brush.
+  3.gradient brush -- one dot with gradient (gradient with transparency possible?).[G]
+  3.brushes to fill between stroke sample points where brush went too fast.
+  3.brushes to average out sample point positions for smoother storokes.
+2.ui
+  >>[I]2.display image state somewhere (in draw mode too) -- transform and alpha_lock.
+  2.display mode state -- item edit, draw, stencil, rotate, etc.
+  2.make palette open/close consistent with the selected item.
+  3.visual response for save (and other commands) / state indicator.  use css cursor change?
+  3.display number of selected items and their type (image / text).
+>>[D]2.zoom with rectangle drawing.
+2.edit mode form for text -- border width/color, font-size, line-height, text color, and text-shadow.
+2.move / scroll
+  2.drag move all selected.
+  2.switch select / item move / scroll modes.  also scroll when dragging no item area.
+  3.send selected to bottom of the page.
+  3.draw guide to define drawing area.
+  3.scale x and y separately.
+3.flip vert/horiz images.
+3.make stencil with scaled / rotated images work.
+4.page
+  2.background texture image selection.
+  2.default font size etc manipulation.
+  4.live preview of the whole page (or specified region).
+4.undo
+  2.text edits.
+  3.image non-draw mode manipulations.
+4.copy to internalize the pasted image.
+4.color palette -- instead of hsl, blend black, white, gray (of the same tone), and prev color.
+4.temporarily flip the viewport -- easier for some stroke directions.
+4.store in dropbox.
+  4.store note in html format.
+  4.load saved note.
+  4.store app config.
+4.image manipulation
+  4.blend modes.
+  4.blur.
+  4.color correction.
+4.perspective guide lines with svg.
+5.drawing with low alpha brush repeatedly doesn't reach alph=1.0.
+5.draw with rotate state kept.
+5.override browser keys for zoom in/out and back to default ctrl-{+-0}
+  preventDefault doesn't seem to be working.
+5.exit or adjust in draw mode when resize viewport.
+  trying to capture 'resize' of input_layer in dispatcher, but not working...
+5.individually compile coffee and then merge so we get better error messages?
+  coffee script makes one big scope for the compilation unit -- need to spill all globals.
+5.make hsl parameter not go over the limit by mapping to [0, 1].
+5. hex slider: tri-axis color control.
+5. add '.html' to the file name when save.
+
+-- extension only
+bug: saved page doesn't get the background image when loaded.
+screen capture.
+make my own icon 19x19.
+shortcut key to open scratch pad from any page.
+
+--- dependence
+perspective transform both image and text.
+local save with FileWriter when it works w/o sandbox.
+
+
+[CoffeeScript wishlist]
+- member vars default to private and provide overridable access functions.
+- distinguish member and methods (both have @).  method with no @?
+- func / method call with no arguments need () -- often forget.
+- static typing or just tighter function signature and interface...
+- parallel assignment w/o bracket: a, b = c, d
+
+--- we can add methods to existing types?
+String.prototype.startsWith = function(beginning) {
+    var head = this.substr(0, beginning.length);
+      return head == beginning;
+}
+
+--- getter and setter
+incremantal = {
+   _n: 0,
+   get next()  { return  this._n++;  },
+   set next(n) {
+      if  (n  >=  this._n)  this._n=n;
+      else  throw "減らしちゃダメ！"
+   }
+}
+incremantal.next; //  ->  0
+incremantal.next;  //  ->  1
+incremantal.next = 3;
+incremantal.next; //  ->  3
+incremantal.next = 1;  //  ->  "減らしちゃダメ！"
+
+--- svg
+keep one svg element with namespace (xmlns and xlink).
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+create tag:
+  C=document.createElementNS(xmlns,"circle")
+  C.setAttributeNS(null,"r",50)
+image href attribute:
+  I.setAttributeNS("http://www.w3.org/1999/xlink","xlink:href","newone.jpg")
+  I.href.baseVal="newone.jpg"
+get attribute:
+  document.getElementById("R").height.baseVal.value
+create text tag:
+  T=document.createElementNS(xmlns,"text")
+  Msg=document.createTextNode(4321)
+  T.appendChild(Msg)
+  document.documentElement.appendChild(T)
+modify text in text tag:
+  T=document.getElementById(id)
+bounding box:
+  getBBox
+  getScreenBBox
+path mid points:
+  getTotalLength()
+  getPointAtLength
+  T.firstChild.nodeValue=s

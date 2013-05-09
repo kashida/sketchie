@@ -1,0 +1,22 @@
+item mode:
+  enter text mode.
+  'o' enter text.
+  'i' edit selected text with cursor beginning of the text.
+  'e' edit selected text with cursor end of the text.
+
+  item control.
+  'c' copy item.
+  shift+'d' delete item.
+  'x' toggle alpha lock.
+
+  viewport control.
+  '-' zoom out.
+  '=' zoom in.
+  '0' default zoom.
+  arrow keys to move viewport.
+
+  'd' go to draw mode.
+  's' go to stencil mode.
+
+text mode:
+  esc get out.

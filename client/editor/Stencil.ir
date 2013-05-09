@@ -1,0 +1,37 @@
+::Stencil < %.Image
+  @.stroke = 'R'
+  ^()
+
+:activate
+  image\Image\$
+  cb\F\$
+  ^(image, cb)
+  f_surface.set_opacity(0.3)
+
+:deactivate
+  ^()
+  f_surface.set_opacity()
+
+:<start_segment
+  evt\Event\$
+  @.get_stroke(f_tool_palette.tool()).reset(#)
+    col_spec(200, 170, 70, 1.0)
+    f_tool_palette.radius()
+    f_tool_palette.lerp()
+    false
+
+:dispatch\b\
+  evt\Event\$
+  if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
+    @.deactivate_callback()
+    => false
+
+  else if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('C')
+    @.deactivate_callback('c')
+    => false
+
+  else if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('X')
+    @.deactivate_callback('x')
+    => false
+
+  => ^(evt)

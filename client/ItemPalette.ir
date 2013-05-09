@@ -1,0 +1,57 @@
+::ItemPalette < Palette
+  @selection\ItemSelection\$
+  @blend_alpha\Slider\ &Slider('item_alpha', 'blend alpha%', 0, 100, 100, 20)
+  @alpha_lock\Element\ id('image_alph_alock')
+  @blend_alpha.callback_update = ##
+    @update_blend_alpha()
+  ^('item_palette', {i: 'image_section'})
+  listen(@alpha_lock, 'change', ##)
+    @update_alpha_lock()
+
+:blend_alpha_adjust
+  incr\n\$
+  @blend_alpha.adjust(incr)
+
+:toggle_alpha_lock
+  img\Image\?
+  if !img
+    if !@selection.is_head_image
+      =>
+    img = \Image\(@selection.head)
+  set_is_attr(img, 'alpha_lock', String(!is_attr(img, 'alpha_lock')))
+  @alpha_lock.checked = attr(@selection.head, 'alpha_lock') == 'true'
+
+:@update_blend_alpha
+  // Update selected item's state, based on control.
+  sel := @selection.head
+  if !sel
+    =>
+  set_attr(sel, 'blend_alpha', String(@blend_alpha.value))
+  sel.style.opacity = @blend_alpha.value / 100
+
+:@update_alpha_lock
+  // Update selected item's state, based on control.
+  if !@selection.is_head_image
+    =>
+  set_attr(#)
+    @selection.head
+    'alpha_lock'
+    @alpha_lock.checked ? 'true' : undefined
+
+:update
+  // Update the control based on the seleted item's state.
+  if !@selection.head
+    @.close()
+    =>
+  sel := @selection.head
+  blend_alpha := attr(sel, 'blend_alpha')
+  if blend_alpha
+    @blend_alpha.set_value(blend_alpha)
+  else
+    @blend_alpha.reset()
+
+  if @selection.is_head_image
+    @alpha_lock.checked = attr(@selection.head, 'alpha_lock')
+    @.open_section('i')
+  else
+    @.close_section('i')

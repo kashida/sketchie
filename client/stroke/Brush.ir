@@ -1,0 +1,26 @@
+::Brush < %.Stroke
+
+:draw
+  x\n\$
+  y\n\$
+  ctx := f_surface.ctx()
+  draw_brush_circle(ctx, x, y, @r, @lerp, @c)
+
+:::draw_brush_circle = ##
+  ctx\CanvasRenderingContext2D\$
+  x\n\$
+  y\n\$
+  r\n\$
+  lerp\n\$
+  color\data.Color\$
+  if lerp != 0
+    gradient := ctx.createRadialGradient(x, y, 0, x, y, r)
+    gradient.addColorStop(0, color.rgba)
+    gradient.addColorStop(1.0 - lerp / 100, color.rgba)
+    gradient.addColorStop(1, color.withAlpha(0.0).rgba)
+    ctx.fillStyle = gradient
+  else
+    ctx.fillStyle = color.rgba
+  ctx.beginPath()
+  ctx.arc(x, y, r, 0, Math.PI * 2, true)
+  ctx.fill()

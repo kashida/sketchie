@@ -1,0 +1,36 @@
+::Cursor
+  @last_p\data.Point\
+  @cursor\Element\ id('draw_cursor')
+
+:div
+  => @cursor
+
+:update
+  @cursor.style.display = 'block'
+
+  r := f_tool_palette.radius() * f_viewport.scale()
+  @cursor.style['border-radius'] = r + 'px'
+  size := (r * 2) + 'px'
+  @cursor.style.width = size
+  @cursor.style.height = size
+
+  @cursor.innerHTML = '<div>' + f_tool_palette.tool() + '</div>'
+  if f_tool_palette.is_visible_tool()
+    @cursor.style['background-color'] = f_color_palette.selected_color().rgba
+    @cursor.style['border-width'] = '0px'
+  else
+    @cursor.style['background-color'] = 'rgba(127, 127, 127, 0.2)'
+    @cursor.style['border-width'] = '1px'
+  if @last_p
+    @.move(@last_p.x, @last_p.y)
+
+:hide
+  @cursor.style.display = 'none'
+
+:move
+  x\n\$
+  y\n\$
+  r := f_tool_palette.radius() * f_viewport.scale()
+  @cursor.style.left = (x - r) + 'px'
+  @cursor.style.top = (y - r) + 'px'
+  @last_p = &data.Point(x, y)

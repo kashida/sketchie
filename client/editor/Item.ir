@@ -1,0 +1,689 @@
+::Item
+  @selection\ItemSelection\$
+  f_item_list.each(##)
+    item\Element\$
+    @bless_item(item)
+
+:@remove_selected
+  f_item_list.remove(@selection.list)
+  @selection.clear()
+
+:@bless_item
+  item\Element\$
+  item.setAttribute('active', '1')
+  item.dragger = &drag.Move(item)
+  listen(item, 'click', ##)
+    evt\Event\$
+    if item.getAttribute('active') && !evt.ctrlKey
+      @selection.select(item, evt.shiftKey)
+
+:@z_order_to_end
+  send_back\b\$
+  // Preserve the z order among the selected items.
+  remove_list := f_item_list.z_order(@selection.list)
+  f_item_list.remove(remove_list)
+  if send_back
+    f_item_list.insert_first(remove_list)
+  else
+    f_item_list.append_end(remove_list)
+
+:@z_order_shift
+  send_back\b\$
+  // First find a selected item and then find a non-selected item that has
+  // overlapping region with one of the selected items.
+  found_selected := []
+  to_move := []
+  found := false
+  f_item_list.until(send_back, ##)
+    item\Element\$
+    if item in @selection.list
+      found_selected.push(item)
+    else if found_selected.length > 0
+      to_move.push(item)
+      if overlap_with_any(item, found_selected)
+        // All the non-selected items after the first selected maybe
+        // non-overlapping, so we need this flag.
+        found = true
+        => true
+    => false
+  if to_move.length > 0 && found
+    f_item_list.remove(to_move)
+    if send_back
+      f_item_list.insert_before(found_selected[0], to_move)
+    else
+      f_item_list.insert_after(found_selected[0], to_move)
+
+:z_order_move_all
+  img\Image\$
+  send_back\b\$
+  // Works only in image edit mode. move all the items except the one being
+  // drawn now.
+  div := id('itemlist_upper')
+  item := null
+  if send_back
+    while div.childNodes.length > 0
+      item = div.firstChild
+      div.removeChild(item)
+      f_item_list.insert_before(img, item)
+  else
+    while (f_item_list.length() > 0 && !img) || f_item_list.length() > 1
+      item = img ? f_item_list.child(-2) : f_item_list.last()
+      f_item_list.remove(item)
+      div.insertBefore(item, div.firstChild)
+
+:z_order_move
+  img\Image\$
+  send_back\b\$
+  // Works only in image edit mode. move one item before / after of the image
+  // item.
+  // TODO: move only the items in viewport.
+  div := id('itemlist_upper')
+  item := null
+  if send_back
+    item = div.firstChild
+    if !item
+      =>
+    div.removeChild(item)
+    f_item_list.insert_before(img, item)
+  else
+    list := f_item_list.children()
+    item = #?
+      img
+      list.length < 2 ? null : list[list.length - 2]
+      list.empty ? null : f_item_list.last()
+    if !item
+      =>
+    f_item_list.remove(item)
+    div.insertBefore(item, div.firstChild)
+
+:@move_selection
+  move_down\b\$
+  // Find the element below the current one and move the selection to it.
+  if !@selection.is_any
+    // Special case.  we select eithe the first or the last element.
+    if move_down
+      f_item_list.top(##)
+        item\Element\$
+        @selection.select(item)
+        f_viewport.show_item(item)
+    else
+      f_item_list.bottom(##)
+        item\Element\$
+        @selection.select(item)
+        f_viewport.show_item(item)
+    =>
+  if f_item_list.empty()
+    =>
+
+  // Find items that is just above and just below the selected item.
+  next_item := null
+  y := next_y := @selection.head.offsetTop
+  f_item_list.each(##)
+    c\Element\$
+    if c == @selection.head
+      =>
+    cy := c.offsetTop
+    // We want to move up and found an item above the current.
+    // this is either the first occurence or that's the closest to the
+    // current so far.
+    found_above_candidate := #&&
+      !move_down
+      cy < y
+      !next_item || next_y < cy
+    // We want to move down and found an item below the current.
+    // this is either the first occurence or that's the closest to the
+    // current so far.
+    found_below_candidate := #&&
+      move_down
+      cy > y
+      !next_item || next_y > cy
+    if found_above_candidate || found_below_candidate
+      next_item = c
+      next_y = cy
+  if next_item
+    @selection.select(next_item)
+    f_viewport.show_item(next_item)
+
+:@expand_selection
+  move_down\b\$
+  current := @selection.head
+  @move_selection(move_down)
+  @selection.add(current)
+
+:@hold_selection
+  @selection.list.forEach(##)
+    item\Element\$
+    item.removeAttribute('active')
+    item.style['pointer-events'] = 'none'
+  @selection.clear()
+
+:@unhold_all
+  f_item_list.each(##)
+    item\Element\$
+    item.setAttribute('active', '1')
+    item.style['pointer-events'] = null
+
+:@copy_item
+  // Need to make a copy because @selection.list gets destroyed
+  // during the copies.
+  @selection.list.slice(0).forEach(##)
+    item\Element\$
+    if item.tagName == 'DIV'
+      @copy_text_item(item)
+    else
+      @copy_image_item(item)
+
+:@collapse_items
+  if @selection.count < 2
+    =>
+  if @selection.is_all_text
+    @collapse_texts()
+  else if @selection.is_all_image
+    @collapse_images()
+
+
+------------------------------------------------------------
+Text methods.
+
+:@trim_whitespace
+  str\s\$
+  => str.replace(/^\s+/, '').replace(/\s+$/, '')
+
+:@trim_end_whitespace
+  str\s\$
+  => str.replace(/^[\r\n]*/, '').replace(/\s+$/, '')
+
+:@add_text
+  create_new\b\$
+  cursor_top\b\? false
+  if !(create_new || @selection.is_head_text)
+    =>
+  if create_new
+    // Add a text box at the right location and make it visible.
+    text := @make_text_item('', @selection.head)
+    f_item_list.append_end([text])
+    @selection.select(text)
+
+  @make_editable()
+  f_dispatcher.set_mode('t')
+  window.getSelection().collapse(#)
+    @selection.head
+    cursor_top ? 0 :@selection.head.innerText.length
+  @selection.head.focus()
+
+:@copy_text_item
+  orig_item\Element\$
+  item := @make_text_item(orig_item.innerText)
+  item.style.left = (orig_item.offsetLeft + 10) + 'px'
+  item.style.top = (orig_item.offsetTop + 10) + 'px'
+  f_item_list.append_end([item])
+
+:@minimum_text_div
+  str\s\? ''
+  div := create('div')
+  div.appendChild(create('br'))
+  if str
+    div.appendChild(create_text(@trim_whitespace(str)))
+  => div
+
+:@make_text_item\Element\
+  str\s\$
+  ref_item\Element\?
+  x := window.pageXOffset
+  y := window.pageYOffset
+  if ref_item
+    x = ref_item.offsetLeft - 5
+    y = ref_item.offsetTop + ref_item.clientHeight + 2
+  text := create('div')
+  text.appendChild(@minimum_text_div(str))
+  @bless_item(text)
+  @make_editable(false, text)
+  text.style.left = x + 'px'
+  text.style.top = y + 'px'
+  => text
+
+:@make_editable
+  start\b\? true
+  text\s\? null
+  if !(text || @selection.is_head_text)
+    =>
+  text = text || @selection.head
+  text.contentEditable = start
+  text.style['-webkit-user-select'] = start ? 'text' : 'none'
+
+If remove is true, clean up empty div's and remove the item if it ends up empty.
+:@normalize_text_item
+  remove\b\$
+  if !@selection.is_head_text
+    =>
+  sel := @selection.head
+  sel.normalize()
+  // Remove end spaces from all the text nodes.
+  eachChild(sel, ##)
+    div\Element\$
+    div.innerText = @trim_end_whitespace(div.innerText)
+  // Remove empty first and last elements.
+  if remove
+    while sel.firstChild && sel.firstChild.innerText == ''
+      sel.removeChild(sel.firstChild)
+    while sel.lastChild && sel.lastChild.innerText == ''
+      sel.removeChild(sel.lastChild)
+  // Re-insert br tag to now empty div's.
+  eachChild(sel, ##)
+    div\Element\$
+    if div.innerText == ''
+      div.appendChild(create('br'))
+  // Remove the element if there's nothing left.
+  if remove && sel.childNodes.length == 0
+    @selection.clear()
+    sel.blur()
+    f_item_list.remove(sel)
+
+:@split_textbox
+  if !@selection.is_head_text
+    =>
+  sel := @selection.head
+  cursor := window.getSelection()
+
+  // Find the div the cusor is in now.
+  until_children := ##
+    node\Element\$
+    pred\F\$
+    i := 0
+    while i < node.childNodes.length
+      if pred(node.childNodes[i])
+        => i
+      i++
+    => -1
+  remove_and_convert_rest_to_str := ##
+    node\Element\$
+    index\n\$
+    str := ''
+    i := index
+    while i < node.childNodes.length
+      c := node.childNodes[i]
+      str += node_text(c)
+      node.removeChild(c)
+    => str
+  newstr := ''
+  cursor_div_index := until_children(sel, ##)
+    c\Element\$
+    if c == cursor.anchorNode
+      newstr = remove_and_convert_rest_to_str(c, cursor.anchorOffset)
+      => true
+    if c == cursor.anchorNode.parentNode
+      cursor_elem_index := until_children(c, ##)
+        cc\Element\$
+        if cc == cursor.anchorNode
+          newstr = cc.nodeValue.substr(cursor.anchorOffset)
+          cc.nodeValue = cc.nodeValue.substr(0, cursor.anchorOffset)
+          => true
+        => false
+      newstr += remove_and_convert_rest_to_str(c, cursor_elem_index + 1)
+      => true
+    => false
+
+  // Move all the rest div's to a new item.
+  newtext := @make_text_item(newstr, sel)
+  i := cursor_div_index + 1
+  while i < sel.childNodes.length
+    c = sel.childNodes[i]
+    sel.removeChild(c)
+    newtext.appendChild(c)
+  f_item_list.append_end(newtext)
+
+  // Remove the previous item if there's no text now.
+  @make_editable(false)
+  @normalize_text_item(true)
+
+  // Activate the new item.
+  @selection.select(newtext)
+  @normalize_text_item(false)
+  @make_editable()
+  newtext.focus()
+  window.getSelection().collapse(newtext, 0)
+
+:@commit_textbox
+  if !@selection.is_head_text
+    =>
+  @make_editable(false)
+  @normalize_text_item(true)
+  f_dispatcher.set_mode('_')
+
+Make sure there is at least one div left when there is backspace in text
+edit mode.
+:@text_backspace
+  if !@selection.is_head_text
+    =>
+  sel := @selection.head
+  sel.normalize()
+  if sel.childNodes.length == 1 && sel.firstChild.tagName == 'BR'
+    sel.removeChild(sel.firstChild)
+  if sel.childNodes.length != 0
+    =>
+  sel.appendChild(@minimum_text_div())
+  window.getSelection().collapse(sel, 0)
+
+:@collapse_texts
+  // Collapse texts in y order.
+  elems := []
+  first_position := null
+  while @selection.is_any
+    f_item_list.top_in(@selection.list, ##)
+      item\Element\$
+      while item.firstChild
+        c := item.firstChild
+        item.removeChild(c)
+        elems.push(c)
+      if !first_position
+        first_position = [item.offsetLeft, item.offsetTop]
+      @selection.remove(item)
+      f_item_list.remove(item)
+
+  // Create an empty text item and add the elements.
+  newtext := @make_text_item('')
+  newtext.removeChild(newtext.firstChild)
+  elems.forEach(##)
+    elem\Element\$
+    newtext.appendChild(elem)
+  f_item_list.append_end(newtext)
+  newtext.style.left = first_position[0] + 'px'
+  newtext.style.top = first_position[1] + 'px'
+  @selection.select(newtext)
+
+
+------------------------------------------------------------
+Image methods.
+
+:@copy_image_item
+  orig_item\Element\$
+  img := @make_image_item([#])
+    orig_item.offsetLeft + 10
+    orig_item.offsetTop + 10
+    orig_item.src
+  set_attr(img, 'xf_r', attr(orig_item, 'xf_r'))
+  set_attr(img, 'xf_s', attr(orig_item, 'xf_s'))
+  set_xform(img)
+  set_attr(img, 'alpha_lock', attr(orig_item, 'alpha_lock'))
+  f_item_list.append_end(img)
+
+:@make_image_item\Image\
+  spec\A\$
+  img\Image\?
+  add_img := !img
+  if img
+    // Refresh the transform.
+    set_attr(img, 'xf_r')
+    set_attr(img, 'xf_s')
+    img.style['-webkit-transform'] = null
+  else
+    img = &Image()
+    @bless_item(img)
+  img.style.left = spec[0] + 'px'
+  img.style.top = spec[1] + 'px'
+  img.style['-webkit-user-select'] = 'none'
+  img.src = spec[2]
+  if add_img
+    f_item_list.append_end(img)
+  @selection.select(img)
+  => img
+
+:@enter_draw_mode
+  if @selection.is_head_text
+    @selection.clear()
+  img := @selection.head
+  @selection.clear()
+  if img && attr(img, 'ref_img')
+    img = null
+
+  // Move all items after the selected image to a separate div.
+  upper_items := img ? f_item_list.after(img) : []
+  f_item_list.remove(upper_items)
+  div := create('div', {id: 'itemlist_upper', 'class': 'itemlist'})
+  upper_items.forEach(##)
+    item\Element\$
+    div.appendChild(item)
+  f_viewport.copy_to(div)
+  document.body.insertBefore(div, f_cursor.div())
+
+  // Activate.
+  f_draw.activate(img, ##)
+    stencil\b\$
+    => @draw_end(\Image\(img), stencil)
+  f_dispatcher.set_mode('d')
+
+:@draw_end
+  img\Image\$
+  stencil\b\? false
+  f_dispatcher.set_mode('_')
+  img_spec := f_surface.image_spec(img)
+  alpha_lock := f_draw.alpha_lock()
+  f_draw.deactivate()
+
+  if !img_spec
+    // No image remaining.
+    @selection.clear()
+    if img
+      f_item_list.remove(img)
+    => 
+  @make_image_item(img_spec, img)
+  set_is_attr(@selection.head, 'alpha_lock', alpha_lock)
+
+  // Remove the temporary div for the upper items.
+  div := id('itemlist_upper')
+  while div.childNodes.length > 0
+    item := div.firstChild
+    div.removeChild(item)
+    f_item_list.append_end(item)
+  document.body.removeChild(div)
+
+  if stencil
+    @enter_stencil_mode()
+
+:@enter_stencil_mode
+  if !@selection.is_head_image
+    =>
+  img := @selection.head
+  f_dispatcher.set_mode('s')
+  @selection.clear()
+  f_stencil.activate(null, ##)
+    action\s\$
+    @stencil_end(\Image\(img), action)
+
+:@stencil_end
+  img\Image\$
+  action\s\$
+  f_dispatcher.set_mode('_')
+  region_pixels := f_surface.pixels()
+  f_stencil.deactivate()
+  @selection.select(img)
+  if action != 'c' && action != 'x'
+    // Canceled.
+    =>
+
+  // Carry out the requested action.
+  img_spec := image_region(img, region_pixels)
+  if !img_spec
+    // no intersection of the image and selection.
+    =>
+
+  created_img := @make_image_item(img_spec)
+  if action == 'x'
+    rest_spec := image_region(img, region_pixels, true)
+    // We don't need to make any action if the entire image was selected
+    // and the operation was cut (not copy).
+    if rest_spec
+      @make_image_item(rest_spec, img)
+  @selection.select(created_img)
+
+:@collapse_images
+  // Collapse images in their z order.
+  merged_spec := blend_images(f_item_list.z_order(@selection.list))
+  if !merged_spec
+    =>
+  // Remove all the selected images.
+  f_item_list.remove(@selection.list)
+  // Add the newly created image.
+  @selection.select(@make_image_item(merged_spec))
+  f_item_palette.update()
+
+:paste_image
+  evt\Event\$
+  // Get the image from clipboard.
+  url := evt.clipboardData.getData('text/plain')
+  if !url
+    // The image is copied as html, not as url.
+    html := evt.clipboardData.getData('text/html')
+    if !html
+      =>
+    div := create('div')
+    div.innerHTML = html
+    img := div.getElementsByTagName('img')[0]
+    if !img
+      =>
+    url = img.src
+  img = @make_image_item([window.pageXOffset, window.pageYOffset, url])
+  set_attr(img, 'ref_img', '1')
+  f_item_list.append_end(img)
+
+
+------------------------------------------------------------
+Key handler.
+
+:global_dispatch
+  evt\Event\$
+  shift := 0x100
+  key := evt.keyCode
+  if evt.shiftKey
+    key += shift
+
+  // Selection control.
+  if key == c('K')
+    @move_selection(false)
+  else if key == c('J')
+    @move_selection(true)
+  else if key == c('K') + shift
+    @expand_selection(false)
+  else if key == c('J') + shift
+    @expand_selection(true)
+  else if key == DOM_VK_ESCAPE || key == c('A')
+    @selection.clear()
+  else if key == c('H')
+    @hold_selection()
+  else if key == c('H') + shift
+    @unhold_all()
+
+  // z control.
+  else if key == c('V')
+    @z_order_to_end(true)
+  else if key == c('V') + shift
+    @z_order_to_end(false)
+  else if key == c('N')
+    @z_order_shift(false)
+  else if key == c('N') + shift
+    @z_order_shift(true)
+
+  // Transform.
+  else if key == c('R')
+    f_dispatcher.set_mode('r')
+    f_rotate.activate(@selection.head)
+  else if key == c('T')
+    f_dispatcher.set_mode('r')
+    f_scale.activate(@selection.head)
+
+  // Copy the selected item.
+  else if key == c('C')
+    @copy_item()
+
+  // Delete.
+  else if key == c('D') + shift
+    @remove_selected()
+
+  // Open / close the control palette.
+  else if key == c(' ')
+    f_item_palette.toggle()
+
+  // Entering to the text mode.
+  else if key == c('O')
+    @add_text(true)
+  else if key == c('I')
+    @add_text(false, true)
+  else if key == c('E')
+    @add_text(false)
+
+  // Draw / stencil mode change.
+  else if key == c('D')
+    @enter_draw_mode()
+  else if key == c('S')
+    @enter_stencil_mode()
+
+  // Mark image alpha locked.
+  else if key == c('X')
+    f_item_palette.toggle_alpha_lock()
+
+  // Adjust the image blend alpha.
+  else if key == DOM_VK_COMMA + shift || key == DOM_VK_PERIOD + shift
+    f_item_palette.blend_alpha_adjust(evt.keyCode == DOM_VK_PERIOD)
+
+  // Merge items.
+  else if key == c('M')
+    @collapse_items()
+
+  // Zoom in/out.
+  else if key == DOM_VK_EQUALS
+    f_viewport.zoom(1)
+    evt.preventDefault()
+  else if key == DOM_VK_MINUS
+    f_viewport.zoom(-1)
+    evt.preventDefault()
+  else if key == c('0')
+    f_viewport.reset()
+    evt.preventDefault()
+  else if key == c('0') + shift
+    f_viewport.show_all_items()
+    evt.preventDefault()
+
+  // Viewport control.
+  else if key == DOM_VK_LEFT
+    f_viewport.move(-1, 0)
+  else if key == DOM_VK_UP
+    f_viewport.move(0, -1)
+  else if key == DOM_VK_RIGHT
+    f_viewport.move(1, 0)
+  else if key == DOM_VK_DOWN
+    f_viewport.move(0, 1)
+
+  // Save.
+  else if key == c('S') + shift
+    @selection.clear()
+    f_scrawler.upload()
+  // Go back to the list page.
+  else if key == c('U') + shift
+    window.location.assign('/')
+
+  else
+    => true
+  => false
+
+:textmode_dispatch
+  evt\Event\$
+  if evt.keyCode == DOM_VK_RETURN
+    if evt.shiftKey
+      @split_textbox()
+  else if evt.keyCode == DOM_VK_ESCAPE
+    @commit_textbox()
+  else if evt.keyCode == DOM_VK_BACK_SPACE
+    @text_backspace()
+  else
+    => true
+  => false
+
+:transfermmode_dispatch
+  evt\Event\$
+  if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
+    f_rotate.deactivate()
+    f_scale.deactivate()
+    f_dispatcher.set_mode('_')
+  else
+    => true
+  => false

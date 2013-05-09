@@ -1,0 +1,42 @@
+::Rotate
+  @elem\Element\
+  @center\data.Point\
+  @start_theta\?n\
+  @.deactivate()
+
+:activate
+  item\Element\$
+  @elem = item
+  @center = &data.Point(#)
+    item.offsetLeft + item.offsetWidth / 2.0
+    item.offsetTop + item.offsetHeight / 2.0
+  @start_theta = null
+  f_dispatcher.drag_start(@)
+
+:deactivate
+  @elem = null
+  @center = null
+  @start_theta = null
+  f_dispatcher.drag_terminate()
+
+:drag_update
+  evt\Event\$
+  theta := @find_theta(evt.clientX, evt.clientY)
+  if ! @start_theta
+    @start_theta = theta - (attr(@elem, 'xf_r') || 0)
+    => false
+  set_attr(@elem, 'xf_r', String(theta - @start_theta))
+  set_xform(@elem)
+  => false
+
+:@find_theta
+  x\n\$
+  y\n\$
+  // Direction of (x, y) from the center in degrees.
+  dx := x - @center.x
+  dy := y - @center.y
+  neg_x := dx < 0
+  if neg_x
+    dx = -dx
+  theta := Math.atan2(dy, dx)
+  => neg_x ? Math.PI - theta : theta

@@ -1,0 +1,85 @@
+::ItemSelection
+  @list+\A.<Element>\ []
+
+:is_any+\b\
+  => @list.length > 0
+:count+\n\
+  => @list.length
+:head+\Element\
+  => @list.length <= 0 ? null : @list[0]
+
+:select
+  item\Element\$
+  push_to_list\b\? false
+  if !item || item == @.head
+    =>
+  if @.is_any
+    @.head.className = ''
+  if push_to_list
+    if @.is_any
+      @.head.className = 'selected_secondary'
+    if @list.indexOf(item) >= 0
+      // Remove the item once.
+      @list.splice(@list.indexOf(item), 1)
+  else
+    // Clean up all the selection from the list.
+    each i in @list
+      i.className = ''
+    @list = []
+  item.className = 'selected'
+  @list.unshift(item)
+  f_item_palette.update()
+
+:add
+  item\Element\$
+  // Add as a secondary selection.
+  if !item || @list.indexOf(item) >= 0
+    =>
+  if @.is_any
+    item.className = 'selected_secondary'
+    @list.push(item)
+  else
+    item.className = 'selected'
+    @list = [item]
+    f_item_palette.update()
+
+:remove
+  item\Element\$
+  item.className = ''
+  i := 0
+  while i < @list.length
+    if @list[i] == item
+      @list.splice(i, 1)
+      break
+    i++
+  f_item_palette.update()
+
+:clear
+  each item in @list
+    item.className = ''
+  @list = []
+  f_item_palette.close()
+
+:is_head_text+\b\
+  => @.is_any && @.head.tagName == 'DIV'
+
+:is_all_text+\b\
+  if !@.is_any
+    => false
+  @list.forEach(##)
+    i\Element\$
+    if i.tagName != 'DIV'
+      => false
+  => true
+
+:is_head_image+\b\
+  => @.is_any && @.head.tagName == 'IMG'
+
+:is_all_image+\b\
+  if !@.is_any
+    => false
+  @list.forEach(##)
+    i\Element\$
+    if i.tagName != 'IMG'
+      => false
+  => true

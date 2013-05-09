@@ -1,0 +1,46 @@
+::Smudge < %.Stroke
+:reset
+  color\A\$
+  radius\n\$
+  lerp\n\$
+  alpha_lock\b\$
+  ^(color, radius, lerp, alpha_lock)
+  @prev_x = @prev_y = null
+
+:draw
+  x\n\$
+  y\n\$
+  if !@prev_x || !@prev_y
+    @prev_x = x
+    @prev_y = y
+    =>
+  ctx := f_surface.ctx()
+  src := ctx.getImageData(@prev_x - @r, @prev_y - @r, @r * 2, @r * 2)
+  dst := ctx.getImageData(x - @r, y - @r, @r * 2, @r * 2)
+  avg := ##
+    idx\n\$
+    f\n\$
+    sval := src.data[idx]
+    dval := dst.data[idx]
+    valmod := @c.a * dval + (1.0 - @c.a) * sval
+    if f != 1.0
+      valmod = f * valmod + (1.0 - f) * dval
+    dst.data[idx] = inrange(0, 255, valmod)
+  @.in_circle(dst.width, @r, ##)
+    base\n\$
+    f\n\$
+    if src.data[base + 3] > 0
+      if @alpha_lock
+        // Never modify alpha, and modify color only if the target alpha is
+        // non-zero.
+        if dst.data[base + 3] > 0
+          [0, 1, 2].forEach(##)
+            i\n\$
+            avg(base + i, f)
+      else
+        [0, 1, 2, 3].forEach(##)
+          i\n\$
+          avg(base + i, f)
+  ctx.putImageData(dst, x - @r, y - @r)
+  @prev_x = x
+  @prev_y = y

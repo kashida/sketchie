@@ -1,0 +1,36 @@
+::RequestContext
+  @req+\_http.ServerRequest\$
+  @res+\_http.ServerResponse\$
+  @path+\s\ _url.parse(@req.url).pathname
+  @fileType\FileType\
+
+:fileType+\FileType\
+  => @fileType || (@fileType = &FileType(@path))
+
+:ext+\s\
+  => @.fileType.ext
+
+:mime+\s\
+  => @.fileType.mime
+
+:format+\s\
+  => @.fileType.format
+
+:sendFile\b\
+  input_file\s\$
+  // Check if the input file exists.
+  if !_path.existsSync(input_file)
+    => false
+
+  // Make a response.
+  @res.writeHead(200, {'Content-Type': @.mime})
+  @res.write(_fs.readFileSync(input_file, @.format))
+  => true
+
+:response
+  code\n\$
+  msg\s\?
+  @res.statusCode = code
+  @res.end()
+  if msg
+    log(code + ' ' + msg)

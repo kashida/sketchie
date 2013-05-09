@@ -1,0 +1,47 @@
+Base handler.
+
+::RequestHandler
+  @ctxt\RequestContext\$
+  @list\ListHandler\
+  @code\CodeHandler\
+  @html\HtmlHandler\
+
+Lazy create the sub-handlers.
+:list+\ListHandler\
+  => @list || (@list = &ListHandler(@ctxt))
+:code+\CodeHandler\
+  => @code || (@code = &CodeHandler(@ctxt))
+:html+\HtmlHandler\
+  => @html || (@html = &HtmlHandler(@ctxt))
+
+:@sendFile\b\
+  input_file\s\$
+  if !@ctxt.sendFile(input_file)
+    => false
+  if @ctxt.mime == 'text/html'
+    @.html.writeScriptList(@.code)
+  @ctxt.response(200)
+  => true
+
+:process
+  if @ctxt.req.method == 'POST'
+    => @.html.post()
+  if @ctxt.path[@ctxt.path.length - 1] == '/'
+    @.list.reply()
+  else
+    @handleGetRequest()
+
+:@handleGetRequest
+  if !@ctxt.mime
+    @ctxt.response(415, 'unknown mime type: ' + @ctxt.path)
+    =>
+
+  #||
+    @sendFile(_path.join('static', @ctxt.path))
+    @sendFile(_path.join('data', @ctxt.path))
+
+    // If js, we might be able to compile one.
+    @ctxt.ext == 'js' && @.code.send()
+
+    // Must be a new file request.
+    @ctxt.ext == 'html' && @.html.create(@.code)

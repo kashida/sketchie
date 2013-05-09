@@ -1,0 +1,34 @@
+::Palette
+  name\s\$
+  secs\O\?
+  @palette\Element\ id(name)
+  @is_active+\b\ false
+  @sections\O\ {}
+  if secs
+    each section_id in secs
+      @sections[section_id] = id(secs[section_id])
+
+:@open
+  @palette.style.display = 'block'
+  @update()
+  @is_active = true
+
+:close
+  @palette.style.display = 'none'
+  @is_active = false
+
+:toggle
+  if @is_active
+    @.close()
+  else
+    @open()
+
+:open_section
+  sec_id\s\$
+  @sections[sec_id].style.display = 'block'
+
+:close_section
+  sec_id\s\$
+  @sections[sec_id].style.display = 'none'
+
+:update

@@ -1,0 +1,136 @@
+Global components of the app -- i.e. only one instance in the lifetime of the app.
+:
+  f_scrawler := null
+  f_viewport := null
+  f_item_list := null
+  f_item_editor := null
+  f_surface := null
+  f_stroke_layer := null
+  f_color_palette := null
+  f_tool_palette := null
+  f_item_palette := null
+  f_cursor := null
+  f_draw := null
+  f_stencil := null
+  f_dispatcher := null
+  f_hex_control := null
+  f_rotate := null
+  f_scale := null
+
+  f_brush_stroke := null
+  f_pen_stroke := null
+  f_eraser_stroke := null
+  f_smudge_stroke := null
+  f_rect_stroke := null
+  f_average_stroke := null
+  f_ink_stroke := null
+  f_lasso_stroke := null
+
+::Scrawler
+  @run_as_extension\b\$
+  @build_dom()
+  @init_global_components()
+
+:@init_global_components
+  f_scrawler = this
+  f_viewport = &Viewport()
+  f_item_list = &ItemList()
+  item_selection := &ItemSelection()
+  f_item_editor = &editor.Item(item_selection)
+  f_surface = &Surface(id('surface'))
+  f_stroke_layer = &Surface(id('stroke_layer'))
+  f_color_palette = &ColorPalette()
+  f_tool_palette = &ToolPalette()
+  f_item_palette = &ItemPalette(item_selection)
+  f_cursor = &Cursor()
+  f_draw = &editor.Draw()
+  f_stencil = &editor.Stencil()
+  f_dispatcher = &Dispatcher()
+  f_hex_control = &HexControl()
+  f_rotate = &drag.Rotate()
+  f_scale = &drag.Scale()
+
+  f_brush_stroke = &stroke.Brush()
+  f_pen_stroke = &stroke.Pen()
+  f_eraser_stroke = &stroke.Eraser()
+  f_smudge_stroke = &stroke.Smudge()
+  f_rect_stroke = &stroke.Rect()
+  f_average_stroke = &stroke.Average()
+  f_ink_stroke = &stroke.Ink()
+  f_lasso_stroke = &stroke.Lasso()
+
+upload: ->
+  chrome.extension.sendRequest ['list'], (resp) ->
+    l resp
+
+Server access.
+:upload
+  // Send everything in the item list.
+  html := '<div id="itemlist">' + id('itemlist').innerHTML + '</div>'
+  if @run_as_extension
+    bb := &WebKitBlobBuilder()
+    bb.append(save_header)
+    bb.append(html)
+    bb.append(save_footer)
+    //getURL = window.createBlobURL || window.createObjectURL
+    ifr := id('save_ifr')
+    if !ifr
+      ifr = create('iframe')
+      ifr.id = 'save_ifr'
+      ifr.style.display = 'none'
+    ifr.src = window.webkitURL.createObjectURL(bb.getBlob())
+    document.body.appendChild(ifr)
+  else
+    xhr_post(location.pathname, html)
+
+:@build_dom
+  append_children(document.body, [#])
+    find_or_create('div', {id: 'itemlist', 'class': 'itemlist'})
+    create('canvas', {id: 'surface'})
+    create('canvas', {id: 'stroke_layer'})
+    create_div('draw_cursor')
+    svg_create('svg', {id: 'control_root'})
+    create_div('input_layer')
+    create('form', {}, [create_div(undefined, 'palette_container', [#])])
+      create_div('tool_palette', 'palette', [#])
+        create_div('sample_box', undefined, [#])
+          create('canvas', {id: 'tool_sample'})
+          create_div('sample_size')
+        create_div('tool_lerp')
+        create_div('tool_alpha')
+        create_div('tool_radius')
+      create_div('color_palette', 'palette', [#])
+        create_div('color_sel')
+        create_div(undefined, 'box', [#])
+          create_div('color_sample0', 'color_sample')
+          create_div('color_sample1', 'color_sample')
+          create_div('color_mix')
+          create_div('color_hue')
+          create_div('color_sat')
+          create_div('color_lgt')
+        create_div('color_name')
+      create_div('item_palette', 'palette', [#])
+        create_div(undefined, 'box', [#])
+          create_div('item_alpha')
+        create_div('image_section', 'palette', [#])
+          create_div(undefined, 'box', [#])
+            create_div(undefined, 'box', [#])
+              create('input', {id: 'image_alph_alock', type: 'checkbox'})
+              create_text('alpha lock')
+    create_div('img_undolist')
+
+:'save_header
+  <!doctype html>
+  <html><head>
+    <title>Scrawler</title>
+    <link rel="stylesheet" href="scrawler.css" type="text/css">
+    </head><body>
+
+:'save_footer
+  </body></html>
+
+Entry point.
+:
+  run_scrawler := ##
+    run_as_extension\b\? false
+    => &Scrawler(run_as_extension)

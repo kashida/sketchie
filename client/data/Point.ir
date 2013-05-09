@@ -1,0 +1,7 @@
+::Point
+  @x&\n\$
+  @y&\n\$
+
+:minus\%.Point\
+  other\%.Point\$
+  => &%.Point(@.x - other.x, @.y - other.y)

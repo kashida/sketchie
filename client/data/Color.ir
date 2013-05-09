@@ -1,0 +1,27 @@
+::Color
+  // All in [0, 1] range.
+  @r&\n\$
+  @g&\n\$
+  @b&\n\$
+  @a&\n\$
+
+String representation for CSS use.
+:rgba+\s\
+  => 'rgba(' + [#].join(',') + ')'
+    @.intR
+    @.intG
+    @.intB
+    @.a
+
+:intR+\n\
+  => inrange(0, 255, Math.floor(@.r * 256))
+
+:intG+\n\
+  => inrange(0, 255, Math.floor(@.g * 256))
+
+:intB+\n\
+  => inrange(0, 255, Math.floor(@.b * 256))
+
+:withAlpha\%.Color\
+  alpha\n\$
+  => &%.Color(@.r, @.g, @.b, alpha)

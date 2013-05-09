@@ -1,0 +1,38 @@
+::Average < %.Stroke
+:draw
+  x\n\$
+  y\n\$
+  ctx := f_surface.ctx()
+  pixels := ctx.getImageData(x - @r, y - @r, @r * 2, @r * 2)
+  avg := [0.0, 0.0, 0.0, 0.0]
+  weight_sum := 0.0
+  @.in_circle(pixels.width, @r, ##)
+    base\n\$
+    f\n\$
+    a := pixels.data[base + 3]
+    each i in [0, 1, 2, 3]
+      avg[i] += pixels.data[base + i] * f * a
+    weight_sum += f * a
+  each i in [0, 1, 2, 3]
+    avg[i] /= weight_sum
+  @.in_circle(pixels.width, @r, ##)
+    base\n\$
+    f\n\$
+    if @alpha_lock
+      // Never modify alpha, and modify color only if the target alpha is
+      // non-zero.
+      if pixels.data[base + 3] > 0
+        each i in [0, 1, 2]
+          val := pixels.data[base + i]
+          valmod := @c.a * avg[i] + (1.0 - @c.a) * val
+          if f != 1.0
+            valmod = f * valmod + (1.0 - f) * val
+          pixels.data[base + i] = inrange(0, 255, valmod)
+    else
+      each i in [0, 1, 2, 3]
+        val := pixels.data[base + i]
+        valmod := @c.a * avg[i] + (1.0 - @c.a) * val
+        if f != 1.0
+          valmod = f * valmod + (1.0 - f) * val
+        pixels.data[base + i] = inrange(0, 255, valmod)
+  ctx.putImageData(pixels, x - @r, y - @r)

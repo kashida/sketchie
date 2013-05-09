@@ -1,0 +1,20 @@
+::Draw < %.Image
+
+:<start_segment
+  evt\Event\$
+  @.get_stroke(f_tool_palette.tool()).reset(#)
+    f_color_palette.selected_color()
+    f_tool_palette.radius()
+    f_tool_palette.lerp()
+    @.alpha_lock
+
+:dispatch
+  evt\Event\$
+  if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
+    @.deactivate_callback()
+    => false
+
+  if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('S')
+    @.deactivate_callback(true)
+    => false
+  => ^(evt)

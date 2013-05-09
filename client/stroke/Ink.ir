@@ -1,0 +1,100 @@
+::Ink < %.Stroke
+  @points\A.<data.Point>\ []
+
+:reset
+  color\A\$
+  radius\n\$
+  lerp\n\$
+  alpha_lock\b\$
+  ^(color, radius, lerp, alpha_lock)
+  // TODO: maintain dirty bounding box and blit only that area.
+  @points = []
+
+:draw
+  x\n\$
+  y\n\$
+  @points.push(&data.Point(x, y))
+  if @points.length < 2
+    =>
+  p0 := @points[@points.length - 2]
+  p1 := @points[@points.length - 1]
+  @setup_stroke()
+  @draw_seg(p0.x, p0.y, p1.x, p1.y, undefined, @rscale(@points.length - 1))
+
+:blit
+  if @points.length < 2
+    =>
+  f_stroke_layer.clear()
+  @setup_stroke()
+  for i := 0; i < @points.length; i++
+    r := @rscale(i, (@points.length - i - 1))
+  l(r)
+  prev := null
+  @points.forEach(##)
+    p\data.Point\$
+    i\n\$
+    if prev
+      @draw_seg(prev.x, prev.y, p.x, p.y, r[i - 1], r[i])
+    prev = p
+
+  // Copy to the surface.
+  ctx := f_surface.ctx()
+  ctx.globalAlpha = @c.a
+  ctx.drawImage(f_stroke_layer.canvas(), 0, 0)
+
+:@setup_stroke
+  ctx := f_stroke_layer.ctx()
+  ctx.fillStyle = @c.rgb
+  ctx.lineCap = 'round'
+  ctx.lineJoin = 'round'
+
+:@draw_seg
+  x0\n\$
+  y0\n\$
+  x1\n\$
+  y1\n\$
+  r0\n\?
+  r1\n\? 0
+  if x0 == x1 && y0 == y1
+    =>
+  ctx := f_stroke_layer.ctx()
+  r0 || (r0 = r1)
+  rr0 := @r * r0
+  rr1 := @r * r1
+
+  // Draw a quad to connect the segment.
+  vx := x1 - x0
+  vy := y1 - y0
+  vlen := Math.sqrt(vx * vx + vy * vy)
+  vx /= vlen
+  vy /= vlen
+  vx0 := vx * rr0
+  vy0 := vy * rr0
+  vx1 := vx * rr1
+  vy1 := vy * rr1
+  ctx.beginPath()
+  ctx.moveTo(x0 - vy0, y0 + vx0)
+  ctx.lineTo(x0 + vy0, y0 - vx0)
+  ctx.lineTo(x1 + vy1, y1 - vx1)
+  ctx.lineTo(x1 - vy1, y1 + vx1)
+  ctx.fill()
+
+  // Draw the end point circle.
+  ctx.beginPath()
+  if rr1 != 0
+    ctx.arc(x0, y0, rr1, 0, Math.PI * 2, true)
+  ctx.fill()
+
+:@rscale
+  index\n\$
+  eindex\n\?
+  p := @points[index]
+  rp := index < 3 ? @points[0] : @points[index - 3]
+  dp := p.minus(rp)
+  scale := f_viewport.scale()
+  dist := Math.sqrt(dp.x * dp.x + dp.y * dp.y) * scale
+  vscale := dist == 0 ? 1.0 : 10.0 / dist
+  => #?
+    eindex
+    min_all([index / 20, eindex / 20, vscale, 1.0])
+    min_all([index / 20, vscale, 1.0])

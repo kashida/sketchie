@@ -1,0 +1,156 @@
+::Slider
+  name\s\$
+  @title\s\$
+  @min\n\$
+  @max\n\$
+  @reset_value\n\$
+  @value+\n\ @reset_value
+  @update_cb\F\
+  @value_renderer\F\
+  // TODO: integrate key two resolutions.
+  @key_resolution\n\$
+  @resolutions\A\ [2, 5, 10, 20]
+  @resolution_index\n\ 1
+  b_l := create_sliderbox(name, @title, @min, @max, @reset_value)
+  @box = b_l[0]
+  @label = b_l[1]
+  listen(@box, 'click', ##)
+    evt\Event\$
+    @activate()
+
+:@activate
+  f_hex_control.activate(@)
+  @box.classList.add('control_hilite')
+
+:deactivate
+  @box.classList.remove('control_hilite')
+
+:callback_update
+  cb\F\$
+  @update_cb = cb
+:callback_render
+  cb\F\$
+  @value_renderer = cb
+
+:set_value
+  val\n\$
+  if !val
+    =>
+  if val == @value
+    =>
+  @value = val
+  @label.innerText = @value
+  @update()
+
+:reset
+  @.set_value(@reset_value)
+
+:@update
+  if @update_cb
+    @update_cb()
+
+:resolution
+  => @resolutions[@resolution_index]
+
+:adjust
+  incr\n\$
+  v := @value
+  step_size := (@max - @min) / @key_resolution
+  truncated_v := v - (v % step_size)
+  @.set_value(inrange(@min, @max, truncated_v + #))
+    incr ? step_size : (v == truncated_v ? -step_size : 0)
+  @update()
+
+:cursor\O\
+  label := @value_renderer ? @value_renderer(@value) : {}
+  label.t = @title
+  => label
+:control_state
+  => [#]
+    @center_hex()
+    @next_hex( 0,  1)
+    @next_hex(-1,  1)
+    @next_hex(-1, -1)
+    @next_hex( 0, -1)
+    @next_hex( 1, -1)
+    @next_hex( 1,  1)
+    @next_hex( 0,  2, 1, 2)
+    @next_hex( 0,  3, 1, 3)
+    @next_hex( 0, -2, 4, 2)
+    @next_hex( 0, -3, 4, 3)
+
+:@center_hex
+  label := @value_renderer ? @value_renderer(@value) : {}
+  label.t = @value
+  => [label, ##]
+    => null
+
+:@next_hex
+  rdir\n\$
+  dir\n\? 0
+  position_index\n\? null
+  position_distance\n\? null
+  rindex := @resolution_index + rdir
+  if rindex < 0 || rindex >= @resolutions.length
+    => null
+  r := @resolutions[rindex]
+  delta := dir * r
+  v := @value + delta
+  if dir != 0 && (v <= @min - r || v >= @max + r)
+    => null
+  v = inrange(@min, @max, v)
+  label := @value_renderer ? @value_renderer(v) : {}
+  if !label.t
+    label.t = #?
+      dir != 0
+      (dir < 0 ? '' : '+') + delta
+      'x' + Math.floor(r)
+  if position_index
+    label.i = position_index
+  if position_distance
+    label.d = position_distance
+  => [label, ##]
+    @resolution_index = rindex
+    @.set_value(v)
+    => @.control_state()
+
+::RadiusSlider < Slider
+  name\s\$
+  title\s\$
+  min\n\$
+  max\n\$
+  reset_value\n\$
+  key_resolution\n\$
+  ^(name, title, min, max, reset_value, key_resolution)
+
+:adjust
+  incr\n\$
+  current := @value
+  prev_v := 1
+  [1, 2, 3, 5, 8, 13, 21, 34, 50, 80, 100].every(##)
+    v\n\$
+    if v == current && !incr
+      @.set_value(prev_v)
+      => false
+    else if v > current
+      @.set_value(incr ? v : prev_v)
+      => false
+    prev_v = v
+    => true
+  @update()
+
+:::create_sliderbox = ##
+  name\s\$
+  title\s\$
+  range_min\n\$
+  range_max\n\$
+  init_value\n\$
+  label := create('div', {id: name + '_label', class: 'box'})
+  label.innerText = init_value
+  control_div := create('div', null, [#])
+    create_text(title + ': ')
+    label
+  box := id(name)
+  box.className = 'control_box'
+  box.appendChild(control_div)
+  => [box, label]

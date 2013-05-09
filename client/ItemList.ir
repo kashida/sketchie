@@ -1,0 +1,171 @@
+::ItemList
+  @list\Element\ id('itemlist')
+
+:children+\NodeList\
+  => @list.childNodes
+:childrenArray+\A.<Node>\
+  arr := []
+  eachChild(@list, ##)
+    c\Element\$
+    arr.push(c)
+  => arr
+
+:first
+  => @.children[0]
+:last
+  => @.children[@.children.length - 1]
+:length
+  => @.children.length
+:empty
+  => @.children.length == 0
+:child
+  index\n\$
+  if index < 0
+    index += @.length()
+  => @.children[index]
+
+:each
+  handler\F\$
+  eachChild(@list, ##)
+    item\Element\$
+    handler(item)
+
+:until
+  back_to_front\b\$
+  handler\F\$
+  c := @.children
+  if back_to_front
+    for i := 0; i < c.length; i++
+      if handler(c[i])
+        =>
+  else
+    for i := c.length - 1; i >= 0; i--
+      if handler(c[i])
+        =>
+
+:z_order
+  items\A.<Element>\$
+  => @.childrenArray.filter(##)
+    item\Node\$
+    => items.indexOf(item) >= 0
+
+:remove
+  items\A.<Element>\$
+  items.forEach(##)
+    item\Element\$
+    @list.removeChild(item)
+
+:insert_first
+  items\A.<Element>\$
+  items.forEach(##)
+    item\Element\$
+    @list.insertBefore(item, @list.firstChild)
+
+:append_end
+  items\A.<Element>\$
+  items.forEach(##)
+    item\Element\$
+    @list.appendChild(item)
+
+:insert_before
+  pivot\Element\$
+  items\A.<Element>\$
+  if pivot
+    items.forEach(##)
+      item\Element\$
+      @list.insertBefore(item, pivot)
+  else
+    @.append_end(items)
+
+:insert_after
+  pivot\Element\$
+  items\A.<Element>\$
+  if pivot.nextSibling
+    items.forEach(##)
+      item\Element\$
+      @list.insertBefore(item, pivot.nextSibling)
+  else
+    @.append_end(items)
+
+:replace
+  orig_item\Element\$
+  new_item\Element\$
+  next := orig_item.nextSibling
+  @list.removeChild(orig_item)
+  if next
+    @list.insertBefore(new_item, next)
+  else
+    @list.appendChild(new_item)
+
+:top
+  handler\F\$
+  => @.top_in(@.childrenArray, handler)
+:top_in
+  nodes\A.<Element>\$
+  handler\F\$
+  top_y := null
+  top_item := null
+  nodes.forEach(##)
+    c\Element\$
+    if !top_y || c.offsetTop < top_y
+      top_y = c.offsetTop
+      top_item = c
+  if top_item
+    handler(top_item, top_y)
+
+:bottom
+  handler\F\$
+  => @bottom_in(@.childrenArray, handler)
+:@bottom_in
+  nodes\A.<Element>\$
+  handler\F\$
+  bottom_y := null
+  bottom_item := null
+  nodes.forEach(##)
+    c\Element\$
+    if !bottom_y || c.offsetTop > bottom_y
+      bottom_y = c.offsetTop
+      bottom_item = c
+  if bottom_item
+    handler(bottom_item, bottom_y)
+
+:after
+  item\Element\$
+  for i := 0; i < @.children.length; i++
+    c := @.children[i]
+    // We can't use array.slice because children is a NodeList.
+    for j := i + 1; j < @.children.length; j++
+      if c == item
+        => @.children[j]
+
+:set_z
+  init\n\$
+  step\n\? 1
+  i := init
+  @.each(##)
+    item\Element\$
+    item.style['zIndex'] = i
+    i += step
+
+:clear_z
+  @.each(##)
+    item\Element\$
+    item.style['zIndex'] = null
+
+:::overlap_with_any = ##
+  item\Element\$
+  regions\A.<Element>\$
+  regions.forEach(##)
+    r\Element\$
+    // TODO: consider rotation and scaling.
+    x := item.offsetLeft
+    y := item.offsetTop
+    w := item.offsetWidth
+    h := item.offsetHeight
+    rx := r.offsetLeft
+    ry := r.offsetTop
+    rw := r.offsetWidth
+    rh := r.offsetHeight
+    if x + w > rx && x < rx + rw && y + h > ry && y < ry + rh
+      => true
+  => false

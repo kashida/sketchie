@@ -1,0 +1,25 @@
+:::xhr_post = ##
+  uri\s\$
+  payload\s\$
+  callback\F\?
+  xhr := &XMLHttpRequest()
+  xhr.open('POST', uri)
+  if callback
+    xhr.onreadystatechange = ##
+      if xhr.readyState != 4
+        =>
+      callback(xhr)
+  //xhr.send(JSON.stringify(payload))
+  xhr.send(payload)
+
+:::xhr_get = ##
+  uri\s\$
+  callback\F\$
+  xhr := &XMLHttpRequest()
+  xhr.open('GET', uri)
+  if callback
+    xhr.onreadystatechange = ##
+      if xhr.readyState != 4
+        =>
+      callback(xhr)
+  xhr.send()

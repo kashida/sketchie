@@ -1,0 +1,55 @@
+:'header
+  <!doctype html>
+  <html><head>
+    <title>Scrawler</title>
+    <link rel="stylesheet" href="scrawler.css" type="text/css">
+    </head><body>
+
+:'footer
+  </body></html>
+
+:'script_load
+  <script>run_scrawler();</script>
+
+
+::HtmlHandler
+  @ctxt\RequestContext\$
+
+:post
+  // TODO: handle sub-dirs.
+  data := header
+  @ctxt.req.setEncoding('utf8')
+  @ctxt.req.on('data', ##)
+    chunk\s\$
+    data += chunk
+  @ctxt.req.once('end', ##)
+    data += footer
+    _fs.writeFileSync(_path.join('data', @ctxt.path), data)
+
+    // Make the response.
+    @ctxt.res.writeHead(200)
+    @ctxt.response(200)
+
+:writePackageList
+  code\CodeHandler\$
+  @ctxt.res.write(#+)
+    '<script>\n'
+    code.pkgList.map(##).join('')
+      line\s\$
+      => line + '\n'
+    '</script>\n'
+
+:writeScriptList
+  code\CodeHandler\$
+  @ctxt.res.write(code.scriptList.map(##).join(''))
+    file\s\$
+    => '<script src="/_s/' + file + '"></script>\n'
+
+:create
+  code\CodeHandler\$
+  @ctxt.res.writeHead(200, {'Content-Type': 'text/html'})
+  @ctxt.res.write(header + footer)
+  @.writePackageList(code)
+  @.writeScriptList(code)
+  @ctxt.res.write(script_load)
+  @ctxt.response(200)
