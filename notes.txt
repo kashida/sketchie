@@ -1,7 +1,4 @@
 [TODO]
-start using git.
-  start with client and server dir.
-
 split text mode and transfer mode from editor/Item.
   start with the dispatcher.
 

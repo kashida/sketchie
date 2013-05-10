@@ -130,7 +130,7 @@
       f_item_editor.textmode_dispatch(evt)
       break
     case 'r'
-      f_item_editor.transfermmode_dispatch(evt)
+      f_item_editor.transformmode_dispatch(evt)
       break
     case 'd'
       f_draw.dispatch(evt)

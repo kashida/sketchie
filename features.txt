@@ -18,5 +18,7 @@ item mode:
   'd' go to draw mode.
   's' go to stencil mode.
 
+  shift+'u' go up to the list page.
+
 text mode:
   esc get out.

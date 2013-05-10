@@ -678,7 +678,7 @@ Key handler.
     => true
   => false
 
-:transfermmode_dispatch
+:transformmode_dispatch
   evt\Event\$
   if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
     f_rotate.deactivate()
