@@ -3,19 +3,17 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   f_scrawler := null
   f_viewport := null
   f_item_list := null
-  f_item_editor := null
   f_surface := null
   f_stroke_layer := null
   f_color_palette := null
   f_tool_palette := null
   f_item_palette := null
   f_cursor := null
-  f_draw := null
-  f_stencil := null
   f_dispatcher := null
   f_hex_control := null
   f_rotate := null
   f_scale := null
+  f_z_order := null
 
   f_brush_stroke := null
   f_pen_stroke := null
@@ -36,16 +34,20 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   f_viewport = &Viewport()
   f_item_list = &ItemList()
   item_selection := &ItemSelection()
-  f_item_editor = &editor.Item(item_selection)
+  f_z_order = &item.ZOrder()
   f_surface = &Surface(id('surface'))
   f_stroke_layer = &Surface(id('stroke_layer'))
   f_color_palette = &ColorPalette()
   f_tool_palette = &ToolPalette()
   f_item_palette = &ItemPalette(item_selection)
   f_cursor = &Cursor()
-  f_draw = &editor.Draw()
-  f_stencil = &editor.Stencil()
-  f_dispatcher = &Dispatcher()
+  f_dispatcher = &Dispatcher({#}, 'i')
+    'i': &editor.Item(item_selection)
+    't': &editor.Text()
+    'r': &editor.Rorate()
+    'q': &editor.Scale()
+    'd': &editor.Draw()
+    's': &editor.Stencil()
   f_hex_control = &HexControl()
   f_rotate = &drag.Rotate()
   f_scale = &drag.Scale()

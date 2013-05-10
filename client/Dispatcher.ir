@@ -1,9 +1,12 @@
 ::Dispatcher
-  @mode\s\ '_'
+  @editors\O.<s, Editor>\$
+  @defaultMode\A.<s>\$
+  @mode\A.<s>\ [@defaultMode]
   @drag_control\Element\
   @mouse_controls\A\ []
   @input_layer\Element\ id('input_layer')
   @control_active\b\ false
+    
   listen(@input_layer, 'mousedown', ##)
     evt\Event\$
     @mouse_dispatch('mouse_down', evt)
@@ -43,17 +46,32 @@
     @dispatch(evt)
   listen(document.body, 'paste', ##)
     evt\Event\$
-    if @mode == '_'
-      f_item_editor.paste_image(evt)
+    if @.mode == 'i'
+      @.editor.paste_image(evt)
 
+Current mode.
+:mode+\s\
+  => @mode[@mode.length - 1]
+
+Currently selected editor.
+:editor+\editor.Editor\
+  => @editors[@.mode]
+  
 :set_mode
   mode\s\$
-  if mode != @mode
+  if mode != @.mode
     // Close all the palette currently open.
     f_tool_palette.close()
     f_color_palette.close()
     f_item_palette.close()
-  @mode = mode
+  @mode.push(mode)
+
+:changeModeTo
+  mode\s\$
+  activate_params\O\$
+  reactivate_cb\F\$
+  @.set_mode(mode)
+  @.editor.activate(activate_params)
 
 :set_control
   active\b\$
@@ -115,26 +133,11 @@
 
 :@dispatch
   evt\Event\$
-  l(@mode + ': "' + String.fromCharCode(evt.keyCode) + '"(' + evt.keyCode + ')')
+  l(@.mode + ': "' + String.fromCharCode(evt.keyCode) + '"(' + evt.keyCode + ')')
   if #&&
     evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
     @mouse_controls.length > 1
     --
     f_hex_control.deactivate()
     =>
-  switch @mode
-    case '_'
-      f_item_editor.global_dispatch(evt)
-      break
-    case 't'
-      f_item_editor.textmode_dispatch(evt)
-      break
-    case 'r'
-      f_item_editor.transformmode_dispatch(evt)
-      break
-    case 'd'
-      f_draw.dispatch(evt)
-      break
-    case 's'
-      f_stencil.dispatch(evt)
-      break
+  @.editor.dispatch(evt)

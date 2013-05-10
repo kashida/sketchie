@@ -12,9 +12,9 @@
   evt\Event\$
   if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
     @.deactivate_callback()
-    => false
 
   if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('S')
     @.deactivate_callback(true)
-    => false
-  => ^(evt)
+
+  else
+    ^(evt)

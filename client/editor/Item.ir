@@ -1,4 +1,4 @@
-::Item
+::Item <%.Editor
   @selection\ItemSelection\$
   f_item_list.each(##)
     item\Element\$
@@ -52,49 +52,6 @@
       f_item_list.insert_before(found_selected[0], to_move)
     else
       f_item_list.insert_after(found_selected[0], to_move)
-
-:z_order_move_all
-  img\Image\$
-  send_back\b\$
-  // Works only in image edit mode. move all the items except the one being
-  // drawn now.
-  div := id('itemlist_upper')
-  item := null
-  if send_back
-    while div.childNodes.length > 0
-      item = div.firstChild
-      div.removeChild(item)
-      f_item_list.insert_before(img, item)
-  else
-    while (f_item_list.length() > 0 && !img) || f_item_list.length() > 1
-      item = img ? f_item_list.child(-2) : f_item_list.last()
-      f_item_list.remove(item)
-      div.insertBefore(item, div.firstChild)
-
-:z_order_move
-  img\Image\$
-  send_back\b\$
-  // Works only in image edit mode. move one item before / after of the image
-  // item.
-  // TODO: move only the items in viewport.
-  div := id('itemlist_upper')
-  item := null
-  if send_back
-    item = div.firstChild
-    if !item
-      =>
-    div.removeChild(item)
-    f_item_list.insert_before(img, item)
-  else
-    list := f_item_list.children()
-    item = #?
-      img
-      list.length < 2 ? null : list[list.length - 2]
-      list.empty ? null : f_item_list.last()
-    if !item
-      =>
-    f_item_list.remove(item)
-    div.insertBefore(item, div.firstChild)
 
 :@move_selection
   move_down\b\$
@@ -447,10 +404,9 @@ Image methods.
   document.body.insertBefore(div, f_cursor.div())
 
   // Activate.
-  f_draw.activate(img, ##)
+  f_dispatcher.changeModeTo('d', [img], ##)
     stencil\b\$
     => @draw_end(\Image\(img), stencil)
-  f_dispatcher.set_mode('d')
 
 :@draw_end
   img\Image\$
@@ -550,7 +506,7 @@ Image methods.
 ------------------------------------------------------------
 Key handler.
 
-:global_dispatch
+:dispatch
   evt\Event\$
   shift := 0x100
   key := evt.keyCode
@@ -660,30 +616,3 @@ Key handler.
   // Go back to the list page.
   else if key == c('U') + shift
     window.location.assign('/')
-
-  else
-    => true
-  => false
-
-:textmode_dispatch
-  evt\Event\$
-  if evt.keyCode == DOM_VK_RETURN
-    if evt.shiftKey
-      @split_textbox()
-  else if evt.keyCode == DOM_VK_ESCAPE
-    @commit_textbox()
-  else if evt.keyCode == DOM_VK_BACK_SPACE
-    @text_backspace()
-  else
-    => true
-  => false
-
-:transformmode_dispatch
-  evt\Event\$
-  if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
-    f_rotate.deactivate()
-    f_scale.deactivate()
-    f_dispatcher.set_mode('_')
-  else
-    => true
-  => false

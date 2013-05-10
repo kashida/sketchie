@@ -20,18 +20,16 @@
     f_tool_palette.lerp()
     false
 
-:dispatch\b\
+:dispatch
   evt\Event\$
   if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
     @.deactivate_callback()
-    => false
 
   else if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('C')
     @.deactivate_callback('c')
-    => false
 
   else if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('X')
     @.deactivate_callback('x')
-    => false
 
-  => ^(evt)
+  else
+    ^(evt)

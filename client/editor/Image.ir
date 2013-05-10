@@ -1,4 +1,4 @@
-::Image
+::Image <%.Editor
   @deactivate_callback+\F\ null
   @undo\UndoImage\ &UndoImage
   @is_drawing\b\ false
@@ -109,7 +109,7 @@
     I: f_ink_stroke
     L: f_lasso_stroke
 
-:dispatch\b\
+:dispatch
   evt\Event\$
   if evt.keyCode == DOM_VK_BACK_SPACE
     @undo.push()
@@ -143,9 +143,9 @@
       f_tool_palette.set_param(@stroke)
 
   else if evt.keyCode == c('V')
-    f_item_editor.z_order_move_all(@image, evt.shiftKey)
+    f_z_order.moveAll(@image, evt.shiftKey)
   else if evt.keyCode == c('N')
-    f_item_editor.z_order_move(@image, evt.shiftKey)
+    f_z_order.move(@image, evt.shiftKey)
 
   else if evt.keyCode == c('X')
     @alpha_lock = !@alpha_lock
@@ -194,7 +194,6 @@
         @prev_stroke = @stroke
         @stroke = new_stroke
         f_tool_palette.set_param(@stroke)
-  => false
 
 :
   brushKeys := {#}
