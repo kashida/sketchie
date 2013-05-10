@@ -1,0 +1,12 @@
+::Text <%.Editor
+
+:dispatch
+  evt\Event\$
+  if evt.keyCode == DOM_VK_RETURN && evt.shiftKey
+    @split_textbox()
+
+  else if evt.keyCode == DOM_VK_ESCAPE
+    @commit_textbox()
+
+  else if evt.keyCode == DOM_VK_BACK_SPACE
+    @text_backspace()

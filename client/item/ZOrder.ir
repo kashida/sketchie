@@ -1,0 +1,45 @@
+::ZOrder
+
+:moveAll
+  img\Image\$
+  send_back\b\$
+  // Works only in image edit mode. move all the items except the one being
+  // drawn now.
+  div := id('itemlist_upper')
+  item := null
+  if send_back
+    while div.childNodes.length > 0
+      item = div.firstChild
+      div.removeChild(item)
+      f_item_list.insert_before(img, item)
+  else
+    while (f_item_list.length() > 0 && !img) || f_item_list.length() > 1
+      item = img ? f_item_list.child(-2) : f_item_list.last()
+      f_item_list.remove(item)
+      div.insertBefore(item, div.firstChild)
+
+:move
+  img\Image\$
+  send_back\b\$
+  // Works only in image edit mode. move one item before / after of the image
+  // item.
+  // TODO: move only the items in viewport.
+  div := id('itemlist_upper')
+  item := null
+  if send_back
+    item = div.firstChild
+    if !item
+      =>
+    div.removeChild(item)
+    f_item_list.insert_before(img, item)
+  else
+    list := f_item_list.children()
+    item = #?
+      img
+      list.length < 2 ? null : list[list.length - 2]
+      list.empty ? null : f_item_list.last()
+    if !item
+      =>
+    f_item_list.remove(item)
+    div.insertBefore(item, div.firstChild)
+

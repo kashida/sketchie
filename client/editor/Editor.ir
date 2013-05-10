@@ -1,0 +1,8 @@
+All editor implementation should support the methods here.
+::Editor
+
+:activate
+  param\O\$
+
+:dispatch
+  evt\Event\$
