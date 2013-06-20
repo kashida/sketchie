@@ -37,7 +37,7 @@
   @alpha.adjust(incr)
 :lerp_adjust
   incr\n\$
-   @lerp.adjust(incr)
+  @lerp.adjust(incr)
 :size_adjust
   incr\n\$
   @radius.adjust(incr)

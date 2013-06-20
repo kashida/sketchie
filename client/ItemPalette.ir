@@ -1,5 +1,5 @@
 ::ItemPalette < Palette
-  @selection\ItemSelection\$
+  @selection\item.Selection\$
   @blend_alpha\Slider\ &Slider('item_alpha', 'blend alpha%', 0, 100, 100, 20)
   @alpha_lock\Element\ id('image_alph_alock')
   @blend_alpha.callback_update = ##
@@ -18,7 +18,7 @@
     if !@selection.is_head_image
       =>
     img = \Image\(@selection.head)
-  set_is_attr(img, 'alpha_lock', String(!is_attr(img, 'alpha_lock')))
+  set_is_attr(img, 'alpha_lock', !is_attr(img, 'alpha_lock'))
   @alpha_lock.checked = attr(@selection.head, 'alpha_lock') == 'true'
 
 :@update_blend_alpha

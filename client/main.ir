@@ -32,8 +32,8 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
 :@init_global_components
   f_scrawler = this
   f_viewport = &Viewport()
-  f_item_list = &ItemList()
-  item_selection := &ItemSelection()
+  f_item_list = &item.List()
+  item_selection := &item.Selection()
   f_z_order = &item.ZOrder()
   f_surface = &Surface(id('surface'))
   f_stroke_layer = &Surface(id('stroke_layer'))
@@ -41,10 +41,12 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   f_tool_palette = &ToolPalette()
   f_item_palette = &ItemPalette(item_selection)
   f_cursor = &Cursor()
+
+  textEditor := &editor.Text(item_selection)
   f_dispatcher = &Dispatcher({#}, 'i')
-    'i': &editor.Item(item_selection)
-    't': &editor.Text()
-    'r': &editor.Rorate()
+    'i': &editor.List(item_selection, textEditor)
+    't': textEditor
+    'r': &editor.Rotate()
     'q': &editor.Scale()
     'd': &editor.Draw()
     's': &editor.Stencil()

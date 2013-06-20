@@ -1,7 +1,8 @@
 ::Dispatcher
-  @editors\O.<s, Editor>\$
-  @defaultMode\A.<s>\$
-  @mode\A.<s>\ [@defaultMode]
+  @editors\O.<s, editor.Editor>\$
+  @defaultMode\s\$
+  @modes\A.<s>\ [@defaultMode]
+  @callbacks\A.<F>\ []
   @drag_control\Element\
   @mouse_controls\A\ []
   @input_layer\Element\ id('input_layer')
@@ -51,27 +52,33 @@
 
 Current mode.
 :mode+\s\
-  => @mode[@mode.length - 1]
+  assert(@modes.length > 0)
+  => @modes[@modes.length - 1]
 
 Currently selected editor.
 :editor+\editor.Editor\
   => @editors[@.mode]
   
-:set_mode
-  mode\s\$
-  if mode != @.mode
-    // Close all the palette currently open.
-    f_tool_palette.close()
-    f_color_palette.close()
-    f_item_palette.close()
-  @mode.push(mode)
-
 :changeModeTo
-  mode\s\$
-  activate_params\O\$
-  reactivate_cb\F\$
-  @.set_mode(mode)
+  nextMode\s\$
+  activate_params\O\? {}
+  reactivate_cb\F\?
+  assert(nextMode != @.mode)
+  // TODO: Close all the palettes currently open.
+  //f_tool_palette.close()
+  //f_color_palette.close()
+  //f_item_palette.close()
+  @modes.push(nextMode)
+  @callbacks.push(reactivate_cb)
   @.editor.activate(activate_params)
+
+:popMode
+  end_mode_params\O\$
+  @.editor.deactivate()
+  lastMode := @modes.pop()
+  cb := @callbacks[@callbacks.length - 1]
+  if cb
+    cb(end_mode_params)
 
 :set_control
   active\b\$

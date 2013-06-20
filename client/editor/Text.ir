@@ -1,4 +1,211 @@
 ::Text <%.Editor
+  @selection\item.Selection\$
+
+:@trim_whitespace
+  str\s\$
+  => str.replace(/^\s+/, '').replace(/\s+$/, '')
+
+:@trim_end_whitespace
+  str\s\$
+  => str.replace(/^[\r\n]*/, '').replace(/\s+$/, '')
+
+:@minimum_text_div
+  str\s\? ''
+  div := create('div')
+  div.appendChild(create('br'))
+  if str
+    div.appendChild(create_text(@trim_whitespace(str)))
+  => div
+
+If remove is true, clean up empty div's and remove the item if it ends up empty.
+:@normalize_text_item
+  remove\b\$
+  if !@selection.is_head_text
+    =>
+  sel := @selection.head
+  sel.normalize()
+  // Remove end spaces from all the text nodes.
+  eachChild(sel, ##)
+    div\Element\$
+    div.innerText = @trim_end_whitespace(div.innerText)
+  // Remove empty first and last elements.
+  if remove
+    while sel.firstChild && sel.firstChild.innerText == ''
+      sel.removeChild(sel.firstChild)
+    while sel.lastChild && sel.lastChild.innerText == ''
+      sel.removeChild(sel.lastChild)
+  // Re-insert br tag to now empty div's.
+  eachChild(sel, ##)
+    div\Element\$
+    if div.innerText == ''
+      div.appendChild(create('br'))
+  // Remove the element if there's nothing left.
+  if remove && sel.childNodes.length == 0
+    @selection.clear()
+    sel.blur()
+    f_item_list.remove(sel)
+
+:collapse_texts
+  // Collapse texts in y order.
+  elems := []
+  first_position := null
+  while @selection.is_any
+    f_item_list.top_in(@selection.list, ##)
+      item\Element\$
+      while item.firstChild
+        c := item.firstChild
+        item.removeChild(c)
+        elems.push(c)
+      if !first_position
+        first_position = [item.offsetLeft, item.offsetTop]
+      @selection.remove(item)
+      f_item_list.remove(item)
+
+  // Create an empty text item and add the elements.
+  newtext := @make_text_item('')
+  newtext.removeChild(newtext.firstChild)
+  elems.forEach(##)
+    elem\Element\$
+    newtext.appendChild(elem)
+  f_item_list.append_end(newtext)
+  newtext.style.left = first_position[0] + 'px'
+  newtext.style.top = first_position[1] + 'px'
+  @selection.select(newtext)
+
+:@split_textbox
+  if !@selection.is_head_text
+    =>
+  sel := @selection.head
+  cursor := window.getSelection()
+
+  // Find the div the cusor is in now.
+  until_children := ##
+    node\Element\$
+    pred\F\$
+    i := 0
+    while i < node.childNodes.length
+      if pred(node.childNodes[i])
+        => i
+      i++
+    => -1
+  remove_and_convert_rest_to_str := ##
+    node\Element\$
+    index\n\$
+    str := ''
+    i := index
+    while i < node.childNodes.length
+      c := node.childNodes[i]
+      str += node_text(c)
+      node.removeChild(c)
+    => str
+  newstr := ''
+  cursor_div_index := until_children(sel, ##)
+    c\Element\$
+    if c == cursor.anchorNode
+      newstr = remove_and_convert_rest_to_str(c, cursor.anchorOffset)
+      => true
+    if c == cursor.anchorNode.parentNode
+      cursor_elem_index := until_children(c, ##)
+        cc\Element\$
+        if cc == cursor.anchorNode
+          newstr = cc.nodeValue.substr(cursor.anchorOffset)
+          cc.nodeValue = cc.nodeValue.substr(0, cursor.anchorOffset)
+          => true
+        => false
+      newstr += remove_and_convert_rest_to_str(c, cursor_elem_index + 1)
+      => true
+    => false
+
+  // Move all the rest div's to a new item.
+  newtext := @make_text_item(newstr, sel)
+  i := cursor_div_index + 1
+  while i < sel.childNodes.length
+    c = sel.childNodes[i]
+    sel.removeChild(c)
+    newtext.appendChild(c)
+  f_item_list.append_end(newtext)
+
+  // Remove the previous item if there's no text now.
+  @make_editable(false)
+  @normalize_text_item(true)
+
+  // Activate the new item.
+  @selection.select(newtext)
+  @normalize_text_item(false)
+  @make_editable()
+  newtext.focus()
+  window.getSelection().collapse(newtext, 0)
+
+:add_text
+  create_new\b\$
+  cursor_top\b\? false
+  if !(create_new || @selection.is_head_text)
+    =>
+  if create_new
+    // Add a text box at the right location and make it visible.
+    text := @make_text_item('', @selection.head)
+    f_item_list.append_end([text])
+    @selection.select(text)
+
+  @make_editable()
+  f_dispatcher.changeModeTo('t')
+  window.getSelection().collapse(#)
+    @selection.head
+    cursor_top ? 0 :@selection.head.innerText.length
+  @selection.head.focus()
+
+:@make_editable
+  start\b\? true
+  text\s\? null
+  if !(text || @selection.is_head_text)
+    =>
+  text = text || @selection.head
+  text.contentEditable = start
+  text.style['-webkit-user-select'] = start ? 'text' : 'none'
+
+:copy_text_item
+  orig_item\Element\$
+  item := @make_text_item(orig_item.innerText)
+  item.style.left = (orig_item.offsetLeft + 10) + 'px'
+  item.style.top = (orig_item.offsetTop + 10) + 'px'
+  f_item_list.append_end([item])
+
+:@make_text_item\Element\
+  str\s\$
+  ref_item\Element\?
+  x := window.pageXOffset
+  y := window.pageYOffset
+  if ref_item
+    x = ref_item.offsetLeft - 5
+    y = ref_item.offsetTop + ref_item.clientHeight + 2
+  text := create('div')
+  text.appendChild(@minimum_text_div(str))
+  @bless_item(text)
+  @make_editable(false, text)
+  text.style.left = x + 'px'
+  text.style.top = y + 'px'
+  => text
+
+:@commit_textbox
+  if !@selection.is_head_text
+    =>
+  @make_editable(false)
+  @normalize_text_item(true)
+  f_dispatcher.changeModeTo('_')
+
+Make sure there is at least one div left when there is backspace in text
+edit mode.
+:@text_backspace
+  if !@selection.is_head_text
+    =>
+  sel := @selection.head
+  sel.normalize()
+  if sel.childNodes.length == 1 && sel.firstChild.tagName == 'BR'
+    sel.removeChild(sel.firstChild)
+  if sel.childNodes.length != 0
+    =>
+  sel.appendChild(@minimum_text_div())
+  window.getSelection().collapse(sel, 0)
 
 :dispatch
   evt\Event\$

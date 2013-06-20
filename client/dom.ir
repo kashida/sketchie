@@ -109,7 +109,7 @@
 :::set_is_attr = ##
   node\Element\$
   name\s\$
-  value\s\$
+  value\b\$
   if value
     node.setAttribute(name, 'true')
   else

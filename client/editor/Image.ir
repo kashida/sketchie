@@ -1,5 +1,4 @@
 ::Image <%.Editor
-  @deactivate_callback+\F\ null
   @undo\UndoImage\ &UndoImage
   @is_drawing\b\ false
   @stroke&\s\ 'P'
@@ -12,11 +11,9 @@
   evt\Event\$
 
 :activate
-  image\Image\$
-  cb\F\$
-  @image = image
+  params\O\$
+  @image = \Image\(params['image'])
   @alpha_lock = @image && is_attr(@image, 'alpha_lock')
-  @deactivate_callback = cb
 
   f_surface.activate(@image, @alpha_lock)
   f_viewport.deactivate()
@@ -43,7 +40,6 @@
   f_cursor.hide()
 
   @image = null
-  @deactivate_callback = null
 
 :mouse_down
   evt\Event\$
@@ -86,7 +82,7 @@
 :viewport_resize
   evt\Event\$
   // Same as cancel.
-  @deactivate_callback()
+  f_dispatcher.popMode()
 
 :@draw_segment
   evt\Event\$

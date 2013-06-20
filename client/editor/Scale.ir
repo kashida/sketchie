@@ -4,4 +4,4 @@
   evt\Event\$
   if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
     f_scale.deactivate()
-    f_dispatcher.set_mode('_')
+    f_dispatcher.changeModeTo('_')

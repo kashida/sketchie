@@ -119,7 +119,7 @@
   r\n\$
   g\n\$
   b\n\$
-   @set_color(rgb_to_hsl(r, g, b))
+  @set_color(rgb_to_hsl(r, g, b))
 
 :@set_color
   hsl\data.Hsl\$

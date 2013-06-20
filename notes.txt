@@ -1,4 +1,7 @@
 [TODO]
+server to catch the exception for compile error.
+  return error status.
+
 split text mode and transfer mode from editor/Item.
   start with the dispatcher.
 

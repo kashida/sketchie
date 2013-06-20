@@ -6,6 +6,10 @@
   str\s\$
   console.log(str)
 
+:::assert = ##
+  condition\*\$
+  console.assert(condition)
+
 :::inrange = ##
   min\n\$
   max\n\$

@@ -1,5 +1,6 @@
-::Item <%.Editor
-  @selection\ItemSelection\$
+::List <%.Editor
+  @selection\item.Selection\$
+  @textEditor\%.Text\$
   f_item_list.each(##)
     item\Element\$
     @bless_item(item)
@@ -126,7 +127,7 @@
   @selection.list.slice(0).forEach(##)
     item\Element\$
     if item.tagName == 'DIV'
-      @copy_text_item(item)
+      @textEditor.copy_text_item(item)
     else
       @copy_image_item(item)
 
@@ -134,220 +135,9 @@
   if @selection.count < 2
     =>
   if @selection.is_all_text
-    @collapse_texts()
+    @textEditor.collapse_texts()
   else if @selection.is_all_image
     @collapse_images()
-
-
-------------------------------------------------------------
-Text methods.
-
-:@trim_whitespace
-  str\s\$
-  => str.replace(/^\s+/, '').replace(/\s+$/, '')
-
-:@trim_end_whitespace
-  str\s\$
-  => str.replace(/^[\r\n]*/, '').replace(/\s+$/, '')
-
-:@add_text
-  create_new\b\$
-  cursor_top\b\? false
-  if !(create_new || @selection.is_head_text)
-    =>
-  if create_new
-    // Add a text box at the right location and make it visible.
-    text := @make_text_item('', @selection.head)
-    f_item_list.append_end([text])
-    @selection.select(text)
-
-  @make_editable()
-  f_dispatcher.set_mode('t')
-  window.getSelection().collapse(#)
-    @selection.head
-    cursor_top ? 0 :@selection.head.innerText.length
-  @selection.head.focus()
-
-:@copy_text_item
-  orig_item\Element\$
-  item := @make_text_item(orig_item.innerText)
-  item.style.left = (orig_item.offsetLeft + 10) + 'px'
-  item.style.top = (orig_item.offsetTop + 10) + 'px'
-  f_item_list.append_end([item])
-
-:@minimum_text_div
-  str\s\? ''
-  div := create('div')
-  div.appendChild(create('br'))
-  if str
-    div.appendChild(create_text(@trim_whitespace(str)))
-  => div
-
-:@make_text_item\Element\
-  str\s\$
-  ref_item\Element\?
-  x := window.pageXOffset
-  y := window.pageYOffset
-  if ref_item
-    x = ref_item.offsetLeft - 5
-    y = ref_item.offsetTop + ref_item.clientHeight + 2
-  text := create('div')
-  text.appendChild(@minimum_text_div(str))
-  @bless_item(text)
-  @make_editable(false, text)
-  text.style.left = x + 'px'
-  text.style.top = y + 'px'
-  => text
-
-:@make_editable
-  start\b\? true
-  text\s\? null
-  if !(text || @selection.is_head_text)
-    =>
-  text = text || @selection.head
-  text.contentEditable = start
-  text.style['-webkit-user-select'] = start ? 'text' : 'none'
-
-If remove is true, clean up empty div's and remove the item if it ends up empty.
-:@normalize_text_item
-  remove\b\$
-  if !@selection.is_head_text
-    =>
-  sel := @selection.head
-  sel.normalize()
-  // Remove end spaces from all the text nodes.
-  eachChild(sel, ##)
-    div\Element\$
-    div.innerText = @trim_end_whitespace(div.innerText)
-  // Remove empty first and last elements.
-  if remove
-    while sel.firstChild && sel.firstChild.innerText == ''
-      sel.removeChild(sel.firstChild)
-    while sel.lastChild && sel.lastChild.innerText == ''
-      sel.removeChild(sel.lastChild)
-  // Re-insert br tag to now empty div's.
-  eachChild(sel, ##)
-    div\Element\$
-    if div.innerText == ''
-      div.appendChild(create('br'))
-  // Remove the element if there's nothing left.
-  if remove && sel.childNodes.length == 0
-    @selection.clear()
-    sel.blur()
-    f_item_list.remove(sel)
-
-:@split_textbox
-  if !@selection.is_head_text
-    =>
-  sel := @selection.head
-  cursor := window.getSelection()
-
-  // Find the div the cusor is in now.
-  until_children := ##
-    node\Element\$
-    pred\F\$
-    i := 0
-    while i < node.childNodes.length
-      if pred(node.childNodes[i])
-        => i
-      i++
-    => -1
-  remove_and_convert_rest_to_str := ##
-    node\Element\$
-    index\n\$
-    str := ''
-    i := index
-    while i < node.childNodes.length
-      c := node.childNodes[i]
-      str += node_text(c)
-      node.removeChild(c)
-    => str
-  newstr := ''
-  cursor_div_index := until_children(sel, ##)
-    c\Element\$
-    if c == cursor.anchorNode
-      newstr = remove_and_convert_rest_to_str(c, cursor.anchorOffset)
-      => true
-    if c == cursor.anchorNode.parentNode
-      cursor_elem_index := until_children(c, ##)
-        cc\Element\$
-        if cc == cursor.anchorNode
-          newstr = cc.nodeValue.substr(cursor.anchorOffset)
-          cc.nodeValue = cc.nodeValue.substr(0, cursor.anchorOffset)
-          => true
-        => false
-      newstr += remove_and_convert_rest_to_str(c, cursor_elem_index + 1)
-      => true
-    => false
-
-  // Move all the rest div's to a new item.
-  newtext := @make_text_item(newstr, sel)
-  i := cursor_div_index + 1
-  while i < sel.childNodes.length
-    c = sel.childNodes[i]
-    sel.removeChild(c)
-    newtext.appendChild(c)
-  f_item_list.append_end(newtext)
-
-  // Remove the previous item if there's no text now.
-  @make_editable(false)
-  @normalize_text_item(true)
-
-  // Activate the new item.
-  @selection.select(newtext)
-  @normalize_text_item(false)
-  @make_editable()
-  newtext.focus()
-  window.getSelection().collapse(newtext, 0)
-
-:@commit_textbox
-  if !@selection.is_head_text
-    =>
-  @make_editable(false)
-  @normalize_text_item(true)
-  f_dispatcher.set_mode('_')
-
-Make sure there is at least one div left when there is backspace in text
-edit mode.
-:@text_backspace
-  if !@selection.is_head_text
-    =>
-  sel := @selection.head
-  sel.normalize()
-  if sel.childNodes.length == 1 && sel.firstChild.tagName == 'BR'
-    sel.removeChild(sel.firstChild)
-  if sel.childNodes.length != 0
-    =>
-  sel.appendChild(@minimum_text_div())
-  window.getSelection().collapse(sel, 0)
-
-:@collapse_texts
-  // Collapse texts in y order.
-  elems := []
-  first_position := null
-  while @selection.is_any
-    f_item_list.top_in(@selection.list, ##)
-      item\Element\$
-      while item.firstChild
-        c := item.firstChild
-        item.removeChild(c)
-        elems.push(c)
-      if !first_position
-        first_position = [item.offsetLeft, item.offsetTop]
-      @selection.remove(item)
-      f_item_list.remove(item)
-
-  // Create an empty text item and add the elements.
-  newtext := @make_text_item('')
-  newtext.removeChild(newtext.firstChild)
-  elems.forEach(##)
-    elem\Element\$
-    newtext.appendChild(elem)
-  f_item_list.append_end(newtext)
-  newtext.style.left = first_position[0] + 'px'
-  newtext.style.top = first_position[1] + 'px'
-  @selection.select(newtext)
-
 
 ------------------------------------------------------------
 Image methods.
@@ -405,16 +195,14 @@ Image methods.
 
   // Activate.
   f_dispatcher.changeModeTo('d', [img], ##)
-    stencil\b\$
-    => @draw_end(\Image\(img), stencil)
+    params\O\$
+    => @draw_end(\Image\(img), params['alpha_lock'], params['stencil'])
 
 :@draw_end
   img\Image\$
+  alpha_lock\b\$
   stencil\b\? false
-  f_dispatcher.set_mode('_')
   img_spec := f_surface.image_spec(img)
-  alpha_lock := f_draw.alpha_lock()
-  f_draw.deactivate()
 
   if !img_spec
     // No image remaining.
@@ -440,18 +228,15 @@ Image methods.
   if !@selection.is_head_image
     =>
   img := @selection.head
-  f_dispatcher.set_mode('s')
   @selection.clear()
-  f_stencil.activate(null, ##)
-    action\s\$
-    @stencil_end(\Image\(img), action)
+  f_dispatcher.changeModeTo('s', [], ##)
+    params\s\$
+    @stencil_end(\Image\(img), params['action'])
 
 :@stencil_end
   img\Image\$
   action\s\$
-  f_dispatcher.set_mode('_')
   region_pixels := f_surface.pixels()
-  f_stencil.deactivate()
   @selection.select(img)
   if action != 'c' && action != 'x'
     // Canceled.
@@ -541,10 +326,10 @@ Key handler.
 
   // Transform.
   else if key == c('R')
-    f_dispatcher.set_mode('r')
+    f_dispatcher.changeModeTo('r')
     f_rotate.activate(@selection.head)
   else if key == c('T')
-    f_dispatcher.set_mode('r')
+    f_dispatcher.changeModeTo('r')
     f_scale.activate(@selection.head)
 
   // Copy the selected item.
@@ -561,11 +346,11 @@ Key handler.
 
   // Entering to the text mode.
   else if key == c('O')
-    @add_text(true)
+    @textEditor.add_text(true)
   else if key == c('I')
-    @add_text(false, true)
+    @textEditor.add_text(false, true)
   else if key == c('E')
-    @add_text(false)
+    @textEditor.add_text(false)
 
   // Draw / stencil mode change.
   else if key == c('D')

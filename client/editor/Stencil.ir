@@ -3,9 +3,8 @@
   ^()
 
 :activate
-  image\Image\$
-  cb\F\$
-  ^(image, cb)
+  image\O\$
+  ^(image)
   f_surface.set_opacity(0.3)
 
 :deactivate
@@ -23,13 +22,13 @@
 :dispatch
   evt\Event\$
   if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
-    @.deactivate_callback()
+    f_dispatcher.popMode()
 
   else if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('C')
-    @.deactivate_callback('c')
+    f_dispatcher.popMode({action:'c'})
 
   else if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('X')
-    @.deactivate_callback('x')
+    f_dispatcher.popMode({action:'x'})
 
   else
     ^(evt)

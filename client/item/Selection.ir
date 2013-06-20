@@ -1,4 +1,4 @@
-::ItemSelection
+::Selection
   @list+\A.<Element>\ []
 
 :is_any+\b\
