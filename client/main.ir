@@ -43,8 +43,8 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   f_cursor = &Cursor()
 
   textEditor := &editor.Text(item_selection)
-  f_dispatcher = &Dispatcher({#}, 'i')
-    'i': &editor.List(item_selection, textEditor)
+  f_dispatcher = &Dispatcher({#}, 'l')
+    'l': &editor.List(item_selection, textEditor)
     't': textEditor
     'r': &editor.Rotate()
     'q': &editor.Scale()

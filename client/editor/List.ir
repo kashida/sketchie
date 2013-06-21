@@ -1,22 +1,13 @@
-::List <%.Editor
+::<%.Editor
   @selection\item.Selection\$
   @textEditor\%.Text\$
   f_item_list.each(##)
-    item\Element\$
-    @bless_item(item)
+    e\Element\$
+    &%.Item(e, @selection)
 
 :@remove_selected
   f_item_list.remove(@selection.list)
   @selection.clear()
-
-:@bless_item
-  item\Element\$
-  item.setAttribute('active', '1')
-  item.dragger = &drag.Move(item)
-  listen(item, 'click', ##)
-    evt\Event\$
-    if item.getAttribute('active') && !evt.ctrlKey
-      @selection.select(item, evt.shiftKey)
 
 :@z_order_to_end
   send_back\b\$
@@ -165,7 +156,7 @@ Image methods.
     img.style['-webkit-transform'] = null
   else
     img = &Image()
-    @bless_item(img)
+    &%.Item(img, @selection)
   img.style.left = spec[0] + 'px'
   img.style.top = spec[1] + 'px'
   img.style['-webkit-user-select'] = 'none'

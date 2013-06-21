@@ -1,6 +1,8 @@
 ::Text <%.Editor
   @selection\item.Selection\$
 
+:deactivate
+
 :@trim_whitespace
   str\s\$
   => str.replace(/^\s+/, '').replace(/\s+$/, '')
@@ -180,7 +182,7 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
     y = ref_item.offsetTop + ref_item.clientHeight + 2
   text := create('div')
   text.appendChild(@minimum_text_div(str))
-  @bless_item(text)
+  &%.Item(text, @selection)
   @make_editable(false, text)
   text.style.left = x + 'px'
   text.style.top = y + 'px'
@@ -191,7 +193,7 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
     =>
   @make_editable(false)
   @normalize_text_item(true)
-  f_dispatcher.changeModeTo('_')
+  f_dispatcher.popMode()
 
 Make sure there is at least one div left when there is backspace in text
 edit mode.
