@@ -1,4 +1,4 @@
-::Rect < %.Stroke
+::< %.Stroke
 
 :reset
   color\A\$

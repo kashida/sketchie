@@ -1,4 +1,4 @@
-::ItemPalette < Palette
+::< Palette
   @selection\item.Selection\$
   @blend_alpha\Slider\ &Slider('item_alpha', 'blend alpha%', 0, 100, 100, 20)
   @alpha_lock\Element\ id('image_alph_alock')

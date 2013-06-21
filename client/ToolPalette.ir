@@ -1,4 +1,4 @@
-::ToolPalette < Palette
+::< Palette
   @lerp\Slider\ &Slider('tool_lerp', 'lerp%', 0, 100, 0, 20)
   @alpha\Slider\ &Slider('tool_alpha', 'alpha%', 0, 100, 100, 20)
   @radius\RadiusSlider\ &RadiusSlider('tool_radius', 'size', 1, 100, 1, 20)

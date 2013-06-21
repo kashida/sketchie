@@ -1,4 +1,4 @@
-::HexControl
+::
   @svg\Element\ id('control_root')
   @svg_root\Element\ svg_create('g')
   @controller\Slider\

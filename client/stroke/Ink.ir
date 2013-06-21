@@ -1,4 +1,4 @@
-::Ink < %.Stroke
+::< %.Stroke
   @points\A.<data.Point>\ []
 
 :reset

@@ -1,4 +1,4 @@
-::Draw < %.Image
+::< %.Image
 
 :<start_segment
   evt\Event\$

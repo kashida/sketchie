@@ -1,4 +1,4 @@
-::Dispatcher
+::
   @editors\O.<s, editor.Editor>\$
   @defaultMode\s\$
   @modes\A.<s>\ [@defaultMode]

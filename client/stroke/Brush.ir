@@ -1,4 +1,4 @@
-::Brush < %.Stroke
+::< %.Stroke
 
 :draw
   x\n\$

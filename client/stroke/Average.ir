@@ -1,4 +1,4 @@
-::Average < %.Stroke
+::< %.Stroke
 :draw
   x\n\$
   y\n\$

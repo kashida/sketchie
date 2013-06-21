@@ -1,4 +1,4 @@
-::UndoImage
+::
   @buffer\Element\ id('img_undolist')
   @.reset()
 

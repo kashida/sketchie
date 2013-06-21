@@ -1,4 +1,4 @@
-::Scale <%.Editor
+::<%.Editor
 
 :dispatch
   evt\Event\$

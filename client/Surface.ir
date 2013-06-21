@@ -1,5 +1,5 @@
 Convenience wrapper for the html canvas.
-::Canvas
+::
   // If two values, (width, height).  if one value, (canvas_element).
   // x and y, if provided, specify the logical position of this canvas in
   // document coords.

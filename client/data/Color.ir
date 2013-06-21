@@ -1,4 +1,4 @@
-::Color
+::
   // All in [0, 1] range.
   @r&\n\$
   @g&\n\$

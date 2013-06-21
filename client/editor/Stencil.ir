@@ -1,4 +1,4 @@
-::Stencil < %.Image
+::< %.Image
   @.stroke = 'R'
   ^()
 

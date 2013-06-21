@@ -1,4 +1,4 @@
-::Cursor
+::
   @last_p\data.Point\
   @cursor\Element\ id('draw_cursor')
 

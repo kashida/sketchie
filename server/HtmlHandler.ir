@@ -12,7 +12,7 @@
   <script>run_scrawler();</script>
 
 
-::HtmlHandler
+::
   @ctxt\RequestContext\$
 
 :post

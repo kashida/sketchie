@@ -1,4 +1,4 @@
-::Smudge < %.Stroke
+::< %.Stroke
 :reset
   color\A\$
   radius\n\$
