@@ -1,0 +1,13 @@
+::
+  @elem\Element\$
+  @selection\item.Selection\$
+  @bless_item()
+
+:@bless_item
+  @elem.item = @
+  @elem.setAttribute('active', '1')
+  @elem.dragger = &drag.Move(@elem)
+  listen(@elem, 'click', ##)
+    evt\Event\$
+    if @elem.getAttribute('active') && !evt.ctrlKey
+      @selection.select(@elem, evt.shiftKey)
