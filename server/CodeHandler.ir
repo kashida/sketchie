@@ -10,7 +10,7 @@ Possibly compile ir to js and serve.
   path := path_re[1]
 
   try
-    _ir2js.compileFiles('client', [#], 'compiled/client')
+    _ir2js.compileFiles('client', [#], 'compiled/client', true)
       _path.join('client', path.replace(/\.js$/, '.ir'))
   catch e
     log(e)

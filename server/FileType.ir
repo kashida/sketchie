@@ -17,4 +17,4 @@
     =>
   @mime = ext_to_type[@ext][0]
   @format = ext_to_type[@ext][1]
-  log('> ' + path + ':' + @mime)
+  //log('> ' + path + ':' + @mime)
