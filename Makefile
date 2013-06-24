@@ -71,6 +71,9 @@ $(SERVER_PKG):
 ############################################################
 # Main targets.
 
+sort:
+	@echo "$(shell $(SORTJS) $(CLIENT_JS))"
+
 compiled/_scrawler.js: $(CLIENT_JS) $(CLIENT_PKG)
 	@echo '===== VERIFY client: compiling'
 	java $(CLOSURE_ARGS) --js_output_file $@ --js $(CLIENT_PKG) \

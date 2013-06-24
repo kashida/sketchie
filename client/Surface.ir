@@ -1,62 +1,5 @@
-Convenience wrapper for the html canvas.
-::
-  // If two values, (width, height).  if one value, (canvas_element).
-  // x and y, if provided, specify the logical position of this canvas in
-  // document coords.
-  canvas_or_w\HTMLCanvasElement|n\$
-  h\n\?
-  @canvas+\HTMLCanvasElement\
-  @ctx+\CanvasRenderingContext2D\
-  if h
-    @canvas = create('canvas')
-    @canvas.width = canvas_or_w
-    @canvas.height = h
-  else
-    @canvas = \HTMLCanvasElement\(canvas_or_w)
-  @ctx = @canvas.getContext('2d')
-  @scale = 1.0
-
-:clear
-  @ctx.clearRect(0, 0, @canvas.width, @canvas.height)
-
-:data_url
-  => @canvas.toDataURL()
-
-:@set_scale
-  scale\n\$
-  @scale = scale
-  @canvas.width = @canvas.clientWidth / @scale
-  @canvas.height = @canvas.clientHeight / @scale
-
-:pixels
-  => @ctx.getImageData(0, 0, @canvas.width, @canvas.height)
-
-:@copy_image
-  img\Image\$
-  if !img
-    =>
-  xform_draw_image(#)
-    @ctx
-    img
-    f_viewport.item_to_surface(elem_position(img))
-
-:duplicate_canvas
-  cvs := create('canvas')
-  cvs.width = @canvas.width
-  cvs.height = @canvas.height
-  cvs.getContext('2d').putImageData(@.pixels(), 0, 0)
-  => cvs
-
-:copy_canvas
-  cvs\HTMLCanvasElement\$
-  @ctx.putImageData(cvs.getContext('2d').getImageData(#), 0, 0)
-    0
-    0
-    @canvas.width
-    @canvas.height
-
 Canvas that's fixed to the viewport size.
-::Surface <Canvas
+::<Canvas
   canvas_or_w\HTMLCanvasElement|n\$
   h\n\?
   ^(canvas_or_w, h)
@@ -65,31 +8,31 @@ Canvas that's fixed to the viewport size.
   img\Image\$
   alpha_lock\b\$
   // Need to match the backing store resolution with screen resolution.
-  @canvas.style.display = 'block'
-  @set_scale(f_viewport.scale())
-  @copy_image(img)
+  @.canvas.style.display = 'block'
+  @.set_scale(f_viewport.scale())
+  @.copy_image(img)
   @.update_alpha_lock(alpha_lock)
 
 :update_alpha_lock
   alpha_lock\b\$
-  @ctx.globalCompositeOperation = alpha_lock ? 'source-atop' : 'source-over'
+  @.ctx.globalCompositeOperation = alpha_lock ? 'source-atop' : 'source-over'
 
 :deactivate
   @.clear()
-  @canvas.style.display = 'none'
-  @ctx.globalCompositeOperation = ''
+  @.canvas.style.display = 'none'
+  @.ctx.globalCompositeOperation = ''
 
 Val is the opacity value [0, 1.0], but resets to default when null.
 :set_opacity
   val\s\$
-  @canvas.style.opacity = val
+  @.canvas.style.opacity = val
 
 Takes view coordinates and returns [r, g, b, a] array in [0, 255] range.
 :pick_color
   x\n\$
   y\n\$
   scale := f_viewport.scale()
-  pixels := @ctx.getImageData(x / scale, y / scale, 1, 1)
+  pixels := @.ctx.getImageData(x / scale, y / scale, 1, 1)
   d := pixels.data
   => [d[0], d[1], d[2], d[3]]
 
