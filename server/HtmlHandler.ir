@@ -30,26 +30,33 @@
     @ctxt.res.writeHead(200)
     @ctxt.response(200)
 
-:writePackageList
+:packageList\s\
   code\CodeHandler\$
-  @ctxt.res.write(#+)
+  => #+
     '<script>\n'
     code.pkgList.map(##).join('')
       line\s\$
       => line + '\n'
     '</script>\n'
 
-:writeScriptList
+:scriptList\s\
   code\CodeHandler\$
-  @ctxt.res.write(code.scriptList.map(##).join(''))
+  => code.scriptList.map(##).join('')
     file\s\$
     => '<script src="/_s/' + file + '"></script>\n'
+
+:replaceScript
+  html\s\$
+  code\CodeHandler\$
+  => html.replace('<!-- EDITOR_MARKER -->', #+) + script_load
+    @.packageList(code)
+    @.scriptList(code)
 
 :create
   code\CodeHandler\$
   @ctxt.res.writeHead(200, {'Content-Type': 'text/html'})
   @ctxt.res.write(header + footer)
-  @.writePackageList(code)
-  @.writeScriptList(code)
+  @ctxt.res.write(@.packageList(code))
+  @ctxt.res.write(@.scriptList(code))
   @ctxt.res.write(script_load)
   @ctxt.response(200)

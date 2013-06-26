@@ -1,5 +1,9 @@
 [TODO]
 fix save and open the page.
+  add marker when save.
+  make it start.
+
+server doesn't compile client from the clean state...
 
 fix item mode:
   selection control keys.

@@ -18,13 +18,17 @@
 
 :sendFile\b\
   input_file\s\$
+  replacer\f(s):s\?
   // Check if the input file exists.
   if !_path.existsSync(input_file)
     => false
 
   // Make a response.
   @res.writeHead(200, {'Content-Type': @.mime})
-  @res.write(_fs.readFileSync(input_file, @.format))
+  data := _fs.readFileSync(input_file, @.format)
+  if replacer
+    data = replacer(data)
+  @res.write(data)
   => true
 
 :response

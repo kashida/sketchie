@@ -14,19 +14,19 @@
   if !item || item == @.head
     =>
   if @.is_any
-    @.head.className = ''
+    @.head.classList = []
   if push_to_list
     if @.is_any
-      @.head.className = 'selected_secondary'
+      @.head.classList.add('selected_secondary')
     if @list.indexOf(item) >= 0
       // Remove the item once.
       @list.splice(@list.indexOf(item), 1)
   else
     // Clean up all the selection from the list.
     each i in @list
-      i.className = ''
+      i.classList = []
     @list = []
-  item.className = 'selected'
+  item.classList.add('selected')
   @list.unshift(item)
   f_item_palette.update()
 
@@ -36,16 +36,16 @@
   if !item || @list.indexOf(item) >= 0
     =>
   if @.is_any
-    item.className = 'selected_secondary'
+    item.classList.add('selected_secondary')
     @list.push(item)
   else
-    item.className = 'selected'
+    item.classList.add('selected')
     @list = [item]
     f_item_palette.update()
 
 :remove
   item\Element\$
-  item.className = ''
+  item.classList = []
   i := 0
   while i < @list.length
     if @list[i] == item
@@ -56,7 +56,7 @@
 
 :clear
   each item in @list
-    item.className = ''
+    item.classList = []
   @list = []
   f_item_palette.close()
 

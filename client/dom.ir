@@ -1,6 +1,6 @@
 :::id = ##
   str\s\$
-  => document.getElementById(str)
+  => document.getElementsByClassName(str)[0]
 
 :::create = ##
   tag\s\$
@@ -22,9 +22,9 @@
   children\A.<Element>\?
   div := create('div', null, children)
   if name
-    div.setAttribute('id', name)
+    div.classList.add(name)
   if class_name
-    div.setAttribute('class', class_name)
+    div.classList.add(class_name)
   => div
 
 :::create_text = ##
@@ -50,8 +50,8 @@
   tag\s\$
   attrs\O\$
   children\A.<Element>\?
-  if attrs.id
-    elem := document.getElementById(attrs.id)
+  if attrs['class']
+    elem := id(attrs['class'])
     if elem
       elem.parentNode.removeChild(elem)
       => elem
@@ -59,8 +59,8 @@
   => elem
 
 :::remove_named_div = ##
-  id\s\$
-  elem := document.getElementById(id)
+  cls\s\$
+  elem := id(cls)
   if !elem
     =>
   elem.parentNode.removeChild(elem)

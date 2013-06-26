@@ -48,11 +48,13 @@
 
 :unselect
   if @color_sel instanceof Element
-    @color_sel.className = 'color_sel_unselected'
+    @color_sel.classList.add('color_sel_selected')
+    @color_sel.classList.remove('color_sel_unselected')
 
 :select
   if @color_sel instanceof Element
-    @color_sel.className = 'color_sel_selected'
+    @color_sel.classList.add('color_sel_selected')
+    @color_sel.classList.remove('color_sel_unselected')
 
 :@current_color\data.Hsl\
   if @color_sel instanceof Element
@@ -129,7 +131,8 @@
   @lgt.reset()
   @prev_color = @current_color()
   if @color_sel instanceof Element
-    @color_sel.className = 'color_sel_unselected'
+    @color_sel.classList.add('color_sel_unselected')
+    @color_sel.classList.remove('color_sel_selected')
   @color_sel = hsl
   id('color_name').innerText = '---'
   @update()
@@ -199,7 +202,8 @@
     elem := create('div')
     elem.color_name = c[1]
     elem.style['background-color'] = '#' + c[0]
-    elem.className = 'color_sel_unselected'
+    elem.classList.add('color_sel_unselected')
+    elem.classList.remove('color_sel_selected')
     c_values := [0, 1, 2].map(##)
       j\n\$
       => parseInt(c[0].substr(j * 2, 2), 16)
@@ -212,16 +216,19 @@
       @lgt.reset()
       @prev_color = @current_color()
       if @color_sel instanceof Element
-        @color_sel.className = 'color_sel_unselected'
+        @color_sel.classList.add('color_sel_unselected')
+        @color_sel.classList.remove('color_sel_selected')
       @color_sel = \Element\(evt.target)
       cname.innerText = @color_sel.color_name
-      @color_sel.className = 'color_sel_selected'
+      @color_sel.classList.add('color_sel_selected')
+      @color_sel.classList.remove('color_sel_unselected')
       @update()
     csel.appendChild(elem)
     if i == 0
       // Select the first one.
       cname.innerText = c[1]
-      elem.className = 'color_sel_selected'
+      elem.classList.add('color_sel_selected')
+      elem.classList.remove('color_sel_unselected')
       @color_sel = elem
       @prev_color = @current_color()
   @update()

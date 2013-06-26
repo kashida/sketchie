@@ -145,12 +145,12 @@
   range_min\n\$
   range_max\n\$
   init_value\n\$
-  label := create('div', {id: name + '_label', class: 'box'})
+  label := create('div', {class: 'box ' + name + '_label'})
   label.innerText = init_value
   control_div := create('div', null, [#])
     create_text(title + ': ')
     label
   box := id(name)
-  box.className = 'control_box'
+  box.classList.add('control_box')
   box.appendChild(control_div)
   => [box, label]

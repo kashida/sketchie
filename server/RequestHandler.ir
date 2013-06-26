@@ -16,10 +16,11 @@ Lazy create the sub-handlers.
 
 :@sendFile\b\
   input_file\s\$
-  if !@ctxt.sendFile(input_file)
+  replacer := @ctxt.mime == 'text/html' ? ## : undefined
+    text\s\$
+    => @.html.replaceScript(text, @.code)
+  if !@ctxt.sendFile(input_file, replacer)
     => false
-  if @ctxt.mime == 'text/html'
-    @.html.writeScriptList(@.code)
   @ctxt.response(200)
   => true
 

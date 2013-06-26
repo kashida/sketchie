@@ -70,7 +70,11 @@ upload: ->
 Server access.
 :upload
   // Send everything in the item list.
-  html := '<div id="itemlist">' + id('itemlist').innerHTML + '</div>'
+  html := #+
+    '<!-- EDITOR_MARKER -->'
+    '<div class="itemlist">'
+    id('itemlist').innerHTML
+    '</div>'
   if @run_as_extension
     bb := &WebKitBlobBuilder()
     bb.append(save_header)
@@ -89,16 +93,16 @@ Server access.
 
 :@build_dom
   append_children(document.body, [#])
-    find_or_create('div', {id: 'itemlist', 'class': 'itemlist'})
-    create('canvas', {id: 'surface'})
-    create('canvas', {id: 'stroke_layer'})
+    find_or_create('div', {class: 'itemlist'})
+    create('canvas', {class: 'surface'})
+    create('canvas', {class: 'stroke_layer'})
     create_div('draw_cursor')
-    svg_create('svg', {id: 'control_root'})
+    svg_create('svg', {class: 'control_root'})
     create_div('input_layer')
     create('form', {}, [create_div(undefined, 'palette_container', [#])])
       create_div('tool_palette', 'palette', [#])
         create_div('sample_box', undefined, [#])
-          create('canvas', {id: 'tool_sample'})
+          create('canvas', {class: 'tool_sample'})
           create_div('sample_size')
         create_div('tool_lerp')
         create_div('tool_alpha')
@@ -119,7 +123,7 @@ Server access.
         create_div('image_section', 'palette', [#])
           create_div(undefined, 'box', [#])
             create_div(undefined, 'box', [#])
-              create('input', {id: 'image_alph_alock', type: 'checkbox'})
+              create('input', {class: 'image_alph_alock', type: 'checkbox'})
               create_text('alpha lock')
     create_div('img_undolist')
 
