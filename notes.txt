@@ -1,5 +1,5 @@
 [TODO]
-clean up use of classList.
+make doesn't compile after failed compilation.
 
 server doesn't compile client from the clean state...
 

@@ -77,7 +77,8 @@ sort:
 compiled/_scrawler.js: $(CLIENT_JS) $(CLIENT_PKG)
 	@echo '===== VERIFY client: compiling'
 	java $(CLOSURE_ARGS) --js_output_file $@ --js $(CLIENT_PKG) \
-	$(addprefix --js ,$(shell $(SORTJS) $(CLIENT_JS)))
+	$(addprefix --js ,$(shell $(SORTJS) $(CLIENT_JS))) || \
+  rm $@
 
 serve: compiled/server.js
 	NODE_PATH=~/ir2js/saved $(NODE) $^
@@ -89,7 +90,8 @@ compiled/server.js: compiled/_server.js
 compiled/_server.js: $(SERVER_JS) $(SERVER_PKG)
 	@echo '===== VERIFY server: compiling'
 	java $(CLOSURE_ARGS) --js_output_file $@ --js $(SERVER_PKG) \
-	$(addprefix --js ,$(shell $(SORTJS) $(SERVER_JS)))
+	$(addprefix --js ,$(shell $(SORTJS) $(SERVER_JS))) || \
+  rm $@
 
 # TODO: make the rest work.
 chrome/background.js: server/background.coffee
