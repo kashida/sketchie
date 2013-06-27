@@ -98,17 +98,15 @@ body {
   box-shadow: 0px 1px 7px #222;
   display: none;
 }
-#color_sel div {
+.color_sel div {
   display: inline-block;
   margin: 3px 3px 3px 3px;
   height: 30px;
   width: 30px;
-}
-.color_sel_selected {
-  box-shadow: inset 1px 2px 7px #222;
-}
-.color_sel_unselected {
   box-shadow: 1px 2px 7px #222;
+}
+.color_sel div.selected {
+  box-shadow: inset 1px 2px 7px #222;
 }
 #tool_sample {
   width: 50px;

@@ -17,14 +17,15 @@
   => elem
 
 :::create_div = ##
-  name\s\?
-  class_name\s\?
+  cls\s|A.<s>\$
   children\A.<Element>\?
   div := create('div', null, children)
-  if name
-    div.classList.add(name)
-  if class_name
-    div.classList.add(class_name)
+  if cls instanceof Array
+    cls.forEach(##)
+      c\s\$
+      div.classList.add(c)
+  else
+    div.classList.add(cls)
   => div
 
 :::create_text = ##
@@ -140,4 +141,4 @@
   el\Element\$
   cb\f(Element,n)\$
   for i := 0; i < el.childNodes.length; i++
-    cb(el, i)
+    cb(el.childNodes[i], i)
