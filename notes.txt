@@ -1,6 +1,5 @@
 [TODO]
 fix item mode:
-  selection control keys.
   z control keys.
   item rotate mode.
   translate mode.

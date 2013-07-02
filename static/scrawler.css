@@ -52,10 +52,10 @@ body {
       0px 0px 2px 3px rgba(120, 240, 100, 0.3)
 }
 .selected {
-  background-color: rgba(130, 180, 170, 0.35);
+  background-color: rgba(130, 180, 170, 0.5);
 }
 .selected_secondary {
-  background-color: rgba(130, 180, 170, 0.1);
+  background-color: rgba(130, 180, 170, 0.35);
 }
 #surface {
   position: fixed;

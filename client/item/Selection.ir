@@ -14,7 +14,7 @@
   if !item || item == @.head
     =>
   if @.is_any
-    @.head.classList = []
+    @.head.className = null
   if push_to_list
     if @.is_any
       @.head.classList.add('selected_secondary')
@@ -24,7 +24,7 @@
   else
     // Clean up all the selection from the list.
     each i in @list
-      i.classList = []
+      @list[i].className = null
     @list = []
   item.classList.add('selected')
   @list.unshift(item)
@@ -45,7 +45,7 @@
 
 :remove
   item\Element\$
-  item.classList = []
+  item.className = null
   i := 0
   while i < @list.length
     if @list[i] == item
@@ -56,7 +56,7 @@
 
 :clear
   each item in @list
-    item.classList = []
+    item.className = null
   @list = []
   f_item_palette.close()
 

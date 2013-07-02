@@ -1,4 +1,4 @@
-item mode:
+list (default) mode:
   enter text mode.
   'o' enter text.
   'i' edit selected text with cursor beginning of the text.
@@ -17,6 +17,11 @@ item mode:
 
   'd' go to draw mode.
   's' go to stencil mode.
+
+  'k' move selection to item above.
+  'j' move selection to item below.
+  shift + 'k' expand selection up.
+  shift + 'j' expand selection down.
 
   shift+'u' go up to the list page.
 
