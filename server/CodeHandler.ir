@@ -9,15 +9,20 @@ Possibly compile ir to js and serve.
     => false
   path := path_re[1]
 
-  try
-    _ir2js.compileFiles('client', [#], 'compiled/client', true)
-      _path.join('client', path.replace(/\.js$/, '.ir'))
-  catch e
-    log(e)
+  @compile([path.replace(/\.js$/, '.ir')])
   if @ctxt.sendFile(_path.join('compiled/client', path))
     @ctxt.response(200)
     => true
   => false
+
+:@compile
+  files\A.<s>\$
+  try
+    _ir2js.compileFiles('client', files.map(##), 'compiled/client', true)
+      file\s\$
+      => _path.join('client', file)
+  catch e
+    log(e)
 
 :@findAllIr
   dir\s\? ''
@@ -40,10 +45,12 @@ Cached list of all ir files.
 
 List of JS package declarations.
 :pkgList+\A.<s>\
+  @compile(@.allIr)
   => _ir2js.createPackageList('', @.allIr)
 
 JS file list. Paths are relative from compiled/client/.
 :scriptList+\A.<s>\
+  @compile(@.allIr)
   => _ir2js.createSortedList(@.allIr.map(##)).map(##)
     file\s\$
     => 'compiled/client/' + file.replace(/\.ir$/, '.js')

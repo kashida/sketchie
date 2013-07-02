@@ -1,8 +1,4 @@
 [TODO]
-make doesn't compile after failed compilation.
-
-server doesn't compile client from the clean state...
-
 fix item mode:
   selection control keys.
   z control keys.
