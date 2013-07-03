@@ -4,11 +4,9 @@ fix client code to run.
   add todos here.
 
 fix item mode:
-  selection control keys.
-    escape, hold and unhold.
-  z control keys.
   item rotate mode.
   translate mode.
+  item drag doesn't drag the item -- but it moves.
   open palette.
   alpha control keys.
   merge items.
@@ -19,16 +17,16 @@ scale mode:
 image mode:
 stencile mode:
 
+change key modifier from shift to control.
+  probably need to stop propagate the key events.
 
-make item primary selection clearer.
+make item primary selection clearer in css.
 
-item drag doesn't drag the item -- but it moves.
+method names to camel case?
 
 tests:
   based on undo-redo command buffer?
   command list interleaved with asserts.
-
-method names to camel case?
 
 save:
   save doen message.

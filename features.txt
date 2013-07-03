@@ -22,6 +22,13 @@ list (default) mode:
   'j' move selection to item below.
   shift + 'k' expand selection up.
   shift + 'j' expand selection down.
+  'h' toggles the hold of the item (no mouse actions).
+  shift + 'h' unholds all items.
+
+  'v' sends item to farthest z.
+  shift + 'v' bring item to nearest z.
+  'n' sends item to farther than any overlapped items in z.
+  shift + 'n' bring item to nearer than any overlapped items in z.
 
   shift+'u' go up to the list page.
 
