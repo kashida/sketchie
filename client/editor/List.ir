@@ -28,7 +28,7 @@
   found := false
   f_item_list.until(send_back, ##)
     item\Element\$
-    if item in @selection.list
+    if @selection.is_selected(item)
       found_selected.push(item)
     else if found_selected.length > 0
       to_move.push(item)

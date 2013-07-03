@@ -1,5 +1,11 @@
 [TODO]
+fix client code to run.
+  document features at the same time.
+  add todos here.
+
 fix item mode:
+  selection control keys.
+    escape, hold and unhold.
   z control keys.
   item rotate mode.
   translate mode.
@@ -7,12 +13,27 @@ fix item mode:
   alpha control keys.
   merge items.
   zoom to show all -- shift+'0'.
+text mode:
+rotate mode:
+scale mode:
+image mode:
+stencile mode:
 
-fix client code to run.
-  document features at the same time.
-  add todos here.
 
-auto-save.
+make item primary selection clearer.
+
+item drag doesn't drag the item -- but it moves.
+
+tests:
+  based on undo-redo command buffer?
+  command list interleaved with asserts.
+
+method names to camel case?
+
+save:
+  save doen message.
+  leave page w/o save warning.
+  auto-save.
 
 chrome extension / app packaging.
 

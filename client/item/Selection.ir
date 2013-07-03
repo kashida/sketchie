@@ -1,4 +1,6 @@
 ::
+  // TODO: take item.List as param and use the classes to mark selected items.
+  // so we don't need an array here.
   @list+\A.<Element>\ []
 
 :is_any+\b\
@@ -7,6 +9,12 @@
   => @list.length
 :head+\Element\
   => @list.length <= 0 ? null : @list[0]
+
+:is_selected\b\
+  item\Element\$
+  => #||
+    item.classList.contains('selected')
+    item.classList.contains('selected_secondary')
 
 :select
   item\Element\$
@@ -55,7 +63,8 @@
   f_item_palette.update()
 
 :clear
-  each item in @list
+  @list.forEach(##)
+    item\Element\$
     item.className = null
   @list = []
   f_item_palette.close()

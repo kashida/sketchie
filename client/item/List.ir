@@ -155,7 +155,7 @@
 :::overlap_with_any = ##
   item\Element\$
   regions\A.<Element>\$
-  regions.forEach(##)
+  => regions.some(##)
     r\Element\$
     // TODO: consider rotation and scaling.
     x := item.offsetLeft
@@ -166,6 +166,4 @@
     ry := r.offsetTop
     rw := r.offsetWidth
     rh := r.offsetHeight
-    if x + w > rx && x < rx + rw && y + h > ry && y < ry + rh
-      => true
-  => false
+    => x + w > rx && x < rx + rw && y + h > ry && y < ry + rh
