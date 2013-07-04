@@ -4,16 +4,18 @@ fix client code to run.
   add todos here.
 
 fix item mode:
-  item rotate mode.
-  translate mode.
-  item drag doesn't drag the item -- but it moves.
   open palette.
   alpha control keys.
   merge items.
   zoom to show all -- shift+'0'.
 text mode:
-rotate mode:
-scale mode:
+  escape w/o typing cases exception.
+drag rotate mode:
+  doesn't seem to do anything.
+drag scale mode:
+  doesn't seem to do anything.
+drag move mode:
+  item drag doesn't drag the item -- but it moves.
 image mode:
 stencile mode:
 
@@ -23,6 +25,12 @@ change key modifier from shift to control.
 make item primary selection clearer in css.
 
 method names to camel case?
+
+smooth scroll viewport translate with arrow keys in list mode.
+  css animation?
+
+move the script tags to header.
+  and do anything else possible to clean up the dom structure.
 
 tests:
   based on undo-redo command buffer?

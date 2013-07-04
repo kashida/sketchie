@@ -1,31 +1,36 @@
 ::
-  @.deactivate()
+  @elem\Element\
+  @center\data.Point\
+  @startScale\data.Point\
+  @startDist\n?\
 
 :activate
   item\Element\$
   @elem = item
-  @center_x = item.offsetLeft + item.offsetWidth / 2.0
-  @center_y = item.offsetTop + item.offsetHeight / 2.0
-  @start_x = @start_y = null
-  @start_sx = attr(item, 'xf_sx') || 1.0
-  @start_sy = attr(item, 'xf_sy') || 1.0
+  @center = &data.Point(#)
+    item.offsetLeft + item.offsetWidth / 2.0
+    item.offsetTop + item.offsetHeight / 2.0
+  @start = null
+  @startScale = &data.Point(#)
+    attr(item, 'xf_sx') || 1.0
+    attr(item, 'xf_sy') || 1.0
   f_dispatcher.drag_start(@)
 
 :deactivate
   @elem = null
-  @center_x = @center_y = null
-  @start_dist = @start_dist = null
+  @center = null
+  @startDist = null
   @start_sx = @start_sy = null
   f_dispatcher.drag_terminate()
 
 :drag_update
   evt\Event\$
-  dx := evt.clientX - @center_x
-  dy := evt.clientY - @center_y
+  dx := evt.clientX - @center.x
+  dy := evt.clientY - @center.y
   dist := Math.sqrt(dx * dx + dy * dy)
-  if !@start_dist
-    @start_dist = dist / (attr(@elem, 'xf_s') || 1)
+  if !@startDist
+    @startDist = dist / (attr(@elem, 'xf_s') || 1)
     => false
-  set_attr(@elem, 'xf_s', String(dist / @start_dist))
+  set_attr(@elem, 'xf_s', String(dist / @startDist))
   set_xform(@elem)
   => false

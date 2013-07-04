@@ -30,6 +30,9 @@ list (default) mode:
   'n' sends item to farther than any overlapped items in z.
   shift + 'n' bring item to nearer than any overlapped items in z.
 
+  'r' takes to the rotate item mode.
+  't' takes to the scale item mode.
+
   shift+'u' go up to the list page.
 
 text mode:

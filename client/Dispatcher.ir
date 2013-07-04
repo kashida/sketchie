@@ -148,3 +148,4 @@ Currently selected editor.
     f_hex_control.deactivate()
     =>
   @.editor.dispatch(evt)
+  // esc or 'A' key to pop mode.

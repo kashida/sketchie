@@ -2,7 +2,6 @@
   @elem\Element\
   @center\data.Point\
   @start_theta\?n\
-  @.deactivate()
 
 :activate
   item\Element\$

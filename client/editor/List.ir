@@ -318,10 +318,8 @@ Key handler.
   // Transform.
   else if key == c('R')
     f_dispatcher.changeModeTo('r')
-    f_rotate.activate(@selection.head)
   else if key == c('T')
-    f_dispatcher.changeModeTo('r')
-    f_scale.activate(@selection.head)
+    f_dispatcher.changeModeTo('q')
 
   // Copy the selected item.
   else if key == c('C')
