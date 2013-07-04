@@ -4,7 +4,6 @@ fix client code to run.
   add todos here.
 
 fix item mode:
-  open palette.
   alpha control keys.
   merge items.
   zoom to show all -- shift+'0'.
@@ -31,6 +30,9 @@ smooth scroll viewport translate with arrow keys in list mode.
 
 move the script tags to header.
   and do anything else possible to clean up the dom structure.
+
+organize all the controls (specially the list mode).
+  keep the key control as shortcut, but add mouse controls.
 
 tests:
   based on undo-redo command buffer?

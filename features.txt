@@ -33,6 +33,8 @@ list (default) mode:
   'r' takes to the rotate item mode.
   't' takes to the scale item mode.
 
+  space to toggle palette display.
+
   shift+'u' go up to the list page.
 
 text mode:

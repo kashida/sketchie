@@ -31,4 +31,4 @@
   sec_id\s\$
   @sections[sec_id].style.display = 'none'
 
-:update
+:@update
