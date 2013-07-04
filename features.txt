@@ -8,6 +8,7 @@ list (default) mode:
   'c' copy item.
   shift+'d' delete item.
   'x' toggle alpha lock.
+  '<' and '>' to adjust alpha up and down.
 
   viewport control.
   '-' zoom out.

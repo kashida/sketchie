@@ -35,9 +35,9 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   f_z_order = &item.ZOrder()
   f_surface = &Surface(id('surface'))
   f_stroke_layer = &Surface(id('stroke_layer'))
-  f_color_palette = &ColorPalette()
-  f_tool_palette = &ToolPalette()
-  f_item_palette = &ItemPalette(item_selection)
+  f_color_palette = &palette.Color()
+  f_tool_palette = &palette.Tool()
+  f_item_palette = &palette.Item(item_selection)
   f_cursor = &Cursor()
 
   textEditor := &editor.Text(item_selection)

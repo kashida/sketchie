@@ -1,4 +1,4 @@
-::< Palette
+::<%.Palette
   @lerp\Slider\ &Slider('tool_lerp', 'lerp%', 0, 100, 0, 20)
   @alpha\Slider\ &Slider('tool_alpha', 'alpha%', 0, 100, 100, 20)
   @radius\RadiusSlider\ &RadiusSlider('tool_radius', 'size', 1, 100, 1, 20)
@@ -12,7 +12,7 @@
   @radius.callback_update(update_cb)
   each tool in defaultParamSet
     val := defaultParamSet[tool]
-    @param_set[tool] = &BrushParam(tool, val[0], val[1], val[2])
+    @param_set[tool] = &%.BrushParam(tool, val[0], val[1], val[2])
   @load_param()
 
 :alpha

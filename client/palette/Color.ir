@@ -1,4 +1,4 @@
-::<Palette
+::<%.Palette
   @mix\Slider\ &Slider('color_mix', 'mix%', 0, 100, 0, 10)
   @hue\Slider\ &Slider('color_hue', 'hue%', -300, 300, 0, 10)
   @sat\Slider\ &Slider('color_sat', 'sat%', -100, 100, 0, 20)

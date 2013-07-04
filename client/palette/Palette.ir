@@ -10,7 +10,7 @@
 
 :@open
   @palette.style.display = 'block'
-  @update()
+  @.update()
   @is_active = true
 
 :close
@@ -31,4 +31,4 @@
   sec_id\s\$
   @sections[sec_id].style.display = 'none'
 
-:@update
+:update
