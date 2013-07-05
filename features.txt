@@ -1,25 +1,30 @@
 list (default) mode:
-  enter text mode.
+  mode changes.
+  'd' go to draw mode.
+  's' go to stencil mode.
   'o' enter text.
   'i' edit selected text with cursor beginning of the text.
   'e' edit selected text with cursor end of the text.
-  'm' merges items (need to have multiple items selected).
+
+  sub-modes.
+  'r' takes to the rotate item mode.
+  't' takes to the scale item mode.
 
   item control.
   'c' copy item.
   shift+'d' delete item.
   'x' toggle alpha lock.
   '<' and '>' to adjust alpha up and down.
+  'm' merges items (need to have multiple items selected).
 
   viewport control.
   '-' zoom out.
   '=' zoom in.
   '0' default zoom.
+  shift + '0' zoom to show all.
   arrow keys to move viewport.
 
-  'd' go to draw mode.
-  's' go to stencil mode.
-
+  selection.
   'k' move selection to item above.
   'j' move selection to item below.
   shift + 'k' expand selection up.
@@ -27,13 +32,11 @@ list (default) mode:
   'h' toggles the hold of the item (no mouse actions).
   shift + 'h' unholds all items.
 
+  z control.
   'v' sends item to farthest z.
   shift + 'v' bring item to nearest z.
   'n' sends item to farther than any overlapped items in z.
   shift + 'n' bring item to nearer than any overlapped items in z.
-
-  'r' takes to the rotate item mode.
-  't' takes to the scale item mode.
 
   space to toggle palette display.
 

@@ -69,23 +69,19 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   its_br := f_viewport.item_to_surface(elem_position_br(orig_img))
   imgx1 := its_br[0]
   imgy1 := its_br[1]
-  rect := union_rect([orig_img], pixels_rect, [[imgx0, imgy0, imgx1, imgy1]])
-  if !rect
+  u := union_rect([orig_img], pixels_rect, [[imgx0, imgy0, imgx1, imgy1]])
+  if !u
     => null
-  ux0 := rect[0]
-  uy0 := rect[1]
-  ux1 := rect[2]
-  uy1 := rect[3]
-  uw := ux1 - ux0 + 1
-  uh := uy1 - uy0 + 1
+  uw := u.w + 1
+  uh := u.h + 1
 
-  // New temp canvas, logically located at (ux0, uy0) in surface coords.
+  // New temp canvas, logically located at (u.x0, u.y0) in surface coords.
   cvs := &Canvas(uw, uh)
   ctx := cvs.ctx
-  xform_draw_image(ctx, orig_img, &data.Point(imgx0 - ux0, imgy0 - uy0))
-  ctx.clearRect(-ux0, -uy0, pixels.width, pixels.height)
-  ctx.putImageData(pixels, -ux0, -uy0, x0, y0, w, h)
-  => image_rect_spec(cvs.pixels(), null, ux0, uy0)
+  xform_draw_image(ctx, orig_img, &data.Point(imgx0 - u.x0, imgy0 - u.y0))
+  ctx.clearRect(-u.x0, -u.y0, pixels.width, pixels.height)
+  ctx.putImageData(pixels, -u.x0, -u.y0, x0, y0, w, h)
+  => image_rect_spec(cvs.pixels(), null, u.x0, u.y0)
 
 :::image_rect_spec = ##
   pixels\ImageData\$
@@ -155,10 +151,10 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   if images.length < 1
     => null
   ur := union_rect(images)
-  minx := ur[0]
-  miny := ur[1]
-  maxx := ur[2]
-  maxy := ur[3]
+  minx := ur.x0
+  miny := ur.y0
+  maxx := ur.x1
+  maxy := ur.y1
   w := maxx - minx + 1
   h := maxy - miny + 1
   cvs := &Canvas(w, h)
@@ -232,6 +228,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   => [minx, miny, maxx, maxy]
 
 :::union_rect = ##
+  \data.Rect\
   images\A.<Image>\$
   init_rect\A\?
   image_dimensions\A\? []
@@ -287,7 +284,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
         result[3] = y1
     else
       result = [x0, y0, x1, y1]
-  => result
+  => &data.Rect(result[0], result[1], result[2], result[3])
 
 :::intersect_pixel_region = ##
   pixels\ImageData\$

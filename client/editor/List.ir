@@ -329,6 +329,10 @@ Key handler.
   else if key == c('D') + shift
     @remove_selected()
 
+  // Merge items.
+  else if key == c('M')
+    @collapse_items()
+
   // Open / close the control palette.
   else if key == c(' ')
     f_item_palette.toggle()
@@ -354,10 +358,6 @@ Key handler.
   // Adjust the image blend alpha.
   else if key == DOM_VK_COMMA + shift || key == DOM_VK_PERIOD + shift
     f_item_palette.blend_alpha_adjust(evt.keyCode == DOM_VK_PERIOD)
-
-  // Merge items.
-  else if key == c('M')
-    @collapse_items()
 
   // Zoom in/out.
   else if key == DOM_VK_EQUALS

@@ -102,7 +102,7 @@ Change offset (but not scaling) to put the item in view.
 
 Change scaling and offset to put all the items in view.
 :show_all_items
-  r := union_rect(f_item_list.children)
+  r := union_rect(to_array(f_item_list.children))
   vw := @viewport.offsetWidth
   vh := @viewport.offsetHeight
   @scale = r.w / r.h > vw / vh ? vw / r.w : vh / r.h

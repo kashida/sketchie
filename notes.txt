@@ -3,10 +3,9 @@ fix client code to run.
   document features at the same time.
   add todos here.
 
-fix item mode:
-  zoom to show all -- shift+'0'.
 text mode:
-  escape w/o typing cases exception.
+  check if all keys work.
+  escape w/o typing causes exception.
 drag rotate mode:
   doesn't seem to do anything.
 drag scale mode:
@@ -14,7 +13,9 @@ drag scale mode:
 drag move mode:
   item drag doesn't drag the item -- but it moves.
 image mode:
+  check if all keys work.
 stencile mode:
+  check if all keys work.
 
 change key modifier from shift to control.
   probably need to stop propagate the key events.
@@ -31,6 +32,10 @@ move the script tags to header.
 
 organize all the controls (specially the list mode).
   keep the key control as shortcut, but add mouse controls.
+
+add translate mode in list editor.
+  treat it same as rotate and scale.
+  the default is click to select only.
 
 tests:
   based on undo-redo command buffer?

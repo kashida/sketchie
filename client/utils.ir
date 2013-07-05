@@ -1,34 +1,42 @@
-:::c = ##
+::c = ##
   str\s\$
   => str.charCodeAt(0)
 
-:::l = ##
+::l = ##
   str\s\$
   console.log(str)
 
-:::assert = ##
+::assert = ##
   condition\*\$
   console.assert(condition)
 
-:::inrange = ##
+::inrange = ##
   min\n\$
   max\n\$
   val\n\$
   => Math.min(max, Math.max(min, val))
 
-:::min_all = ##
+::min_all = ##
   nums\A.<n>\$
   n := null
   each val in nums
     n = n ? Math.min(n, val) : val
   => n
 
-:::max_all = ##
+::max_all = ##
   nums\A.<n>\$
   n := null
   each val in nums
     n = n ? Math.max(n, val) : val
   => n
+
+Convert array-like objects (e.g. from DOM) to an array.
+::to_array = ##
+  a\O\$
+  result := []
+  for i := 0; i < a.length; i++
+    result.push(a[i])
+  => result
 
 // Mozilla's virtual key code -- not defined in chrome...
 :
