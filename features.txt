@@ -3,6 +3,7 @@ list (default) mode:
   'o' enter text.
   'i' edit selected text with cursor beginning of the text.
   'e' edit selected text with cursor end of the text.
+  'm' merges items (need to have multiple items selected).
 
   item control.
   'c' copy item.
@@ -40,3 +41,4 @@ list (default) mode:
 
 text mode:
   esc get out.
+  shift-enter terminates the current text item and immediately starts a new one.

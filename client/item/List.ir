@@ -50,10 +50,13 @@
     => items.indexOf(item) >= 0
 
 :remove
-  items\A.<Element>\$
-  items.forEach(##)
-    item\Element\$
-    @list.removeChild(item)
+  items\Element|A.<Element>\$
+  if items instanceof Element
+    @list.removeChild(items)
+  else
+    items.forEach(##)
+      item\Element\$
+      @list.removeChild(item)
 
 :insert_first
   items\A.<Element>\$
@@ -62,10 +65,13 @@
     @list.insertBefore(item, @list.firstChild)
 
 :append_end
-  items\A.<Element>\$
-  items.forEach(##)
-    item\Element\$
-    @list.appendChild(item)
+  items\Element|A.<Element>\$
+  if items instanceof Element
+    @list.appendChild(items)
+  else
+    items.forEach(##)
+      item\Element\$
+      @list.appendChild(item)
 
 :insert_before
   pivot\Element\$

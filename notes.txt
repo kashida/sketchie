@@ -4,7 +4,6 @@ fix client code to run.
   add todos here.
 
 fix item mode:
-  merge items.
   zoom to show all -- shift+'0'.
 text mode:
   escape w/o typing cases exception.
