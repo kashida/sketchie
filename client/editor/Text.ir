@@ -150,7 +150,7 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
     @selection.select(text)
 
   @make_editable()
-  f_dispatcher.changeModeTo('t')
+  f_editor_modes.changeModeTo('t')
   window.getSelection().collapse(#)
     @selection.head
     cursor_top ? 0 :@selection.head.innerText.length
@@ -193,7 +193,7 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
     =>
   @make_editable(false)
   @normalize_text_item(true)
-  f_dispatcher.popMode()
+  f_editor_modes.popMode()
 
 Make sure there is at least one div left when there is backspace in text
 edit mode.

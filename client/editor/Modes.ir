@@ -1,0 +1,35 @@
+::
+  default_mode\s\$
+  @editors\O.<s, editor.Editor>\$
+  @modes\A.<s>\ [default_mode]
+  @callbacks\A.<F>\ []
+
+Current mode.
+:mode+\s\
+  assert(@modes.length > 0)
+  => @modes[@modes.length - 1]
+
+Currently selected editor.
+:editor+\editor.Editor\
+  => @editors[@.mode]
+  
+:changeModeTo
+  nextMode\s\$
+  activate_params\O\? {}
+  reactivate_cb\F\?
+  assert(nextMode != @.mode)
+  // TODO: Close all the palettes currently open.
+  //f_tool_palette.close()
+  //f_color_palette.close()
+  //f_item_palette.close()
+  @modes.push(nextMode)
+  @callbacks.push(reactivate_cb)
+  @.editor.activate(activate_params)
+
+:popMode
+  end_mode_params\O\$
+  @.editor.deactivate()
+  lastMode := @modes.pop()
+  cb := @callbacks[@callbacks.length - 1]
+  if cb
+    cb(end_mode_params)

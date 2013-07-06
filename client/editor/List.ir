@@ -185,7 +185,7 @@ Image methods.
   document.body.insertBefore(div, f_cursor.div())
 
   // Activate.
-  f_dispatcher.changeModeTo('d', [img], ##)
+  f_editor_modes.changeModeTo('d', [img], ##)
     params\O\$
     => @draw_end(\Image\(img), params['alpha_lock'], params['stencil'])
 
@@ -220,7 +220,7 @@ Image methods.
     =>
   img := @selection.head
   @selection.clear()
-  f_dispatcher.changeModeTo('s', [], ##)
+  f_editor_modes.changeModeTo('s', [], ##)
     params\s\$
     @stencil_end(\Image\(img), params['action'])
 
@@ -317,9 +317,9 @@ Key handler.
 
   // Transform.
   else if key == c('R')
-    f_dispatcher.changeModeTo('r')
+    f_editor_modes.changeModeTo('r')
   else if key == c('T')
-    f_dispatcher.changeModeTo('q')
+    f_editor_modes.changeModeTo('q')
 
   // Copy the selected item.
   else if key == c('C')

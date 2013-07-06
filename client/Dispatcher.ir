@@ -1,11 +1,7 @@
 ::
-  @editors\O.<s, editor.Editor>\$
-  @defaultMode\s\$
-  @modes\A.<s>\ [@defaultMode]
-  @callbacks\A.<F>\ []
+  @input_layer\Element\ id('input_layer')
   @drag_control\Element\
   @mouse_controls\A\ []
-  @input_layer\Element\ id('input_layer')
   @control_active\b\ false
     
   listen(@input_layer, 'mousedown', ##)
@@ -47,38 +43,8 @@
     @dispatch(evt)
   listen(document.body, 'paste', ##)
     evt\Event\$
-    if @.mode == 'i'
-      @.editor.paste_image(evt)
-
-Current mode.
-:mode+\s\
-  assert(@modes.length > 0)
-  => @modes[@modes.length - 1]
-
-Currently selected editor.
-:editor+\editor.Editor\
-  => @editors[@.mode]
-  
-:changeModeTo
-  nextMode\s\$
-  activate_params\O\? {}
-  reactivate_cb\F\?
-  assert(nextMode != @.mode)
-  // TODO: Close all the palettes currently open.
-  //f_tool_palette.close()
-  //f_color_palette.close()
-  //f_item_palette.close()
-  @modes.push(nextMode)
-  @callbacks.push(reactivate_cb)
-  @.editor.activate(activate_params)
-
-:popMode
-  end_mode_params\O\$
-  @.editor.deactivate()
-  lastMode := @modes.pop()
-  cb := @callbacks[@callbacks.length - 1]
-  if cb
-    cb(end_mode_params)
+    if f_editor_modes.mode == 'i'
+      f_editor_modes.editor.paste_image(evt)
 
 :set_control
   active\b\$
@@ -140,12 +106,13 @@ Currently selected editor.
 
 :@dispatch
   evt\Event\$
-  l(@.mode + ': "' + String.fromCharCode(evt.keyCode) + '"(' + evt.keyCode + ')')
+  l(f_editor_modes.mode + ': "' +
+  |String.fromCharCode(evt.keyCode) + '"(' + evt.keyCode + ')')
   if #&&
     evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
     @mouse_controls.length > 1
     --
     f_hex_control.deactivate()
     =>
-  @.editor.dispatch(evt)
+  f_editor_modes.editor.dispatch(evt)
   // esc or 'A' key to pop mode.

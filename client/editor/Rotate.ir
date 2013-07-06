@@ -9,4 +9,4 @@
   evt\Event\$
   if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
     @dragger.deactivate()
-    f_dispatcher.popMode()
+    f_editor_modes.popMode()

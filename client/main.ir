@@ -10,6 +10,7 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   f_item_palette := null
   f_cursor := null
   f_dispatcher := null
+  f_editor_modes := null
   f_hex_control := null
   f_z_order := null
 
@@ -41,13 +42,14 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   f_cursor = &Cursor()
 
   textEditor := &editor.Text(item_selection)
-  f_dispatcher = &Dispatcher({#}, 'l')
+  f_editor_modes = &editor.Modes('l', {#})
     'l': &editor.List(item_selection, textEditor)
     't': textEditor
     'r': &editor.Rotate(item_selection)
     'q': &editor.Scale(item_selection)
     'd': &editor.Draw()
     's': &editor.Stencil()
+  f_dispatcher = &Dispatcher()
   f_hex_control = &HexControl()
 
   f_brush_stroke = &stroke.Brush()

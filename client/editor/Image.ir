@@ -82,7 +82,7 @@
 :viewport_resize
   evt\Event\$
   // Same as cancel.
-  f_dispatcher.popMode()
+  f_editor_modes.popMode()
 
 :@draw_segment
   evt\Event\$
