@@ -1,0 +1,22 @@
+::
+  // Key control.
+  listen(document.body, 'keyup', ##)
+    evt\Event\$
+    @dispatch(evt)
+  listen(document.body, 'paste', ##)
+    evt\Event\$
+    if f_editor_modes.mode == 'i'
+      f_editor_modes.editor.paste_image(evt)
+
+:@dispatch
+  evt\Event\$
+  l(f_editor_modes.mode + ': "' +
+  |String.fromCharCode(evt.keyCode) + '"(' + evt.keyCode + ')')
+  if #&&
+    evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
+    f_dispatcher.mouse_control_length > 1
+    --
+    f_hex_control.deactivate()
+    =>
+  f_editor_modes.editor.dispatch(evt)
+  // esc or 'A' key to pop mode.

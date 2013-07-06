@@ -23,6 +23,10 @@ clean up:
   move the script tags to header.
     and do anything else possible to clean up the dom structure.
 
+  drop all :::.
+
+  split files > 100 lines.
+
 visual refine:
   make item primary selection visually clearer in css.
 
