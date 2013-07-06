@@ -3,9 +3,6 @@ fix client code to run.
   document features at the same time.
   add todos here.
 
-text mode:
-  check if all keys work.
-  escape w/o typing causes exception.
 drag rotate mode:
   doesn't seem to do anything.
 drag scale mode:
