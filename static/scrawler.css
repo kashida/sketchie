@@ -20,7 +20,7 @@ body {
   position: absolute;
   overflow: visible;
 }
-#input_layer {
+.input_layer {
   width: 100%;
   height: 100%;
   margin: 0px;
@@ -57,7 +57,7 @@ body {
 .selected_secondary {
   background-color: rgba(130, 180, 170, 0.35);
 }
-#surface {
+.surface {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -65,7 +65,7 @@ body {
   height: 100%;
   display: none;
 }
-#stroke_layer {
+.stroke_layer {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -73,7 +73,7 @@ body {
   height: 100%;
   display: none;
 }
-#draw_cursor {
+.draw_cursor {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -83,7 +83,7 @@ body {
   border-style: solid;
   border-color: #fa9;
 }
-#draw_cursor div {
+.draw_cursor div {
   margin-left: -1em;
   margin-top: -1em;
 }
@@ -108,7 +108,7 @@ body {
 .color_sel div.selected {
   box-shadow: inset 1px 2px 7px #222;
 }
-#tool_sample {
+.tool_sample {
   width: 50px;
   height: 50px;
 }
@@ -119,15 +119,15 @@ body {
   height: 30px;
   width: 30px;
 }
-#color_sample0 {
+.color_sample0 {
   border-style: double;
   border-color: #666;
 }
-#color_sample1 {
+.color_sample1 {
   border-style: solid;
   border-color: #bbb;
 }
-#sample_size {
+.sample_size {
   position: absolute;
   right: 0px;
   bottom: 0px;
@@ -145,10 +145,10 @@ body {
   background-color: #eec;
   border-style: solid;
 }
-#color_name {
+.color_name {
   margin-left: 5px;
 }
-#sample_box {
+.sample_box {
   display: inline-block;
   position: relative;
 }
@@ -161,10 +161,10 @@ body {
   margin-left: 10px;
   margin-right: 10px;
 }
-#img_undolist {
+.img_undolist {
   display: none;
 }
-#control_root {
+.control_root {
   z-index: 1004;
   position: fixed;
   display: none;
