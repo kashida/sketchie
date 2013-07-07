@@ -13,15 +13,7 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   f_editor_modes := null
   f_hex_control := null
   f_z_order := null
-
-  f_brush_stroke := null
-  f_pen_stroke := null
-  f_eraser_stroke := null
-  f_smudge_stroke := null
-  f_rect_stroke := null
-  f_average_stroke := null
-  f_ink_stroke := null
-  f_lasso_stroke := null
+  f_strokes := null
 
 ::Scrawler
   @run_as_extension\b\$
@@ -52,15 +44,7 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   f_dispatcher = &Dispatcher()
   &KeyDispatcher()
   f_hex_control = &HexControl()
-
-  f_brush_stroke = &stroke.Brush()
-  f_pen_stroke = &stroke.Pen()
-  f_eraser_stroke = &stroke.Eraser()
-  f_smudge_stroke = &stroke.Smudge()
-  f_rect_stroke = &stroke.Rect()
-  f_average_stroke = &stroke.Average()
-  f_ink_stroke = &stroke.Ink()
-  f_lasso_stroke = &stroke.Lasso()
+  f_strokes = &stroke.Set()
 
 upload: ->
   chrome.extension.sendRequest ['list'], (resp) ->

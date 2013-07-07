@@ -13,7 +13,7 @@
 
 :<start_segment
   evt\Event\$
-  @.get_stroke(f_tool_palette.tool()).reset(#)
+  f_strokes.get(f_tool_palette.tool()).reset(#)
     col_spec(200, 170, 70, 1.0)
     f_tool_palette.radius()
     f_tool_palette.lerp()

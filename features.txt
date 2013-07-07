@@ -42,6 +42,17 @@ list (default) mode:
 
   shift+'u' go up to the list page.
 
+draw mode:
+  esc get out.
+  'b' to toggle tool palette display.
+  'c' to toggle color palette display.
+  space to toggle previously opened palette display.
+
+
 text mode:
   esc get out.
   shift-enter terminates the current text item and immediately starts a new one.
+
+rotate / scale mode:
+  esc to get out.
+  mouse move to rotate / scale the primary selected item.

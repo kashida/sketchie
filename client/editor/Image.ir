@@ -87,23 +87,13 @@
 :@draw_segment
   evt\Event\$
   scale := f_viewport.scale()
-  @.get_stroke(f_tool_palette.tool()).draw(evt.clientX / scale, evt.clientY / scale)
+  f_strokes.get(f_tool_palette.tool()).draw(#)
+    evt.clientX / scale
+    evt.clientY / scale
 
 :@end_segment
   evt\Event\$
-  @.get_stroke(f_tool_palette.tool()).blit()
-
-:get_stroke\stroke.Stroke\
-  tool\s\$
-  => {#}[tool]
-    B: f_brush_stroke
-    P: f_pen_stroke
-    E: f_eraser_stroke
-    S: f_smudge_stroke
-    R: f_rect_stroke
-    A: f_average_stroke
-    I: f_ink_stroke
-    L: f_lasso_stroke
+  f_strokes.get(f_tool_palette.tool()).blit()
 
 :dispatch
   evt\Event\$
@@ -184,15 +174,14 @@
 
   else
     keystr := String.fromCharCode(evt.keyCode)
-    if keystr in brushKeys
-      new_stroke := brushKeys[keystr]
+    if keystr in %.Image.brushKeys
+      new_stroke := %.Image.brushKeys[keystr]
       if new_stroke != @stroke
         @prev_stroke = @stroke
         @stroke = new_stroke
         f_tool_palette.set_param(@stroke)
 
-:
-  brushKeys := {#}
+:brushKeys = {#}
     W: 'P'
     E: 'E'
     R: 'B'

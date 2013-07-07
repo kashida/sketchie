@@ -1,0 +1,14 @@
+::
+  @strokes\O.<%.Stroke>\ {#}
+    B: &stroke.Brush()
+    P: &stroke.Pen()
+    E: &stroke.Eraser()
+    S: &stroke.Smudge()
+    R: &stroke.Rect()
+    A: &stroke.Average()
+    I: &stroke.Ink()
+    L: &stroke.Lasso()
+
+:get\stroke.Stroke\
+  id\s\$
+  => @strokes[id]
