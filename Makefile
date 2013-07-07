@@ -108,3 +108,6 @@ ext: chrome/femto.js chrome/background.js
 
 clean:
 	rm -rf compiled
+
+cclean:
+	rm -rf compiled/client

@@ -3,10 +3,6 @@ fix client code to run.
   document features at the same time.
   add todos here.
 
-  drag rotate mode:
-    doesn't seem to do anything.
-  drag scale mode:
-    doesn't seem to do anything.
   drag move mode:
     item drag doesn't drag the item -- but it moves.
   image mode:
