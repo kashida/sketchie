@@ -6,22 +6,24 @@
     
   listen(@input_layer, 'mousedown', ##)
     evt\Event\$
-    @mouse_dispatch('mouse_down', evt)
+    @dispatch('mouse_down', evt)
   listen(@input_layer, 'mousemove', ##)
     evt\Event\$
-    @mouse_dispatch('mouse_move', evt)
+    @dispatch('mouse_move', evt)
   listen(@input_layer, 'mouseup', ##)
     evt\Event\$
-    @mouse_dispatch('mouse_up', evt)
+    @dispatch('mouse_up', evt)
   listen(@input_layer, 'mouseout', ##)
     evt\Event\$
-    @mouse_dispatch('mouse_out', evt)
+    @dispatch('mouse_out', evt)
   listen(@input_layer, 'mousein', ##)
     evt\Event\$
-    @mouse_dispatch('mouse_in', evt)
+    @dispatch('mouse_in', evt)
   listen(@input_layer, 'resize', ##)
     evt\Event\$
-    @mouse_dispatch('viewport_resize', evt)
+    @dispatch('viewport_resize', evt)
+
+  // TODO: replace these two with css rules.
   listen(@input_layer, 'dragstart', ##)
     evt\Event\$
     @cancel_events(evt)
@@ -41,7 +43,7 @@
   active\b\$
   @control_active = active
 
-:@mouse_dispatch
+:@dispatch
   msg\s\$
   evt\Event\$
   if @mouse_controls.length == 0

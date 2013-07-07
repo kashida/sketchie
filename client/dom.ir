@@ -79,7 +79,7 @@
   name\s\? ''
   handler := ##
     evt\Event\$
-    l("#{name}:#{evt.eventPhase}")
+    l(name + ':' + evt.eventPhase)
   listen(node, type, handler)
   listen(node, type, handler, true)
   for i := 0; i < node.childNodes.length; i++
@@ -121,10 +121,10 @@
   xforms := []
   r := attr(item, 'xf_r')
   if r
-    xforms.push("rotate(#{r}rad)")
+    xforms.push('rotate(' + r + 'rad)')
   s := attr(item, 'xf_s')
   if s
-    xforms.push("scale(#{s})")
+    xforms.push('scale(' + s + ')')
   item.style['-webkit-transform'] = xforms.join(' ')
 
 :::elem_position = ##

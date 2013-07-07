@@ -96,7 +96,7 @@
   set_attr(#)
     @svg_root
     'transform'
-    "translate(#{evt.clientX},#{evt.clientY})"
+    'translate(' + evt.clientX + ',' + evt.clientY + ')'
 
 :@draw_hexes
   if !@state
@@ -157,7 +157,7 @@
       'transform'
       'scale(' + @text_scale + '),translate(' + tx + ',' + ty + ')'
 
-  set_attr(g, 'transform', "translate(#{ox},#{oy})")
+  set_attr(g, 'transform', 'translate(' + ox + ',' + oy + ')')
 
 :@set_text_scale
   g\Element\$
@@ -202,7 +202,7 @@ From center of hex to the corner. hafl of hex height.
     'l', 0, -hex_size
     'l', hex_size_cos_30, -hex_size_half
     'z'
-  color_band_scale := "scale(#{(hex_size - 8) / hex_size})"
+  color_band_scale := 'scale(' + ((hex_size - 8) / hex_size) + ')'
 
 :::svg_create = ##
   \Element\

@@ -262,8 +262,8 @@ Expects r, g, b in [0, 255] and a in [0, 1].
   g := rgb[1]
   b := rgb[2]
   => {#}
-    rgba: "rgba(#{r},#{g},#{b},#{a})"
-    rgb: "rgb(#{r},#{g},#{b})"
+    rgba: 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')'
+    rgb: 'rgb(' + r + ',' + g + ',' + b + ')'
     r: r
     g: g
     b: b

@@ -33,6 +33,8 @@ visual refine:
   smooth scroll viewport translate with arrow keys in list mode.
     css animation?
 
+  mode indicator -- both editor mode and drag mode.
+ 
 new features:
   add translate mode in list editor.
     treat it same as rotate and scale.
