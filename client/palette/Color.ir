@@ -63,7 +63,7 @@
     => &data.Hsl(0, 0, 0)
 
   
-:selected_color
+:selected_color\data.Color\
   params := @color_adjust_params()
   => @adjusted_color(#)
     params[0]
@@ -78,19 +78,16 @@
     @lgt.value / 100
     @mix.value / 100
 
-:@adjusted_color
+:@adjusted_color\data.Color\
   adj_h\n\$
   adj_s\n\$
   adj_l\n\$
   adj_m\n\$
   cc := @current_color()
-  h := cc[0]
-  s := cc[1]
-  l := cc[2]
   a := f_tool_palette ? f_tool_palette.alpha() / 100.0 : 1
-  h = (1.0 - adj_m) * h + adj_m * @prev_color.h
-  s = (1.0 - adj_m) * s + adj_m * @prev_color.s
-  l = (1.0 - adj_m) * l + adj_m * @prev_color.l
+  h := (1.0 - adj_m) * cc.h + adj_m * @prev_color.h
+  s := (1.0 - adj_m) * cc.s + adj_m * @prev_color.s
+  l := (1.0 - adj_m) * cc.l + adj_m * @prev_color.l
   if h
     h += adj_h
   s += adj_s
@@ -247,12 +244,11 @@
       i\n\$
       d := rgb[i] - @last_rgb[i]
       distsq += d * d
-    l(Math.sqrt(distsq) + ' ' + name)
   @last_rgb = rgb
-  l(rgb_to_hsl(rgb[0], rgb[1], rgb[2])[0] + ' ' + name)
 
 Expects r, g, b in [0, 255] and a in [0, 1].
 :::col_spec = ##
+  \data.Color\
   h\n\$
   s\n\$
   l\n\$
@@ -261,16 +257,7 @@ Expects r, g, b in [0, 255] and a in [0, 1].
   r := rgb[0]
   g := rgb[1]
   b := rgb[2]
-  => {#}
-    rgba: 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')'
-    rgb: 'rgb(' + r + ',' + g + ',' + b + ')'
-    r: r
-    g: g
-    b: b
-    h: h
-    s: s
-    l: l
-    a: a
+  => &data.Color(r / 255.0, g / 255.0, b / 255.0, a)
 
 Convert hexadecimal color code, e.g. FFFFFF to [r, g, b] value array in
 [0, 255] range.
@@ -285,6 +272,7 @@ Expects the r, g, b in [0, 255] range.
 Produces hue in [0, 6) range, or 0 for gray. Saturation and lightness are in
 [0, 1] range.
 :::rgb_to_hsl = ##
+  \data.Hsl\
   r\n\$
   g\n\$
   b\n\$
@@ -306,7 +294,7 @@ Produces hue in [0, 6) range, or 0 for gray. Saturation and lightness are in
   if h < 0
     h += 6
   s := c == 0 ? 0 : c / (1 - Math.abs(max_rgb + min_rgb - 1))
-  => [h, s, l]
+  => &data.Hsl(h, s, l)
 
 Produces rgb in [0, 255] range.
 :::hsl_to_rgb = ##

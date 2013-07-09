@@ -3,7 +3,7 @@
   => str.charCodeAt(0)
 
 ::l = ##
-  str\s\$
+  str\s|*\$
   console.log(str)
 
 ::assert = ##

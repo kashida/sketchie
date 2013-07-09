@@ -5,13 +5,18 @@
   @b&\n\$
   @a&\n\$
 
-String representation for CSS use.
+String representations for CSS use.
 :rgba+\s\
   => 'rgba(' + [#].join(',') + ')'
     @.intR
     @.intG
     @.intB
     @.a
+:rgb+\s\
+  => 'rgb(' + [#].join(',') + ')'
+    @.intR
+    @.intG
+    @.intB
 
 :intR+\n\
   => inrange(0, 255, Math.floor(@.r * 256))
