@@ -41,7 +41,7 @@
   // Copy to the surface.
   ctx := f_surface.ctx
   ctx.globalAlpha = @c.a
-  ctx.drawImage(f_stroke_layer.canvas(), 0, 0)
+  ctx.drawImage(f_stroke_layer.canvas, 0, 0)
 
 :@setup_stroke
   ctx := f_stroke_layer.ctx

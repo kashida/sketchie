@@ -4,7 +4,6 @@ fix client code to run.
   add todos here.
 
   image mode:
-    stroke not drawing anything.
 
     's' to stencil mode?
     'z' for undo?
@@ -16,9 +15,20 @@ fix client code to run.
     '[' and ']' for color param adjust?
     ',' and '.' for brush param adjust?
     brush switch keys?
+    check tool / color palette features.
+
+    color selection not working -- always white.
 
   stencile mode:
     check if all keys work.
+
+  strokes:
+    ink -- line thicker while drawing, but thinner at blit.
+    smudge leaves dark area?
+    average doesn't seem to be working at all.
+    ink disappears at blit.
+    lasso doesn't seem to be doing anything.
+
 
 check if list and draw mode palettes has all the necessary components.
 
@@ -59,6 +69,8 @@ new features:
 
   apply rotate and scale mouse drag to all the selected items.
     not just the primary selection.
+
+  brush pressure.
 
 tests:
   based on undo-redo command buffer?

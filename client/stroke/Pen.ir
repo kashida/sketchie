@@ -13,7 +13,7 @@
 :draw
   x\n\$
   y\n\$
-  @points.push([x, y])
+  @points.push(&data.Point(x, y))
   if @points.length < 2
     =>
   ctx := f_stroke_layer.ctx
@@ -21,9 +21,12 @@
   ctx.lineWidth = @r * 2
   ctx.lineCap = 'round'
   ctx.lineJoin = 'round'
+
+  p0 := @points[@points.length - 2]
+  p1 := @points[@points.length - 1]
   ctx.beginPath()
-  ctx.moveTo(@points[@points.length - 2])
-  ctx.lineTo(@points[@points.length - 1])
+  ctx.moveTo(p0.x, p0.y)
+  ctx.lineTo(p1.x, p1.y)
   ctx.stroke()
 
 :blit
