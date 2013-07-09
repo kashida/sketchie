@@ -1,5 +1,6 @@
 ::< %.Stroke
   @points\A.<data.Point>\ []
+  ^()
 
 :reset
   color\A\$
@@ -38,12 +39,12 @@
     prev = p
 
   // Copy to the surface.
-  ctx := f_surface.ctx()
+  ctx := f_surface.ctx
   ctx.globalAlpha = @c.a
   ctx.drawImage(f_stroke_layer.canvas(), 0, 0)
 
 :@setup_stroke
-  ctx := f_stroke_layer.ctx()
+  ctx := f_stroke_layer.ctx
   ctx.fillStyle = @c.rgb
   ctx.lineCap = 'round'
   ctx.lineJoin = 'round'
@@ -57,7 +58,7 @@
   r1\n\? 0
   if x0 == x1 && y0 == y1
     =>
-  ctx := f_stroke_layer.ctx()
+  ctx := f_stroke_layer.ctx
   r0 || (r0 = r1)
   rr0 := @r * r0
   rr1 := @r * r1

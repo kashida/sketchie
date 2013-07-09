@@ -1,4 +1,5 @@
 ::< %.Stroke
+  ^()
 
 :reset
   color\A\$
@@ -18,10 +19,10 @@
     @first_x = x
     @first_y = y
     =>
-  @draw_rect(f_stroke_layer.ctx(), false)
+  @draw_rect(f_stroke_layer.ctx, false)
 
 :blit
-  @draw_rect(f_surface.ctx(), true)
+  @draw_rect(f_surface.ctx, true)
 
 :@draw_rect
   ctx\CanvasRenderingContext2D\$

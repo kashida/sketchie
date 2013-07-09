@@ -1,6 +1,7 @@
 ::<%.Editor
   @selection\item.Selection\$
   @dragger\drag.Rotate\ &drag.Rotate()
+  ^()
 
 :activate
   @dragger.activate(@selection.head)

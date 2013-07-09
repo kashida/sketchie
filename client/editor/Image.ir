@@ -1,11 +1,12 @@
 ::<%.Editor
-  @undo\UndoImage\ &UndoImage
+  @undo\UndoImage\ &UndoImage()
   @is_drawing\b\ false
   @stroke&\s\ 'P'
   @prev_stroke\s\ 'E'
   @last_open_palette\s\ 'c'
   @image\Image\
   @alpha_lock+\b\ false
+  ^()
 
 :start_segment
   evt\Event\$

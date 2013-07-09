@@ -1,4 +1,6 @@
 ::< %.Stroke
+  ^()
+
 :reset
   color\A\$
   radius\n\$
@@ -14,7 +16,7 @@
     @prev_x = x
     @prev_y = y
     =>
-  ctx := f_surface.ctx()
+  ctx := f_surface.ctx
   src := ctx.getImageData(@prev_x - @r, @prev_y - @r, @r * 2, @r * 2)
   dst := ctx.getImageData(x - @r, y - @r, @r * 2, @r * 2)
   avg := ##

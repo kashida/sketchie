@@ -1,8 +1,10 @@
 ::< %.Stroke
+  ^()
+
 :draw
   x\n\$
   y\n\$
-  ctx := f_surface.ctx()
+  ctx := f_surface.ctx
   pixels := ctx.getImageData(x - @r, y - @r, @r * 2, @r * 2)
   avg := [0.0, 0.0, 0.0, 0.0]
   weight_sum := 0.0

@@ -1,10 +1,10 @@
 ::< %.Stroke
+  ^()
 
 :draw
   x\n\$
   y\n\$
-  ctx := f_surface.ctx()
-  draw_brush_circle(ctx, x, y, @r, @lerp, @c)
+  draw_brush_circle(f_surface.ctx, x, y, @r, @lerp, @c)
 
 :::draw_brush_circle = ##
   ctx\CanvasRenderingContext2D\$

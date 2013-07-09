@@ -1,4 +1,5 @@
 ::<%.Image
+  ^()
 
 :<start_segment
   evt\Event\$

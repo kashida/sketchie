@@ -1,5 +1,6 @@
 ::< %.Stroke
   @points\A.<data.Point>\ []
+  ^()
 
 :reset
   color\A\$
@@ -15,7 +16,7 @@
   @points.push([x, y])
   if @points.length < 2
     =>
-  ctx := f_stroke_layer.ctx()
+  ctx := f_stroke_layer.ctx
   ctx.strokeStyle = @c.rgb
   ctx.lineWidth = @r * 2
   ctx.lineCap = 'round'
@@ -28,7 +29,7 @@
 :blit
   if @points.length < 0
     =>
-  ctx := f_surface.ctx()
+  ctx := f_surface.ctx
   ctx.strokeStyle = @c.rgba
   ctx.lineWidth = @r * 2
   ctx.lineCap = 'round'

@@ -1,6 +1,7 @@
 ::<%.Editor
   @selection\item.Selection\$
   @textEditor\%.Text\$
+  ^()
   f_item_list.each(##)
     e\Element\$
     &%.Item(e, @selection)
