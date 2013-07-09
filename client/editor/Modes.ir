@@ -27,9 +27,10 @@ Currently selected editor.
   @.editor.activate(activate_params)
 
 :popMode
-  end_mode_params\O\$
+  end_mode_params\O\? {}
   @.editor.deactivate()
-  lastMode := @modes.pop()
-  cb := @callbacks[@callbacks.length - 1]
+  @modes.pop()
+  assert(@modes.length > 0)
+  cb := @callbacks.pop()
   if cb
     cb(end_mode_params)

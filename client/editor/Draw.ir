@@ -14,7 +14,7 @@
   if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
     f_editor_modes.popMode()
 
-  if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('S')
+  if evt.keyCode == c('S')
     f_editor_modes.popMode({stencil:true})
 
   else
