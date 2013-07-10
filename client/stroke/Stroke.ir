@@ -1,12 +1,16 @@
 ::
+  @color+\data.Color\
+  @radius+\n\ 0
+  @lerp+\n\ 0
+  @alpha_lock+\b\ false
 
 :reset
-  color\A\$
+  color\data.Color\$
   radius\n\$
   lerp\n\$
   alpha_lock\b\$
-  @c = color
-  @r = radius
+  @color = color
+  @radius = radius
   @lerp = lerp
   @alpha_lock = alpha_lock
 

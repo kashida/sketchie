@@ -4,15 +4,15 @@
 :draw
   x\n\$
   y\n\$
-  if @alpha_lock
+  if @.alpha_lock
     =>
   // No nice eraser functionality in canvas, so implementing one here.
   ctx := f_surface.ctx
-  delta := @r + 1
+  delta := @.radius + 1
   delta2 := 2 * delta
   pixels := ctx.getImageData(x - delta, y - delta, delta2, delta2)
-  brush_a := 1.0 - @c.a * @c.a * @c.a * @c.a
-  @.in_circle(pixels.width, @r, ##)
+  brush_a := 1.0 - @.color.a * @.color.a * @.color.a * @.color.a
+  @.in_circle(pixels.width, @.radius, ##)
     base\n\$
     f\n\$
     a := pixels.data[base + 3]

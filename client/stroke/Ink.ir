@@ -3,7 +3,7 @@
   ^()
 
 :reset
-  color\A\$
+  color\data.Color\$
   radius\n\$
   lerp\n\$
   alpha_lock\b\$
@@ -40,12 +40,12 @@
 
   // Copy to the surface.
   ctx := f_surface.ctx
-  ctx.globalAlpha = @c.a
+  ctx.globalAlpha = @.color.a
   ctx.drawImage(f_stroke_layer.canvas, 0, 0)
 
 :@setup_stroke
   ctx := f_stroke_layer.ctx
-  ctx.fillStyle = @c.rgb
+  ctx.fillStyle = @.color.rgb
   ctx.lineCap = 'round'
   ctx.lineJoin = 'round'
 
@@ -60,8 +60,8 @@
     =>
   ctx := f_stroke_layer.ctx
   r0 || (r0 = r1)
-  rr0 := @r * r0
-  rr1 := @r * r1
+  rr0 := @.radius * r0
+  rr1 := @.radius * r1
 
   // Draw a quad to connect the segment.
   vx := x1 - x0

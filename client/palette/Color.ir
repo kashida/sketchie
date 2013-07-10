@@ -61,7 +61,6 @@
     => @color_sel
   else
     => &data.Hsl(0, 0, 0)
-
   
 :selected_color\data.Color\
   params := @color_adjust_params()
@@ -92,7 +91,7 @@
     h += adj_h
   s += adj_s
   l += adj_l
-  => col_spec(h, s, l, a)
+  => &data.Hsl(h, s, l, a).color
 
 :@value_render
   params\O\$
@@ -116,7 +115,7 @@
   r\n\$
   g\n\$
   b\n\$
-  @set_color(rgb_to_hsl(r, g, b))
+  @set_color(data.Color.fromByteRange(r, g, b).hsl)
 
 :@set_color
   hsl\data.Hsl\$
@@ -200,7 +199,7 @@
     c_values := [0, 1, 2].map(##)
       j\n\$
       => parseInt(c[0].substr(j * 2, 2), 16)
-    elem.hsl = rgb_to_hsl(c_values[0], c_values[1], c_values[2])
+    elem.hsl = data.Color.fromByteRange(c_values[0], c_values[1], c_values[2]).hsl
     listen(elem, 'click', ##)
       evt\Event\$
       @mix.reset()
@@ -225,7 +224,7 @@
 
 :@update
   id('color_sample0').style['background-color'] = @.selected_color().rgb
-  id('color_sample1').style['background-color'] = col_spec(#).rgb
+  id('color_sample1').style['background-color'] = &data.Hsl(#).color.rgb
     @prev_color[0]
     @prev_color[1]
     @prev_color[2]
@@ -246,19 +245,6 @@
       distsq += d * d
   @last_rgb = rgb
 
-Expects r, g, b in [0, 255] and a in [0, 1].
-:::col_spec = ##
-  \data.Color\
-  h\n\$
-  s\n\$
-  l\n\$
-  a\n\$
-  rgb := hsl_to_rgb(h, s, l)
-  r := rgb[0]
-  g := rgb[1]
-  b := rgb[2]
-  => &data.Color(r / 255.0, g / 255.0, b / 255.0, a)
-
 Convert hexadecimal color code, e.g. FFFFFF to [r, g, b] value array in
 [0, 255] range.
 :::colorhex_to_rgb = ##
@@ -267,66 +253,3 @@ Convert hexadecimal color code, e.g. FFFFFF to [r, g, b] value array in
     parseInt(hex.substr(0, 2), 16)
     parseInt(hex.substr(2, 2), 16)
     parseInt(hex.substr(4, 2), 16)
-
-Expects the r, g, b in [0, 255] range.
-Produces hue in [0, 6) range, or 0 for gray. Saturation and lightness are in
-[0, 1] range.
-:::rgb_to_hsl = ##
-  \data.Hsl\
-  r\n\$
-  g\n\$
-  b\n\$
-  r = inrange(0, 255, r) / 255.0
-  g = inrange(0, 255, g) / 255.0
-  b = inrange(0, 255, b) / 255.0
-  max_rgb := max_all([r, g, b])
-  min_rgb := min_all([r, g, b])
-  c := max_rgb - min_rgb
-  l := (max_rgb + min_rgb) / 2
-  if c == 0
-    h := 0
-  else if r >= g && r >= b
-    h = (g - b) / c
-  else if g >= r && g >= b
-    h = (b - r) / c + 2
-  else
-    h = (r - g) / c + 4
-  if h < 0
-    h += 6
-  s := c == 0 ? 0 : c / (1 - Math.abs(max_rgb + min_rgb - 1))
-  => &data.Hsl(h, s, l)
-
-Produces rgb in [0, 255] range.
-:::hsl_to_rgb = ##
-  h\n\$
-  s\n\$
-  l\n\$
-  s = inrange(0, 1, s)
-  l = inrange(0, 1, l)
-  c := (1 - Math.abs(2 * l - 1)) * s
-  m := l - c / 2
-  final_adjust := ##
-    r\n\$
-    g\n\$
-    b\n\$
-    => [#]
-      Math.floor(inrange(0, 255, (r + m) * 255))
-      Math.floor(inrange(0, 255, (g + m) * 255))
-      Math.floor(inrange(0, 255, (b + m) * 255))
-  if !h
-    => final_adjust(0, 0, 0)
-
-  h = (h + 6) % 6
-  x := c * (1 - Math.abs(h % 2 - 1))
-  if h < 1
-    => final_adjust(c, x, 0)
-  if h < 2
-    => final_adjust(x, c, 0)
-  if h < 3
-    => final_adjust(0, c, x)
-  if h < 4
-    => final_adjust(0, x, c)
-  if h < 5
-    => final_adjust(x, 0, c)
-  if h < 6
-    => final_adjust(c, 0, x)

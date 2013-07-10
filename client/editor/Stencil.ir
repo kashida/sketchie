@@ -14,7 +14,7 @@
 :<start_segment
   evt\Event\$
   f_strokes.get(f_tool_palette.tool()).reset(#)
-    col_spec(200, 170, 70, 1.0)
+    data.Color.fromByteRange(200, 170, 70, 255)
     f_tool_palette.radius()
     f_tool_palette.lerp()
     false

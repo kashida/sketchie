@@ -1,8 +1,12 @@
 ::< %.Stroke
+  @first_x\n?\
+  @first_y\n?\
+  @last_x\n?\
+  @last_y\n?\
   ^()
 
 :reset
-  color\A\$
+  color\data.Color\$
   radius\n\$
   lerp\n\$
   alpha_lock\b\$
@@ -32,9 +36,9 @@
   if @first_x == @last_x || @first_y == @last_y
     =>
   if fill
-    ctx.fillStyle = @c.rgba
+    ctx.fillStyle = @.color.rgba
   else
-    ctx.strokeStyle = @c.rgba
+    ctx.strokeStyle = @.color.rgba
   x0 := @first_x
   x1 := @last_x
   y0 := @first_y

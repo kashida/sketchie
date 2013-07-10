@@ -6,8 +6,6 @@ fix client code to run.
   image mode:
 
     's' to stencil mode?
-    'z' for undo?
-    'd' to toggle the previous stroke?
     'v' and 'n' with shift to change z order?
     'x' for alpha lock?
     'f' for swap colors?

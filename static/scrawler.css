@@ -97,6 +97,7 @@ body {
 .palette {
   box-shadow: 0px 1px 7px #222;
   display: none;
+  border-radius: 5px;
 }
 .color_sel div {
   display: inline-block;
@@ -104,6 +105,7 @@ body {
   height: 30px;
   width: 30px;
   box-shadow: 1px 2px 7px #222;
+  border-radius: 2px;
 }
 .color_sel div.selected {
   box-shadow: inset 1px 2px 7px #222;

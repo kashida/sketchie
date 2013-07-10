@@ -48,6 +48,18 @@ draw mode:
   'c' to toggle color palette display.
   space to toggle previously opened palette display.
 
+  stroke selection.
+  'w' pen.
+  'e' eraser.
+  'r' brush.
+  't' smudge.
+  'y' rectangle.
+  'u' average.
+  'i' ink.
+  'o' lasso.
+  'd' toggle with the previous stroke.
+
+  'z' undo stroke.
 
 text mode:
   esc get out.

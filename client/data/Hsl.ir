@@ -1,4 +1,40 @@
 ::
+  // Hue in [0, 6) range, or 0 for gray.
+  // Saturation, lightness, and alpha are in [0, 1] range.
   @h&\n\$
   @s&\n\$
   @l&\n\$
+  @a&\n\? 1
+
+:color+\%.Color\
+  h\n\$
+  s\n\$
+  l\n\$
+  c := (1 - Math.abs(2 * @.l - 1)) * @.s
+  m := @.l - c / 2
+  final_adjust := ##
+    r\n\$
+    g\n\$
+    b\n\$
+    => &%.Color(#)
+      inrange(0, 1, (r + m))
+      inrange(0, 1, (g + m))
+      inrange(0, 1, (b + m))
+      @.a
+  if !@.h
+    => final_adjust(0, 0, 0)
+
+  h := (@.h + 6) % 6
+  x := c * (1 - Math.abs(h % 2 - 1))
+  if h < 1
+    => final_adjust(c, x, 0)
+  if h < 2
+    => final_adjust(x, c, 0)
+  if h < 3
+    => final_adjust(0, c, x)
+  if h < 4
+    => final_adjust(0, x, c)
+  if h < 5
+    => final_adjust(x, 0, c)
+  if h < 6
+    => final_adjust(c, 0, x)

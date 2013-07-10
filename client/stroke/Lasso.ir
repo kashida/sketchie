@@ -2,7 +2,7 @@
   ^()
 
 :reset
-  color\A\$
+  color\data.Color\$
   radius\n\$
   lerp\n\$
   alpha_lock\b\$
@@ -25,7 +25,7 @@
   ctx\CanvasRenderingContext2D\$
   if @points.length < 2
     =>
-  ctx.fillStyle = @c.rgba
+  ctx.fillStyle = @.color.rgba
   ctx.beginPath()
   i := 0
   while i < @points.length
