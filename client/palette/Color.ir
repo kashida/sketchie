@@ -57,12 +57,12 @@
 :@current_color\data.Hsl\
   if @color_sel instanceof Element
     => @color_sel.hsl
-  else if @color_sel instanceof Array
+  else if @color_sel instanceof data.Hsl
     => @color_sel
   else
     => &data.Hsl(0, 0, 0)
   
-:selected_color\data.Color\
+:selected_color+\data.Color\
   params := @color_adjust_params()
   => @adjusted_color(#)
     params[0]
@@ -200,6 +200,7 @@
       j\n\$
       => parseInt(c[0].substr(j * 2, 2), 16)
     elem.hsl = data.Color.fromByteRange(c_values[0], c_values[1], c_values[2]).hsl
+    // TODO: make just one listener for all the div's.
     listen(elem, 'click', ##)
       evt\Event\$
       @mix.reset()
@@ -223,12 +224,8 @@
   @update()
 
 :@update
-  id('color_sample0').style['background-color'] = @.selected_color().rgb
-  id('color_sample1').style['background-color'] = &data.Hsl(#).color.rgb
-    @prev_color[0]
-    @prev_color[1]
-    @prev_color[2]
-    @prev_color[3]
+  id('color_sample0').style['background-color'] = @.selected_color.rgb
+  id('color_sample1').style['background-color'] = @prev_color.color.rgb
 
 ::VerifyColors
   @last_rgb\A\ null

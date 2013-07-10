@@ -15,8 +15,6 @@ fix client code to run.
     brush switch keys?
     check tool / color palette features.
 
-    color selection not working -- always white.
-
   stencile mode:
     check if all keys work.
 

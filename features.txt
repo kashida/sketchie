@@ -61,6 +61,9 @@ draw mode:
 
   'z' undo stroke.
 
+  color palette:
+    click on color to select.
+
 text mode:
   esc get out.
   shift-enter terminates the current text item and immediately starts a new one.

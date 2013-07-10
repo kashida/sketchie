@@ -19,15 +19,17 @@
 ::min_all = ##
   nums\A.<n>\$
   n := null
-  each val in nums
-    n = n ? Math.min(n, val) : val
+  nums.forEach(##)
+    val\n\$
+    n = n === null ? val : Math.min(n, val)
   => n
 
 ::max_all = ##
   nums\A.<n>\$
   n := null
-  each val in nums
-    n = n ? Math.max(n, val) : val
+  nums.forEach(##)
+    val\n\$
+    n = n === null ? val : Math.max(n, val)
   => n
 
 Convert array-like objects (e.g. from DOM) to an array.
