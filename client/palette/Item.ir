@@ -1,3 +1,4 @@
+Item list mode parameter adjustments.
 ::<%.Palette
   @selection\item.Selection\$
   @blend_alpha\Slider\ &Slider('item_alpha', 'blend alpha%', 0, 100, 100, 20)

@@ -39,13 +39,20 @@ list (default) mode:
   shift + 'n' bring item to nearer than any overlapped items in z.
 
   space to toggle palette display.
+    click on alpha to invoke hex adjust mode.
 
   shift+'u' go up to the list page.
 
 draw mode:
   esc get out.
   'b' to toggle tool palette display.
+    shows brush sample.
+    click on lerp, alpha, size to invoke hex adjust mode.
   'c' to toggle color palette display.
+    shows primary and secondary color selections.
+    shows primary color name when available.
+    click on colors to select.
+    click on mix, hue, sat (saturation), lgt (lightness) to invoke hex adjust mode.
   space to toggle previously opened palette display.
 
   stroke selection.
@@ -59,6 +66,21 @@ draw mode:
   'o' lasso.
   'd' toggle with the previous stroke.
 
+  color adjust.
+  'f' swaps primary and secondary colors.
+  '[' and ']' for up / down params:
+    lightness.
+    saturation with shift.
+    hue with ctrl.
+    mix with shift + ctrl.
+
+  ',' and '.' for up / down brush params:
+    size.
+    alpha with shift.
+    lerp (edge sharpness) with ctrl.
+
+
+  'x' toggles alpha lock.
   'z' undo stroke.
 
   color palette:

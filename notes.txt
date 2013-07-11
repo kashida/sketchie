@@ -4,16 +4,11 @@ fix client code to run.
   add todos here.
 
   image mode:
-
-    's' to stencil mode?
-    'v' and 'n' with shift to change z order?
-    'x' for alpha lock?
-    'f' for swap colors?
-    'm', 'h', 'j', 'l' for color adjust mode?
-    '[' and ']' for color param adjust?
-    ',' and '.' for brush param adjust?
-    brush switch keys?
-    check tool / color palette features.
+    exit image mode doesn't leave an image.
+    'm', 'h', 'j', 'l' for color adjust mode doesn't work.
+    primary / secondary color mix seems negated?
+    'v' and 'n' with shift to change z order not working.
+    's' to stencil mode not working.
 
   stencile mode:
     check if all keys work.
@@ -24,6 +19,9 @@ fix client code to run.
     average doesn't seem to be working at all.
     ink disappears at blit.
     lasso doesn't seem to be doing anything.
+
+  list mode:
+    palette -> alpha hex control is not working.
 
 
 check if list and draw mode palettes has all the necessary components.
@@ -41,6 +39,8 @@ clean up:
 
   split files > 100 lines.
 
+  texts in palette are selectable.
+
 visual refine:
   make item primary selection visually clearer in css.
 
@@ -57,6 +57,9 @@ new features:
   organize all the controls (specially the list mode).
     keep the key control as shortcut, but add mouse controls.
 
+  hex control overhaul.
+    drag hex and keep selected region fixed in screen.
+
   save:
     save doen message.
     leave page w/o save warning.
@@ -66,7 +69,11 @@ new features:
   apply rotate and scale mouse drag to all the selected items.
     not just the primary selection.
 
-  brush pressure.
+  draw mode:
+    brush pressure.
+    alpha lock mode indicator.
+    selected stroke indicator.
+      alphabet letter on cursor sometimes shows up...
 
 tests:
   based on undo-redo command buffer?
