@@ -4,7 +4,7 @@
   @stroke&\s\ 'P'
   @prev_stroke\s\ 'E'
   @last_open_palette\s\ 'c'
-  @image\Image\
+  @image+\Image\
   @alpha_lock+\b\ false
   ^()
 
@@ -39,6 +39,8 @@
   f_stroke_layer.deactivate()
   f_dispatcher.deactivate()
   f_cursor.hide()
+  f_tool_palette.close()
+  f_color_palette.close()
 
   @image = null
 

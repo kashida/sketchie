@@ -18,10 +18,6 @@ Currently selected editor.
   activate_params\O\? {}
   reactivate_cb\F\?
   assert(nextMode != @.mode)
-  // TODO: Close all the palettes currently open.
-  //f_tool_palette.close()
-  //f_color_palette.close()
-  //f_item_palette.close()
   @modes.push(nextMode)
   @callbacks.push(reactivate_cb)
   @.editor.activate(activate_params)

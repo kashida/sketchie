@@ -178,7 +178,7 @@ Image methods.
   // Move all items after the selected image to a separate div.
   upper_items := img ? f_item_list.after(img) : []
   f_item_list.remove(upper_items)
-  div := create('div', {id: 'itemlist_upper', 'class': 'itemlist'})
+  div := create('div', {class: 'itemlist itemlist_upper'})
   upper_items.forEach(##)
     item\Element\$
     div.appendChild(item)
@@ -186,16 +186,20 @@ Image methods.
   document.body.insertBefore(div, f_cursor.div())
 
   // Activate.
+  f_item_palette.close()
   f_editor_modes.changeModeTo('d', [img], ##)
     params\O\$
-    => @draw_end(\Image\(img), params['alpha_lock'], params['stencil'])
+    => @draw_end(#)
+      \Image\(img)
+      params['img_spec']
+      params['alpha_lock']
+      params['stencil']
 
 :@draw_end
   img\Image\$
+  img_spec\A\$
   alpha_lock\b\$
   stencil\b\? false
-  img_spec := f_surface.image_spec(img)
-
   if !img_spec
     // No image remaining.
     @selection.clear()
@@ -221,6 +225,7 @@ Image methods.
     =>
   img := @selection.head
   @selection.clear()
+  f_item_palette.close()
   f_editor_modes.changeModeTo('s', [], ##)
     params\s\$
     @stencil_end(\Image\(img), params['action'])
@@ -318,8 +323,10 @@ Key handler.
 
   // Transform.
   else if key == c('R')
+    f_item_palette.close()
     f_editor_modes.changeModeTo('r')
   else if key == c('T')
+    f_item_palette.close()
     f_editor_modes.changeModeTo('q')
 
   // Copy the selected item.
