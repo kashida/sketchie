@@ -135,14 +135,18 @@
   if bottom_item
     handler(bottom_item, bottom_y)
 
-:after
+All the items that are afeter the specified item (exclusive).
+:after\A.<Element>\
   item\Element\$
   for i := 0; i < @.children.length; i++
-    c := @.children[i]
-    // We can't use array.slice because children is a NodeList.
-    for j := i + 1; j < @.children.length; j++
-      if c == item
-        => @.children[j]
+    if @.children[i] == item
+      // We can't use array.slice because children is a NodeList.
+      list := []
+      for j := i + 1; j < @.children.length; j++
+        list.push(@.children[j])
+      => list
+  // item didn't appear in the list.
+  => null
 
 :set_z
   init\n\$

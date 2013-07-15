@@ -4,8 +4,7 @@ fix client code to run.
   add todos here.
 
   image mode:
-    exit image mode leaves image at a wrong position.
-    re-entering image mode with existing image causes error.
+    drawing on existing image item remove the original.
 
     'm', 'h', 'j', 'l' for color adjust mode doesn't work.
     primary / secondary color mix seems negated?
@@ -24,6 +23,7 @@ fix client code to run.
 
   list mode:
     palette -> alpha hex control is not working.
+    'm' to merge images not working.
 
 
 check if list and draw mode palettes has all the necessary components.
