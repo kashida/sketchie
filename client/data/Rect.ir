@@ -12,3 +12,12 @@
 
 :h+\n\
   => @.y1 - @.y0
+
+:p00+\%.Point\
+  => &%.Point(@.x0, @.y0)
+:p01+\%.Point\
+  => &%.Point(@.x0, @.y1)
+:p10+\%.Point\
+  => &%.Point(@.x1, @.y0)
+:p11+\%.Point\
+  => &%.Point(@.x1, @.y1)

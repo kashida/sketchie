@@ -136,9 +136,8 @@ Image methods.
 
 :@copy_image_item
   orig_item\Element\$
-  img := @make_image_item([#])
-    orig_item.offsetLeft + 10
-    orig_item.offsetTop + 10
+  img := @make_image_item(&ImageCopy(#))
+    &data.Point(orig_item.offsetLeft + 10, orig_item.offsetTop + 10)
     orig_item.src
   set_attr(img, 'xf_r', attr(orig_item, 'xf_r'))
   set_attr(img, 'xf_s', attr(orig_item, 'xf_s'))
@@ -147,7 +146,7 @@ Image methods.
   f_item_list.append_end(img)
 
 :@make_image_item\Image\
-  spec\A\$
+  spec\ImageCopy\$
   img\Image\?
   add_img := !img
   if img
@@ -158,10 +157,10 @@ Image methods.
   else
     img = &Image()
     &%.Item(img, @selection)
-  img.style.left = spec[0] + 'px'
-  img.style.top = spec[1] + 'px'
+  img.style.left = spec.position.x + 'px'
+  img.style.top = spec.position.y + 'px'
   img.style['-webkit-user-select'] = 'none'
-  img.src = spec[2]
+  img.src = spec.dataUrl
   if add_img
     f_item_list.append_end(img)
   @selection.select(img)
@@ -197,7 +196,7 @@ Image methods.
 
 :@draw_end
   img\Image\$
-  img_spec\A\$
+  img_spec\ImageCopy\$
   alpha_lock\b\$
   stencil\b\? false
   if !img_spec
@@ -280,7 +279,9 @@ Image methods.
     if !img
       =>
     url = img.src
-  img = @make_image_item([window.pageXOffset, window.pageYOffset, url])
+  img = @make_image_item(&ImageCopy(#))
+    &data.Point(window.pageXOffset, window.pageYOffset)
+    url
   set_attr(img, 'ref_img', '1')
   f_item_list.append_end(img)
 

@@ -4,7 +4,9 @@ fix client code to run.
   add todos here.
 
   image mode:
-    exit image mode doesn't leave an image.
+    exit image mode leaves image at a wrong position.
+    re-entering image mode with existing image causes error.
+
     'm', 'h', 'j', 'l' for color adjust mode doesn't work.
     primary / secondary color mix seems negated?
     'v' and 'n' with shift to change z order not working.
@@ -27,6 +29,9 @@ fix client code to run.
 check if list and draw mode palettes has all the necessary components.
 
 clean up:
+  rename:
+    data.Point to data.Vec2.
+    ImageCopy to something else?
   method names to camel case?
 
   change key modifier from shift to control.

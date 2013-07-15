@@ -41,23 +41,21 @@
     p.x + @offset_x - half_w + half_w / @scale
     p.y + @offset_y - half_h + half_h / @scale
 
-:@view_to_item
-  x\n\$
-  y\n\$
+:@view_to_item\data.Point\
+  p\data.Point\$
   half_w := @viewport.offsetWidth / 2
   half_h := @viewport.offsetHeight / 2
-  => [#]
-    (x - half_w) / @scale - @offset_x + half_w
-    (y - half_h) / @scale - @offset_y + half_h
+  => &data.Point(#)
+    (p.x - half_w) / @scale - @offset_x + half_w
+    (p.y - half_h) / @scale - @offset_y + half_h
 
-:surface_to_item
-  x\n\$
-  y\n\$
+:surface_to_item\data.Point\
+  p\data.Point\$
   half_w := @viewport.offsetWidth / 2
   half_h := @viewport.offsetHeight / 2
-  => [#]
-    x - @offset_x + half_w - half_w / @scale
-    y - @offset_y + half_h - half_h / @scale
+  => &data.Point(#)
+    p.x - @offset_x + half_w - half_w / @scale
+    p.y - @offset_y + half_h - half_h / @scale
 
 incr should be -1, 0, or 1 where positive is zooming in
 :zoom
@@ -81,8 +79,8 @@ Change offset (but not scaling) to put the item in view.
 :show_item
   item\Element\$
   // Viewport and the item in item coord space.
-  vp0 := @view_to_item(0, 0)
-  vp1 := @view_to_item(@viewport.offsetWidth, @viewport.offsetHeight)
+  vp0 := @view_to_item(&data.Point(0, 0))
+  vp1 := @view_to_item(&data.Point(@viewport.offsetWidth, @viewport.offsetHeight))
   p0 := elem_position(item)
   p1 := elem_position_br(item)
 

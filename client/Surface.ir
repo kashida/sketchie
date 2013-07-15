@@ -36,7 +36,7 @@ Takes view coordinates and returns [r, g, b, a] array in [0, 255] range.
   d := pixels.data
   => [d[0], d[1], d[2], d[3]]
 
-:image_spec
+:image_spec\ImageCopy\
   orig_img\Image\?
   // Produce image spec of this surface plus the original image.
   // Size of the image is reduced to the tight bound.
@@ -77,22 +77,19 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   xform_draw_image(ctx, orig_img, &data.Point(imgx0 - u.x0, imgy0 - u.y0))
   ctx.clearRect(-u.x0, -u.y0, pixels.width, pixels.height)
   ctx.putImageData(pixels, -u.x0, -u.y0, pixels_rect.x0, pixels_rect.y0, w, h)
-  => image_rect_spec(cvs.pixels(), null, u.x0, u.y0)
+  => image_rect_spec(cvs.pixels(), null, u.p00)
 
 :::image_rect_spec = ##
-  \A.<n>\
+  \ImageCopy\
   pixels\ImageData\$
-  rect\data.Rect\?
-  offset_x\n\? 0
-  offset_y\n\? 0
+  rect\data.Rect\? find_pixel_rect(pixels)
+  offset\data.Point\? &data.Point(0, 0)
   if !rect
-    rect = find_pixel_rect(pixels)
-    if !rect
-      => null
-  item_xy := f_viewport.surface_to_item(#)
-    rect[0] + offset_x
-    rect[1] + offset_y
-  => [item_xy[0], item_xy[1], sized_image_data(pixels, rect)]
+    => null
+  item_xy := f_viewport.surface_to_item(&data.Point(#))
+    rect.x0 + offset.x
+    rect.y0 + offset.y
+  => &ImageCopy(item_xy, sized_image_data(pixels, rect))
 
 :::xform_draw_image = ##
   ctx\CanvasRenderingContext2D\$
@@ -119,6 +116,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   ctx.restore()
 
 :::image_region = ##
+  \ImageCopy\
   img\Image\$
   region_pixels\ImageData\$
   diff\b\? false
@@ -138,9 +136,8 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   rect := find_pixel_rect(pixels)
   if !rect
     => null
-  => [#]
-    rect[0] + img.offsetLeft
-    rect[1] + img.offsetTop
+  => &ImageCopy(#)
+    &data.Point(rect[0] + img.offsetLeft, rect[1] + img.offsetTop)
     sized_image_data(pixels, rect)
 
 :::blend_images = ##
@@ -320,6 +317,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
         pixels.data[alpha_idx] = alpha
 
 :::sized_image_data = ##
+  \s\
   pixels\ImageData\$
   rect\data.Rect\$
   // Takes coordinates relative to pixels.
