@@ -28,6 +28,8 @@ fix client code to run.
 
 check if list and draw mode palettes has all the necessary components.
 
+check if copy paste works for text and image.
+
 clean up:
   rename:
     data.Point to data.Vec2.

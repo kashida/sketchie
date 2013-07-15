@@ -186,7 +186,7 @@ Image methods.
 
   // Activate.
   f_item_palette.close()
-  f_editor_modes.changeModeTo('d', [img], ##)
+  f_editor_modes.changeModeTo('d', {image:img}, ##)
     params\O\$
     => @draw_end(#)
       \Image\(img)
