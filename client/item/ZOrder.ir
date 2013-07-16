@@ -9,9 +9,9 @@
   item := null
   if send_back
     while div.childNodes.length > 0
-      item = div.firstChild
+      item = \Node\(div.firstChild)
       div.removeChild(item)
-      f_item_list.insert_before(img, item)
+      f_item_list.insert_before(img, [item])
   else
     while (f_item_list.length() > 0 && !img) || f_item_list.length() > 1
       item = img ? f_item_list.child(-2) : f_item_list.last()
@@ -27,13 +27,13 @@
   div := id('itemlist_upper')
   item := null
   if send_back
-    item = div.firstChild
+    item = \Node\(div.firstChild)
     if !item
       =>
     div.removeChild(item)
-    f_item_list.insert_before(img, item)
+    f_item_list.insert_before(img, [item])
   else
-    list := f_item_list.children()
+    list := f_item_list.children
     item = #?
       img
       list.length < 2 ? null : list[list.length - 2]

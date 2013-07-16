@@ -73,6 +73,11 @@ draw mode:
     saturation with shift.
     hue with ctrl.
     mix with shift + ctrl.
+  activate color adjust hex control:
+    'm' mix.
+    'h' hue.
+    'j' saturation.
+    'l' lightness.
 
   ',' and '.' for up / down brush params:
     size.

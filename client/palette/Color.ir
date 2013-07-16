@@ -44,7 +44,7 @@
 
 :activate_control
   p\s\$
-  (\!Slider\({m: @mix, h:@hue, s:@sat, l:@lgt})[p]).activate()
+  (\!Slider\({m: @mix, h:@hue, s:@sat, l:@lgt}[p])).activate()
 
 :unselect
   if @color_sel instanceof Element
