@@ -59,13 +59,9 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
 
   // Find the rect that can contain pixels_rect and the transformed image
   // in document coords.
-  its := f_viewport.item_to_surface(elem_position(orig_img))
-  imgx0 := its[0]
-  imgy0 := its[1]
-  its_br := f_viewport.item_to_surface(elem_position_br(orig_img))
-  imgx1 := its_br[0]
-  imgy1 := its_br[1]
-  u := union_rect([orig_img], pixels_rect, [[imgx0, imgy0, imgx1, imgy1]])
+  img0 := f_viewport.item_to_surface(elem_position(orig_img))
+  img1 := f_viewport.item_to_surface(elem_position_br(orig_img))
+  u := union_rect([orig_img], pixels_rect, [[img0.x, img0.y, img1.x, img1.y]])
   if !u
     => null
   uw := u.w + 1
@@ -74,16 +70,16 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   // New temp canvas, logically located at (u.x0, u.y0) in surface coords.
   cvs := &Canvas(uw, uh)
   ctx := cvs.ctx
-  xform_draw_image(ctx, orig_img, &data.Point(imgx0 - u.x0, imgy0 - u.y0))
+  xform_draw_image(ctx, orig_img, &data.Point(img0.x - u.x0, img0.y - u.y0))
   ctx.clearRect(-u.x0, -u.y0, pixels.width, pixels.height)
   ctx.putImageData(pixels, -u.x0, -u.y0, pixels_rect.x0, pixels_rect.y0, w, h)
-  => image_rect_spec(cvs.pixels(), null, u.p00)
+  => image_rect_spec(cvs.pixels(), undefined, u.p00)
 
 :::image_rect_spec = ##
   \ImageCopy\
   pixels\ImageData\$
-  rect\data.Rect\? find_pixel_rect(pixels)
-  offset\data.Point\? &data.Point(0, 0)
+  rect\!data.Rect\? find_pixel_rect(pixels)
+  offset\!data.Point\? &data.Point(0, 0)
   if !rect
     => null
   item_xy := f_viewport.surface_to_item(&data.Point(#))
@@ -192,13 +188,13 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
     if row_has_value(y)
       miny = y
       break
-  if !miny
+  if miny === null
     => null
   for y = pixels.height - 1; y >= miny; y--
     if row_has_value(y)
       maxy = y
       break
-  if !maxy
+  if maxy === null
     => null
 
   // Find the minimum and maximum x values that has any pixel.
@@ -212,13 +208,13 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
     if col_has_value(x)
       minx = x
       break
-  if !minx
+  if minx === null
     => null
   for x = pixels.width - 1; x >= minx; x--
     if col_has_value(x)
       maxx = x
       break
-  if !maxx
+  if maxx === null
     => null
   => &data.Rect(minx, miny, maxx, maxy)
 

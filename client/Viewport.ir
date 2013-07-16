@@ -21,19 +21,19 @@
 :scale
   => @scale
 
-:offset
-  => [@offset_x, @offset_y]
+:offset\data.Point\
+  => &data.Point(@offset_x, @offset_y)
 
-:item_to_view
+:item_to_view\data.Point\
   x\n\$
   y\n\$
   half_w := @viewport.offsetWidth / 2
   half_h := @viewport.offsetHeight / 2
-  => [#]
+  => &data.Point(#)
     (x + @offset_x - half_w) * @scale + half_w
     (y + @offset_y - half_h) * @scale + half_h
 
-:item_to_surface
+:item_to_surface\data.Point\
   p\data.Point\$
   half_w := @viewport.offsetWidth / 2
   half_h := @viewport.offsetHeight / 2
