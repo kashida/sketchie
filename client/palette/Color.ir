@@ -1,8 +1,8 @@
 ::<%.Palette
-  @mix\Slider\ &Slider('color_mix', 'mix%', 0, 100, 0, 10)
-  @hue\Slider\ &Slider('color_hue', 'hue%', -300, 300, 0, 10)
-  @sat\Slider\ &Slider('color_sat', 'sat%', -100, 100, 0, 20)
-  @lgt\Slider\ &Slider('color_lgt', 'lgt%', -100, 100, 0, 40)
+  @mix\!Slider\ &Slider('color_mix', 'mix%', 0, 100, 0, 10)
+  @hue\!Slider\ &Slider('color_hue', 'hue%', -300, 300, 0, 10)
+  @sat\!Slider\ &Slider('color_sat', 'sat%', -100, 100, 0, 20)
+  @lgt\!Slider\ &Slider('color_lgt', 'lgt%', -100, 100, 0, 40)
   @color_sel\Element|data.Hsl\
   @prev_color\data.Hsl\
   ^('color_palette')
@@ -44,7 +44,7 @@
 
 :activate_control
   p\s\$
-  ({m: @mix, h:@hue, s:@sat, l:@lgt})[p].activate()
+  (\!Slider\({m: @mix, h:@hue, s:@sat, l:@lgt})[p]).activate()
 
 :unselect
   if @color_sel instanceof Element

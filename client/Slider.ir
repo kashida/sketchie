@@ -16,9 +16,9 @@
   @label = b_l[1]
   listen(@box, 'click', ##)
     evt\Event\$
-    @activate()
+    @.activate()
 
-:@activate
+:activate
   f_hex_control.activate(@)
   @box.classList.add('control_hilite')
 

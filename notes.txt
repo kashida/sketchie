@@ -4,8 +4,6 @@ fix client code to run.
   add todos here.
 
   image mode:
-    drawing on existing image item remove the original.
-
     'm', 'h', 'j', 'l' for color adjust mode doesn't work.
     primary / secondary color mix seems negated?
     'v' and 'n' with shift to change z order not working.
