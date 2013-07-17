@@ -4,7 +4,8 @@ fix client code to run.
   add todos here.
 
   image mode:
-    'v' and 'n' with shift to change z order not working.
+    draw image, exit, re-draw the same image, extend the region to top/left, exit.
+      -> crops the new top/left region to the original image size.
     's' to stencil mode not working.
 
   stencile mode:

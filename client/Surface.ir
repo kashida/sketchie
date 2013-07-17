@@ -229,25 +229,19 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   images.forEach(##)
     img\Image\$
     i\n\$
-    imgx0 := img.offsetLeft
-    imgy0 := img.offsetTop
-    imgx1 := img.offsetLeft + img.offsetWidth
-    imgy1 := img.offsetTop + img.offsetHeight
-    if image_dimensions.length > i
-      imgx0 = image_dimensions[i][0]
-      imgy0 = image_dimensions[i][1]
-      imgx1 = image_dimensions[i][2]
-      imgy1 = image_dimensions[i][3]
+    img_rect := image_dimensions.length > i ? # : #
+      &data.Rect(#)
+        image_dimensions[i][0]
+        image_dimensions[i][1]
+        image_dimensions[i][2]
+        image_dimensions[i][3]
+      elem_rect(img)
     xf_r := attr(img, 'xf_r')
     xf_s := attr(img, 'xf_s')
-    if !(xf_r || xf_s)
-      x0 := imgx0
-      y0 := imgy0
-      x1 := imgx1
-      y1 := imgy1
-    else
-      half_w := 0.5 * (imgx1 - imgx0)
-      half_h := 0.5 * (imgy1 - imgy0)
+    xfm_rect := img_rect.clone
+    if xf_r || xf_s
+      half_w := 0.5 * img_rect.w
+      half_h := 0.5 * img_rect.h
       // Corner coord from the center of the image (doesn't matter which
       // corner).
       x := half_w
@@ -260,17 +254,11 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
         s := Math.abs(Math.sin(xf_r))
         x = c * x + s * y
         y = s * x + c * y
-      x0 = imgx0 + half_w - x
-      y0 = imgy0 + half_h - y
-      x1 = x0 + 2.0 * x
-      y1 = y0 + 2.0 * y
-    if result
-      result.x0 = Math.max(result.x0, x0)
-      result.y0 = Math.max(result.y0, y0)
-      result.x1 = Math.max(result.x1, x1)
-      result.y1 = Math.max(result.y1, y1)
-    else
-      result = &data.Rect(x0, y0, x1, y1)
+      xfm_rect.x0 = img_rect.x0 + half_w - x
+      xfm_rect.y0 = img_rect.y0 + half_h - y
+      xfm_rect.x1 = xfm_rect.x0 + 2.0 * x
+      xfm_rect.y1 = xfm_rect.y0 + 2.0 * y
+    result = result ? result.union(xfm_rect) : xfm_rect.clone
   => result
 
 :::intersect_pixel_region = ##

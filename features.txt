@@ -84,6 +84,10 @@ draw mode:
     alpha with shift.
     lerp (edge sharpness) with ctrl.
 
+  'v' to push current image down all the way in z.
+  shift + 'v' to pull current image up all the way in z.
+  'n' to push current image down by one in z
+  shift + 'n' to pull current image up by one in z
 
   'x' toggles alpha lock.
   'z' undo stroke.

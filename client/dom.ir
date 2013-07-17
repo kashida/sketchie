@@ -138,6 +138,14 @@
   => &data.Point(#)
     elem.offsetLeft + elem.offsetWidth
     elem.offsetTop + elem.offsetHeight
+:::elem_rect = ##
+  \data.Rect\
+  elem\Element\$
+  => &data.Rect(#)
+    elem.offsetLeft
+    elem.offsetTop
+    elem.offsetLeft + elem.offsetWidth
+    elem.offsetTop + elem.offsetHeight
 
 :::eachChild = ##
   el\Element\$

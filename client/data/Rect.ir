@@ -21,3 +21,11 @@
   => &%.Point(@.x1, @.y0)
 :p11+\!%.Point\
   => &%.Point(@.x1, @.y1)
+
+:union\!%.Rect\
+  other\!%.Rect\$
+  => &%.Rect(#)
+    Math.min(@.x0, other.x0)
+    Math.min(@.y0, other.y0)
+    Math.max(@.x1, other.x1)
+    Math.max(@.y1, other.y1)
