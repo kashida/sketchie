@@ -120,14 +120,12 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   cvs := &Canvas(img.width, img.height)
   cvs.ctx.drawImage(img, 0, 0)
   pixels := cvs.pixels()
-  sti := f_viewport.surface_to_item(0, 0)
-  mx := sti[0]
-  my := sti[1]
+  sti := f_viewport.surface_to_item(&data.Point(0, 0))
   intersect_pixel_region(#)
     pixels
     region_pixels
-    Math.floor(img.offsetLeft - mx)
-    Math.floor(img.offsetTop - my)
+    Math.floor(img.offsetLeft - sti.x)
+    Math.floor(img.offsetTop - sti.y)
     diff
   rect := find_pixel_rect(pixels)
   if !rect

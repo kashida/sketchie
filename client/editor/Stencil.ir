@@ -25,10 +25,14 @@
     f_editor_modes.popMode()
 
   else if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('C')
-    f_editor_modes.popMode({action:'c'})
+    f_editor_modes.popMode({#})
+      mask: f_surface.pixels()
+      action: 'c'
 
   else if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('X')
-    f_editor_modes.popMode({action:'x'})
+    f_editor_modes.popMode({#})
+      mask: f_surface.pixels()
+      action: 'x'
 
   else
     ^(evt)

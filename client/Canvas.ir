@@ -28,7 +28,7 @@ Convenience wrapper for the html canvas.
   @canvas.width = @canvas.clientWidth / @scale
   @canvas.height = @canvas.clientHeight / @scale
 
-:pixels
+:pixels\ImageData\
   => @ctx.getImageData(0, 0, @canvas.width, @canvas.height)
 
 :copy_image

@@ -1,15 +1,15 @@
 [TODO]
-fix client code to run.
-  document features at the same time.
-  add todos here.
 
-  image mode:
-    draw image, exit, re-draw the same image, extend the region to top/left, exit.
-      -> crops the new top/left region to the original image size.
-    's' to stencil mode not working.
+check if list and draw mode palettes has all the necessary components.
 
+check if copy paste works for text and image.
+
+bugs:
   stencile mode:
-    check if all keys work.
+    copy / cut creates a new image at top left corner of view.
+    newly created image has diagonal lines.
+    sometimes -- change brush and immediately drawing.
+      stroke's draw is called w/ color member null.
 
   strokes:
     ink -- line thicker while drawing, but thinner at blit.
@@ -21,11 +21,6 @@ fix client code to run.
   list mode:
     palette -> alpha hex control is not working.
     'm' to merge images not working.
-
-
-check if list and draw mode palettes has all the necessary components.
-
-check if copy paste works for text and image.
 
 clean up:
   rename:
@@ -44,6 +39,8 @@ clean up:
   split files > 100 lines.
 
   texts in palette are selectable.
+
+  no color and alpha selection / adjustment in stencil mode.
 
 visual refine:
   make item primary selection visually clearer in css.
@@ -82,6 +79,7 @@ new features:
 tests:
   based on undo-redo command buffer?
   command list interleaved with asserts.
+  separate browser event level tests?
 
 chrome extension / app packaging.
 

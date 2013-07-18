@@ -12,11 +12,13 @@
 :dispatch
   evt\Event\$
   if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
-    f_editor_modes.popMode(#)
-      { img_spec: f_surface.image_spec(@.image) }
+    f_editor_modes.popMode({#})
+      img_spec: f_surface.image_spec(@.image)
 
   if evt.keyCode == c('S')
-    f_editor_modes.popMode({stencil:true})
+    f_editor_modes.popMode({#})
+      img_spec: f_surface.image_spec(@.image)
+      stencil: true
 
   else
     ^(evt)

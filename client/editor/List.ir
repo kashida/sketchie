@@ -227,26 +227,29 @@ Image methods.
   f_item_palette.close()
   f_editor_modes.changeModeTo('s', [], ##)
     params\s\$
-    @stencil_end(\Image\(img), params['action'])
+    @stencil_end(#)
+      \Image\(img)
+      params['mask']
+      params['action']
 
 :@stencil_end
   img\Image\$
+  mask\ImageData\$
   action\s\$
-  region_pixels := f_surface.pixels()
   @selection.select(img)
   if action != 'c' && action != 'x'
     // Canceled.
     =>
 
   // Carry out the requested action.
-  img_spec := image_region(img, region_pixels)
+  img_spec := image_region(img, mask)
   if !img_spec
     // no intersection of the image and selection.
     =>
 
   created_img := @make_image_item(img_spec)
   if action == 'x'
-    rest_spec := image_region(img, region_pixels, true)
+    rest_spec := image_region(img, mask, true)
     // We don't need to make any action if the entire image was selected
     // and the operation was cut (not copy).
     if rest_spec

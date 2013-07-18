@@ -1,7 +1,7 @@
 list (default) mode:
   mode changes.
-  'd' go to draw mode.
-  's' go to stencil mode.
+  'd' go to draw mode (with no selection or image item selected).
+  's' go to stencil mode (with image item selected).
   'o' enter text.
   'i' edit selected text with cursor beginning of the text.
   'e' edit selected text with cursor end of the text.
@@ -45,6 +45,8 @@ list (default) mode:
 
 draw mode:
   esc get out.
+  's' go out of draw mode and straight to stencil mode.
+
   'b' to toggle tool palette display.
     shows brush sample.
     click on lerp, alpha, size to invoke hex adjust mode.
@@ -94,6 +96,15 @@ draw mode:
 
   color palette:
     click on color to select.
+
+stencil mode:
+  all the draw mode key except 's'.
+  color and alpha selection doesn't matter.
+  'x' to toggle alpha lock is hidden by 'x' for cut image.
+  
+  'c' to copy the selected region into another image item and exit stencil mode.
+  'x' to cut the selected region out form the current image item into another
+    image item and exit stencil mode.
 
 text mode:
   esc get out.

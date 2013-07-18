@@ -15,6 +15,8 @@ Currently selected editor.
   
 :changeModeTo
   nextMode\s\$
+  // TODO: pass typed obj. caller keep the reference to it and expect
+  // return values too so end_mode_params below isn't necessary.
   activate_params\O\? {}
   reactivate_cb\F\?
   assert(nextMode != @.mode)
