@@ -114,7 +114,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
 :::image_region = ##
   \ImageCopy\
   img\Image\$
-  region_pixels\ImageData\$
+  mask\ImageData\$
   diff\b\? false
   // Take either intersection or diff of the images.
   cvs := &Canvas(img.width, img.height)
@@ -123,7 +123,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   sti := f_viewport.surface_to_item(&data.Point(0, 0))
   intersect_pixel_region(#)
     pixels
-    region_pixels
+    mask
     Math.floor(img.offsetLeft - sti.x)
     Math.floor(img.offsetTop - sti.y)
     diff
@@ -259,13 +259,14 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
     result = result ? result.union(xfm_rect) : xfm_rect.clone
   => result
 
+// Overwrites pixeis parameter.
 :::intersect_pixel_region = ##
   pixels\ImageData\$
-  region_pixels\ImageData\$
+  mask\ImageData\$
   dx\n\$
   dy\n\$
   diff\b\$
-  // Modify pixels to make intersection or diff of the region_pixels.
+  // Modify pixels to make intersection or diff of the mask.
   // Go thru all the pixels and modify the values.
   max_alpha := Math.floor(255.0 * 0.3)
     // This 0.3 needs to match the alpha in Stencil.draw_segment.
@@ -277,13 +278,12 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
 
       if #&&
         sx >= 0
-        sx < region_pixels.width
+        sx < mask.width
         sy >= 0
-        sy < region_pixels.height
+        sy < mask.height
         --
-        stencil_alpha := region_pixels.data[#]
-          (sx + sy * region_pixels.width) * 4 + 3
-        stencil = stencil_alpha >= max_alpha ? 1.0 : stencil_alpha / max_alpha
+        mask_alpha := mask.data[(sx + sy * mask.width) * 4 + 3]
+        stencil = mask_alpha >= max_alpha ? 1.0 : mask_alpha / max_alpha
       if diff
         stencil = 1.0 - stencil
       if stencil < 1.0
@@ -294,7 +294,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
           0
           Math.floor(pixels.data[alpha_idx] * stencil)
         if alpha == 0
-          each i in [1, 2, 3]
+          for i = 1; i < 4; i++
             pixels.data[base + i] = 0
         pixels.data[alpha_idx] = alpha
 

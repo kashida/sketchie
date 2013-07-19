@@ -6,8 +6,8 @@ check if copy paste works for text and image.
 
 bugs:
   stencile mode:
-    copy / cut creates a new image at top left corner of view.
     newly created image has diagonal lines.
+      intersect_pixel_region in Surface.ir doesn't seem working.
     sometimes -- change brush and immediately drawing.
       stroke's draw is called w/ color member null.
 
