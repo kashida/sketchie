@@ -131,7 +131,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   if !rect
     => null
   => &ImageCopy(#)
-    &data.Point(rect[0] + img.offsetLeft, rect[1] + img.offsetTop)
+    &data.Point(rect.x0 + img.offsetLeft, rect.y0 + img.offsetTop)
     sized_image_data(pixels, rect)
 
 :::blend_images = ##
@@ -159,8 +159,8 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   if !rect
     => null
   => [#]
-    rect[0] + minx
-    rect[1] + miny
+    rect.x0 + minx
+    rect.y0 + miny
     sized_image_data(pixels, rect)
 
 :::find_pixel_rect = ##
