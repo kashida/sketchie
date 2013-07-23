@@ -12,10 +12,12 @@ list (default) mode:
 
   item control.
   'c' copy item.
-  shift+'d' delete item.
+  shift + 'd' delete item.
   'x' toggle alpha lock.
   '<' and '>' to adjust alpha up and down.
   'm' merges items (need to have multiple items selected).
+  ctrl + 'v' paste image element copied from another web page.
+    pasted images are not edittable.
 
   viewport control.
   '-' zoom out.
@@ -38,8 +40,9 @@ list (default) mode:
   'n' sends item to farther than any overlapped items in z.
   shift + 'n' bring item to nearer than any overlapped items in z.
 
-  space to toggle palette display.
+  space to toggle palette display (for the selected item).
     click on alpha to invoke hex adjust mode.
+    (for image) click on alpha lock to toggle.
 
   shift+'u' go up to the list page.
 

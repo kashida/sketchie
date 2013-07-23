@@ -1,6 +1,4 @@
-NODE=nodejs
-IR2JS=NODE_PATH=~/ir2js/saved $(NODE) ~/ir2js/saved/convert.js
-SORTJS=$(IR2JS) --stdout --sort
+SORTJS=ir2js --stdout --sort
 
 CLIENT_PKG=compiled/client/packages.js
 SERVER_PKG=compiled/server/packages.js
@@ -44,8 +42,7 @@ CLOSURE_ARGS+=--jscomp_error=uselessCode
 CLOSURE_ARGS+=--jscomp_error=visibility
 
 
-default: serve
-client: compiled/_scrawler.js
+default: client
 
 
 ############################################################
@@ -53,23 +50,25 @@ client: compiled/_scrawler.js
 
 compiled/client/%.js: client/%.ir
 	@mkdir -p `dirname $@`
-	@$(IR2JS) --basedir=client --outdir=compiled/client $^
+	@ir2js --basedir=client --outdir=compiled/client $^
 
 compiled/server/%.js: server/%.ir
 	@mkdir -p `dirname $@`
-	@$(IR2JS) --basedir=server --outdir=compiled/server $^
+	@ir2js --basedir=server --outdir=compiled/server $^
 
 $(CLIENT_PKG):
 	@mkdir -p `dirname $@`
-	@$(IR2JS) --pkglist --basedir=client $(CLIENT_IR) > $@
+	@ir2js --pkglist --basedir=client $(CLIENT_IR) > $@
 
 $(SERVER_PKG):
 	@mkdir -p `dirname $@`
-	@$(IR2JS) --pkglist --basedir=server $(SERVER_IR) > $@
+	@ir2js --pkglist --basedir=server $(SERVER_IR) > $@
 
 
 ############################################################
 # Main targets.
+
+client: compiled/_scrawler.js
 
 sort:
 	@echo "$(shell $(SORTJS) $(CLIENT_JS))"
@@ -81,11 +80,11 @@ compiled/_scrawler.js: $(CLIENT_JS) $(CLIENT_PKG)
   rm $@
 
 serve: compiled/server.js
-	NODE_PATH=~/ir2js/saved $(NODE) $^
+	node $^
 
 compiled/server.js: compiled/_server.js
 	@echo '===== MERGE server'
-	$(IR2JS) --merge --basedir=compiled --outfile=$@ $(SERVER_JS)
+	ir2js --merge --basedir=compiled --outfile=$@ $(SERVER_JS)
 
 compiled/_server.js: $(SERVER_JS) $(SERVER_PKG)
 	@echo '===== VERIFY server: compiling'

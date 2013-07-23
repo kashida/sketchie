@@ -1,13 +1,7 @@
 [TODO]
 
-check if list and draw mode palettes has all the necessary components.
-
-check if copy paste works for text and image.
-
 bugs:
   stencile mode:
-    newly created image has diagonal lines.
-      intersect_pixel_region in Surface.ir doesn't seem working.
     sometimes -- change brush and immediately drawing.
       stroke's draw is called w/ color member null.
 
@@ -41,6 +35,8 @@ clean up:
   texts in palette are selectable.
 
   no color and alpha selection / adjustment in stencil mode.
+
+  list mode palette needs image alpha lock control?
 
 visual refine:
   make item primary selection visually clearer in css.

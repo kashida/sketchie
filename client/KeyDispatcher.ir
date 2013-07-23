@@ -5,7 +5,7 @@
     @dispatch(evt)
   listen(document.body, 'paste', ##)
     evt\Event\$
-    if f_editor_modes.mode == 'i'
+    if f_editor_modes.mode == 'l'
       f_editor_modes.editor.paste_image(evt)
 
 :@dispatch
