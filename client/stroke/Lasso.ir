@@ -1,4 +1,5 @@
 ::< %.Stroke
+  @points\A.<data.Vec2>\ []
   ^()
 
 :reset
@@ -12,7 +13,7 @@
 :draw
   x\n\$
   y\n\$
-  @points.push([x, y])
+  @points.push(&data.Vec2(x, y))
   if @points.length < 2
     =>
   f_stroke_layer.clear()
