@@ -27,9 +27,10 @@
     =>
   f_stroke_layer.clear()
   @setup_stroke()
-  for i := 0; i < @points.length; i++
-    r := @rscale(i, (@points.length - i - 1))
-  l(r)
+  r := @points.map(##)
+    p\data.Vec2\$
+    i\n\$
+    => @rscale(i, (@points.length - i - 1))
   prev := null
   @points.forEach(##)
     p\data.Vec2\$
@@ -88,6 +89,7 @@
 
 :@rscale
   index\n\$
+  // Used for stroke out.
   eindex\n\?
   p := @points[index]
   rp := index < 3 ? @points[0] : @points[index - 3]
@@ -96,6 +98,6 @@
   dist := Math.sqrt(dp.x * dp.x + dp.y * dp.y) * scale
   vscale := dist == 0 ? 1.0 : 10.0 / dist
   => #?
-    eindex
-    min_all([index / 20, eindex / 20, vscale, 1.0])
+    eindex === undefined
     min_all([index / 20, vscale, 1.0])
+    min_all([index / 20, eindex / 20, vscale, 1.0])

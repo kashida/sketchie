@@ -17,7 +17,6 @@ bugs:
 
 clean up:
   rename:
-    data.Point to data.Vec2.
     ImageCopy to something else?
   method names to camel case?
 
@@ -36,6 +35,8 @@ clean up:
   no color and alpha selection / adjustment in stencil mode.
 
   list mode palette needs image alpha lock control?
+
+  make favicon.ico.
 
 visual refine:
   make item primary selection visually clearer in css.
@@ -70,6 +71,8 @@ new features:
     alpha lock mode indicator.
     selected stroke indicator.
       alphabet letter on cursor sometimes shows up...
+
+  ink stroke to use timing information for the stroke width.
 
 tests:
   based on undo-redo command buffer?
