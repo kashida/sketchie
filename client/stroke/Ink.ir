@@ -40,6 +40,8 @@
     prev = p
 
   // Copy to the surface.
+  // TODO: Can we draw directly to f_surface instead of drawing to
+  // f_stroke_layer and then copy?
   ctx := f_surface.ctx
   ctx.globalAlpha = @.color.a
   ctx.drawImage(f_stroke_layer.canvas, 0, 0)

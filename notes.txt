@@ -1,8 +1,6 @@
 [TODO]
 bugs:
   strokes:
-    ink -- line thicker while drawing, but thinner at blit.
-    smudge leaves dark area?
     average doesn't seem to be working at all.
     ink disappears at blit.
     lasso doesn't seem to be doing anything.
@@ -73,6 +71,8 @@ new features:
       alphabet letter on cursor sometimes shows up...
 
   ink stroke to use timing information for the stroke width.
+
+  smudge leaves dark area around edge.
 
 tests:
   based on undo-redo command buffer?
