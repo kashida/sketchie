@@ -137,7 +137,7 @@ Image methods.
 :@copy_image_item
   orig_item\Element\$
   img := @make_image_item(&ImageCopy(#))
-    &data.Point(orig_item.offsetLeft + 10, orig_item.offsetTop + 10)
+    &data.Vec2(orig_item.offsetLeft + 10, orig_item.offsetTop + 10)
     orig_item.src
   set_attr(img, 'xf_r', attr(orig_item, 'xf_r'))
   set_attr(img, 'xf_s', attr(orig_item, 'xf_s'))
@@ -283,7 +283,7 @@ Image methods.
       =>
     url = img.src
   img = @make_image_item(&ImageCopy(#))
-    &data.Point(window.pageXOffset, window.pageYOffset)
+    &data.Vec2(window.pageXOffset, window.pageYOffset)
     url
   set_attr(img, 'ref_img', '1')
   f_item_list.append_end(img)

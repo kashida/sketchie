@@ -70,7 +70,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   // New temp canvas, logically located at (u.x0, u.y0) in surface coords.
   cvs := &Canvas(uw, uh)
   ctx := cvs.ctx
-  xform_draw_image(ctx, orig_img, &data.Point(img0.x - u.x0, img0.y - u.y0))
+  xform_draw_image(ctx, orig_img, &data.Vec2(img0.x - u.x0, img0.y - u.y0))
   ctx.clearRect(-u.x0, -u.y0, pixels.width, pixels.height)
   ctx.putImageData(pixels, -u.x0, -u.y0, pixels_rect.x0, pixels_rect.y0, w, h)
   => image_rect_spec(cvs.pixels(), undefined, u.p00)
@@ -79,10 +79,10 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   \ImageCopy\
   pixels\ImageData\$
   rect\!data.Rect\? find_pixel_rect(pixels)
-  offset\!data.Point\? &data.Point(0, 0)
+  offset\!data.Vec2\? &data.Vec2(0, 0)
   if !rect
     => null
-  item_xy := f_viewport.surface_to_item(&data.Point(#))
+  item_xy := f_viewport.surface_to_item(&data.Vec2(#))
     rect.x0 + offset.x
     rect.y0 + offset.y
   => &ImageCopy(item_xy, sized_image_data(pixels, rect))
@@ -90,7 +90,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
 :::xform_draw_image = ##
   ctx\CanvasRenderingContext2D\$
   img\Image\$
-  offset\data.Point\$
+  offset\data.Vec2\$
   use_alpha\b\? false
   xf_r := attr(img, 'xf_r')
   xf_s := attr(img, 'xf_s')
@@ -120,7 +120,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   cvs := &Canvas(img.width, img.height)
   cvs.ctx.drawImage(img, 0, 0)
   pixels := cvs.pixels()
-  sti := f_viewport.surface_to_item(&data.Point(0, 0))
+  sti := f_viewport.surface_to_item(&data.Vec2(0, 0))
   intersect_pixel_region(#)
     pixels
     mask
@@ -131,7 +131,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   if !rect
     => null
   => &ImageCopy(#)
-    &data.Point(rect.x0 + img.offsetLeft, rect.y0 + img.offsetTop)
+    &data.Vec2(rect.x0 + img.offsetLeft, rect.y0 + img.offsetTop)
     sized_image_data(pixels, rect)
 
 :::blend_images = ##
@@ -149,7 +149,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   ctx := cvs.ctx
   images.forEach(##)
     img\Image\$
-    xform_draw_image(ctx, img, &data.Point(#), true)
+    xform_draw_image(ctx, img, &data.Vec2(#), true)
       img.offsetLeft - minx
       img.offsetTop - miny
 

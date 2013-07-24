@@ -1,5 +1,5 @@
 ::
-  @last_p\data.Point\
+  @last_p\data.Vec2\
   @cursor\Element\ id('draw_cursor')
 
 :div
@@ -33,4 +33,4 @@
   r := f_tool_palette.radius() * f_viewport.scale()
   @cursor.style.left = (x - r) + 'px'
   @cursor.style.top = (y - r) + 'px'
-  @last_p = &data.Point(x, y)
+  @last_p = &data.Vec2(x, y)

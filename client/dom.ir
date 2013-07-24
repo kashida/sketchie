@@ -128,14 +128,14 @@
   item.style['-webkit-transform'] = xforms.join(' ')
 
 :::elem_position = ##
-  \data.Point\
+  \data.Vec2\
   elem\Element\$
-  => &data.Point(elem.offsetLeft, elem.offsetTop)
+  => &data.Vec2(elem.offsetLeft, elem.offsetTop)
 :::elem_position_br = ##
-  \data.Point\
+  \data.Vec2\
   elem\Element\$
   // Bottom right corner coordinate.
-  => &data.Point(#)
+  => &data.Vec2(#)
     elem.offsetLeft + elem.offsetWidth
     elem.offsetTop + elem.offsetHeight
 :::elem_rect = ##

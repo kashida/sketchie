@@ -1,12 +1,12 @@
 ::
   @elem\Element\
-  @center\data.Point\
+  @center\data.Vec2\
   @start_theta\?n\
 
 :activate
   item\Element\$
   @elem = item
-  @center = &data.Point(#)
+  @center = &data.Vec2(#)
     item.offsetLeft + item.offsetWidth / 2.0
     item.offsetTop + item.offsetHeight / 2.0
   @start_theta = null

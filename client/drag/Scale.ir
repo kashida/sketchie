@@ -1,17 +1,17 @@
 ::
   @elem\Element\
-  @center\data.Point\
-  @startScale\data.Point\
+  @center\data.Vec2\
+  @startScale\data.Vec2\
   @startDist\n?\
 
 :activate
   item\Element\$
   @elem = item
-  @center = &data.Point(#)
+  @center = &data.Vec2(#)
     item.offsetLeft + item.offsetWidth / 2.0
     item.offsetTop + item.offsetHeight / 2.0
   @start = null
-  @startScale = &data.Point(#)
+  @startScale = &data.Vec2(#)
     attr(item, 'xf_sx') || 1.0
     attr(item, 'xf_sy') || 1.0
   f_dispatcher.drag_start(@)

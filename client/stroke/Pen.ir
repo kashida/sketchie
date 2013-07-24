@@ -1,5 +1,5 @@
 ::< %.Stroke
-  @points\A.<data.Point>\ []
+  @points\A.<data.Vec2>\ []
   ^()
 
 :reset
@@ -13,7 +13,7 @@
 :draw
   x\n\$
   y\n\$
-  @points.push(&data.Point(x, y))
+  @points.push(&data.Vec2(x, y))
   if @points.length < 2
     =>
   ctx := f_stroke_layer.ctx

@@ -1,10 +1,5 @@
 [TODO]
-
 bugs:
-  stencile mode:
-    sometimes -- change brush and immediately drawing.
-      stroke's draw is called w/ color member null.
-
   strokes:
     ink -- line thicker while drawing, but thinner at blit.
     smudge leaves dark area?
@@ -13,8 +8,12 @@ bugs:
     lasso doesn't seem to be doing anything.
 
   list mode:
-    palette -> alpha hex control is not working.
     'm' to merge images not working.
+    palette -> alpha hex control is not working.
+
+  stencile mode:
+    sometimes -- change brush and immediately drawing.
+      stroke's draw is called w/ color member null.
 
 clean up:
   rename:
