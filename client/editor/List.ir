@@ -136,7 +136,7 @@ Image methods.
 
 :@copy_image_item
   orig_item\Element\$
-  img := @make_image_item(&ImageCopy(#))
+  img := @make_image_item(&PositionedPixels(#))
     &data.Vec2(orig_item.offsetLeft + 10, orig_item.offsetTop + 10)
     orig_item.src
   set_attr(img, 'xf_r', attr(orig_item, 'xf_r'))
@@ -146,7 +146,7 @@ Image methods.
   f_item_list.append_end(img)
 
 :@make_image_item\Image\
-  spec\ImageCopy\$
+  spec\PositionedPixels\$
   img\Image\?
   add_img := !img
   if img
@@ -196,7 +196,7 @@ Image methods.
 
 :@draw_end
   img\Image\$
-  img_spec\ImageCopy\$
+  img_spec\PositionedPixels\$
   alpha_lock\b\$
   stencil\b\? false
   if !img_spec
@@ -282,7 +282,7 @@ Image methods.
     if !img
       =>
     url = img.src
-  img = @make_image_item(&ImageCopy(#))
+  img = @make_image_item(&PositionedPixels(#))
     &data.Vec2(window.pageXOffset, window.pageYOffset)
     url
   set_attr(img, 'ref_img', '1')

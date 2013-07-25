@@ -1,13 +1,4 @@
 [TODO]
-bugs:
-  list mode:
-    'm' to merge images not working.
-    palette -> alpha hex control is not working.
-
-  stencile mode:
-    sometimes -- change brush and immediately drawing.
-      stroke's draw is called w/ color member null.
-
 clean up:
   rename:
     ImageCopy to something else?
@@ -30,6 +21,12 @@ clean up:
   list mode palette needs image alpha lock control?
 
   make favicon.ico.
+
+  list mode palette -> alpha hex control is not working.
+
+  stencile mode:
+    sometimes -- change brush and immediately drawing.
+      stroke's draw is called w/ color member null.
 
 visual refine:
   make item primary selection visually clearer in css.
