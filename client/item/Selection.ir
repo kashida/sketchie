@@ -75,11 +75,9 @@
 :is_all_text+\b\
   if !@.is_any
     => false
-  @list.forEach(##)
-    i\Element\$
-    if i.tagName != 'DIV'
-      => false
-  => true
+  => @list.every(##)
+    el\Element\$
+    => el.tagName == 'DIV'
 
 :is_head_image+\b\
   => @.is_any && @.head.tagName == 'IMG'
@@ -87,8 +85,6 @@
 :is_all_image+\b\
   if !@.is_any
     => false
-  @list.forEach(##)
-    i\Element\$
-    if i.tagName != 'IMG'
-      => false
-  => true
+  => @list.every(##)
+    el\Element\$
+    => el.tagName == 'IMG'

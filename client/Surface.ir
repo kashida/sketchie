@@ -49,6 +49,7 @@ Takes view coordinates and returns [r, g, b, a] array in [0, 255] range.
 Orig_img gets added to the outside of the pixels bound.
 Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordinates.
 :::merged_image_spec = ##
+  \ImageCopy\
   pixels\ImageData\$
   orig_img\Image\$
   pixels_rect := find_pixel_rect(pixels)
@@ -135,6 +136,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
     sized_image_data(pixels, rect)
 
 :::blend_images = ##
+  \ImageCopy\
   images\A.<Image>\$
   if images.length < 1
     => null
@@ -158,9 +160,8 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   rect := find_pixel_rect(pixels)
   if !rect
     => null
-  => [#]
-    rect.x0 + minx
-    rect.y0 + miny
+  => &ImageCopy(#)
+    &data.Vec2(rect.x0 + minx, rect.y0 + miny)
     sized_image_data(pixels, rect)
 
 :::find_pixel_rect = ##
