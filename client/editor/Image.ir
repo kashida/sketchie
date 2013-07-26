@@ -14,7 +14,7 @@
 :activate
   params\O\$
   @image = \Image\(params['image'])
-  @alpha_lock = @image && is_attr(@image, 'alpha_lock')
+  @alpha_lock = @image && isAttr(@image, 'alpha_lock')
 
   f_surface.activate(@image, @alpha_lock)
   f_viewport.deactivate()

@@ -31,6 +31,6 @@
   if !@startDist
     @startDist = dist / (attr(@elem, 'xf_s') || 1)
     => false
-  set_attr(@elem, 'xf_s', String(dist / @startDist))
-  set_xform(@elem)
+  setAttr(@elem, 'xf_s', String(dist / @startDist))
+  setXform(@elem)
   => false

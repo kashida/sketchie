@@ -148,7 +148,7 @@
   label := create('div', {class: 'box ' + name + '_label'})
   label.innerText = init_value
   control_div := create('div', null, [#])
-    create_text(title + ': ')
+    createText(title + ': ')
     label
   box := id(name)
   box.classList.add('control_box')

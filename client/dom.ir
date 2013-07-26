@@ -1,8 +1,8 @@
-:::id = ##
+::id = ##
   str\s\$
   => document.getElementsByClassName(str)[0]
 
-:::create = ##
+::create = ##
   tag\s\$
   attrs\O\?
   children\A.<Element>\?
@@ -16,7 +16,7 @@
       elem.appendChild(child)
   => elem
 
-:::create_div = ##
+::createDiv = ##
   cls\s|A.<s>\$
   children\A.<Element>\?
   div := create('div', null, children)
@@ -28,11 +28,11 @@
     div.classList.add(cls)
   => div
 
-:::create_text = ##
+::createText = ##
   str\s\$
   => document.createTextNode(str)
 
-:::node_text = ##
+::nodeText = ##
   node\Element\$
   if node.nodeType == Node.ELEMENT_NODE
     => node.innerText
@@ -40,14 +40,14 @@
     // Assume it's a text node.
     => node.nodeValue
 
-:::append_children = ##
+::appendChildren = ##
   parent\Element\$
   children\A.<Node>\$
   children.forEach(##)
     child\Node\$
     parent.appendChild(child)
 
-:::find_or_create = ##
+::findOrCreate = ##
   tag\s\$
   attrs\O\$
   children\A.<Element>\?
@@ -59,39 +59,18 @@
   elem = create(tag, attrs, children)
   => elem
 
-:::remove_named_div = ##
-  cls\s\$
-  elem := id(cls)
-  if !elem
-    =>
-  elem.parentNode.removeChild(elem)
-
-:::listen = ##
+::listen = ##
   elem\Element\$
   type\s\$
   listener\F\$
   capture\b\? false
   elem.addEventListener(type, listener, capture)
 
-:::trigger_all = ##
-  type\s\$
-  node\Element\? document.body
-  name\s\? ''
-  handler := ##
-    evt\Event\$
-    l(name + ':' + evt.eventPhase)
-  listen(node, type, handler)
-  listen(node, type, handler, true)
-  for i := 0; i < node.childNodes.length; i++
-    child := node.childNodes[i]
-    trigger_all(type, child, name + '.' + #)
-      child.nodeType == Node.ELEMENT_NODE && child.id ? child.id : i
-
-:::attr = ##
+::attr = ##
   node\Element\$
   name\s\$
   => node.getAttribute(name)
-:::set_attr = ##
+::setAttr = ##
   node\Element\$
   name\s\$
   value\s\?
@@ -100,14 +79,14 @@
   else
     node.removeAttribute(name)
 
-:::is_attr = ##
+::isAttr = ##
   node\Element\$
   name\s\$
   a := attr(node, name)
   if !a
     => false
   => a == '1' || a == 'true'
-:::set_is_attr = ##
+::setIsAttr = ##
   node\Element\$
   name\s\$
   value\b\$
@@ -116,7 +95,7 @@
   else
     node.removeAttribute(name)
         
-:::set_xform = ##
+::setXform = ##
   item\Element\$
   xforms := []
   r := attr(item, 'xf_r')
@@ -127,18 +106,19 @@
     xforms.push('scale(' + s + ')')
   item.style['-webkit-transform'] = xforms.join(' ')
 
-:::elem_position = ##
+::elemPosition = ##
   \data.Vec2\
   elem\Element\$
   => &data.Vec2(elem.offsetLeft, elem.offsetTop)
-:::elem_position_br = ##
+TODO: drop this and use elemRect.
+::elemPositionBR = ##
   \data.Vec2\
   elem\Element\$
   // Bottom right corner coordinate.
   => &data.Vec2(#)
     elem.offsetLeft + elem.offsetWidth
     elem.offsetTop + elem.offsetHeight
-:::elem_rect = ##
+::elemRect = ##
   \data.Rect\
   elem\Element\$
   => &data.Rect(#)
@@ -147,7 +127,7 @@
     elem.offsetLeft + elem.offsetWidth
     elem.offsetTop + elem.offsetHeight
 
-:::eachChild = ##
+::eachChild = ##
   el\Element\$
   cb\f(Element,n)\$
   for i := 0; i < el.childNodes.length; i++

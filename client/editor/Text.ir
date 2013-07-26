@@ -17,7 +17,7 @@
   div := create('div')
   div.appendChild(create('br'))
   if str
-    div.appendChild(create_text(@trim_whitespace(str)))
+    div.appendChild(createText(@trim_whitespace(str)))
   => div
 
 If remove is true, clean up empty div's and remove the item if it ends up empty.
@@ -98,7 +98,7 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
     i := index
     while i < node.childNodes.length
       c := node.childNodes[i]
-      str += node_text(c)
+      str += nodeText(c)
       node.removeChild(c)
     => str
   newstr := ''

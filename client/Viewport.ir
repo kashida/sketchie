@@ -81,8 +81,8 @@ Change offset (but not scaling) to put the item in view.
   // Viewport and the item in item coord space.
   vp0 := @viewToItem(&data.Vec2(0, 0))
   vp1 := @viewToItem(&data.Vec2(@viewport.offsetWidth, @viewport.offsetHeight))
-  p0 := elem_position(item)
-  p1 := elem_position_br(item)
+  p0 := elemPosition(item)
+  p1 := elemPositionBR(item)
 
   // Find center positin delta.
   dcx := (vp0.x + vp1.x - p0.x - p1.x) * 0.5

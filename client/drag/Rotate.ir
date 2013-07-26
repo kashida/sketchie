@@ -24,8 +24,8 @@
   if ! @start_theta
     @start_theta = theta - (attr(@elem, 'xf_r') || 0)
     => false
-  set_attr(@elem, 'xf_r', String(theta - @start_theta))
-  set_xform(@elem)
+  setAttr(@elem, 'xf_r', String(theta - @start_theta))
+  setXform(@elem)
   => false
 
 :@find_theta

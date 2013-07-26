@@ -60,8 +60,8 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
 
   // Find the rect that can contain pixels_rect and the transformed image
   // in document coords.
-  img0 := f_viewport.itemToSurface(elem_position(orig_img))
-  img1 := f_viewport.itemToSurface(elem_position_br(orig_img))
+  img0 := f_viewport.itemToSurface(elemPosition(orig_img))
+  img1 := f_viewport.itemToSurface(elemPositionBR(orig_img))
   u := unionRect([orig_img], pixels_rect, [[img0.x, img0.y, img1.x, img1.y]])
   if !u
     => null
@@ -234,7 +234,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
         image_dimensions[i][1]
         image_dimensions[i][2]
         image_dimensions[i][3]
-      elem_rect(img)
+      elemRect(img)
     xf_r := attr(img, 'xf_r')
     xf_s := attr(img, 'xf_s')
     xfm_rect := img_rect.clone

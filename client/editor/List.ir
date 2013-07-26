@@ -139,10 +139,10 @@ Image methods.
   img := @make_image_item(&PositionedPixels(#))
     &data.Vec2(orig_item.offsetLeft + 10, orig_item.offsetTop + 10)
     orig_item.src
-  set_attr(img, 'xf_r', attr(orig_item, 'xf_r'))
-  set_attr(img, 'xf_s', attr(orig_item, 'xf_s'))
-  set_xform(img)
-  set_attr(img, 'alpha_lock', attr(orig_item, 'alpha_lock'))
+  setAttr(img, 'xf_r', attr(orig_item, 'xf_r'))
+  setAttr(img, 'xf_s', attr(orig_item, 'xf_s'))
+  setXform(img)
+  setAttr(img, 'alpha_lock', attr(orig_item, 'alpha_lock'))
   f_item_list.append_end(img)
 
 :@make_image_item\Image\
@@ -151,8 +151,8 @@ Image methods.
   add_img := !img
   if img
     // Refresh the transform.
-    set_attr(img, 'xf_r')
-    set_attr(img, 'xf_s')
+    setAttr(img, 'xf_r')
+    setAttr(img, 'xf_s')
     img.style['-webkit-transform'] = null
   else
     img = &Image()
@@ -206,7 +206,7 @@ Image methods.
       f_item_list.remove(img)
     => 
   @make_image_item(img_spec, img)
-  set_is_attr(@selection.head, 'alpha_lock', alpha_lock)
+  setIsAttr(@selection.head, 'alpha_lock', alpha_lock)
 
   // Remove the temporary div for the upper items.
   div := id('itemlist_upper')
@@ -285,7 +285,7 @@ Image methods.
   img = @make_image_item(&PositionedPixels(#))
     &data.Vec2(window.pageXOffset, window.pageYOffset)
     url
-  set_attr(img, 'ref_img', '1')
+  setAttr(img, 'ref_img', '1')
   f_item_list.append_end(img)
 
 

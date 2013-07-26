@@ -38,7 +38,7 @@ Convenience wrapper for the html canvas.
   %.xformDrawImage(#)
     @ctx
     img
-    f_viewport.itemToSurface(elem_position(img))
+    f_viewport.itemToSurface(elemPosition(img))
 
 :duplicateCanvas
   cvs := create('canvas')

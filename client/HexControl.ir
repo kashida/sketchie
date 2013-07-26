@@ -5,7 +5,7 @@
   @state\O\
   @dragging\b\ false
   @text_scale\n\ 0
-  append_children(@svg, [@svg_root])
+  appendChildren(@svg, [@svg_root])
 
 :activate
   controller\Slider\$
@@ -93,7 +93,7 @@
   evt\Event\$
   @base_x = evt.clientX
   @base_y = evt.clientY
-  set_attr(#)
+  setAttr(#)
     @svg_root
     'transform'
     'translate(' + evt.clientX + ',' + evt.clientY + ')'
@@ -102,7 +102,7 @@
   if !@state
     =>
   @svgClear()
-  set_attr(@svg_root, 'transform', 'translate(' + @base_x + ',' + @base_y + ')')
+  setAttr(@svg_root, 'transform', 'translate(' + @base_x + ',' + @base_y + ')')
   if @dragging
     @state.forEach(##)
       s\s\$
@@ -134,37 +134,37 @@
     opacity: '0.2'
     fill: selected ? '#eb9' : '#468'
   g := svgCreate('g')
-  append_children(@svg_root, [g])
-  append_children(g, [hex])
+  appendChildren(@svg_root, [g])
+  appendChildren(g, [hex])
   if label.c
     color_band := svgCreate('path', {#})
       d: hex_path
       stroke: label.c
       'stroke-width':'8'
       fill: 'none'
-    set_attr(color_band, 'transform', color_band_scale)
-    append_children(g, [color_band])
+    setAttr(color_band, 'transform', color_band_scale)
+    appendChildren(g, [color_band])
   if label.t
     if !@text_scale
       @setTextScale(g)
     text := svgCreateText(label.t)
-    append_children(g, [text])
+    appendChildren(g, [text])
     bbox := text['getBBox']()
     tx := -bbox.x - bbox.width / 2
     ty := -bbox.y - bbox.height / 2
-    set_attr(#)
+    setAttr(#)
       text
       'transform'
       'scale(' + @text_scale + '),translate(' + tx + ',' + ty + ')'
 
-  set_attr(g, 'transform', 'translate(' + ox + ',' + oy + ')')
+  setAttr(g, 'transform', 'translate(' + ox + ',' + oy + ')')
 
 :@setTextScale
   g\Element\$
   // Text box calculation needs to be done after it is added to svg (so we
   // get the bbox).
   ref_text := svgCreateText('WWW')
-  append_children(g, [ref_text])
+  appendChildren(g, [ref_text])
   bbox := ref_text['getBBox']()
   @text_scale = hex_size / bbox.width
   g.removeChild(ref_text)
@@ -225,5 +225,5 @@ From center of hex to the corner. hafl of hex height.
   text\s\$
   attrs\O\?
   elem := svgCreate('text', attrs)
-  append_children(elem, [document.createTextNode(text)])
+  appendChildren(elem, [document.createTextNode(text)])
   => elem
