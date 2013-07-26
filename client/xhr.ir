@@ -1,4 +1,4 @@
-:::xhr_post = ##
+::xhrPost = ##
   uri\s\$
   payload\s\$
   callback\F\?
@@ -12,7 +12,7 @@
   //xhr.send(JSON.stringify(payload))
   xhr.send(payload)
 
-:::xhr_get = ##
+::xhrGet = ##
   uri\s\$
   callback\F\$
   xhr := &XMLHttpRequest()

@@ -101,5 +101,5 @@
   vscale := dist == 0 ? 1.0 : 10.0 / dist
   => #?
     eindex === undefined
-    min_all([index / 20, vscale, 1.0])
-    min_all([index / 20, eindex / 20, vscale, 1.0])
+    minAll([index / 20, vscale, 1.0])
+    minAll([index / 20, eindex / 20, vscale, 1.0])

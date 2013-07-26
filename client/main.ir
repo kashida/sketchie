@@ -72,7 +72,7 @@ Server access.
     ifr.src = window.webkitURL.createObjectURL(bb.getBlob())
     document.body.appendChild(ifr)
   else
-    xhr_post(location.pathname, html)
+    xhrPost(location.pathname, html)
 
 :@buildDom
   appendChildren(document.body, [#])

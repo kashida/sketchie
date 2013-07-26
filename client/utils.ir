@@ -16,7 +16,7 @@
   val\n\$
   => Math.min(max, Math.max(min, val))
 
-::min_all = ##
+::minAll = ##
   nums\A.<n>\$
   n := null
   nums.forEach(##)
@@ -24,7 +24,7 @@
     n = n === null ? val : Math.min(n, val)
   => n
 
-::max_all = ##
+::maxAll = ##
   nums\A.<n>\$
   n := null
   nums.forEach(##)
@@ -33,7 +33,7 @@
   => n
 
 Convert array-like objects (e.g. from DOM) to an array.
-::to_array = ##
+::toArray = ##
   a\O\$
   result := []
   for i := 0; i < a.length; i++

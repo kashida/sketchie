@@ -3,6 +3,7 @@
 
 clean up:
   method names to camel case?
+    all the ones directly in client/ are done.
 
   move the script tags to header.
     and do anything else possible to clean up the dom structure.

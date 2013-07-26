@@ -32,8 +32,8 @@ String representations for CSS use.
   => &%.Color(@.r, @.g, @.b, alpha)
 
 :hsl+\%.Hsl\
-  max_rgb := max_all([@.r, @.g, @.b])
-  min_rgb := min_all([@.r, @.g, @.b])
+  max_rgb := maxAll([@.r, @.g, @.b])
+  min_rgb := minAll([@.r, @.g, @.b])
   c := max_rgb - min_rgb
   l := (max_rgb + min_rgb) / 2
   if c == 0
