@@ -1,7 +1,6 @@
 [TODO]
 clean up:
-  change key modifier from shift to control.
-    probably need to stop propagate the key events.
+  method names to camel case?
 
   move the script tags to header.
     and do anything else possible to clean up the dom structure.
@@ -10,23 +9,10 @@ clean up:
 
   split files > 100 lines.
 
-  texts in palette are selectable.
+ux refine:
+  change key modifier from shift to control.
+    probably need to stop propagate the key events.
 
-  no color and alpha selection / adjustment in stencil mode.
-
-  list mode palette needs image alpha lock control?
-
-  make favicon.ico.
-
-  list mode palette -> alpha hex control is not working.
-
-  stencile mode:
-    sometimes -- change brush and immediately drawing.
-      stroke's draw is called w/ color member null.
-
-  method names to camel case?
-
-visual refine:
   make item primary selection visually clearer in css.
 
   smooth scroll viewport translate with arrow keys in list mode.
@@ -34,7 +20,34 @@ visual refine:
 
   mode indicator -- both editor mode and drag mode.
  
+  texts in palette are selectable.
+
+  make favicon.ico.
+
+  list mode palette needs image alpha lock control?
+
+  no color and alpha selection / adjustment in stencil mode.
+
+  apply rotate and scale mouse drag to all the selected items.
+    not just the primary selection.
+
+issues:
+  stencile mode:
+    sometimes -- change brush and immediately drawing.
+      stroke's draw is called w/ color member null.
+
+  list mode palette -> alpha hex control is not working.
+
+  smudge leaves dark area around edge.
+
 new features:
+  hex control overhaul.
+    drag hex and keep selected region fixed in screen.
+
+  move color adjustment to a different app.
+
+  move brush parameters to a different app.
+
   add translate mode in list editor.
     treat it same as rotate and scale.
     the default is click to select only.
@@ -42,17 +55,11 @@ new features:
   organize all the controls (specially the list mode).
     keep the key control as shortcut, but add mouse controls.
 
-  hex control overhaul.
-    drag hex and keep selected region fixed in screen.
-
   save:
-    save doen message.
+    save done message.
     leave page w/o save warning.
     auto-save.
     google docs.
-
-  apply rotate and scale mouse drag to all the selected items.
-    not just the primary selection.
 
   draw mode:
     brush pressure.
@@ -62,7 +69,7 @@ new features:
 
   ink stroke to use timing information for the stroke width.
 
-  smudge leaves dark area around edge.
+  command list based undo (not image copies).
 
 tests:
   based on undo-redo command buffer?
@@ -75,7 +82,7 @@ refactor: move surface into item list div during draw mode, but cancel the trans
   itemlist div
     div to cancel transofrm -- need to set the inverse transform of itemlist
       canvas
-      original image item?
+      original image item hidden?
     other items...
 refactor: make checkbox UI.[I]
 >>[J]bug: image item stays in upper items and not able to drag move items anymore.
@@ -145,45 +152,13 @@ refactor: make checkbox UI.[I]
 5.make hsl parameter not go over the limit by mapping to [0, 1].
 5. hex slider: tri-axis color control.
 5. add '.html' to the file name when save.
+5. css perspective transform both image and text.
 
 -- extension only
 bug: saved page doesn't get the background image when loaded.
 screen capture.
 make my own icon 19x19.
 shortcut key to open scratch pad from any page.
-
---- dependence
-perspective transform both image and text.
-local save with FileWriter when it works w/o sandbox.
-
-
-[CoffeeScript wishlist]
-- member vars default to private and provide overridable access functions.
-- distinguish member and methods (both have @).  method with no @?
-- func / method call with no arguments need () -- often forget.
-- static typing or just tighter function signature and interface...
-- parallel assignment w/o bracket: a, b = c, d
-
---- we can add methods to existing types?
-String.prototype.startsWith = function(beginning) {
-    var head = this.substr(0, beginning.length);
-      return head == beginning;
-}
-
---- getter and setter
-incremantal = {
-   _n: 0,
-   get next()  { return  this._n++;  },
-   set next(n) {
-      if  (n  >=  this._n)  this._n=n;
-      else  throw "減らしちゃダメ！"
-   }
-}
-incremantal.next; //  ->  0
-incremantal.next;  //  ->  1
-incremantal.next = 3;
-incremantal.next; //  ->  3
-incremantal.next = 1;  //  ->  "減らしちゃダメ！"
 
 --- svg
 keep one svg element with namespace (xmlns and xlink).

@@ -19,10 +19,10 @@ Convenience wrapper for the html canvas.
 :clear
   @ctx.clearRect(0, 0, @canvas.width, @canvas.height)
 
-:data_url
+:dataUrl
   => @canvas.toDataURL()
 
-:set_scale
+:setScale
   scale\n\$
   @scale = scale
   @canvas.width = @canvas.clientWidth / @scale
@@ -31,7 +31,7 @@ Convenience wrapper for the html canvas.
 :pixels\ImageData\
   => @ctx.getImageData(0, 0, @canvas.width, @canvas.height)
 
-:copy_image
+:copyImage
   img\Image\$
   if !img
     =>
@@ -40,18 +40,17 @@ Convenience wrapper for the html canvas.
     img
     f_viewport.item_to_surface(elem_position(img))
 
-:duplicate_canvas
+:duplicateCanvas
   cvs := create('canvas')
   cvs.width = @canvas.width
   cvs.height = @canvas.height
   cvs.getContext('2d').putImageData(@.pixels(), 0, 0)
   => cvs
 
-:copy_canvas
+:copyCanvas
   cvs\HTMLCanvasElement\$
   @ctx.putImageData(cvs.getContext('2d').getImageData(#), 0, 0)
     0
     0
     @canvas.width
     @canvas.height
-

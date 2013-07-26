@@ -9,8 +9,8 @@ Canvas that's fixed to the viewport size.
   alpha_lock\b\$
   // Need to match the backing store resolution with screen resolution.
   @.canvas.style.display = 'block'
-  @.set_scale(f_viewport.scale())
-  @.copy_image(img)
+  @.setScale(f_viewport.scale())
+  @.copyImage(img)
   @.update_alpha_lock(alpha_lock)
 
 :update_alpha_lock
@@ -308,4 +308,4 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   h := rect.h + 1
   cvs := &Canvas(w, h)
   cvs.ctx.putImageData(pixels, -rect.x0, -rect.y0, rect.x0, rect.y0, w, h)
-  => cvs.data_url()
+  => cvs.dataUrl()

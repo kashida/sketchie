@@ -5,12 +5,12 @@
 :push
   if @buffer.childNodes.length >= 10
     @buffer.removeChild(@buffer.firstChild)
-  @buffer.appendChild(f_surface.duplicate_canvas())
+  @buffer.appendChild(f_surface.duplicateCanvas())
 
 :pop
   if !@buffer.hasChildNodes()
     =>
-  f_surface.copy_canvas(@buffer.lastChild)
+  f_surface.copyCanvas(@buffer.lastChild)
   @buffer.removeChild(@buffer.lastChild)
 
 :reset
