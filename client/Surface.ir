@@ -11,9 +11,9 @@ Canvas that's fixed to the viewport size.
   @.canvas.style.display = 'block'
   @.setScale(f_viewport.scale())
   @.copyImage(img)
-  @.update_alpha_lock(alpha_lock)
+  @.updateAlphaLock(alpha_lock)
 
-:update_alpha_lock
+:updateAlphaLock
   alpha_lock\b\$
   @.ctx.globalCompositeOperation = alpha_lock ? 'source-atop' : 'source-over'
 
@@ -23,12 +23,12 @@ Canvas that's fixed to the viewport size.
   @.ctx.globalCompositeOperation = ''
 
 Val is the opacity value [0, 1.0], but resets to default when null.
-:set_opacity
+:setOpaciy
   val\s\$
   @.canvas.style.opacity = val
 
 Takes view coordinates and returns [r, g, b, a] array in [0, 255] range.
-:pick_color
+:pickColor
   x\n\$
   y\n\$
   scale := f_viewport.scale()
@@ -36,23 +36,23 @@ Takes view coordinates and returns [r, g, b, a] array in [0, 255] range.
   d := pixels.data
   => [d[0], d[1], d[2], d[3]]
 
-:image_spec\PositionedPixels\
+:imageSpec\PositionedPixels\
   orig_img\Image\?
   // Produce image spec of this surface plus the original image.
   // Size of the image is reduced to the tight bound.
   pixels := @.pixels()
   => #?
     orig_img
-    merged_image_spec(pixels, orig_img)
-    image_rect_spec(pixels)
+    %.Surface.mergedImageSpec(pixels, orig_img)
+    %.Surface.imageRectSpec(pixels)
 
 Orig_img gets added to the outside of the pixels bound.
 Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordinates.
-:::merged_image_spec = ##
+:mergedImageSpec = ##
   \PositionedPixels\
   pixels\ImageData\$
   orig_img\Image\$
-  pixels_rect := find_pixel_rect(pixels)
+  pixels_rect := %.Surface.findPixelRect(pixels)
   if !pixels_rect
     => null
   w := pixels_rect.w + 1
@@ -62,7 +62,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   // in document coords.
   img0 := f_viewport.item_to_surface(elem_position(orig_img))
   img1 := f_viewport.item_to_surface(elem_position_br(orig_img))
-  u := union_rect([orig_img], pixels_rect, [[img0.x, img0.y, img1.x, img1.y]])
+  u := unionRect([orig_img], pixels_rect, [[img0.x, img0.y, img1.x, img1.y]])
   if !u
     => null
   uw := u.w + 1
@@ -71,24 +71,24 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   // New temp canvas, logically located at (u.x0, u.y0) in surface coords.
   cvs := &Canvas(uw, uh)
   ctx := cvs.ctx
-  xform_draw_image(ctx, orig_img, &data.Vec2(img0.x - u.x0, img0.y - u.y0))
+  %.xformDrawImage(ctx, orig_img, &data.Vec2(img0.x - u.x0, img0.y - u.y0))
   ctx.clearRect(-u.x0, -u.y0, pixels.width, pixels.height)
   ctx.putImageData(pixels, -u.x0, -u.y0, pixels_rect.x0, pixels_rect.y0, w, h)
-  => image_rect_spec(cvs.pixels(), undefined, u.p00)
+  => %.Surface.imageRectSpec(cvs.pixels(), undefined, u.p00)
 
-:::image_rect_spec = ##
+:imageRectSpec = ##
   \PositionedPixels\
   pixels\ImageData\$
-  rect\!data.Rect\? find_pixel_rect(pixels)
+  rect\!data.Rect\? %.Surface.findPixelRect(pixels)
   offset\!data.Vec2\? &data.Vec2(0, 0)
   if !rect
     => null
   item_xy := f_viewport.surface_to_item(&data.Vec2(#))
     rect.x0 + offset.x
     rect.y0 + offset.y
-  => &PositionedPixels(item_xy, sized_image_data(pixels, rect))
+  => &PositionedPixels(item_xy, %.Surface.sizedImageData(pixels, rect))
 
-:::xform_draw_image = ##
+::xformDrawImage = ##
   ctx\CanvasRenderingContext2D\$
   img\Image\$
   offset\data.Vec2\$
@@ -112,7 +112,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   ctx.drawImage(img, -half_w, -half_h)
   ctx.restore()
 
-:::image_region = ##
+::imageRegion = ##
   \PositionedPixels\
   img\Image\$
   mask\ImageData\$
@@ -122,25 +122,25 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   cvs.ctx.drawImage(img, 0, 0)
   pixels := cvs.pixels()
   sti := f_viewport.surface_to_item(&data.Vec2(0, 0))
-  intersect_pixel_region(#)
+  %.Surface.intersectPixelRegion(#)
     pixels
     mask
     Math.floor(img.offsetLeft - sti.x)
     Math.floor(img.offsetTop - sti.y)
     diff
-  rect := find_pixel_rect(pixels)
+  rect := %.Surface.findPixelRect(pixels)
   if !rect
     => null
   => &PositionedPixels(#)
     &data.Vec2(rect.x0 + img.offsetLeft, rect.y0 + img.offsetTop)
-    sized_image_data(pixels, rect)
+    %.Surface.sizedImageData(pixels, rect)
 
-:::blend_images = ##
+::blendImages = ##
   \PositionedPixels\
   images\A.<Image>\$
   if images.length < 1
     => null
-  ur := union_rect(images)
+  ur := unionRect(images)
   minx := ur.x0
   miny := ur.y0
   maxx := ur.x1
@@ -151,20 +151,20 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   ctx := cvs.ctx
   images.forEach(##)
     img\Image\$
-    xform_draw_image(ctx, img, &data.Vec2(#), true)
+    %.xformDrawImage(ctx, img, &data.Vec2(#), true)
       img.offsetLeft - minx
       img.offsetTop - miny
 
   // Now we have the image. Find a tighter bound.
   pixels := cvs.pixels()
-  rect := find_pixel_rect(pixels)
+  rect := %.Surface.findPixelRect(pixels)
   if !rect
     => null
   => &PositionedPixels(#)
     &data.Vec2(rect.x0 + minx, rect.y0 + miny)
-    sized_image_data(pixels, rect)
+    %.Surface.sizedImageData(pixels, rect)
 
-:::find_pixel_rect = ##
+:findPixelRect = ##
   \data.Rect\
   pixels\ImageData\$
   // Find the rectangle in the image where pixels actually have colors.
@@ -217,7 +217,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
     => null
   => &data.Rect(minx, miny, maxx, maxy)
 
-:::union_rect = ##
+::unionRect = ##
   \data.Rect\
   images\A.<Image>\$
   init_rect\data.Rect\?
@@ -261,7 +261,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   => result
 
 // Overwrites pixeis parameter.
-:::intersect_pixel_region = ##
+:intersectPixelRegion = ##
   pixels\ImageData\$
   mask\ImageData\$
   dx\n\$
@@ -299,7 +299,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
             pixels.data[base + i] = 0
         pixels.data[alpha_idx] = alpha
 
-:::sized_image_data = ##
+:sizedImageData = ##
   \s\
   pixels\ImageData\$
   rect\data.Rect\$

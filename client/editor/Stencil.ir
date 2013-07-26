@@ -5,11 +5,11 @@
 :activate
   image\O\$
   ^(image)
-  f_surface.set_opacity(0.3)
+  f_surface.setOpaciy(0.3)
 
 :deactivate
   ^()
-  f_surface.set_opacity()
+  f_surface.setOpaciy()
 
 :<start_segment
   evt\Event\$

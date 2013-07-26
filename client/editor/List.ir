@@ -242,14 +242,14 @@ Image methods.
     =>
 
   // Carry out the requested action.
-  img_spec := image_region(img, mask)
+  img_spec := imageRegion(img, mask)
   if !img_spec
     // no intersection of the image and selection.
     =>
 
   created_img := @make_image_item(img_spec)
   if action == 'x'
-    rest_spec := image_region(img, mask, true)
+    rest_spec := imageRegion(img, mask, true)
     // We don't need to make any action if the entire image was selected
     // and the operation was cut (not copy).
     if rest_spec
@@ -258,7 +258,7 @@ Image methods.
 
 :@collapse_images
   // Collapse images in their z order.
-  merged_spec := blend_images(f_item_list.z_order(@selection.list))
+  merged_spec := blendImages(f_item_list.z_order(@selection.list))
   if !merged_spec
     =>
   // Remove all the selected images.

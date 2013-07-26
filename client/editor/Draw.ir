@@ -13,11 +13,11 @@
   evt\Event\$
   if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
     f_editor_modes.popMode({#})
-      img_spec: f_surface.image_spec(@.image)
+      img_spec: f_surface.imageSpec(@.image)
 
   if evt.keyCode == c('S')
     f_editor_modes.popMode({#})
-      img_spec: f_surface.image_spec(@.image)
+      img_spec: f_surface.imageSpec(@.image)
       stencil: true
 
   else

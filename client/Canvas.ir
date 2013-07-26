@@ -35,7 +35,7 @@ Convenience wrapper for the html canvas.
   img\Image\$
   if !img
     =>
-  xform_draw_image(#)
+  %.xformDrawImage(#)
     @ctx
     img
     f_viewport.item_to_surface(elem_position(img))

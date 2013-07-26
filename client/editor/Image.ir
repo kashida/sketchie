@@ -47,7 +47,7 @@
 :mouseDown
   evt\Event\$
   if evt.ctrlKey
-    f_color_palette.set_color_rgb(f_surface.pick_color(evt.clientX, evt.clientY))
+    f_color_palette.set_color_rgb(f_surface.pickColor(evt.clientX, evt.clientY))
     =>
   @undo.push()
   @.start_segment(evt)
@@ -138,7 +138,7 @@
 
   else if evt.keyCode == c('X')
     @alpha_lock = !@alpha_lock
-    f_surface.update_alpha_lock(@alpha_lock)
+    f_surface.updateAlphaLock(@alpha_lock)
 
   else if evt.keyCode == c('F')
     f_color_palette.swap_colors()
