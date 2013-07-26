@@ -19,7 +19,7 @@
   f_surface.activate(@image, @alpha_lock)
   f_viewport.deactivate()
   f_stroke_layer.activate()
-  f_dispatcher.push_mouse_control(@)
+  f_dispatcher.pushMouseControl(@)
   f_dispatcher.activate()
   f_tool_palette.set_param(@stroke)
     // set_param doesn't update sample and cursor if the tool doesn't change,

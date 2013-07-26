@@ -21,7 +21,7 @@
   @mouse_y = evt.clientY
   @base_x = @elem.offsetLeft
   @base_y = @elem.offsetTop
-  f_dispatcher.drag_start(@)
+  f_dispatcher.dragStart(@)
   evt.preventDefault()
   => true
 

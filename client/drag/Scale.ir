@@ -14,14 +14,14 @@
   @startScale = &data.Vec2(#)
     attr(item, 'xf_sx') || 1.0
     attr(item, 'xf_sy') || 1.0
-  f_dispatcher.drag_start(@)
+  f_dispatcher.dragStart(@)
 
 :deactivate
   @elem = null
   @center = null
   @startDist = null
   @start_sx = @start_sy = null
-  f_dispatcher.drag_terminate()
+  f_dispatcher.dragTerminate()
 
 :drag_update
   evt\Event\$

@@ -10,13 +10,13 @@
     item.offsetLeft + item.offsetWidth / 2.0
     item.offsetTop + item.offsetHeight / 2.0
   @start_theta = null
-  f_dispatcher.drag_start(@)
+  f_dispatcher.dragStart(@)
 
 :deactivate
   @elem = null
   @center = null
   @start_theta = null
-  f_dispatcher.drag_terminate()
+  f_dispatcher.dragTerminate()
 
 :drag_update
   evt\Event\$

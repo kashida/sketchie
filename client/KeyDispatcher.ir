@@ -14,7 +14,7 @@
   |String.fromCharCode(evt.keyCode) + '"(' + evt.keyCode + ')')
   if #&&
     evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
-    f_dispatcher.mouse_control_length > 1
+    f_dispatcher.mouseControlLength > 1
     --
     f_hex_control.deactivate()
     =>

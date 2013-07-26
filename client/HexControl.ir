@@ -12,8 +12,8 @@
   if @controller
     @.deactivate()
   @controller = controller
-  f_dispatcher.push_mouse_control(@)
-  f_dispatcher.hide_cursor()
+  f_dispatcher.pushMouseControl(@)
+  f_dispatcher.hideCursor()
   @svg.style.display = 'block'
   f_cursor.hide()
   @dragging = false
@@ -24,8 +24,8 @@
   @controller.deactivate()
   @controller = null
   @svg.style.display = 'none'
-  f_dispatcher.pop_mouse_control()
-  f_dispatcher.show_cursor()
+  f_dispatcher.popMouseControl()
+  f_dispatcher.showCursor()
   f_cursor.update()
   @svg_clear()
 

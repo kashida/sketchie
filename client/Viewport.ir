@@ -127,7 +127,7 @@ Change scaling and offset to put all the items in view.
   @mouse_y = evt.clientY
   @base_x = @offset_x
   @base_y = @offset_y
-  f_dispatcher.drag_start(@)
+  f_dispatcher.dragStart(@)
   evt.preventDefault()
   => true
 

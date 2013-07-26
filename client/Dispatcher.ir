@@ -2,7 +2,6 @@
   @input_layer\Element\ id('input_layer')
   @drag_control\Element\
   @mouse_controls\A\ []
-  @control_active\b\ false
     
   listen(@input_layer, 'mousedown', ##)
     evt\Event\$
@@ -26,22 +25,18 @@
   // TODO: replace these two with css rules.
   listen(@input_layer, 'dragstart', ##)
     evt\Event\$
-    @cancel_events(evt)
+    @cancelEvents(evt)
   listen(@input_layer, 'selectstart', ##)
     evt\Event\$
-    @cancel_events(evt)
+    @cancelEvents(evt)
 
   // Capture mouse move and up here for dragging.
   listen(document.body, 'mousemove', ##)
     evt\Event\$
-    @drag_update(evt)
+    @dragUpdate(evt)
   listen(document.body, 'mouseup', ##)
     evt\Event\$
-    @drag_end(evt)
-
-:set_control
-  active\b\$
-  @control_active = active
+    @dragEnd(evt)
 
 :@dispatch
   msg\s\$
@@ -53,26 +48,26 @@
     =>
   ctrl[msg](evt)
 
-:@cancel_events
+:@cancelEvents
   evt\Event\$
   evt.preventDefault()
   evt.cancel = true
 
-:drag_start
+:dragStart
   control\Element\$
   @drag_control = control
-:drag_terminate
+:dragTerminate
   control\Element\$
   @drag_control = null
 
-:@drag_update
+:@dragUpdate
   evt\Event\$
   if !@drag_control
     =>
   if @drag_control.drag_update
     @drag_control.drag_update(evt)
 
-:@drag_end
+:@dragEnd
   evt\Event\$
   if !@drag_control
     =>
@@ -80,16 +75,16 @@
     @drag_control.drag_end(evt)
   @drag_control = null
 
-:push_mouse_control
+:pushMouseControl
   control\Element\$
   @mouse_controls.push(control)
-:pop_mouse_control
+:popMouseControl
   => @mouse_controls.pop()
-:mouse_control_length+\n\
+:mouseControlLength+\n\
   => @mouse_controls.length
-:show_cursor
+:showCursor
   @input_layer.style.cursor = ''
-:hide_cursor
+:hideCursor
   @input_layer.style.cursor = 'none'
 
 :activate
