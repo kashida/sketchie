@@ -5,22 +5,22 @@
     
   listen(@input_layer, 'mousedown', ##)
     evt\Event\$
-    @dispatch('mouse_down', evt)
+    @dispatch('mouseDown', evt)
   listen(@input_layer, 'mousemove', ##)
     evt\Event\$
-    @dispatch('mouse_move', evt)
+    @dispatch('mouseMove', evt)
   listen(@input_layer, 'mouseup', ##)
     evt\Event\$
-    @dispatch('mouse_up', evt)
+    @dispatch('mouseUp', evt)
   listen(@input_layer, 'mouseout', ##)
     evt\Event\$
-    @dispatch('mouse_out', evt)
+    @dispatch('mouseOut', evt)
   listen(@input_layer, 'mousein', ##)
     evt\Event\$
-    @dispatch('mouse_in', evt)
+    @dispatch('mouseIn', evt)
   listen(@input_layer, 'resize', ##)
     evt\Event\$
-    @dispatch('viewport_resize', evt)
+    @dispatch('viewportResize', evt)
 
   // TODO: replace these two with css rules.
   listen(@input_layer, 'dragstart', ##)

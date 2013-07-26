@@ -1,6 +1,6 @@
 ::
   @svg\Element\ id('control_root')
-  @svg_root\Element\ svg_create('g')
+  @svg_root\Element\ svgCreate('g')
   @controller\Slider\
   @state\O\
   @dragging\b\ false
@@ -18,7 +18,7 @@
   f_cursor.hide()
   @dragging = false
   @state = @controller.cursor()
-  @draw_hexes()
+  @drawHexes()
 
 :deactivate
   @controller.deactivate()
@@ -27,17 +27,17 @@
   f_dispatcher.popMouseControl()
   f_dispatcher.showCursor()
   f_cursor.update()
-  @svg_clear()
+  @svgClear()
 
-:mouse_down
+:mouseDown
   evt\Event\$
   @base_x = evt.clientX
   @base_y = evt.clientY
   @dragging = true
   @state = @controller.control_state()
-  @draw_hexes()
+  @drawHexes()
 
-:mouse_move
+:mouseMove
   evt\Event\$
   if !@state
     =>
@@ -46,14 +46,14 @@
   else
     @cursor(evt)
 
-:mouse_up
+:mouseUp
   evt\Event\$
   // Execute the callback for the center.
   if @state && @state.length > 0
     @state[0][1]()
   @dragging = false
   @state = @controller.cursor()
-  @draw_hexes()
+  @drawHexes()
 
 :@drag
   evt\Event\$
@@ -74,8 +74,8 @@
       max_i = j
   if !(d[max_i] > hex_size_cos_30)
     =>
-  @svg_clear()
-  ito := @index_to_offset(max_i + 1)
+  @svgClear()
+  ito := @indexToOffset(max_i + 1)
   ox := ito[0]
   oy := ito[1]
   @base_x += ox
@@ -87,7 +87,7 @@
     @state = null
   else
     @state = @state[hex_index][1]()
-    @draw_hexes()
+    @drawHexes()
 
 :@cursor
   evt\Event\$
@@ -98,21 +98,21 @@
     'transform'
     'translate(' + evt.clientX + ',' + evt.clientY + ')'
 
-:@draw_hexes
+:@drawHexes
   if !@state
     =>
-  @svg_clear()
+  @svgClear()
   set_attr(@svg_root, 'transform', 'translate(' + @base_x + ',' + @base_y + ')')
   if @dragging
     @state.forEach(##)
       s\s\$
       i\n\$
       if s
-        @draw_hex(s[0], i, (i == 0))
+        @drawHex(s[0], i, (i == 0))
   else
-    @draw_hex(@state, 0)
+    @drawHex(@state, 0)
 
-:@draw_hex
+:@drawHex
   label\O\$
   hex_index\n\$
   selected\b\? false
@@ -120,24 +120,24 @@
     =>
   if label.i
     hex_index = label.i
-  ito := @index_to_offset(hex_index)
+  ito := @indexToOffset(hex_index)
     // TODO: this is wrong.
   ox := ito[0]
   oy := ito[1]
   if label.d
     ox = ox * label.d
     oy = oy * label.d
-  hex := svg_create('path', {#})
+  hex := svgCreate('path', {#})
     d: hex_path
     stroke:'#232'
     'stroke-width':'1'
     opacity: '0.2'
     fill: selected ? '#eb9' : '#468'
-  g := svg_create('g')
+  g := svgCreate('g')
   append_children(@svg_root, [g])
   append_children(g, [hex])
   if label.c
-    color_band := svg_create('path', {#})
+    color_band := svgCreate('path', {#})
       d: hex_path
       stroke: label.c
       'stroke-width':'8'
@@ -146,8 +146,8 @@
     append_children(g, [color_band])
   if label.t
     if !@text_scale
-      @set_text_scale(g)
-    text := svg_create_text(label.t)
+      @setTextScale(g)
+    text := svgCreateText(label.t)
     append_children(g, [text])
     bbox := text['getBBox']()
     tx := -bbox.x - bbox.width / 2
@@ -159,11 +159,11 @@
 
   set_attr(g, 'transform', 'translate(' + ox + ',' + oy + ')')
 
-:@set_text_scale
+:@setTextScale
   g\Element\$
   // Text box calculation needs to be done after it is added to svg (so we
   // get the bbox).
-  ref_text := svg_create_text('WWW')
+  ref_text := svgCreateText('WWW')
   append_children(g, [ref_text])
   bbox := ref_text['getBBox']()
   @text_scale = hex_size / bbox.width
@@ -171,11 +171,11 @@
 
 0 for the current hex. 1-6 for the surrounding hexes starting top right
 in clockwise order.
-:@index_to_offset
+:@indexToOffset
   hex_index\n\$
   => hex_center_offsets[hex_index]
 
-:@svg_clear
+:@svgClear
   while @svg_root.firstChild
     @svg_root.removeChild(@svg_root.firstChild)
 
@@ -204,7 +204,7 @@ From center of hex to the corner. hafl of hex height.
     'z'
   color_band_scale := 'scale(' + ((hex_size - 8) / hex_size) + ')'
 
-:::svg_create = ##
+:::svgCreate = ##
   \Element\
   tag\s\$
   attrs\O\?
@@ -220,10 +220,10 @@ From center of hex to the corner. hafl of hex height.
       elem.appendChild(child)
   => elem
 
-:::svg_create_text = ##
+:::svgCreateText = ##
   \Element\
   text\s\$
   attrs\O\?
-  elem := svg_create('text', attrs)
+  elem := svgCreate('text', attrs)
   append_children(elem, [document.createTextNode(text)])
   => elem

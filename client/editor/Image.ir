@@ -44,7 +44,7 @@
 
   @image = null
 
-:mouse_down
+:mouseDown
   evt\Event\$
   if evt.ctrlKey
     f_color_palette.set_color_rgb(f_surface.pick_color(evt.clientX, evt.clientY))
@@ -54,14 +54,14 @@
   @is_drawing = true
   evt.preventDefault()
 
-:mouse_move
+:mouseMove
   evt\Event\$
   if @is_drawing
     @draw_segment(evt)
   f_cursor.move(evt.clientX, evt.clientY)
   evt.preventDefault()
 
-:mouse_up
+:mouseUp
   evt\Event\$
   if @is_drawing
     @end_segment(evt)
@@ -69,7 +69,7 @@
     @is_drawing = false
   evt.preventDefault()
 
-:mouse_out
+:mouseOut
   evt\Event\$
   if @is_drawing
     @end_segment(evt)
@@ -77,12 +77,12 @@
     @is_drawing = false
   f_cursor.hide()
 
-:mouse_in
+:mouseIn
   evt\Event\$
   @is_drawing = false
   f_cursor.update()
 
-:viewport_resize
+:viewportResize
   evt\Event\$
   // Same as cancel.
   f_editor_modes.popMode()

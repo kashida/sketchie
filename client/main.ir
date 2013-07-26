@@ -80,7 +80,7 @@ Server access.
     create('canvas', {class: 'surface'})
     create('canvas', {class: 'stroke_layer'})
     create_div('draw_cursor')
-    svg_create('svg', {class: 'control_root'})
+    svgCreate('svg', {class: 'control_root'})
     create_div('input_layer')
     create('form', {}, [create_div('palette_container', [#])])
       create_div(['tool_palette', 'palette'], [#])
