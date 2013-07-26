@@ -17,10 +17,10 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
 
 ::Scrawler
   @run_as_extension\b\$
-  @build_dom()
-  @init_global_components()
+  @buildDom()
+  @initGlobalComponents()
 
-:@init_global_components
+:@initGlobalComponents
   f_scrawler = this
   f_viewport = &Viewport()
   f_item_list = &item.List()
@@ -60,9 +60,9 @@ Server access.
     '</div>'
   if @run_as_extension
     bb := &WebKitBlobBuilder()
-    bb.append(save_header)
+    bb.append(saveHeader)
     bb.append(html)
-    bb.append(save_footer)
+    bb.append(saveFooter)
     //getURL = window.createBlobURL || window.createObjectURL
     ifr := id('save_ifr')
     if !ifr
@@ -74,7 +74,7 @@ Server access.
   else
     xhr_post(location.pathname, html)
 
-:@build_dom
+:@buildDom
   appendChildren(document.body, [#])
     findOrCreate('div', {class: 'itemlist'})
     create('canvas', {class: 'surface'})
@@ -110,14 +110,14 @@ Server access.
               createText('alpha lock')
     createDiv('img_undolist')
 
-:'save_header
+:'saveHeader
   <!doctype html>
   <html><head>
     <title>Scrawler</title>
     <link rel="stylesheet" href="scrawler.css" type="text/css">
     </head><body>
 
-:'save_footer
+:'saveFooter
   </body></html>
 
 Entry point.
