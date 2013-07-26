@@ -1,0 +1,4 @@
+Temporary representation of image item.
+::
+  @position+\data.Vec2\$
+  @dataUrl+\s\$

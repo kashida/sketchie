@@ -1,9 +1,5 @@
 [TODO]
 clean up:
-  rename:
-    ImageCopy to something else?
-  method names to camel case?
-
   change key modifier from shift to control.
     probably need to stop propagate the key events.
 
@@ -27,6 +23,8 @@ clean up:
   stencile mode:
     sometimes -- change brush and immediately drawing.
       stroke's draw is called w/ color member null.
+
+  method names to camel case?
 
 visual refine:
   make item primary selection visually clearer in css.
