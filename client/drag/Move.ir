@@ -31,6 +31,6 @@
   @elem.style.top = @base_y + (evt.clientY - @mouse_y) / f_viewport.scale() + 'px'
   => false
 
-:drag_end
+:dragEnd
   evt\Event\$
   @.drag_update(evt)

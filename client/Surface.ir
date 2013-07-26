@@ -60,8 +60,8 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
 
   // Find the rect that can contain pixels_rect and the transformed image
   // in document coords.
-  img0 := f_viewport.item_to_surface(elem_position(orig_img))
-  img1 := f_viewport.item_to_surface(elem_position_br(orig_img))
+  img0 := f_viewport.itemToSurface(elem_position(orig_img))
+  img1 := f_viewport.itemToSurface(elem_position_br(orig_img))
   u := unionRect([orig_img], pixels_rect, [[img0.x, img0.y, img1.x, img1.y]])
   if !u
     => null
@@ -83,7 +83,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   offset\!data.Vec2\? &data.Vec2(0, 0)
   if !rect
     => null
-  item_xy := f_viewport.surface_to_item(&data.Vec2(#))
+  item_xy := f_viewport.surfaceToItem(&data.Vec2(#))
     rect.x0 + offset.x
     rect.y0 + offset.y
   => &PositionedPixels(item_xy, %.Surface.sizedImageData(pixels, rect))
@@ -121,7 +121,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   cvs := &Canvas(img.width, img.height)
   cvs.ctx.drawImage(img, 0, 0)
   pixels := cvs.pixels()
-  sti := f_viewport.surface_to_item(&data.Vec2(0, 0))
+  sti := f_viewport.surfaceToItem(&data.Vec2(0, 0))
   %.Surface.intersectPixelRegion(#)
     pixels
     mask

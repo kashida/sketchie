@@ -5,7 +5,7 @@
   @.reset()
   listen(document.body, 'mousedown', ##)
     evt\Event\$
-    @drag_start(evt)
+    @dragStart(evt)
 
 :activate
   @active = true
@@ -16,7 +16,7 @@
   @scale = 1.0
   @offset_x = 0
   @offset_y = 0
-  @set_viewport()
+  @setViewport()
 
 :scale
   => @scale
@@ -24,7 +24,7 @@
 :offset\data.Vec2\
   => &data.Vec2(@offset_x, @offset_y)
 
-:item_to_view\data.Vec2\
+:itemToView\data.Vec2\
   x\n\$
   y\n\$
   half_w := @viewport.offsetWidth / 2
@@ -33,7 +33,7 @@
     (x + @offset_x - half_w) * @scale + half_w
     (y + @offset_y - half_h) * @scale + half_h
 
-:item_to_surface\data.Vec2\
+:itemToSurface\data.Vec2\
   p\data.Vec2\$
   half_w := @viewport.offsetWidth / 2
   half_h := @viewport.offsetHeight / 2
@@ -41,7 +41,7 @@
     p.x + @offset_x - half_w + half_w / @scale
     p.y + @offset_y - half_h + half_h / @scale
 
-:@view_to_item\data.Vec2\
+:@viewToItem\data.Vec2\
   p\data.Vec2\$
   half_w := @viewport.offsetWidth / 2
   half_h := @viewport.offsetHeight / 2
@@ -49,7 +49,7 @@
     (p.x - half_w) / @scale - @offset_x + half_w
     (p.y - half_h) / @scale - @offset_y + half_h
 
-:surface_to_item\data.Vec2\
+:surfaceToItem\data.Vec2\
   p\data.Vec2\$
   half_w := @viewport.offsetWidth / 2
   half_h := @viewport.offsetHeight / 2
@@ -64,7 +64,7 @@ incr should be -1, 0, or 1 where positive is zooming in
     @scale = @scale * 1.5
   if incr < 0
     @scale = @scale / 1.5
-  @set_viewport()
+  @setViewport()
 
 :move
   dx\n\$
@@ -73,14 +73,14 @@ incr should be -1, 0, or 1 where positive is zooming in
   h := @viewport.offsetHeight
   @offset_x += dx * @viewport.clientWidth / 3 / @scale
   @offset_y += dy * @viewport.clientHeight / 3 / @scale
-  @set_viewport()
+  @setViewport()
 
 Change offset (but not scaling) to put the item in view.
-:show_item
+:showItem
   item\Element\$
   // Viewport and the item in item coord space.
-  vp0 := @view_to_item(&data.Vec2(0, 0))
-  vp1 := @view_to_item(&data.Vec2(@viewport.offsetWidth, @viewport.offsetHeight))
+  vp0 := @viewToItem(&data.Vec2(0, 0))
+  vp1 := @viewToItem(&data.Vec2(@viewport.offsetWidth, @viewport.offsetHeight))
   p0 := elem_position(item)
   p1 := elem_position_br(item)
 
@@ -96,28 +96,28 @@ Change offset (but not scaling) to put the item in view.
     dcy > 0
     inrange(0, dcy, vp0.y - p0.y)
     inrange(dcy, 0, vp1.y - p1.y)
-  @set_viewport()
+  @setViewport()
 
 Change scaling and offset to put all the items in view.
-:show_all_items
+:showAllItems
   r := unionRect(to_array(f_item_list.children))
   vw := @viewport.offsetWidth
   vh := @viewport.offsetHeight
   @scale = r.w / r.h > vw / vh ? vw / r.w : vh / r.h
   @offset_x = -r.x0 - r.w * 0.5 + vw * 0.5
   @offset_y = -r.y0 - r.h * 0.5 + vh * 0.5
-  @set_viewport()
+  @setViewport()
 
-:@set_viewport
+:@setViewport
   @viewport.style['-webkit-transform'] = [#].join(' ')
     'scale(' + @scale + ')'
     'translate(' + Math.floor(@offset_x) + 'px, ' + Math.floor(@offset_y) + 'px)'
 
-:copy_to
+:copyTo
   div\Element\$
   div.style['-webkit-transform'] = @viewport.style['-webkit-transform']
 
-:@drag_start
+:@dragStart
   evt\Event\$
   if !@active
     =>
@@ -131,17 +131,17 @@ Change scaling and offset to put all the items in view.
   evt.preventDefault()
   => true
 
-:@drag_update
+:@dragUpdate
   evt\Event\$
   if !@active
     =>
   @offset_x = @base_x + (evt.clientX - @mouse_x) / @scale
   @offset_y = @base_y + (evt.clientY - @mouse_y) / @scale
-  @set_viewport()
+  @setViewport()
   => false
 
-:drag_end
+:dragEnd
   evt\Event\$
   if !@active
     =>
-  @drag_update(evt)
+  @dragUpdate(evt)

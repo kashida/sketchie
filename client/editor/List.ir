@@ -55,12 +55,12 @@
       f_item_list.top(##)
         item\Element\$
         @selection.select(item)
-        f_viewport.show_item(item)
+        f_viewport.showItem(item)
     else
       f_item_list.bottom(##)
         item\Element\$
         @selection.select(item)
-        f_viewport.show_item(item)
+        f_viewport.showItem(item)
     =>
   if f_item_list.empty()
     =>
@@ -92,7 +92,7 @@
       next_y = cy
   if next_item
     @selection.select(next_item)
-    f_viewport.show_item(next_item)
+    f_viewport.showItem(next_item)
 
 :@expand_selection
   move_down\b\$
@@ -181,7 +181,7 @@ Image methods.
   upper_items.forEach(##)
     item\Element\$
     div.appendChild(item)
-  f_viewport.copy_to(div)
+  f_viewport.copyTo(div)
   document.body.insertBefore(div, f_cursor.div())
 
   // Activate.
@@ -382,7 +382,7 @@ Key handler.
     f_viewport.reset()
     evt.preventDefault()
   else if key == c('0') + shift
-    f_viewport.show_all_items()
+    f_viewport.showAllItems()
     evt.preventDefault()
 
   // Viewport control.

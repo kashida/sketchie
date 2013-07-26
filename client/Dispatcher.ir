@@ -71,8 +71,8 @@
   evt\Event\$
   if !@drag_control
     =>
-  if @drag_control.drag_end
-    @drag_control.drag_end(evt)
+  if @drag_control.dragEnd
+    @drag_control.dragEnd(evt)
   @drag_control = null
 
 :pushMouseControl
