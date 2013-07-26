@@ -3,7 +3,7 @@ Item list mode parameter adjustments.
   @selection\item.Selection\$
   @blend_alpha\Slider\ &Slider('item_alpha', 'blend alpha%', 0, 100, 100, 20)
   @alpha_lock\Element\ id('image_alph_alock')
-  @blend_alpha.callback_update = ##
+  @blend_alpha.callbackUpdate = ##
     @update_blend_alpha()
   ^('item_palette', {i: 'image_section'})
   listen(@alpha_lock, 'change', ##)
@@ -47,7 +47,7 @@ Item list mode parameter adjustments.
   sel := @selection.head
   blend_alpha := attr(sel, 'blend_alpha')
   if blend_alpha
-    @blend_alpha.set_value(blend_alpha)
+    @blend_alpha.setValue(blend_alpha)
   else
     @blend_alpha.reset()
 

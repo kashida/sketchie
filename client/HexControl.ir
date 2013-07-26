@@ -34,7 +34,7 @@
   @base_x = evt.clientX
   @base_y = evt.clientY
   @dragging = true
-  @state = @controller.control_state()
+  @state = @controller.controlState()
   @drawHexes()
 
 :mouseMove

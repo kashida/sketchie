@@ -8,20 +8,20 @@
   ^('color_palette')
   update_cb := ##
     @update()
-  @mix.callback_update(update_cb)
-  @mix.callback_render(##)
+  @mix.callbackUpdate(update_cb)
+  @mix.callbackRender(##)
     val\n\$
     => @value_render({m:val / 100})
-  @hue.callback_update(update_cb)
-  @hue.callback_render(##)
+  @hue.callbackUpdate(update_cb)
+  @hue.callbackRender(##)
     val\n\$
     => @value_render({h:val / 100})
-  @sat.callback_update(update_cb)
-  @sat.callback_render(##)
+  @sat.callbackUpdate(update_cb)
+  @sat.callbackRender(##)
     val\n\$
     => @value_render({s:val / 100})
-  @lgt.callback_update(update_cb)
-  @lgt.callback_render(##)
+  @lgt.callbackUpdate(update_cb)
+  @lgt.callbackRender(##)
     val\n\$
     => @value_render({l:val / 100})
   @create_color_selectors()

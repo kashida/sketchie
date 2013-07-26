@@ -8,9 +8,9 @@ Adjusts stroke parameters.
   ^('tool_palette')
   update_cb := ##
     @update()
-  @lerp.callback_update(update_cb)
-  @alpha.callback_update(update_cb)
-  @radius.callback_update(update_cb)
+  @lerp.callbackUpdate(update_cb)
+  @alpha.callbackUpdate(update_cb)
+  @radius.callbackUpdate(update_cb)
   each tool in defaultParamSet
     val := defaultParamSet[tool]
     @param_set[tool] = &%.BrushParam(tool, val[0], val[1], val[2])
@@ -25,13 +25,13 @@ Adjusts stroke parameters.
 
 :@set_alpha
   val\n\$
-  @alpha.set_value(val)
+  @alpha.setValue(val)
 :@set_radius
   val\n\$
-  @radius.set_value(val)
+  @radius.setValue(val)
 :@set_lerp
   val\n\$
-  @lerp.set_value(val)
+  @lerp.setValue(val)
 
 :alpha_adjust
   incr\n\$
