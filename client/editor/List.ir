@@ -1,6 +1,6 @@
 ::<%.Editor
   @selection\item.Selection\$
-  @textEditor\%.Text\$
+  @text_editor\%.Text\$
   ^()
   f_item_list.each(##)
     e\Element\$
@@ -119,7 +119,7 @@
   @selection.list.slice(0).forEach(##)
     item\Element\$
     if item.tagName == 'DIV'
-      @textEditor.copyTextItem(item)
+      @text_editor.copyTextItem(item)
     else
       @copyImageItem(item)
 
@@ -127,7 +127,7 @@
   if @selection.count < 2
     =>
   if @selection.isAllText
-    @textEditor.collapseTexts()
+    @text_editor.collapseTexts()
   else if @selection.isAllImage
     @collapseImages()
 
@@ -351,11 +351,11 @@ Key handler.
 
   // Entering to the text mode.
   else if key == c('O')
-    @textEditor.addText(true)
+    @text_editor.addText(true)
   else if key == c('I')
-    @textEditor.addText(false, true)
+    @text_editor.addText(false, true)
   else if key == c('E')
-    @textEditor.addText(false)
+    @text_editor.addText(false)
 
   // Draw / stencil mode change.
   else if key == c('D')

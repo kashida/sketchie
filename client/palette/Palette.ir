@@ -2,7 +2,7 @@
   name\s\$
   secs\O\?
   @palette\Element\ id(name)
-  @is_active+\b\ false
+  @is_active\b\ false
   @sections\O\ {}
   if secs
     each section_id in secs

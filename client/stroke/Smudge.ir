@@ -42,7 +42,7 @@
     base\n\$
     f\n\$
     if src.data[base + 3] > 0
-      if @.alpha_lock
+      if @.alphaLock
         // Never modify alpha, and modify color only if the target alpha is
         // non-zero.
         if dst.data[base + 3] > 0

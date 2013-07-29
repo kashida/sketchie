@@ -4,7 +4,7 @@
 :draw
   x\n\$
   y\n\$
-  if @.alpha_lock
+  if @.alphaLock
     =>
   // No nice eraser functionality in canvas, so implementing one here.
   ctx := f_surface.ctx

@@ -1,8 +1,8 @@
 ::
   @elem\Element\
   @center\data.Vec2\
-  @startScale\data.Vec2\
-  @startDist\n?\
+  @start_scale\data.Vec2\
+  @start_dist\n?\
 
 :activate
   item\Element\$
@@ -11,7 +11,7 @@
     item.offsetLeft + item.offsetWidth / 2.0
     item.offsetTop + item.offsetHeight / 2.0
   @start = null
-  @startScale = &data.Vec2(#)
+  @start_scale = &data.Vec2(#)
     attr(item, 'xf_sx') || 1.0
     attr(item, 'xf_sy') || 1.0
   f_dispatcher.dragStart(@)
@@ -19,7 +19,7 @@
 :deactivate
   @elem = null
   @center = null
-  @startDist = null
+  @start_dist = null
   @start_sx = @start_sy = null
   f_dispatcher.dragTerminate()
 
@@ -28,9 +28,9 @@
   dx := evt.clientX - @center.x
   dy := evt.clientY - @center.y
   dist := Math.sqrt(dx * dx + dy * dy)
-  if !@startDist
-    @startDist = dist / (attr(@elem, 'xf_s') || 1)
+  if !@start_dist
+    @start_dist = dist / (attr(@elem, 'xf_s') || 1)
     => false
-  setAttr(@elem, 'xf_s', String(dist / @startDist))
+  setAttr(@elem, 'xf_s', String(dist / @start_dist))
   setXform(@elem)
   => false

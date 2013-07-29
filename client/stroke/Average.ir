@@ -22,7 +22,7 @@
   @.inCircle(pixels.width, @.radius, ##)
     base\n\$
     f\n\$
-    if @.alpha_lock
+    if @.alphaLock
       // Never modify alpha, and modify color only if the target alpha is
       // non-zero.
       if pixels.data[base + 3] > 0

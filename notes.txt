@@ -2,9 +2,8 @@
 - check if drag scroll viewport works.
 
 clean up:
-  method names to camel case?
-    all the ones directly in client/ are done.
-  member names (for consistency with dom, including private ones).
+  came case public member names
+    for consistency with dom.
 
   move the script tags to header.
     and do anything else possible to clean up the dom structure.

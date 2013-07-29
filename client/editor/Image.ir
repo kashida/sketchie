@@ -5,7 +5,7 @@
   @prev_stroke\s\ 'E'
   @last_open_palette\s\ 'c'
   @image+\Image\
-  @alpha_lock+\b\ false
+  @alphaLock+\b\ false
   ^()
 
 :startSegment
@@ -14,9 +14,9 @@
 :activate
   params\O\$
   @image = \Image\(params['image'])
-  @alpha_lock = @image && isAttr(@image, 'alpha_lock')
+  @alphaLock = @image && isAttr(@image, 'alpha_lock')
 
-  f_surface.activate(@image, @alpha_lock)
+  f_surface.activate(@image, @alphaLock)
   f_viewport.deactivate()
   f_stroke_layer.activate()
   f_dispatcher.pushMouseControl(@)
@@ -137,8 +137,8 @@
     f_z_order.move(@image, evt.shiftKey)
 
   else if evt.keyCode == c('X')
-    @alpha_lock = !@alpha_lock
-    f_surface.updateAlphaLock(@alpha_lock)
+    @alphaLock = !@alphaLock
+    f_surface.updateAlphaLock(@alphaLock)
 
   else if evt.keyCode == c('F')
     f_color_palette.swapColors()
