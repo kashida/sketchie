@@ -11,38 +11,38 @@
   @mix.callbackUpdate(update_cb)
   @mix.callbackRender(##)
     val\n\$
-    => @value_render({m:val / 100})
+    => @valueRender({m:val / 100})
   @hue.callbackUpdate(update_cb)
   @hue.callbackRender(##)
     val\n\$
-    => @value_render({h:val / 100})
+    => @valueRender({h:val / 100})
   @sat.callbackUpdate(update_cb)
   @sat.callbackRender(##)
     val\n\$
-    => @value_render({s:val / 100})
+    => @valueRender({s:val / 100})
   @lgt.callbackUpdate(update_cb)
   @lgt.callbackRender(##)
     val\n\$
-    => @value_render({l:val / 100})
-  @create_color_selectors()
+    => @valueRender({l:val / 100})
+  @createColorSelectors()
 
-:mix_adjust
+:mixAdjust
   incr\n\$
   @mix.adjust(incr)
 
-:hue_adjust
+:hueAdjust
   incr\n\$
   @hue.adjust(incr)
 
-:sat_adjust
+:satAdjust
   incr\n\$
   @sat.adjust(incr)
 
-:lgt_adjust
+:lgtAdjust
   incr\n\$
   @lgt.adjust(incr)
 
-:activate_control
+:activateControl
   p\s\$
   (\!Slider\({m: @mix, h:@hue, s:@sat, l:@lgt}[p])).activate()
 
@@ -54,7 +54,7 @@
   if @color_sel instanceof Element
     @color_sel.classList.add('selected')
 
-:@current_color\data.Hsl\
+:@currentColor\data.Hsl\
   if @color_sel instanceof Element
     => @color_sel.hsl
   else if @color_sel instanceof data.Hsl
@@ -62,27 +62,27 @@
   else
     => &data.Hsl(0, 0, 0)
   
-:selected_color+\data.Color\
-  params := @color_adjust_params()
-  => @adjusted_color(#)
+:selectedColor+\data.Color\
+  params := @colorAdjustParams()
+  => @adjustedColor(#)
     params[0]
     params[1]
     params[2]
     params[3]
 
-:@color_adjust_params
+:@colorAdjustParams
   => [#]
     @hue.value / 100
     @sat.value / 100
     @lgt.value / 100
     @mix.value / 100
 
-:@adjusted_color\data.Color\
+:@adjustedColor\data.Color\
   adj_h\n\$
   adj_s\n\$
   adj_l\n\$
   adj_m\n\$
-  cc := @current_color()
+  cc := @currentColor()
   a := f_tool_palette ? f_tool_palette.alpha() / 100.0 : 1
   h := (1.0 - adj_m) * cc.h + adj_m * @prev_color.h
   s := (1.0 - adj_m) * cc.s + adj_m * @prev_color.s
@@ -93,9 +93,9 @@
   l += adj_l
   => &data.Hsl(h, s, l, a).color
 
-:@value_render
+:@valueRender
   params\O\$
-  cap := @color_adjust_params()
+  cap := @colorAdjustParams()
   ah := cap[0]
   as := cap[1]
   al := cap[2]
@@ -108,32 +108,32 @@
     al = params.l
   if params.m
     am = params.m
-  col := @adjusted_color(ah, as, al, am)
+  col := @adjustedColor(ah, as, al, am)
   => {c:col.rgb}
 
-:set_color_rgb
+:setColorRgb
   r\n\$
   g\n\$
   b\n\$
-  @set_color(data.Color.fromByteRange(r, g, b).hsl)
+  @setColor(data.Color.fromByteRange(r, g, b).hsl)
 
-:@set_color
+:@setColor
   hsl\data.Hsl\$
   @mix.reset()
   @hue.reset()
   @sat.reset()
   @lgt.reset()
-  @prev_color = @current_color()
+  @prev_color = @currentColor()
   if @color_sel instanceof Element
     @color_sel.classList.remove('selected')
   @color_sel = hsl
   id('color_name').innerText = '---'
   @update()
 
-:swap_colors
-  @set_color(@prev_color)
+:swapColors
+  @setColor(@prev_color)
 
-:@create_color_selectors
+:@createColorSelectors
   colors := [#]
     ['40404F', 'Paynes gray']
     ['36454F', 'Charcoal']
@@ -207,7 +207,7 @@
       @hue.reset()
       @sat.reset()
       @lgt.reset()
-      @prev_color = @current_color()
+      @prev_color = @currentColor()
       if @color_sel instanceof Element
         @color_sel.classList.remove('selected')
       @color_sel = \Element\(evt.target)
@@ -220,11 +220,11 @@
       cname.innerText = c[1]
       elem.classList.add('selected')
       @color_sel = elem
-      @prev_color = @current_color()
+      @prev_color = @currentColor()
   @update()
 
 :@update
-  id('color_sample0').style['background-color'] = @.selected_color.rgb
+  id('color_sample0').style['background-color'] = @.selectedColor.rgb
   id('color_sample1').style['background-color'] = @prev_color.color.rgb
 
 ::VerifyColors
@@ -233,7 +233,7 @@
 :check
   col\s\$
   name\s\$
-  rgb := colorhex_to_rgb(col)
+  rgb := colorHexToRgb(col)
   if @last_rgb
     distsq := 0
     [0, 1, 2].forEach(##)
@@ -244,7 +244,7 @@
 
 Convert hexadecimal color code, e.g. FFFFFF to [r, g, b] value array in
 [0, 255] range.
-:::colorhex_to_rgb = ##
+:::colorHexToRgb = ##
   hex\s\$
   => [#]
     parseInt(hex.substr(0, 2), 16)

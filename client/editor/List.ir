@@ -6,21 +6,21 @@
     e\Element\$
     &%.Item(e, @selection)
 
-:@remove_selected
+:@removeSelected
   f_item_list.remove(@selection.list)
   @selection.clear()
 
-:@z_order_to_end
+:@zOrderToEnd
   send_back\b\$
   // Preserve the z order among the selected items.
-  remove_list := f_item_list.z_order(@selection.list)
+  remove_list := f_item_list.zOrder(@selection.list)
   f_item_list.remove(remove_list)
   if send_back
-    f_item_list.insert_first(remove_list)
+    f_item_list.insertFirst(remove_list)
   else
-    f_item_list.append_end(remove_list)
+    f_item_list.appendEnd(remove_list)
 
-:@z_order_shift
+:@zOrderToShift
   send_back\b\$
   // First find a selected item and then find a non-selected item that has
   // overlapping region with one of the selected items.
@@ -29,11 +29,11 @@
   found := false
   f_item_list.until(send_back, ##)
     item\Element\$
-    if @selection.is_selected(item)
+    if @selection.isSelected(item)
       found_selected.push(item)
     else if found_selected.length > 0
       to_move.push(item)
-      if overlap_with_any(item, found_selected)
+      if overlapWithAny(item, found_selected)
         // All the non-selected items after the first selected maybe
         // non-overlapping, so we need this flag.
         found = true
@@ -42,14 +42,14 @@
   if to_move.length > 0 && found
     f_item_list.remove(to_move)
     if send_back
-      f_item_list.insert_before(found_selected[0], to_move)
+      f_item_list.insertBefore(found_selected[0], to_move)
     else
-      f_item_list.insert_after(found_selected[0], to_move)
+      f_item_list.insertAfter(found_selected[0], to_move)
 
-:@move_selection
+:@moveSelection
   move_down\b\$
   // Find the element below the current one and move the selection to it.
-  if !@selection.is_any
+  if !@selection.isAny
     // Special case.  we select eithe the first or the last element.
     if move_down
       f_item_list.top(##)
@@ -94,58 +94,58 @@
     @selection.select(next_item)
     f_viewport.showItem(next_item)
 
-:@expand_selection
+:@expandSelection
   move_down\b\$
   current := @selection.head
-  @move_selection(move_down)
+  @moveSelection(move_down)
   @selection.add(current)
 
-:@hold_selection
+:@holdSelection
   @selection.list.forEach(##)
     item\Element\$
     item.removeAttribute('active')
     item.style['pointer-events'] = 'none'
   @selection.clear()
 
-:@unhold_all
+:@unholdAll
   f_item_list.each(##)
     item\Element\$
     item.setAttribute('active', '1')
     item.style['pointer-events'] = null
 
-:@copy_item
+:@copyItem
   // Need to make a copy because @selection.list gets destroyed
   // during the copies.
   @selection.list.slice(0).forEach(##)
     item\Element\$
     if item.tagName == 'DIV'
-      @textEditor.copy_text_item(item)
+      @textEditor.copyTextItem(item)
     else
-      @copy_image_item(item)
+      @copyImageItem(item)
 
-:@collapse_items
+:@collapseItems
   if @selection.count < 2
     =>
-  if @selection.is_all_text
-    @textEditor.collapse_texts()
-  else if @selection.is_all_image
-    @collapse_images()
+  if @selection.isAllText
+    @textEditor.collapseTexts()
+  else if @selection.isAllImage
+    @collapseImages()
 
 ------------------------------------------------------------
 Image methods.
 
-:@copy_image_item
+:@copyImageItem
   orig_item\Element\$
-  img := @make_image_item(&PositionedPixels(#))
+  img := @makeImageItem(&PositionedPixels(#))
     &data.Vec2(orig_item.offsetLeft + 10, orig_item.offsetTop + 10)
     orig_item.src
   setAttr(img, 'xf_r', attr(orig_item, 'xf_r'))
   setAttr(img, 'xf_s', attr(orig_item, 'xf_s'))
   setXform(img)
   setAttr(img, 'alpha_lock', attr(orig_item, 'alpha_lock'))
-  f_item_list.append_end(img)
+  f_item_list.appendEnd(img)
 
-:@make_image_item\Image\
+:@makeImageItem\Image\
   spec\PositionedPixels\$
   img\Image\?
   add_img := !img
@@ -162,12 +162,12 @@ Image methods.
   img.style['-webkit-user-select'] = 'none'
   img.src = spec.dataUrl
   if add_img
-    f_item_list.append_end(img)
+    f_item_list.appendEnd(img)
   @selection.select(img)
   => img
 
-:@enter_draw_mode
-  if @selection.is_head_text
+:@enterDrawMode
+  if @selection.isHeadText
     @selection.clear()
   img := @selection.head
   @selection.clear()
@@ -188,13 +188,13 @@ Image methods.
   f_item_palette.close()
   f_editor_modes.changeModeTo('d', {image:img}, ##)
     params\O\$
-    => @draw_end(#)
+    => @drawEnd(#)
       \Image\(img)
       params['img_spec']
       params['alpha_lock']
       params['stencil']
 
-:@draw_end
+:@drawEnd
   img\Image\$
   img_spec\PositionedPixels\$
   alpha_lock\b\$
@@ -205,7 +205,7 @@ Image methods.
     if img
       f_item_list.remove(img)
     => 
-  @make_image_item(img_spec, img)
+  @makeImageItem(img_spec, img)
   setIsAttr(@selection.head, 'alpha_lock', alpha_lock)
 
   // Remove the temporary div for the upper items.
@@ -213,26 +213,26 @@ Image methods.
   while div.childNodes.length > 0
     item := div.firstChild
     div.removeChild(item)
-    f_item_list.append_end(item)
+    f_item_list.appendEnd(item)
   document.body.removeChild(div)
 
   if stencil
-    @enter_stencil_mode()
+    @enterStencilMode()
 
-:@enter_stencil_mode
-  if !@selection.is_head_image
+:@enterStencilMode
+  if !@selection.isHeadImage
     =>
   img := @selection.head
   @selection.clear()
   f_item_palette.close()
   f_editor_modes.changeModeTo('s', [], ##)
     params\s\$
-    @stencil_end(#)
+    @stencilEnd(#)
       \Image\(img)
       params['mask']
       params['action']
 
-:@stencil_end
+:@stencilEnd
   img\Image\$
   mask\ImageData\$
   action\s\$
@@ -247,27 +247,27 @@ Image methods.
     // no intersection of the image and selection.
     =>
 
-  created_img := @make_image_item(img_spec)
+  created_img := @makeImageItem(img_spec)
   if action == 'x'
     rest_spec := imageRegion(img, mask, true)
     // We don't need to make any action if the entire image was selected
     // and the operation was cut (not copy).
     if rest_spec
-      @make_image_item(rest_spec, img)
+      @makeImageItem(rest_spec, img)
   @selection.select(created_img)
 
-:@collapse_images
+:@collapseImages
   // Collapse images in their z order.
-  merged_spec := blendImages(f_item_list.z_order(@selection.list))
+  merged_spec := blendImages(f_item_list.zOrder(@selection.list))
   if !merged_spec
     =>
   // Remove all the selected images.
   f_item_list.remove(@selection.list)
   // Add the newly created image.
-  @selection.select(@make_image_item(merged_spec))
+  @selection.select(@makeImageItem(merged_spec))
   f_item_palette.update()
 
-:paste_image
+:pasteImage
   evt\Event\$
   // Get the image from clipboard.
   url := evt.clipboardData.getData('text/plain')
@@ -282,11 +282,11 @@ Image methods.
     if !img
       =>
     url = img.src
-  img = @make_image_item(&PositionedPixels(#))
+  img = @makeImageItem(&PositionedPixels(#))
     &data.Vec2(window.pageXOffset, window.pageYOffset)
     url
   setAttr(img, 'ref_img', '1')
-  f_item_list.append_end(img)
+  f_item_list.appendEnd(img)
 
 
 ------------------------------------------------------------
@@ -301,29 +301,29 @@ Key handler.
 
   // Selection control.
   if key == c('K')
-    @move_selection(false)
+    @moveSelection(false)
   else if key == c('J')
-    @move_selection(true)
+    @moveSelection(true)
   else if key == c('K') + shift
-    @expand_selection(false)
+    @expandSelection(false)
   else if key == c('J') + shift
-    @expand_selection(true)
+    @expandSelection(true)
   else if key == DOM_VK_ESCAPE || key == c('A')
     @selection.clear()
   else if key == c('H')
-    @hold_selection()
+    @holdSelection()
   else if key == c('H') + shift
-    @unhold_all()
+    @unholdAll()
 
   // z control.
   else if key == c('V')
-    @z_order_to_end(true)
+    @zOrderToEnd(true)
   else if key == c('V') + shift
-    @z_order_to_end(false)
+    @zOrderToEnd(false)
   else if key == c('N')
-    @z_order_shift(false)
+    @zOrderToShift(false)
   else if key == c('N') + shift
-    @z_order_shift(true)
+    @zOrderToShift(true)
 
   // Transform.
   else if key == c('R')
@@ -335,15 +335,15 @@ Key handler.
 
   // Copy the selected item.
   else if key == c('C')
-    @copy_item()
+    @copyItem()
 
   // Delete.
   else if key == c('D') + shift
-    @remove_selected()
+    @removeSelected()
 
   // Merge items.
   else if key == c('M')
-    @collapse_items()
+    @collapseItems()
 
   // Open / close the control palette.
   else if key == c(' ')
@@ -351,25 +351,25 @@ Key handler.
 
   // Entering to the text mode.
   else if key == c('O')
-    @textEditor.add_text(true)
+    @textEditor.addText(true)
   else if key == c('I')
-    @textEditor.add_text(false, true)
+    @textEditor.addText(false, true)
   else if key == c('E')
-    @textEditor.add_text(false)
+    @textEditor.addText(false)
 
   // Draw / stencil mode change.
   else if key == c('D')
-    @enter_draw_mode()
+    @enterDrawMode()
   else if key == c('S')
-    @enter_stencil_mode()
+    @enterStencilMode()
 
   // Mark image alpha locked.
   else if key == c('X')
-    f_item_palette.toggle_alpha_lock()
+    f_item_palette.toggleAlphaLock()
 
   // Adjust the image blend alpha.
   else if key == DOM_VK_COMMA + shift || key == DOM_VK_PERIOD + shift
-    f_item_palette.blend_alpha_adjust(evt.keyCode == DOM_VK_PERIOD)
+    f_item_palette.blendAlphaAdjust(evt.keyCode == DOM_VK_PERIOD)
 
   // Zoom in/out.
   else if key == DOM_VK_EQUALS

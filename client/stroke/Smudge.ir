@@ -38,7 +38,7 @@
     if f != 1.0
       valmod = f * valmod + (1.0 - f) * dval
     dst.data[idx] = inrange(0, 255, valmod)
-  @.in_circle(dst.width, @.radius, ##)
+  @.inCircle(dst.width, @.radius, ##)
     base\n\$
     f\n\$
     if src.data[base + 3] > 0

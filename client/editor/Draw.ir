@@ -1,10 +1,10 @@
 ::<%.Image
   ^()
 
-:<start_segment
+:<startSegment
   evt\Event\$
   f_strokes.get(f_tool_palette.tool()).reset(#)
-    f_color_palette.selected_color
+    f_color_palette.selectedColor
     f_tool_palette.radius()
     f_tool_palette.lerp()
     @.alpha_lock

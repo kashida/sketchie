@@ -4,6 +4,7 @@
 clean up:
   method names to camel case?
     all the ones directly in client/ are done.
+  member names (for consistency with dom, including private ones).
 
   move the script tags to header.
     and do anything else possible to clean up the dom structure.
@@ -33,6 +34,12 @@ ux refine:
 
   apply rotate and scale mouse drag to all the selected items.
     not just the primary selection.
+
+  context sensitive action button bar.
+    based on item selection, change set of buttons.
+    draw a border around selected items and move the button bar next to it.
+    button bar stay in view even when the border goes outside.
+      -> need some indication of selectio in case border all goes outside.
 
 issues:
   stencile mode:

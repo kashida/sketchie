@@ -64,8 +64,8 @@
   evt\Event\$
   if !@drag_control
     =>
-  if @drag_control.drag_update
-    @drag_control.drag_update(evt)
+  if @drag_control.dragUpdate
+    @drag_control.dragUpdate(evt)
 
 :@dragEnd
   evt\Event\$

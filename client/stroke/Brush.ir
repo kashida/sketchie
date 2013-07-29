@@ -4,9 +4,9 @@
 :draw
   x\n\$
   y\n\$
-  draw_brush_circle(f_surface.ctx, x, y, @.radius, @.lerp, @.color)
+  drawBrushCircle(f_surface.ctx, x, y, @.radius, @.lerp, @.color)
 
-:::draw_brush_circle = ##
+:::drawBrushCircle = ##
   ctx\CanvasRenderingContext2D\$
   x\n\$
   y\n\$

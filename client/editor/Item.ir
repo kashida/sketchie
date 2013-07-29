@@ -1,9 +1,9 @@
 ::
   @elem\Element\$
   @selection\item.Selection\$
-  @bless_item()
+  @blessItem()
 
-:@bless_item
+:@blessItem
   @elem.item = @
   @elem.setAttribute('active', '1')
   @elem.dragger = &drag.Move(@elem)

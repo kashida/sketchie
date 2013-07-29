@@ -8,7 +8,7 @@
   @alpha_lock+\b\ false
   ^()
 
-:start_segment
+:startSegment
   evt\Event\$
 
 :activate
@@ -21,8 +21,8 @@
   f_stroke_layer.activate()
   f_dispatcher.pushMouseControl(@)
   f_dispatcher.activate()
-  f_tool_palette.set_param(@stroke)
-    // set_param doesn't update sample and cursor if the tool doesn't change,
+  f_tool_palette.setParam(@stroke)
+    // setParam doesn't update sample and cursor if the tool doesn't change,
     // but color palette's update does update brush config too.
   f_color_palette.update()
 
@@ -47,24 +47,24 @@
 :mouseDown
   evt\Event\$
   if evt.ctrlKey
-    f_color_palette.set_color_rgb(f_surface.pickColor(evt.clientX, evt.clientY))
+    f_color_palette.setColorRgb(f_surface.pickColor(evt.clientX, evt.clientY))
     =>
   @undo.push()
-  @.start_segment(evt)
+  @.startSegment(evt)
   @is_drawing = true
   evt.preventDefault()
 
 :mouseMove
   evt\Event\$
   if @is_drawing
-    @draw_segment(evt)
+    @drawSegment(evt)
   f_cursor.move(evt.clientX, evt.clientY)
   evt.preventDefault()
 
 :mouseUp
   evt\Event\$
   if @is_drawing
-    @end_segment(evt)
+    @endSegment(evt)
     f_stroke_layer.clear()
     @is_drawing = false
   evt.preventDefault()
@@ -72,7 +72,7 @@
 :mouseOut
   evt\Event\$
   if @is_drawing
-    @end_segment(evt)
+    @endSegment(evt)
     f_stroke_layer.clear()
     @is_drawing = false
   f_cursor.hide()
@@ -87,14 +87,14 @@
   // Same as cancel.
   f_editor_modes.popMode()
 
-:@draw_segment
+:@drawSegment
   evt\Event\$
   scale := f_viewport.scale()
   f_strokes.get(f_tool_palette.tool()).draw(#)
     evt.clientX / scale
     evt.clientY / scale
 
-:@end_segment
+:@endSegment
   evt\Event\$
   f_strokes.get(f_tool_palette.tool()).blit()
 
@@ -129,7 +129,7 @@
       tmp := @stroke
       @stroke = @prev_stroke
       @prev_stroke = tmp
-      f_tool_palette.set_param(@stroke)
+      f_tool_palette.setParam(@stroke)
 
   else if evt.keyCode == c('V')
     f_z_order.moveAll(@image, evt.shiftKey)
@@ -141,16 +141,16 @@
     f_surface.updateAlphaLock(@alpha_lock)
 
   else if evt.keyCode == c('F')
-    f_color_palette.swap_colors()
+    f_color_palette.swapColors()
 
   else if evt.keyCode == c('M')
-    f_color_palette.activate_control('m')
+    f_color_palette.activateControl('m')
   else if evt.keyCode == c('H')
-    f_color_palette.activate_control('h')
+    f_color_palette.activateControl('h')
   else if evt.keyCode == c('J')
-    f_color_palette.activate_control('s')
+    f_color_palette.activateControl('s')
   else if evt.keyCode == c('L')
-    f_color_palette.activate_control('l')
+    f_color_palette.activateControl('l')
 
   else if #||
       evt.keyCode == DOM_VK_OPEN_BRACKET
@@ -158,22 +158,22 @@
       --
       incr := evt.keyCode == DOM_VK_CLOSE_BRACKET
       if evt.shiftKey && evt.ctrlKey
-        f_color_palette.mix_adjust(incr)
+        f_color_palette.mixAdjust(incr)
       else if evt.shiftKey
-        f_color_palette.sat_adjust(incr)
+        f_color_palette.satAdjust(incr)
       else if evt.ctrlKey
-        f_color_palette.hue_adjust(incr)
+        f_color_palette.hueAdjust(incr)
       else
-        f_color_palette.lgt_adjust(incr)
+        f_color_palette.lgtAdjust(incr)
 
   else if evt.keyCode == DOM_VK_COMMA || evt.keyCode == DOM_VK_PERIOD
       incr := evt.keyCode == DOM_VK_PERIOD
       if evt.shiftKey
-        f_tool_palette.alpha_adjust(incr)
+        f_tool_palette.alphaAdjust(incr)
       else if evt.ctrlKey
-        f_tool_palette.lerp_adjust(incr)
+        f_tool_palette.lerpAdjust(incr)
       else
-        f_tool_palette.size_adjust(incr)
+        f_tool_palette.sizeAdjust(incr)
 
   else
     keystr := String.fromCharCode(evt.keyCode)
@@ -182,7 +182,7 @@
       if new_stroke != @stroke
         @prev_stroke = @stroke
         @stroke = new_stroke
-        f_tool_palette.set_param(@stroke)
+        f_tool_palette.setParam(@stroke)
 
 :brushKeys = {#}
     W: 'P'

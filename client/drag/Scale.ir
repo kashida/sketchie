@@ -23,7 +23,7 @@
   @start_sx = @start_sy = null
   f_dispatcher.dragTerminate()
 
-:drag_update
+:dragUpdate
   evt\Event\$
   dx := evt.clientX - @center.x
   dy := evt.clientY - @center.y

@@ -3,14 +3,14 @@
   // so we don't need an array here.
   @list+\A.<Element>\ []
 
-:is_any+\b\
+:isAny+\b\
   => @list.length > 0
 :count+\n\
   => @list.length
 :head+\Element\
   => @list.length <= 0 ? null : @list[0]
 
-:is_selected\b\
+:isSelected\b\
   item\Element\$
   => #||
     item.classList.contains('selected')
@@ -21,10 +21,10 @@
   push_to_list\b\? false
   if !item || item == @.head
     =>
-  if @.is_any
+  if @.isAny
     @.head.className = null
   if push_to_list
-    if @.is_any
+    if @.isAny
       @.head.classList.add('selected_secondary')
     if @list.indexOf(item) >= 0
       // Remove the item once.
@@ -43,7 +43,7 @@
   // Add as a secondary selection.
   if !item || @list.indexOf(item) >= 0
     =>
-  if @.is_any
+  if @.isAny
     item.classList.add('selected_secondary')
     @list.push(item)
   else
@@ -69,21 +69,21 @@
   @list = []
   f_item_palette.close()
 
-:is_head_text+\b\
-  => @.is_any && @.head.tagName == 'DIV'
+:isHeadText+\b\
+  => @.isAny && @.head.tagName == 'DIV'
 
-:is_all_text+\b\
-  if !@.is_any
+:isAllText+\b\
+  if !@.isAny
     => false
   => @list.every(##)
     el\Element\$
     => el.tagName == 'DIV'
 
-:is_head_image+\b\
-  => @.is_any && @.head.tagName == 'IMG'
+:isHeadImage+\b\
+  => @.isAny && @.head.tagName == 'IMG'
 
-:is_all_image+\b\
-  if !@.is_any
+:isAllImage+\b\
+  if !@.isAny
     => false
   => @list.every(##)
     el\Element\$

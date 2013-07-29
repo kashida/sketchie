@@ -23,11 +23,11 @@
   else
     @open()
 
-:open_section
+:openSection
   sec_id\s\$
   @sections[sec_id].style.display = 'block'
 
-:close_section
+:closeSection
   sec_id\s\$
   @sections[sec_id].style.display = 'none'
 

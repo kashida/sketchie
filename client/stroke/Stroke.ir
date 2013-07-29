@@ -20,7 +20,7 @@
 
 :blit
 
-:in_circle
+:inCircle
   w\n\$
   r\n\$
   proc\F\$

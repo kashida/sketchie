@@ -19,14 +19,14 @@
     =>
   p0 := @points[@points.length - 2]
   p1 := @points[@points.length - 1]
-  @setup_stroke()
-  @draw_seg(p0.x, p0.y, p1.x, p1.y, undefined, @rscale(@points.length - 1))
+  @setupStroke()
+  @drawSeg(p0.x, p0.y, p1.x, p1.y, undefined, @rscale(@points.length - 1))
 
 :blit
   if @points.length < 2
     =>
   f_stroke_layer.clear()
-  @setup_stroke()
+  @setupStroke()
   r := @points.map(##)
     p\data.Vec2\$
     i\n\$
@@ -36,7 +36,7 @@
     p\data.Vec2\$
     i\n\$
     if prev
-      @draw_seg(prev.x, prev.y, p.x, p.y, r[i - 1], r[i])
+      @drawSeg(prev.x, prev.y, p.x, p.y, r[i - 1], r[i])
     prev = p
 
   // Copy to the surface.
@@ -46,13 +46,13 @@
   ctx.globalAlpha = @.color.a
   ctx.drawImage(f_stroke_layer.canvas, 0, 0)
 
-:@setup_stroke
+:@setupStroke
   ctx := f_stroke_layer.ctx
   ctx.fillStyle = @.color.rgb
   ctx.lineCap = 'round'
   ctx.lineJoin = 'round'
 
-:@draw_seg
+:@drawSeg
   x0\n\$
   y0\n\$
   x1\n\$

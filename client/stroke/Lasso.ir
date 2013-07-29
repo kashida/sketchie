@@ -17,12 +17,12 @@
   if @points.length < 2
     =>
   f_stroke_layer.clear()
-  @draw_lasso(f_stroke_layer.ctx)
+  @drawLasso(f_stroke_layer.ctx)
 
 :blit
-  @draw_lasso(f_surface.ctx)
+  @drawLasso(f_surface.ctx)
 
-:@draw_lasso
+:@drawLasso
   ctx\CanvasRenderingContext2D\$
   if @points.length < 2
     =>

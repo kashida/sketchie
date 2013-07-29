@@ -43,7 +43,7 @@
       if handler(c[i])
         =>
 
-:z_order
+:zOrder
   items\A.<Element>\$
   => @.childrenArray.filter(##)
     item\Node\$
@@ -58,13 +58,13 @@
       item\Element\$
       @list.removeChild(item)
 
-:insert_first
+:insertFirst
   items\A.<Element>\$
   items.forEach(##)
     item\Element\$
     @list.insertBefore(item, @list.firstChild)
 
-:append_end
+:appendEnd
   items\Element|A.<Element>\$
   if items instanceof Element
     @list.appendChild(items)
@@ -73,7 +73,7 @@
       item\Element\$
       @list.appendChild(item)
 
-:insert_before
+:insertBefore
   pivot\Element\$
   items\A.<Element>\$
   if pivot
@@ -81,9 +81,9 @@
       item\Element\$
       @list.insertBefore(item, pivot)
   else
-    @.append_end(items)
+    @.appendEnd(items)
 
-:insert_after
+:insertAfter
   pivot\Element\$
   items\A.<Element>\$
   if pivot.nextSibling
@@ -91,7 +91,7 @@
       item\Element\$
       @list.insertBefore(item, pivot.nextSibling)
   else
-    @.append_end(items)
+    @.appendEnd(items)
 
 :replace
   orig_item\Element\$
@@ -105,8 +105,8 @@
 
 :top
   handler\F\$
-  => @.top_in(@.childrenArray, handler)
-:top_in
+  => @.topIn(@.childrenArray, handler)
+:topIn
   nodes\A.<Element>\$
   handler\F\$
   top_y := null
@@ -121,8 +121,8 @@
 
 :bottom
   handler\F\$
-  => @bottom_in(@.childrenArray, handler)
-:@bottom_in
+  => @bottomIn(@.childrenArray, handler)
+:@bottomIn
   nodes\A.<Element>\$
   handler\F\$
   bottom_y := null
@@ -148,7 +148,8 @@ All the items that are afeter the specified item (exclusive).
   // item didn't appear in the list.
   => null
 
-:set_z
+TODO: setZ and clearZ dons't seem to be used.
+:setZ
   init\n\$
   step\n\? 1
   i := init
@@ -157,12 +158,12 @@ All the items that are afeter the specified item (exclusive).
     item.style['zIndex'] = i
     i += step
 
-:clear_z
+:clearZ
   @.each(##)
     item\Element\$
     item.style['zIndex'] = null
 
-:::overlap_with_any = ##
+:::overlapWithAny = ##
   item\Element\$
   regions\A.<Element>\$
   => regions.some(##)

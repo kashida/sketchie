@@ -11,7 +11,7 @@
   ^()
   f_surface.setOpaciy()
 
-:<start_segment
+:<startSegment
   evt\Event\$
   f_strokes.get(f_tool_palette.tool()).reset(#)
     data.Color.fromByteRange(200, 170, 70, 255)

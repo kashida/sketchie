@@ -11,7 +11,7 @@
     while div.childNodes.length > 0
       item = \Node\(div.firstChild)
       div.removeChild(item)
-      f_item_list.insert_before(img, [item])
+      f_item_list.insertBefore(img, [item])
   else
     while (f_item_list.length() > 0 && !img) || f_item_list.length() > 1
       item = img ? f_item_list.child(-2) : f_item_list.last()
@@ -31,7 +31,7 @@
     if !item
       =>
     div.removeChild(item)
-    f_item_list.insert_before(img, [item])
+    f_item_list.insertBefore(img, [item])
   else
     list := f_item_list.children
     item = #?
@@ -42,4 +42,3 @@
       =>
     f_item_list.remove(item)
     div.insertBefore(item, div.firstChild)
-

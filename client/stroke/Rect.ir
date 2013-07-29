@@ -23,12 +23,12 @@
     @first_x = x
     @first_y = y
     =>
-  @draw_rect(f_stroke_layer.ctx, false)
+  @drawRect(f_stroke_layer.ctx, false)
 
 :blit
-  @draw_rect(f_surface.ctx, true)
+  @drawRect(f_surface.ctx, true)
 
-:@draw_rect
+:@drawRect
   ctx\CanvasRenderingContext2D\$
   fill\b\$
   if !@first_x || !@first_y || !@last_x || !@last_y

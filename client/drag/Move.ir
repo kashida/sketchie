@@ -6,12 +6,9 @@
   @base_y\?n\
   listen(@elem, 'mousedown', ##)
     evt\Event\$
-    @.drag_start(evt)
+    @dragStart(evt)
 
-:position_state
-  => @elem.offsetLeft + ' ' + @elem.offsetTop + ' '
-
-:drag_start
+:@dragStart
   evt\Event\$
   if !@elem.getAttribute('active')
     =>
@@ -25,7 +22,7 @@
   evt.preventDefault()
   => true
 
-:drag_update
+:dragUpdate
   evt\Event\$
   @elem.style.left = @base_x + (evt.clientX - @mouse_x) / f_viewport.scale() + 'px'
   @elem.style.top = @base_y + (evt.clientY - @mouse_y) / f_viewport.scale() + 'px'
@@ -33,4 +30,4 @@
 
 :dragEnd
   evt\Event\$
-  @.drag_update(evt)
+  @.dragUpdate(evt)

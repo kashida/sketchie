@@ -14,7 +14,7 @@ Adjusts stroke parameters.
   each tool in defaultParamSet
     val := defaultParamSet[tool]
     @param_set[tool] = &%.BrushParam(tool, val[0], val[1], val[2])
-  @load_param()
+  @loadParam()
 
 :alpha
   => @alpha.value
@@ -23,27 +23,27 @@ Adjusts stroke parameters.
 :lerp
   => @lerp.value
 
-:@set_alpha
+:@setAlpha
   val\n\$
   @alpha.setValue(val)
-:@set_radius
+:@setRadius
   val\n\$
   @radius.setValue(val)
-:@set_lerp
+:@setLerp
   val\n\$
   @lerp.setValue(val)
 
-:alpha_adjust
+:alphaAdjust
   incr\n\$
   @alpha.adjust(incr)
-:lerp_adjust
+:lerpAdjust
   incr\n\$
   @lerp.adjust(incr)
-:size_adjust
+:sizeAdjust
   incr\n\$
   @radius.adjust(incr)
 
-:@scaled_radius
+:@scaledRadius
   // Scale the radius so it looks good in 50x50 tool sample area.
   r := @.radius()
   factor := 0
@@ -58,29 +58,29 @@ Adjusts stroke parameters.
 :@param
   => @param_set[@current_tool]
 
-:@store_param
+:@storeParam
   p := @param()
   p.alpha = @.alpha()
   p.radius = @.radius()
   p.lerp = @.lerp()
 
-:@load_param
+:@loadParam
   p := @param()
-  @set_alpha(p.alpha)
-  @set_radius(p.radius)
-  @set_lerp(p.lerp)
+  @setAlpha(p.alpha)
+  @setRadius(p.radius)
+  @setLerp(p.lerp)
   @update()
 
-:set_param
+:setParam
   tool\s\$
   if !(tool in @param_set)
     =>
   if tool == @current_tool
     =>
-  @store_param()
+  @storeParam()
   f_color_palette.unselect()
   @current_tool = tool
-  @load_param()
+  @loadParam()
   f_color_palette.select()
   @update()
 
@@ -106,14 +106,14 @@ Adjusts stroke parameters.
   ctx.fillRect(w / 2, h / 2, w / 2, h / 2)
 
   // Draw circle.
-  r_f := @scaled_radius()
-  draw_brush_circle(#)
+  r_f := @scaledRadius()
+  drawBrushCircle(#)
     ctx
     w / 2
     w / 2
     r_f[0]
     @.lerp()
-    f_color_palette.selected_color
+    f_color_palette.selectedColor
 
   // Update the size marker.
   id('sample_size').innerText = 'x' + r_f[1]
@@ -125,7 +125,7 @@ Adjusts stroke parameters.
 :tool
   => @param().tool
 
-:is_visible_tool
+:isVisibleTool
   switch @tool
     case 'E'
     case 'S'

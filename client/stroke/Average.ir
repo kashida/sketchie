@@ -8,7 +8,7 @@
   pixels := ctx.getImageData(x - @.radius, y - @.radius, @.radius * 2, @.radius * 2)
   avg := [0.0, 0.0, 0.0, 0.0]
   weight_sum := 0.0
-  @.in_circle(pixels.width, @.radius, ##)
+  @.inCircle(pixels.width, @.radius, ##)
     base\n\$
     f\n\$
     a := pixels.data[base + 3]
@@ -19,7 +19,7 @@
   [0, 1, 2, 3].forEach(##)
     i\n\$
     avg[i] /= weight_sum
-  @.in_circle(pixels.width, @.radius, ##)
+  @.inCircle(pixels.width, @.radius, ##)
     base\n\$
     f\n\$
     if @.alpha_lock

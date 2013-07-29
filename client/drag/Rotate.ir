@@ -18,7 +18,7 @@
   @start_theta = null
   f_dispatcher.dragTerminate()
 
-:drag_update
+:dragUpdate
   evt\Event\$
   theta := @find_theta(evt.clientX, evt.clientY)
   if ! @start_theta

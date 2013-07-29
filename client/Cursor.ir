@@ -15,8 +15,8 @@
   @cursor.style.height = size
 
   @cursor.innerHTML = '<div>' + f_tool_palette.tool() + '</div>'
-  if f_tool_palette.is_visible_tool()
-    @cursor.style['background-color'] = f_color_palette.selected_color.rgba
+  if f_tool_palette.isVisibleTool()
+    @cursor.style['background-color'] = f_color_palette.selectedColor.rgba
     @cursor.style['border-width'] = '0px'
   else
     @cursor.style['background-color'] = 'rgba(127, 127, 127, 0.2)'

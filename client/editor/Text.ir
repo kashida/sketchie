@@ -4,33 +4,33 @@
 
 :deactivate
 
-:@trim_whitespace
+:@trimWhitespace
   str\s\$
   => str.replace(/^\s+/, '').replace(/\s+$/, '')
 
-:@trim_end_whitespace
+:@trimEndWhitespace
   str\s\$
   => str.replace(/^[\r\n]*/, '').replace(/\s+$/, '')
 
-:@minimum_text_div
+:@minimumTextDiv
   str\s\? ''
   div := create('div')
   div.appendChild(create('br'))
   if str
-    div.appendChild(createText(@trim_whitespace(str)))
+    div.appendChild(createText(@trimWhitespace(str)))
   => div
 
 If remove is true, clean up empty div's and remove the item if it ends up empty.
-:@normalize_text_item
+:@normalizeTextItem
   remove\b\$
-  if !@selection.is_head_text
+  if !@selection.isHeadText
     =>
   sel := @selection.head
   sel.normalize()
   // Remove end spaces from all the text nodes.
   eachChild(sel, ##)
     div\Element\$
-    div.innerText = @trim_end_whitespace(div.innerText)
+    div.innerText = @trimEndWhitespace(div.innerText)
   // Remove empty first and last elements.
   if remove
     while sel.firstChild && sel.firstChild.innerText == ''
@@ -48,12 +48,12 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
     sel.blur()
     f_item_list.remove(sel)
 
-:collapse_texts
+:collapseTexts
   // Collapse texts in y order.
   elems := []
   first_position := null
-  while @selection.is_any
-    f_item_list.top_in(@selection.list, ##)
+  while @selection.isAny
+    f_item_list.topIn(@selection.list, ##)
       item\Element\$
       while item.firstChild
         c := item.firstChild
@@ -65,18 +65,18 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
       f_item_list.remove(item)
 
   // Create an empty text item and add the elements.
-  newtext := @make_text_item('')
+  newtext := @makeTextItem('')
   newtext.removeChild(newtext.firstChild)
   elems.forEach(##)
     elem\Element\$
     newtext.appendChild(elem)
-  f_item_list.append_end(newtext)
+  f_item_list.appendEnd(newtext)
   newtext.style.left = first_position[0] + 'px'
   newtext.style.top = first_position[1] + 'px'
   @selection.select(newtext)
 
-:@split_textbox
-  if !@selection.is_head_text
+:@splitTextbox
+  if !@selection.isHeadText
     =>
   sel := @selection.head
   cursor := window.getSelection()
@@ -120,60 +120,60 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
     => false
 
   // Move all the rest div's to a new item.
-  newtext := @make_text_item(newstr, sel)
+  newtext := @makeTextItem(newstr, sel)
   i := cursor_div_index + 1
   while i < sel.childNodes.length
     c = sel.childNodes[i]
     sel.removeChild(c)
     newtext.appendChild(c)
-  f_item_list.append_end(newtext)
+  f_item_list.appendEnd(newtext)
 
   // Remove the previous item if there's no text now.
-  @make_editable(false)
-  @normalize_text_item(true)
+  @makeEditable(false)
+  @normalizeTextItem(true)
 
   // Activate the new item.
   @selection.select(newtext)
-  @normalize_text_item(false)
-  @make_editable()
+  @normalizeTextItem(false)
+  @makeEditable()
   newtext.focus()
   window.getSelection().collapse(newtext, 0)
 
-:add_text
+:addText
   create_new\b\$
   cursor_top\b\? false
-  if !(create_new || @selection.is_head_text)
+  if !(create_new || @selection.isHeadText)
     =>
   if create_new
     // Add a text box at the right location and make it visible.
-    text := @make_text_item('', @selection.head)
-    f_item_list.append_end([text])
+    text := @makeTextItem('', @selection.head)
+    f_item_list.appendEnd([text])
     @selection.select(text)
 
-  @make_editable()
+  @makeEditable()
   f_editor_modes.changeModeTo('t')
   window.getSelection().collapse(#)
     @selection.head
     cursor_top ? 0 :@selection.head.innerText.length
   @selection.head.focus()
 
-:@make_editable
+:@makeEditable
   start\b\? true
   text\s\? null
-  if !(text || @selection.is_head_text)
+  if !(text || @selection.isHeadText)
     =>
   text = text || @selection.head
   text.contentEditable = start
   text.style['-webkit-user-select'] = start ? 'text' : 'none'
 
-:copy_text_item
+:copyTextItem
   orig_item\Element\$
-  item := @make_text_item(orig_item.innerText)
+  item := @makeTextItem(orig_item.innerText)
   item.style.left = (orig_item.offsetLeft + 10) + 'px'
   item.style.top = (orig_item.offsetTop + 10) + 'px'
-  f_item_list.append_end([item])
+  f_item_list.appendEnd([item])
 
-:@make_text_item\Element\
+:@makeTextItem\Element\
   str\s\$
   ref_item\Element\?
   x := window.pageXOffset
@@ -182,24 +182,24 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
     x = ref_item.offsetLeft - 5
     y = ref_item.offsetTop + ref_item.clientHeight + 2
   text := create('div')
-  text.appendChild(@minimum_text_div(str))
+  text.appendChild(@minimumTextDiv(str))
   &%.Item(text, @selection)
-  @make_editable(false, text)
+  @makeEditable(false, text)
   text.style.left = x + 'px'
   text.style.top = y + 'px'
   => text
 
-:@commit_textbox
-  if !@selection.is_head_text
+:@commitTextbox
+  if !@selection.isHeadText
     =>
-  @make_editable(false)
-  @normalize_text_item(true)
+  @makeEditable(false)
+  @normalizeTextItem(true)
   f_editor_modes.popMode()
 
 Make sure there is at least one div left when there is backspace in text
 edit mode.
-:@text_backspace
-  if !@selection.is_head_text
+:@textBackspace
+  if !@selection.isHeadText
     =>
   sel := @selection.head
   sel.normalize()
@@ -207,16 +207,16 @@ edit mode.
     sel.removeChild(sel.firstChild)
   if sel.childNodes.length != 0
     =>
-  sel.appendChild(@minimum_text_div())
+  sel.appendChild(@minimumTextDiv())
   window.getSelection().collapse(sel, 0)
 
 :dispatch
   evt\Event\$
   if evt.keyCode == DOM_VK_RETURN && evt.shiftKey
-    @split_textbox()
+    @splitTextbox()
 
   else if evt.keyCode == DOM_VK_ESCAPE
-    @commit_textbox()
+    @commitTextbox()
 
   else if evt.keyCode == DOM_VK_BACK_SPACE
-    @text_backspace()
+    @textBackspace()
