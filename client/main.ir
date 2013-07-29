@@ -54,10 +54,9 @@ Server access.
 :upload
   // Send everything in the item list.
   html := #+
-    '<!-- EDITOR_MARKER -->'
     '<div class="itemlist">'
     id('itemlist').innerHTML
-    '</div>'
+    '</div>\n'
   if @run_as_extension
     bb := &WebKitBlobBuilder()
     bb.append(saveHeader)

@@ -1,8 +1,10 @@
-:'header
+:'header_start
   <!doctype html>
   <html><head>
     <title>Scrawler</title>
     <link rel="stylesheet" href="scrawler.css" type="text/css">
+
+:'header_end
     </head><body>
 
 :'footer
@@ -11,13 +13,16 @@
 :'script_load
   <script>run_scrawler();</script>
 
+::script_marker = '<!-- SCRAWLER_SCRIPT -->'
+
+
 
 ::
   @ctxt\RequestContext\$
 
 :post
   // TODO: handle sub-dirs.
-  data := header
+  data := header_start + script_marker + header_end
   @ctxt.req.setEncoding('utf8')
   @ctxt.req.on('data', ##)
     chunk\s\$
@@ -48,15 +53,16 @@
 :replaceScript
   html\s\$
   code\CodeHandler\$
-  => html.replace('<!-- EDITOR_MARKER -->', #+) + script_load
+  => html.replace(script_marker, #+) + script_load
     @.packageList(code)
     @.scriptList(code)
 
 :create
   code\CodeHandler\$
   @ctxt.res.writeHead(200, {'Content-Type': 'text/html'})
-  @ctxt.res.write(header + footer)
+  @ctxt.res.write(header_start)
   @ctxt.res.write(@.packageList(code))
   @ctxt.res.write(@.scriptList(code))
+  @ctxt.res.write(header_end + footer)
   @ctxt.res.write(script_load)
   @ctxt.response(200)

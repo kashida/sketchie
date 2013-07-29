@@ -2,11 +2,7 @@
 - check if drag scroll viewport works.
 
 clean up:
-  came case public member names
-    for consistency with dom.
-
   move the script tags to header.
-    and do anything else possible to clean up the dom structure.
 
   drop all :::.
 
@@ -39,6 +35,9 @@ ux refine:
     draw a border around selected items and move the button bar next to it.
     button bar stay in view even when the border goes outside.
       -> need some indication of selectio in case border all goes outside.
+
+  make toggle button for the alpha lock etc.
+    we can then get rid of the form tag.
 
 issues:
   stencile mode:
@@ -194,3 +193,11 @@ path mid points:
   getTotalLength()
   getPointAtLength
   T.firstChild.nodeValue=s
+
+
+[style]
+- Class names: camel case starts with upper case. Same file name.
+  drop class name after '::' if that's the first class in the file.
+- Method names: camel case starts with lower case.
+- Member names, func params, local vars: names with underscore.
+  exception is member with accessors -> same as methods.
