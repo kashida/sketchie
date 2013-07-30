@@ -1,9 +1,5 @@
 [TODO]
-- check if drag scroll viewport works.
-
 clean up:
-  move the script tags to header.
-
   drop all :::.
 
   split files > 100 lines.
@@ -47,6 +43,8 @@ issues:
   list mode palette -> alpha hex control is not working.
 
   smudge leaves dark area around edge.
+
+  drag scroll viewport.
 
 new features:
   hex control overhaul.

@@ -191,15 +191,12 @@
   colors.forEach(##)
     c\A\$
     i\n\$
-    //verify.check c...
+    //verify.check(c[0], c[1])
     elem := create('div')
     elem.color_name = c[1]
     elem.style['background-color'] = '#' + c[0]
     elem.classList.remove('selected')
-    c_values := [0, 1, 2].map(##)
-      j\n\$
-      => parseInt(c[0].substr(j * 2, 2), 16)
-    elem.hsl = data.Color.fromByteRange(c_values[0], c_values[1], c_values[2]).hsl
+    elem.hsl = data.Color.fromHexString(c[0]).hsl
     // TODO: make just one listener for all the div's.
     listen(elem, 'click', ##)
       evt\Event\$
@@ -228,25 +225,17 @@
   id('color_sample1').style['background-color'] = @prev_color.color.rgb
 
 ::VerifyColors
-  @last_rgb\A\ null
+  @last_rgb\A.<n>\ null
 
 :check
-  col\s\$
+  col\data.Color\$
   name\s\$
-  rgb := colorHexToRgb(col)
+  rgb := col.array
   if @last_rgb
     distsq := 0
     [0, 1, 2].forEach(##)
       i\n\$
       d := rgb[i] - @last_rgb[i]
       distsq += d * d
+    l(name + ':' + distsq)
   @last_rgb = rgb
-
-Convert hexadecimal color code, e.g. FFFFFF to [r, g, b] value array in
-[0, 255] range.
-:::colorHexToRgb = ##
-  hex\s\$
-  => [#]
-    parseInt(hex.substr(0, 2), 16)
-    parseInt(hex.substr(2, 2), 16)
-    parseInt(hex.substr(4, 2), 16)

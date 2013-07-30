@@ -204,7 +204,7 @@ From center of hex to the corner. hafl of hex height.
     'z'
   color_band_scale := 'scale(' + ((hex_size - 8) / hex_size) + ')'
 
-:::svgCreate = ##
+::svgCreate = ##
   \Element\
   tag\s\$
   attrs\O\?
@@ -220,7 +220,7 @@ From center of hex to the corner. hafl of hex height.
       elem.appendChild(child)
   => elem
 
-:::svgCreateText = ##
+::svgCreateText = ##
   \Element\
   text\s\$
   attrs\O\?

@@ -49,6 +49,9 @@ String representations for CSS use.
   s := c == 0 ? 0 : c / (1 - Math.abs(max_rgb + min_rgb - 1))
   => &data.Hsl(h, s, l)
 
+:array+\A.<n>\
+  => [@.r, @.g, @.b, @.a]
+
 Creates Color object from rgba values in [0, 255] range.
 :fromByteRange = ##
   \%.Color\
@@ -61,3 +64,12 @@ Creates Color object from rgba values in [0, 255] range.
     inrange(0, 255, g) / 255.0
     inrange(0, 255, b) / 255.0
     inrange(0, 255, a) / 255.0
+
+Convert hexadecimal color code, e.g. FFFFFF to the rgb color value.
+:fromHexString = ##
+  \%.Color\
+  hex\s\$
+  => %.Color.fromByteRange(#)
+    parseInt(hex.substr(0, 2), 16)
+    parseInt(hex.substr(2, 2), 16)
+    parseInt(hex.substr(4, 2), 16)

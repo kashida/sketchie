@@ -126,6 +126,21 @@ TODO: drop this and use elemRect.
     elem.offsetTop
     elem.offsetLeft + elem.offsetWidth
     elem.offsetTop + elem.offsetHeight
+::overlapWithAny = ##
+  item\Element\$
+  regions\A.<Element>\$
+  => regions.some(##)
+    r\Element\$
+    // TODO: consider rotation and scaling.
+    x := item.offsetLeft
+    y := item.offsetTop
+    w := item.offsetWidth
+    h := item.offsetHeight
+    rx := r.offsetLeft
+    ry := r.offsetTop
+    rw := r.offsetWidth
+    rh := r.offsetHeight
+    => x + w > rx && x < rx + rw && y + h > ry && y < ry + rh
 
 ::eachChild = ##
   el\Element\$
