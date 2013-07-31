@@ -1,14 +1,17 @@
 [TODO]
-clean up:
-  drop all :::.
-
-  split files > 100 lines.
-
 ux refine:
-  change key modifier from shift to control.
-    probably need to stop propagate the key events.
+  make favicon.ico.
+
+  context sensitive action button bar.
+    based on item selection, change set of buttons.
+    draw a border around selected items and move the button bar next to it.
+    button bar stay in view even when the border goes outside.
+      -> need some indication of selectio in case border all goes outside.
 
   make item primary selection visually clearer in css.
+
+  change key modifier from shift to control.
+    probably need to stop propagate the key events.
 
   smooth scroll viewport translate with arrow keys in list mode.
     css animation?
@@ -17,23 +20,18 @@ ux refine:
  
   texts in palette are selectable.
 
-  make favicon.ico.
+  make toggle button for the alpha lock etc.
+    we can then get rid of the form tag.
 
   list mode palette needs image alpha lock control?
 
   no color and alpha selection / adjustment in stencil mode.
 
-  apply rotate and scale mouse drag to all the selected items.
-    not just the primary selection.
+clean up:
+  split files > 100 lines.
 
-  context sensitive action button bar.
-    based on item selection, change set of buttons.
-    draw a border around selected items and move the button bar next to it.
-    button bar stay in view even when the border goes outside.
-      -> need some indication of selectio in case border all goes outside.
-
-  make toggle button for the alpha lock etc.
-    we can then get rid of the form tag.
+  use eco to render the scrawler page too (not just the list page).
+    like static/filelist.html.
 
 issues:
   stencile mode:
@@ -47,6 +45,9 @@ issues:
   drag scroll viewport.
 
 new features:
+  apply rotate and scale mouse drag to all the selected items.
+    not just the primary selection.
+
   hex control overhaul.
     drag hex and keep selected region fixed in screen.
 

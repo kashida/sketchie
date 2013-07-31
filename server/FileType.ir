@@ -5,6 +5,7 @@
     js: ['text/javascript', 'utf8']
     jpg: ['image/jpeg', null]
     png: ['image/png', null]
+    gif: ['image/gif', null]
 
 ::
   path\s\$
