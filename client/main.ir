@@ -74,6 +74,13 @@ Server access.
     xhrPost(location.pathname, html)
 
 :@buildDom
+  tb := &ui.Button('T')
+  db := &ui.Button('D')
+  sb := &ui.Button('S')
+  bb := &ui.ButtonBox()
+  bb.add(tb)
+  bb.add(db)
+  bb.add(sb)
   appendChildren(document.body, [#])
     findOrCreate('div', {class: 'itemlist'})
     create('canvas', {class: 'surface'})
@@ -108,6 +115,7 @@ Server access.
               create('input', {class: 'image_alph_alock', type: 'checkbox'})
               createText('alpha lock')
     createDiv('img_undolist')
+    //bb.element
 
 :'saveHeader
   <!doctype html>

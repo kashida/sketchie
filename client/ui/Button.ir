@@ -1,0 +1,9 @@
+::
+  @text\s\$
+  @element+\Element\ createDiv([])
+  @element.innerHTML = text
+  @element.classList.add('button')
+  listen(@element, 'click', @action)
+
+:@action
+  l('button press')

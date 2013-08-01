@@ -1,7 +1,5 @@
 [TODO]
 ux refine:
-  make favicon.ico.
-
   context sensitive action button bar.
     based on item selection, change set of buttons.
     draw a border around selected items and move the button bar next to it.

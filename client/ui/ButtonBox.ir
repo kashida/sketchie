@@ -1,0 +1,7 @@
+::
+  @element+\Element\ createDiv([])
+  @element.classList.add('buttonbox')
+
+:add
+  b\%.Button\$
+  @element.appendChild(b.element)
