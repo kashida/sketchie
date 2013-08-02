@@ -14,6 +14,7 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   f_hex_control := null
   f_z_order := null
   f_strokes := null
+  f_global_buttons := null
 
 ::Scrawler
   @run_as_extension\b\$
@@ -74,13 +75,7 @@ Server access.
     xhrPost(location.pathname, html)
 
 :@buildDom
-  tb := &ui.Button('T')
-  db := &ui.Button('D')
-  sb := &ui.Button('S')
-  bb := &ui.ButtonBox()
-  bb.add(tb)
-  bb.add(db)
-  bb.add(sb)
+  f_global_buttons = &ui.GlobalButtonBox()
   appendChildren(document.body, [#])
     findOrCreate('div', {class: 'itemlist'})
     create('canvas', {class: 'surface'})
@@ -115,7 +110,7 @@ Server access.
               create('input', {class: 'image_alph_alock', type: 'checkbox'})
               createText('alpha lock')
     createDiv('img_undolist')
-    bb.element
+    f_global_buttons.element
 
 :'saveHeader
   <!doctype html>

@@ -1,0 +1,19 @@
+::<%.ButtonBox
+  @buttons\A.<%.Button>\ []
+  ^()
+  // draw, stencil, add text, paste image.
+  // zoom in, out, default, show all.
+  [#].forEach(##)
+    'D'
+    'S'
+    'T'
+    'P'
+    '<sup>z</sup>+'
+    '<sup>z</sup>-'
+    '<sup>z</sup>.'
+    '<sup>z</sup>A'
+    --
+    text\s\$
+    b := &ui.Button(text)
+    @buttons.push(b)
+    @.add(b)

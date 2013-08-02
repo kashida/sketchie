@@ -1,8 +1,6 @@
 [TODO]
 ux refine:
   context sensitive action button bar.
-    make controller to create global action buttons.
-      add all global action buttons.
     hook up actions to buttons.
       make one action per button and move logic from editor/List etc.
     make controller to create selection action buttons.
@@ -12,6 +10,7 @@ ux refine:
       make framework to activate / deactivate based on selection changes.
     should all global buttons diappear if there's a single selection?
     set up action registration and hook up short-cut key mapping.
+    try extended font set for button graphics.
 
     based on item selection, change set of buttons.
     draw a border around selected items and move the button bar next to it.
