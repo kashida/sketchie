@@ -115,7 +115,7 @@ Server access.
               create('input', {class: 'image_alph_alock', type: 'checkbox'})
               createText('alpha lock')
     createDiv('img_undolist')
-    //bb.element
+    bb.element
 
 :'saveHeader
   <!doctype html>
