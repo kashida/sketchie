@@ -1,9 +1,11 @@
 ::
   @text\s\$
+  @cb\F\$
   @element+\Element\ createDiv([])
   @element.innerHTML = text
   @element.classList.add('button')
-  listen(@element, 'click', @action)
+  listen(@element, 'click', ##)
+    @action()
 
 :@action
-  l('button press')
+  @cb()

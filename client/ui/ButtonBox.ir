@@ -1,7 +1,9 @@
 ::
   @element+\Element\ createDiv([])
+  @buttons\A.<%.Button>\ []
   @element.classList.add('buttonbox')
 
 :add
   b\%.Button\$
+  @buttons.push(b)
   @element.appendChild(b.element)

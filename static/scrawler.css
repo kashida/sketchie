@@ -195,12 +195,15 @@ body {
 */
   font-size: 32px;
   padding: 0 5px 0 10px;
+  box-shadow: none;
+  transition: box-shadow 0.8s linear;
 }
 .button:hover {
   background-color: rgba(170, 130, 50, 0.8);
 }
 .button:active {
   box-shadow:
-    0 0 7px 5px rgba(200, 170, 90, 0.6),
-    inset 0 0 5px rgba(210, 180, 90, 0.7);
+    0 0 7px 5px rgba(200, 160, 90, 0.7),
+    inset 0 0 5px rgba(210, 170, 90, 0.8);
+  transition: none;
 }

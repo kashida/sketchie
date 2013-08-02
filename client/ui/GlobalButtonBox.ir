@@ -1,19 +1,14 @@
 ::<%.ButtonBox
-  @buttons\A.<%.Button>\ []
+  @actions\A.<action.Action>\ [#]
+    &action.NewDraw()
+    &action.NewText()
+    &action.Paste()
+    &action.ZoomIn()
+    &action.ZoomOut()
+    &action.ZoomDefault()
+    &action.ZoomShowAll()
   ^()
-  // draw, stencil, add text, paste image.
-  // zoom in, out, default, show all.
-  [#].forEach(##)
-    'D'
-    'S'
-    'T'
-    'P'
-    '<sup>z</sup>+'
-    '<sup>z</sup>-'
-    '<sup>z</sup>.'
-    '<sup>z</sup>A'
-    --
-    text\s\$
-    b := &ui.Button(text)
-    @buttons.push(b)
-    @.add(b)
+  @actions.forEach(##)
+    action\action.Action\$
+    @.add(&ui.Button(action.text, ##))
+      action.trigger()
