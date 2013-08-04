@@ -1,8 +1,7 @@
 [TODO]
 ux refine:
   context sensitive action button bar.
-    hook up actions to buttons.
-      make one action per button and move logic from editor/List etc.
+    move logic from editor/List etc to actions.
     make controller to create selection action buttons.
     activate criteria.
       hide disabled buttons and animation to hide them.
