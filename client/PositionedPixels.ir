@@ -2,3 +2,23 @@ Temporary representation of image item.
 ::
   @position+\data.Vec2\$
   @dataUrl+\s\$
+
+:makeImageItem\Image\
+  img\Image\?
+  add_img := !img
+  if img
+    // Refresh the transform.
+    setAttr(img, 'xf_r')
+    setAttr(img, 'xf_s')
+    img.style['-webkit-transform'] = null
+  else
+    img = &Image()
+    &editor.Item(img, f_page.selection)
+  img.style.left = @.position.x + 'px'
+  img.style.top = @.position.y + 'px'
+  img.style['-webkit-user-select'] = 'none'
+  img.src = @.dataUrl
+  if add_img
+    f_item_list.appendEnd(img)
+  f_page.selection.select(img)
+  => img

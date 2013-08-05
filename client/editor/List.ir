@@ -136,7 +136,7 @@ Image methods.
 
 :@copyImageItem
   orig_item\Element\$
-  img := @makeImageItem(&PositionedPixels(#))
+  img := &PositionedPixels(#).makeImageItem()
     &data.Vec2(orig_item.offsetLeft + 10, orig_item.offsetTop + 10)
     orig_item.src
   setAttr(img, 'xf_r', attr(orig_item, 'xf_r'))
@@ -144,27 +144,6 @@ Image methods.
   setXform(img)
   setAttr(img, 'alpha_lock', attr(orig_item, 'alpha_lock'))
   f_item_list.appendEnd(img)
-
-:@makeImageItem\Image\
-  spec\PositionedPixels\$
-  img\Image\?
-  add_img := !img
-  if img
-    // Refresh the transform.
-    setAttr(img, 'xf_r')
-    setAttr(img, 'xf_s')
-    img.style['-webkit-transform'] = null
-  else
-    img = &Image()
-    &%.Item(img, @selection)
-  img.style.left = spec.position.x + 'px'
-  img.style.top = spec.position.y + 'px'
-  img.style['-webkit-user-select'] = 'none'
-  img.src = spec.dataUrl
-  if add_img
-    f_item_list.appendEnd(img)
-  @selection.select(img)
-  => img
 
 :@enterDrawMode
   if @selection.isHeadText
@@ -185,7 +164,6 @@ Image methods.
   document.body.insertBefore(div, f_cursor.div())
 
   // Activate.
-  f_item_palette.close()
   f_editor_modes.changeModeTo('d', {image:img}, ##)
     params\O\$
     => @drawEnd(#)
@@ -201,11 +179,11 @@ Image methods.
   stencil\b\? false
   if !img_spec
     // No image remaining.
-    @selection.clear()
+    f_page.selection.clear()
     if img
       f_item_list.remove(img)
     => 
-  @makeImageItem(img_spec, img)
+  img_spec.makeImageItem(img)
   setIsAttr(@selection.head, 'alpha_lock', alpha_lock)
 
   // Remove the temporary div for the upper items.
@@ -224,7 +202,6 @@ Image methods.
     =>
   img := @selection.head
   @selection.clear()
-  f_item_palette.close()
   f_editor_modes.changeModeTo('s', [], ##)
     params\s\$
     @stencilEnd(#)
@@ -247,13 +224,13 @@ Image methods.
     // no intersection of the image and selection.
     =>
 
-  created_img := @makeImageItem(img_spec)
+  created_img := img_spec.makeImageItem()
   if action == 'x'
     rest_spec := imageRegion(img, mask, true)
     // We don't need to make any action if the entire image was selected
     // and the operation was cut (not copy).
     if rest_spec
-      @makeImageItem(rest_spec, img)
+      rest_spec.makeImageItem(img)
   @selection.select(created_img)
 
 :@collapseImages
@@ -264,7 +241,7 @@ Image methods.
   // Remove all the selected images.
   f_item_list.remove(@selection.list)
   // Add the newly created image.
-  @selection.select(@makeImageItem(merged_spec))
+  @selection.select(merged_spec.makeImageItem())
   f_item_palette.update()
 
 :pasteImage
@@ -282,7 +259,7 @@ Image methods.
     if !img
       =>
     url = img.src
-  img = @makeImageItem(&PositionedPixels(#))
+  img = &PositionedPixels(#).makeImageItem()
     &data.Vec2(window.pageXOffset, window.pageYOffset)
     url
   setAttr(img, 'ref_img', '1')

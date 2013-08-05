@@ -1,2 +1,5 @@
 ::<%.Action
   ^('D')
+
+:isActive+\b\
+  => !f_page.selection.isEmpty

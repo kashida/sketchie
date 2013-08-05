@@ -18,6 +18,7 @@
 
   f_surface.activate(@image, @alphaLock)
   f_viewport.deactivate()
+  f_item_palette.close()
   f_stroke_layer.activate()
   f_dispatcher.pushMouseControl(@)
   f_dispatcher.activate()

@@ -1,5 +1,9 @@
 ::
   @text+\s\$
 
+:isActive+\b\
+  => true
+
 :trigger
+  assert(@.isActive)
   l('action: ' + @text)

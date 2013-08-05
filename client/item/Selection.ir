@@ -5,6 +5,8 @@
 
 :isAny+\b\
   => @list.length > 0
+:isEmpty+\b\
+  => @list.length == 0
 :count+\n\
   => @list.length
 :head+\Element\

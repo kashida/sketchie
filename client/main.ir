@@ -15,6 +15,7 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   f_z_order := null
   f_strokes := null
   f_global_buttons := null
+  f_page := null
 
 ::Scrawler
   @run_as_extension\b\$
@@ -33,6 +34,7 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   f_tool_palette = &palette.Tool()
   f_item_palette = &palette.Item(item_selection)
   f_cursor = &Cursor()
+  f_page = &model.Page(f_item_list, item_selection)
 
   textEditor := &editor.Text(item_selection)
   f_editor_modes = &editor.Modes('l', {#})
