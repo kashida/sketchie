@@ -28,18 +28,33 @@
   document.body.insertBefore(div, f_cursor.div())
   @.activateImage(img)
 
+:<deactivate
+  img := @.image
+  img_spec := f_surface.imageSpec(@.image)
+  ^()
+  if !img_spec
+    // No image remaining.
+    f_page.selection.clear()
+    if img
+      f_item_list.remove(img)
+    =>
+  img_spec.makeImageItem(img)
+
+  // Remove the temporary div for the upper items.
+  div := id('itemlist_upper')
+  while div.childNodes.length > 0
+    item := div.firstChild
+    div.removeChild(item)
+    f_item_list.appendEnd(item)
+  document.body.removeChild(div)
+
 :dispatch
   evt\Event\$
   if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
-    f_editor_modes.popMode({#})
-      img: @.image
-      img_spec: f_surface.imageSpec(@.image)
+    f_editor_modes.popMode({})
 
   if evt.keyCode == c('S')
-    f_editor_modes.popMode({#})
-      img: @.image
-      img_spec: f_surface.imageSpec(@.image)
-      stencil: true
+    f_editor_modes.popMode({stencil: true})
 
   else
     ^(evt)

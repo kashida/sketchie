@@ -149,68 +149,11 @@ Image methods.
   // Activate.
   f_editor_modes.changeModeTo('d', ##)
     params\O\$
-    => @drawEnd(#)
-      params['img']
-      params['img_spec']
-      params['alpha_lock']
-      params['stencil']
-
-:@drawEnd
-  img\Image\$
-  img_spec\PositionedPixels\$
-  alpha_lock\b\$
-  stencil\b\? false
-  if !img_spec
-    // No image remaining.
-    f_page.selection.clear()
-    if img
-      f_item_list.remove(img)
-    => 
-  img_spec.makeImageItem(img)
-  setIsAttr(@selection.head, 'alpha_lock', alpha_lock)
-
-  // Remove the temporary div for the upper items.
-  div := id('itemlist_upper')
-  while div.childNodes.length > 0
-    item := div.firstChild
-    div.removeChild(item)
-    f_item_list.appendEnd(item)
-  document.body.removeChild(div)
-
-  if stencil
-    @enterStencilMode()
+    if params['stencil']
+      @enterStencilMode()
 
 :@enterStencilMode
-  f_editor_modes.changeModeTo('s', ##)
-    params\s\$
-    @stencilEnd(#)
-      params['img']
-      params['mask']
-      params['action']
-
-:@stencilEnd
-  img\Image\$
-  mask\ImageData\$
-  action\s\$
-  @selection.select(img)
-  if action != 'c' && action != 'x'
-    // Canceled.
-    =>
-
-  // Carry out the requested action.
-  img_spec := imageRegion(img, mask)
-  if !img_spec
-    // no intersection of the image and selection.
-    =>
-
-  created_img := img_spec.makeImageItem()
-  if action == 'x'
-    rest_spec := imageRegion(img, mask, true)
-    // We don't need to make any action if the entire image was selected
-    // and the operation was cut (not copy).
-    if rest_spec
-      rest_spec.makeImageItem(img)
-  @selection.select(created_img)
+  f_editor_modes.changeModeTo('s')
 
 :@collapseImages
   // Collapse images in their z order.

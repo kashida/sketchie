@@ -1,5 +1,6 @@
 ::< %.Image
   @baseImage\Image\
+  @action\s\ ''
   @.stroke = 'R'
   ^()
 
@@ -12,9 +13,30 @@
   f_surface.setOpaciy(0.3)
 
 :<deactivate
+  mask := f_surface.pixels()
   ^()
   f_surface.setOpaciy()
+  f_page.selection.select(@baseImage)
+  if @action != 'c' && @action != 'x'
+    // Canceled.
+    =>
+
+  // Carry out the requested action.
+  img_spec := imageRegion(@baseImage, mask)
+  if !img_spec
+    // no intersection of the image and selection.
+    =>
+
+  created_img := img_spec.makeImageItem()
+  if @action == 'x'
+    rest_spec := imageRegion(@baseImage, mask, true)
+    // We don't need to make any action if the entire image was selected
+    // and the operation was cut (not copy).
+    if rest_spec
+      rest_spec.makeImageItem(@baseImage)
+  f_page.selection.select(created_img)
   @baseImage = null
+  @action = ''
 
 :<startSegment
   evt\Event\$
@@ -30,16 +52,12 @@
     f_editor_modes.popMode()
 
   else if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('C')
-    f_editor_modes.popMode({#})
-      img: @baseImage
-      mask: f_surface.pixels()
-      action: 'c'
+    @action = 'c'
+    f_editor_modes.popMode()
 
   else if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('X')
-    f_editor_modes.popMode({#})
-      img: @baseImage
-      mask: f_surface.pixels()
-      action: 'x'
+    @action = 'x'
+    f_editor_modes.popMode()
 
   else
     ^(evt)
