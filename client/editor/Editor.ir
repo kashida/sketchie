@@ -2,7 +2,6 @@ All editor implementation should support the methods here.
 ::
 
 :activate
-  params\O\$
 
 :deactivate
 

@@ -3,7 +3,7 @@
   @dragger\drag.Scale\ &drag.Scale()
   ^()
 
-:activate
+:<activate
   @dragger.activate(@selection.head)
 
 :dispatch

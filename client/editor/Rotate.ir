@@ -3,7 +3,7 @@
   @dragger\drag.Rotate\ &drag.Rotate()
   ^()
 
-:activate
+:<activate
   @dragger.activate(@selection.head)
 
 :dispatch

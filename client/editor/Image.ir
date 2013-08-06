@@ -11,9 +11,9 @@
 :startSegment
   evt\Event\$
 
-:activate
-  params\O\$
-  @image = \Image\(params['image'])
+:activateImage
+  img\Image\$
+  @image = img
   @alphaLock = @image && isAttr(@image, 'alpha_lock')
 
   f_surface.activate(@image, @alphaLock)

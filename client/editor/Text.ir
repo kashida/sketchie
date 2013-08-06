@@ -2,7 +2,7 @@
   @selection\item.Selection\$
   ^()
 
-:deactivate
+:<deactivate
 
 :@trimWhitespace
   str\s\$

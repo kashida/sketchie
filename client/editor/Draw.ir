@@ -9,14 +9,35 @@
     f_tool_palette.lerp()
     @.alphaLock
 
+:<activate
+  if f_page.selection.isHeadText
+    f_page.selection.clear()
+  img := f_page.selection.head
+  f_page.selection.clear()
+  if img && attr(img, 'ref_img')
+    img = null
+
+  // Move all items after the selected image to a separate div.
+  upper_items := img ? f_item_list.after(img) : []
+  f_item_list.remove(upper_items)
+  div := create('div', {class: 'itemlist itemlist_upper'})
+  upper_items.forEach(##)
+    item\Element\$
+    div.appendChild(item)
+  f_viewport.copyTo(div)
+  document.body.insertBefore(div, f_cursor.div())
+  @.activateImage(img)
+
 :dispatch
   evt\Event\$
   if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
     f_editor_modes.popMode({#})
+      img: @.image
       img_spec: f_surface.imageSpec(@.image)
 
   if evt.keyCode == c('S')
     f_editor_modes.popMode({#})
+      img: @.image
       img_spec: f_surface.imageSpec(@.image)
       stencil: true
 

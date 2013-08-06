@@ -1,15 +1,20 @@
 ::< %.Image
+  @baseImage\Image\
   @.stroke = 'R'
   ^()
 
-:activate
-  image\O\$
-  ^(image)
+:<activate
+  if !f_page.selection.isHeadImage
+    =>
+  @baseImage = f_page.selection.head
+  f_page.selection.clear()
+  @.activateImage(null)
   f_surface.setOpaciy(0.3)
 
-:deactivate
+:<deactivate
   ^()
   f_surface.setOpaciy()
+  @baseImage = null
 
 :<startSegment
   evt\Event\$
@@ -26,11 +31,13 @@
 
   else if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('C')
     f_editor_modes.popMode({#})
+      img: @baseImage
       mask: f_surface.pixels()
       action: 'c'
 
   else if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('X')
     f_editor_modes.popMode({#})
+      img: @baseImage
       mask: f_surface.pixels()
       action: 'x'
 
