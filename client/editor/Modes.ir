@@ -2,7 +2,6 @@
   default_mode\s\$
   @editors\O.<s, editor.Editor>\$
   @modes\A.<s>\ [default_mode]
-  @callbacks\A.<F>\ []
 
 Current mode.
 :mode+\s\
@@ -14,20 +13,15 @@ Currently selected editor.
   => @editors[@.mode]
   
 :changeModeTo
-  nextMode\s\$
-  // TODO: pass typed obj. caller keep the reference to it and expect
-  // return values too so end_mode_params below isn't necessary.
-  reactivate_cb\F\?
-  assert(nextMode != @.mode)
-  @modes.push(nextMode)
-  @callbacks.push(reactivate_cb)
+  next_mode\s\$
+  assert(next_mode != @.mode)
+  @modes.push(next_mode)
   @.editor.activate()
 
 :popMode
-  end_mode_params\O\? {}
+  next_mode\s\?
   @.editor.deactivate()
   @modes.pop()
   assert(@modes.length > 0)
-  cb := @callbacks.pop()
-  if cb
-    cb(end_mode_params)
+  if next_mode
+    @.changeModeTo(next_mode)

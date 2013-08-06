@@ -1,8 +1,8 @@
 [TODO]
 ux refine:
   context sensitive action button bar.
-    move most of enterDrawMode/enterStencilMode from editor.List to
-      editor.Draw/Stencil.
+    bug: use stencil mode once and next time select image and go draw
+      -> opacity wrong.
     drop f_item_list and @stencil ref from editor/ classes and use f_page instead.
     move logic from editor/List etc to actions.
     make controller to create selection action buttons.

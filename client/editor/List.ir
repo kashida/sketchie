@@ -145,16 +145,6 @@ Image methods.
   setAttr(img, 'alpha_lock', attr(orig_item, 'alpha_lock'))
   f_item_list.appendEnd(img)
 
-:@enterDrawMode
-  // Activate.
-  f_editor_modes.changeModeTo('d', ##)
-    params\O\$
-    if params['stencil']
-      @enterStencilMode()
-
-:@enterStencilMode
-  f_editor_modes.changeModeTo('s')
-
 :@collapseImages
   // Collapse images in their z order.
   merged_spec := blendImages(f_item_list.zOrder(@selection.list))
@@ -258,9 +248,9 @@ Key handler.
 
   // Draw / stencil mode change.
   else if key == c('D')
-    @enterDrawMode()
+    f_editor_modes.changeModeTo('d')
   else if key == c('S')
-    @enterStencilMode()
+    f_editor_modes.changeModeTo('s')
 
   // Mark image alpha locked.
   else if key == c('X')

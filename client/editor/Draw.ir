@@ -51,10 +51,10 @@
 :dispatch
   evt\Event\$
   if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
-    f_editor_modes.popMode({})
+    f_editor_modes.popMode()
 
   if evt.keyCode == c('S')
-    f_editor_modes.popMode({stencil: true})
+    f_editor_modes.popMode('s')
 
   else
     ^(evt)
