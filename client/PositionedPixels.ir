@@ -13,7 +13,7 @@ Temporary representation of image item.
     img.style['-webkit-transform'] = null
   else
     img = &Image()
-    &editor.Item(img, f_page.selection)
+    &editor.Item(img)
   img.style.left = @.position.x + 'px'
   img.style.top = @.position.y + 'px'
   img.style['-webkit-user-select'] = 'none'

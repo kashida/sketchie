@@ -24,21 +24,21 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
 :@initGlobalComponents
   f_scrawler = this
   f_viewport = &Viewport()
-  f_page = &model.Page(&item.List(), &item.Selection())
-  f_z_order = &item.ZOrder()
+  f_page = &model.Page()
+  f_z_order = &model.ZOrder()
   f_surface = &Surface(id('surface'))
   f_stroke_layer = &Surface(id('stroke_layer'))
   f_color_palette = &palette.Color()
   f_tool_palette = &palette.Tool()
-  f_item_palette = &palette.Item(f_page.selection)
+  f_item_palette = &palette.Item()
   f_cursor = &Cursor()
 
-  textEditor := &editor.Text(f_page.selection)
+  textEditor := &editor.Text()
   f_editor_modes = &editor.Modes('l', {#})
-    'l': &editor.List(f_page.selection, textEditor)
+    'l': &editor.List(textEditor)
     't': textEditor
-    'r': &editor.Rotate(f_page.selection)
-    'q': &editor.Scale(f_page.selection)
+    'r': &editor.Rotate()
+    'q': &editor.Scale()
     'd': &editor.Draw()
     's': &editor.Stencil()
   f_dispatcher = &Dispatcher()

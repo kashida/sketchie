@@ -1,6 +1,5 @@
 ::
   @elem\Element\$
-  @selection\item.Selection\$
   @blessItem()
 
 :@blessItem
@@ -10,4 +9,4 @@
   listen(@elem, 'click', ##)
     evt\Event\$
     if @elem.getAttribute('active') && !evt.ctrlKey
-      @selection.select(@elem, evt.shiftKey)
+      f_page.selection.select(@elem, evt.shiftKey)

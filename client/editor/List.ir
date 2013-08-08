@@ -1,19 +1,18 @@
 ::<%.Editor
-  @selection\item.Selection\$
   @text_editor\%.Text\$
   ^()
   f_page.items.each(##)
     e\Element\$
-    &%.Item(e, @selection)
+    &%.Item(e)
 
 :@removeSelected
-  f_page.items.remove(@selection.list)
-  @selection.clear()
+  f_page.items.remove(f_page.selection.list)
+  f_page.selection.clear()
 
 :@zOrderToEnd
   send_back\b\$
   // Preserve the z order among the selected items.
-  remove_list := f_page.items.zOrder(@selection.list)
+  remove_list := f_page.items.zOrder(f_page.selection.list)
   f_page.items.remove(remove_list)
   if send_back
     f_page.items.insertFirst(remove_list)
@@ -29,7 +28,7 @@
   found := false
   f_page.items.until(send_back, ##)
     item\Element\$
-    if @selection.isSelected(item)
+    if f_page.selection.isSelected(item)
       found_selected.push(item)
     else if found_selected.length > 0
       to_move.push(item)
@@ -49,17 +48,17 @@
 :@moveSelection
   move_down\b\$
   // Find the element below the current one and move the selection to it.
-  if !@selection.isAny
+  if !f_page.selection.isAny
     // Special case.  we select eithe the first or the last element.
     if move_down
       f_page.items.top(##)
         item\Element\$
-        @selection.select(item)
+        f_page.selection.select(item)
         f_viewport.showItem(item)
     else
       f_page.items.bottom(##)
         item\Element\$
-        @selection.select(item)
+        f_page.selection.select(item)
         f_viewport.showItem(item)
     =>
   if f_page.items.empty()
@@ -67,10 +66,10 @@
 
   // Find items that is just above and just below the selected item.
   next_item := null
-  y := next_y := @selection.head.offsetTop
+  y := next_y := f_page.selection.head.offsetTop
   f_page.items.each(##)
     c\Element\$
-    if c == @selection.head
+    if c == f_page.selection.head
       =>
     cy := c.offsetTop
     // We want to move up and found an item above the current.
@@ -91,21 +90,21 @@
       next_item = c
       next_y = cy
   if next_item
-    @selection.select(next_item)
+    f_page.selection.select(next_item)
     f_viewport.showItem(next_item)
 
 :@expandSelection
   move_down\b\$
-  current := @selection.head
+  current := f_page.selection.head
   @moveSelection(move_down)
-  @selection.add(current)
+  f_page.selection.add(current)
 
 :@holdSelection
-  @selection.list.forEach(##)
+  f_page.selection.list.forEach(##)
     item\Element\$
     item.removeAttribute('active')
     item.style['pointer-events'] = 'none'
-  @selection.clear()
+  f_page.selection.clear()
 
 :@unholdAll
   f_page.items.each(##)
@@ -114,9 +113,9 @@
     item.style['pointer-events'] = null
 
 :@copyItem
-  // Need to make a copy because @selection.list gets destroyed
+  // Need to make a copy because f_page.selection.list gets destroyed
   // during the copies.
-  @selection.list.slice(0).forEach(##)
+  f_page.selection.list.slice(0).forEach(##)
     item\Element\$
     if item.tagName == 'DIV'
       @text_editor.copyTextItem(item)
@@ -124,11 +123,11 @@
       @copyImageItem(item)
 
 :@collapseItems
-  if @selection.count < 2
+  if f_page.selection.count < 2
     =>
-  if @selection.isAllText
+  if f_page.selection.isAllText
     @text_editor.collapseTexts()
-  else if @selection.isAllImage
+  else if f_page.selection.isAllImage
     @collapseImages()
 
 ------------------------------------------------------------
@@ -147,13 +146,13 @@ Image methods.
 
 :@collapseImages
   // Collapse images in their z order.
-  merged_spec := blendImages(f_page.items.zOrder(@selection.list))
+  merged_spec := blendImages(f_page.items.zOrder(f_page.selection.list))
   if !merged_spec
     =>
   // Remove all the selected images.
-  f_page.items.remove(@selection.list)
+  f_page.items.remove(f_page.selection.list)
   // Add the newly created image.
-  @selection.select(merged_spec.makeImageItem())
+  f_page.selection.select(merged_spec.makeImageItem())
   f_item_palette.update()
 
 :pasteImage
@@ -198,7 +197,7 @@ Key handler.
   else if key == c('J') + shift
     @expandSelection(true)
   else if key == DOM_VK_ESCAPE || key == c('A')
-    @selection.clear()
+    f_page.selection.clear()
   else if key == c('H')
     @holdSelection()
   else if key == c('H') + shift
@@ -286,7 +285,7 @@ Key handler.
 
   // Save.
   else if key == c('S') + shift
-    @selection.clear()
+    f_page.selection.clear()
     f_scrawler.upload()
   // Go back to the list page.
   else if key == c('U') + shift

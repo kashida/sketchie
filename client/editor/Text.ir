@@ -1,5 +1,4 @@
 ::<%.Editor
-  @selection\item.Selection\$
   ^()
 
 :<deactivate
@@ -23,9 +22,9 @@
 If remove is true, clean up empty div's and remove the item if it ends up empty.
 :@normalizeTextItem
   remove\b\$
-  if !@selection.isHeadText
+  if !f_page.selection.isHeadText
     =>
-  sel := @selection.head
+  sel := f_page.selection.head
   sel.normalize()
   // Remove end spaces from all the text nodes.
   eachChild(sel, ##)
@@ -44,7 +43,7 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
       div.appendChild(create('br'))
   // Remove the element if there's nothing left.
   if remove && sel.childNodes.length == 0
-    @selection.clear()
+    f_page.selection.clear()
     sel.blur()
     f_page.items.remove(sel)
 
@@ -52,8 +51,8 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
   // Collapse texts in y order.
   elems := []
   first_position := null
-  while @selection.isAny
-    f_page.items.topIn(@selection.list, ##)
+  while f_page.selection.isAny
+    f_page.items.topIn(f_page.selection.list, ##)
       item\Element\$
       while item.firstChild
         c := item.firstChild
@@ -61,7 +60,7 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
         elems.push(c)
       if !first_position
         first_position = [item.offsetLeft, item.offsetTop]
-      @selection.remove(item)
+      f_page.selection.remove(item)
       f_page.items.remove(item)
 
   // Create an empty text item and add the elements.
@@ -73,12 +72,12 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
   f_page.items.appendEnd(newtext)
   newtext.style.left = first_position[0] + 'px'
   newtext.style.top = first_position[1] + 'px'
-  @selection.select(newtext)
+  f_page.selection.select(newtext)
 
 :@splitTextbox
-  if !@selection.isHeadText
+  if !f_page.selection.isHeadText
     =>
-  sel := @selection.head
+  sel := f_page.selection.head
   cursor := window.getSelection()
 
   // Find the div the cusor is in now.
@@ -133,7 +132,7 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
   @normalizeTextItem(true)
 
   // Activate the new item.
-  @selection.select(newtext)
+  f_page.selection.select(newtext)
   @normalizeTextItem(false)
   @makeEditable()
   newtext.focus()
@@ -142,27 +141,27 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
 :addText
   create_new\b\$
   cursor_top\b\? false
-  if !(create_new || @selection.isHeadText)
+  if !(create_new || f_page.selection.isHeadText)
     =>
   if create_new
     // Add a text box at the right location and make it visible.
-    text := @makeTextItem('', @selection.head)
+    text := @makeTextItem('', f_page.selection.head)
     f_page.items.appendEnd([text])
-    @selection.select(text)
+    f_page.selection.select(text)
 
   @makeEditable()
   f_editor_modes.changeModeTo('t')
   window.getSelection().collapse(#)
-    @selection.head
-    cursor_top ? 0 :@selection.head.innerText.length
-  @selection.head.focus()
+    f_page.selection.head
+    cursor_top ? 0 :f_page.selection.head.innerText.length
+  f_page.selection.head.focus()
 
 :@makeEditable
   start\b\? true
   text\s\? null
-  if !(text || @selection.isHeadText)
+  if !(text || f_page.selection.isHeadText)
     =>
-  text = text || @selection.head
+  text = text || f_page.selection.head
   text.contentEditable = start
   text.style['-webkit-user-select'] = start ? 'text' : 'none'
 
@@ -183,14 +182,14 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
     y = ref_item.offsetTop + ref_item.clientHeight + 2
   text := create('div')
   text.appendChild(@minimumTextDiv(str))
-  &%.Item(text, @selection)
+  &%.Item(text)
   @makeEditable(false, text)
   text.style.left = x + 'px'
   text.style.top = y + 'px'
   => text
 
 :@commitTextbox
-  if !@selection.isHeadText
+  if !f_page.selection.isHeadText
     =>
   @makeEditable(false)
   @normalizeTextItem(true)
@@ -199,9 +198,9 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
 Make sure there is at least one div left when there is backspace in text
 edit mode.
 :@textBackspace
-  if !@selection.isHeadText
+  if !f_page.selection.isHeadText
     =>
-  sel := @selection.head
+  sel := f_page.selection.head
   sel.normalize()
   if sel.childNodes.length == 1 && sel.firstChild.tagName == 'BR'
     sel.removeChild(sel.firstChild)

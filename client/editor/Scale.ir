@@ -1,10 +1,9 @@
 ::<%.Editor
-  @selection\item.Selection\$
   @dragger\drag.Scale\ &drag.Scale()
   ^()
 
 :<activate
-  @dragger.activate(@selection.head)
+  @dragger.activate(f_page.selection.head)
 
 :dispatch
   evt\Event\$

@@ -1,7 +1,6 @@
 [TODO]
 ux refine:
   context sensitive action button bar.
-    drop @selection ref from editor/ classes and use f_page instead.
     move logic from editor/List etc to actions.
     make controller to create selection action buttons.
     activate criteria.
