@@ -1,9 +1,6 @@
 ::<%.Editor
   @text_editor\%.Text\$
   ^()
-  f_page.items.each(##)
-    e\Element\$
-    &%.Item(e)
 
 :@removeSelected
   f_page.items.remove(f_page.selection.list)

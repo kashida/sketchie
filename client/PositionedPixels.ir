@@ -12,8 +12,7 @@ Temporary representation of image item.
     setAttr(img, 'xf_s')
     img.style['-webkit-transform'] = null
   else
-    img = &Image()
-    &editor.Item(img)
+    img = &model.Image().img
   img.style.left = @.position.x + 'px'
   img.style.top = @.position.y + 'px'
   img.style['-webkit-user-select'] = 'none'

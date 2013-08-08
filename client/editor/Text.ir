@@ -158,7 +158,7 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
 
 :@makeEditable
   start\b\? true
-  text\s\? null
+  text\!Element\? null
   if !(text || f_page.selection.isHeadText)
     =>
   text = text || f_page.selection.head
@@ -180,9 +180,8 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
   if ref_item
     x = ref_item.offsetLeft - 5
     y = ref_item.offsetTop + ref_item.clientHeight + 2
-  text := create('div')
+  text := &model.Text().element
   text.appendChild(@minimumTextDiv(str))
-  &%.Item(text)
   @makeEditable(false, text)
   text.style.left = x + 'px'
   text.style.top = y + 'px'

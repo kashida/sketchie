@@ -1,0 +1,12 @@
+::
+  @element+\!Element\$
+  @blessItem()
+
+:@blessItem
+  @element.item = @
+  @element.setAttribute('active', '1')
+  @element.dragger = &drag.Move(@element)
+  listen(@element, 'click', ##)
+    evt\Event\$
+    if @element.getAttribute('active') && !evt.ctrlKey
+      f_page.selection.select(@element, evt.shiftKey)
