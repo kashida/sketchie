@@ -10,12 +10,12 @@
   @baseImage = f_page.selection.head
   f_page.selection.clear()
   @.activateImage(null)
-  f_surface.setOpaciy(0.3)
+  f_surface.opacity = 0.3
 
 :<deactivate
   mask := f_surface.pixels()
   ^()
-  f_surface.setOpaciy()
+  f_surface.opacity = null
   f_page.selection.select(@baseImage)
   if @action != 'c' && @action != 'x'
     // Canceled.

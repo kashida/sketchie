@@ -23,8 +23,8 @@ Canvas that's fixed to the viewport size.
   @.ctx.globalCompositeOperation = ''
 
 Val is the opacity value [0, 1.0], but resets to default when null.
-:setOpaciy
-  val\s\$
+:opacity*
+  val\?s|n\$
   @.canvas.style.opacity = val
 
 Takes view coordinates and returns [r, g, b, a] array in [0, 255] range.

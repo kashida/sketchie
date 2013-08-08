@@ -1,6 +1,7 @@
 [TODO]
 ux refine:
   context sensitive action button bar.
+    build ir2js and re-install.
     bug: use stencil mode once and next time select image and go draw
       -> opacity wrong.
     drop f_item_list and @stencil ref from editor/ classes and use f_page instead.
