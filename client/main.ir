@@ -2,7 +2,6 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
 :
   f_scrawler := null
   f_viewport := null
-  f_item_list := null
   f_surface := null
   f_stroke_layer := null
   f_color_palette := null
@@ -25,23 +24,21 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
 :@initGlobalComponents
   f_scrawler = this
   f_viewport = &Viewport()
-  f_item_list = &item.List()
-  item_selection := &item.Selection()
+  f_page = &model.Page(&item.List(), &item.Selection())
   f_z_order = &item.ZOrder()
   f_surface = &Surface(id('surface'))
   f_stroke_layer = &Surface(id('stroke_layer'))
   f_color_palette = &palette.Color()
   f_tool_palette = &palette.Tool()
-  f_item_palette = &palette.Item(item_selection)
+  f_item_palette = &palette.Item(f_page.selection)
   f_cursor = &Cursor()
-  f_page = &model.Page(f_item_list, item_selection)
 
-  textEditor := &editor.Text(item_selection)
+  textEditor := &editor.Text(f_page.selection)
   f_editor_modes = &editor.Modes('l', {#})
-    'l': &editor.List(item_selection, textEditor)
+    'l': &editor.List(f_page.selection, textEditor)
     't': textEditor
-    'r': &editor.Rotate(item_selection)
-    'q': &editor.Scale(item_selection)
+    'r': &editor.Rotate(f_page.selection)
+    'q': &editor.Scale(f_page.selection)
     'd': &editor.Draw()
     's': &editor.Stencil()
   f_dispatcher = &Dispatcher()

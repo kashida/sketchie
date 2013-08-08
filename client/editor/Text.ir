@@ -46,14 +46,14 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
   if remove && sel.childNodes.length == 0
     @selection.clear()
     sel.blur()
-    f_item_list.remove(sel)
+    f_page.items.remove(sel)
 
 :collapseTexts
   // Collapse texts in y order.
   elems := []
   first_position := null
   while @selection.isAny
-    f_item_list.topIn(@selection.list, ##)
+    f_page.items.topIn(@selection.list, ##)
       item\Element\$
       while item.firstChild
         c := item.firstChild
@@ -62,7 +62,7 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
       if !first_position
         first_position = [item.offsetLeft, item.offsetTop]
       @selection.remove(item)
-      f_item_list.remove(item)
+      f_page.items.remove(item)
 
   // Create an empty text item and add the elements.
   newtext := @makeTextItem('')
@@ -70,7 +70,7 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
   elems.forEach(##)
     elem\Element\$
     newtext.appendChild(elem)
-  f_item_list.appendEnd(newtext)
+  f_page.items.appendEnd(newtext)
   newtext.style.left = first_position[0] + 'px'
   newtext.style.top = first_position[1] + 'px'
   @selection.select(newtext)
@@ -126,7 +126,7 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
     c = sel.childNodes[i]
     sel.removeChild(c)
     newtext.appendChild(c)
-  f_item_list.appendEnd(newtext)
+  f_page.items.appendEnd(newtext)
 
   // Remove the previous item if there's no text now.
   @makeEditable(false)
@@ -147,7 +147,7 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
   if create_new
     // Add a text box at the right location and make it visible.
     text := @makeTextItem('', @selection.head)
-    f_item_list.appendEnd([text])
+    f_page.items.appendEnd([text])
     @selection.select(text)
 
   @makeEditable()
@@ -171,7 +171,7 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
   item := @makeTextItem(orig_item.innerText)
   item.style.left = (orig_item.offsetLeft + 10) + 'px'
   item.style.top = (orig_item.offsetTop + 10) + 'px'
-  f_item_list.appendEnd([item])
+  f_page.items.appendEnd([item])
 
 :@makeTextItem\Element\
   str\s\$

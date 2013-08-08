@@ -18,8 +18,8 @@
     img = null
 
   // Move all items after the selected image to a separate div.
-  upper_items := img ? f_item_list.after(img) : []
-  f_item_list.remove(upper_items)
+  upper_items := img ? f_page.items.after(img) : []
+  f_page.items.remove(upper_items)
   div := create('div', {class: 'itemlist itemlist_upper'})
   upper_items.forEach(##)
     item\Element\$
@@ -36,7 +36,7 @@
     // No image remaining.
     f_page.selection.clear()
     if img
-      f_item_list.remove(img)
+      f_page.items.remove(img)
     =>
   img_spec.makeImageItem(img)
 
@@ -45,7 +45,7 @@
   while div.childNodes.length > 0
     item := div.firstChild
     div.removeChild(item)
-    f_item_list.appendEnd(item)
+    f_page.items.appendEnd(item)
   document.body.removeChild(div)
 
 :dispatch

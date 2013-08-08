@@ -11,11 +11,11 @@
     while div.childNodes.length > 0
       item = \Node\(div.firstChild)
       div.removeChild(item)
-      f_item_list.insertBefore(img, [item])
+      f_page.items.insertBefore(img, [item])
   else
-    while (f_item_list.length() > 0 && !img) || f_item_list.length() > 1
-      item = img ? f_item_list.child(-2) : f_item_list.last()
-      f_item_list.remove(item)
+    while (f_page.items.length() > 0 && !img) || f_page.items.length() > 1
+      item = img ? f_page.items.child(-2) : f_page.items.last()
+      f_page.items.remove(item)
       div.insertBefore(item, div.firstChild)
 
 :move
@@ -31,14 +31,14 @@
     if !item
       =>
     div.removeChild(item)
-    f_item_list.insertBefore(img, [item])
+    f_page.items.insertBefore(img, [item])
   else
-    list := f_item_list.children
+    list := f_page.items.children
     item = #?
       img
       list.length < 2 ? null : list[list.length - 2]
-      list.empty ? null : f_item_list.last()
+      list.empty ? null : f_page.items.last()
     if !item
       =>
-    f_item_list.remove(item)
+    f_page.items.remove(item)
     div.insertBefore(item, div.firstChild)

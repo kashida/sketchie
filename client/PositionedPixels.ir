@@ -19,6 +19,6 @@ Temporary representation of image item.
   img.style['-webkit-user-select'] = 'none'
   img.src = @.dataUrl
   if add_img
-    f_item_list.appendEnd(img)
+    f_page.items.appendEnd(img)
   f_page.selection.select(img)
   => img
