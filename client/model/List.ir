@@ -1,8 +1,18 @@
 ::
   @list\Element\ id('itemlist')
   @.each(##)
-    e\!Element\$
-    &%.Item(e)
+    el\!Element\$
+    @bless(el)
+
+All child elements need to be blessed when added, and disposed when removed.
+:@bless
+  el\!Element\$
+  if !el.item
+    &%.Item(el)
+:@dispose
+  el\!Element\$
+  if el.item
+    el.item.dispose()
 
 :children+\NodeList\
   => @list.childNodes
@@ -53,45 +63,52 @@
     => items.indexOf(item) >= 0
 
 :remove
-  items\Element|A.<Element>\$
+  items\Element|A.<!Element>\$
   if items instanceof Element
+    @dispose(items)
     @list.removeChild(items)
   else
     items.forEach(##)
-      item\Element\$
+      item\!Element\$
+      @dispose(item)
       @list.removeChild(item)
 
 :insertFirst
-  items\A.<Element>\$
+  items\A.<!Element>\$
   items.forEach(##)
-    item\Element\$
+    item\!Element\$
+    @bless(item)
     @list.insertBefore(item, @list.firstChild)
 
 :appendEnd
-  items\Element|A.<Element>\$
+  items\Element|A.<!Element>\$
   if items instanceof Element
+    @bless(items)
     @list.appendChild(items)
   else
     items.forEach(##)
-      item\Element\$
+      item\!Element\$
+      @bless(item)
       @list.appendChild(item)
 
 :insertBefore
   pivot\Element\$
-  items\A.<Element>\$
+  items\A.<!Element>\$
   if pivot
     items.forEach(##)
-      item\Element\$
+      item\!Element\$
+      @bless(item)
       @list.insertBefore(item, pivot)
   else
     @.appendEnd(items)
 
 :insertAfter
   pivot\Element\$
-  items\A.<Element>\$
+  items\A.<!Element>\$
   if pivot.nextSibling
     items.forEach(##)
-      item\Element\$
+      item\!Element\$
+      @bless(item)
       @list.insertBefore(item, pivot.nextSibling)
   else
     @.appendEnd(items)
