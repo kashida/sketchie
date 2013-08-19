@@ -1,7 +1,7 @@
 ::
   @input_layer\Element\ id('input_layer')
-  @drag_control\Element\
-  @mouse_controls\A\ []
+  @drag_control\drag.Dragger\
+  @mouse_controls\A.<O>\ []
     
   listen(@input_layer, 'mousedown', ##)
     evt\Event\$
@@ -54,29 +54,27 @@
   evt.cancel = true
 
 :dragStart
-  control\Element\$
+  control\drag.Dragger\$
   @drag_control = control
 :dragTerminate
-  control\Element\$
   @drag_control = null
 
 :@dragUpdate
   evt\Event\$
   if !@drag_control
     =>
-  if @drag_control.dragUpdate
-    @drag_control.dragUpdate(evt)
+  @drag_control.dragUpdate(evt)
 
 :@dragEnd
   evt\Event\$
   if !@drag_control
     =>
-  if @drag_control.dragEnd
-    @drag_control.dragEnd(evt)
+  @drag_control.dragEnd(evt)
   @drag_control = null
 
 :pushMouseControl
-  control\Element\$
+  // object that has event names as handler methods.
+  control\O\$
   @mouse_controls.push(control)
 :popMouseControl
   => @mouse_controls.pop()

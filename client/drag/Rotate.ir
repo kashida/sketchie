@@ -1,32 +1,28 @@
-::
-  @elem\Element\
+::<%.Dragger
+  @item\model.Item\
   @center\data.Vec2\
   @start_theta\?n\
 
 :activate
-  item\Element\$
-  @elem = item
-  @center = &data.Vec2(#)
-    item.offsetLeft + item.offsetWidth / 2.0
-    item.offsetTop + item.offsetHeight / 2.0
+  item\model.Item\$
+  @item = item
+  @center = item.rect.center
   @start_theta = null
   f_dispatcher.dragStart(@)
 
 :deactivate
-  @elem = null
+  @item = null
   @center = null
   @start_theta = null
   f_dispatcher.dragTerminate()
 
-:dragUpdate
+:<dragUpdate
   evt\Event\$
   theta := @find_theta(evt.clientX, evt.clientY)
   if ! @start_theta
-    @start_theta = theta - (attr(@elem, 'xf_r') || 0)
-    => false
-  setAttr(@elem, 'xf_r', String(theta - @start_theta))
-  setXform(@elem)
-  => false
+    @start_theta = theta - @item.rotation
+    =>
+  @item.rotation = theta - @start_theta
 
 :@find_theta
   x\n\$

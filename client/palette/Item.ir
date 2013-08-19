@@ -1,4 +1,5 @@
 Item list mode parameter adjustments.
+
 ::<%.Palette
   @blend_alpha\Slider\ &Slider('item_alpha', 'blend alpha%', 0, 100, 100, 20)
   @alpha_lock\Element\ id('image_alph_alock')
@@ -17,16 +18,16 @@ Item list mode parameter adjustments.
   if !img
     if !f_page.selection.isHeadImage
       =>
-    img = \Image\(f_page.selection.head)
-  setIsAttr(img, 'alpha_lock', !isAttr(img, 'alpha_lock'))
-  @alpha_lock.checked = attr(f_page.selection.head, 'alpha_lock') == 'true'
+    img = f_page.selection.head.img
+  img.alphaLock = !img.alphaLock
+  @alpha_lock.checked = f_page.selection.head.alphaLock
 
 :@updateBlendAlpha
   // Update selected item's state, based on control.
   sel := f_page.selection.head
   if !sel
     =>
-  setAttr(sel, 'blend_alpha', String(@blend_alpha.value))
+  sel.blendAlpha = @blend_alpha.value
   sel.style.opacity = @blend_alpha.value / 100
 
 :@updateAlphaLock
@@ -34,7 +35,7 @@ Item list mode parameter adjustments.
   if !f_page.selection.isHeadImage
     =>
   setAttr(#)
-    f_page.selection.head
+    f_page.selection.head.element
     'alpha_lock'
     @alpha_lock.checked ? 'true' : undefined
 
@@ -43,15 +44,14 @@ Item list mode parameter adjustments.
   if !f_page.selection.head
     @.close()
     =>
-  sel := f_page.selection.head
-  blend_alpha := attr(sel, 'blend_alpha')
+  blend_alpha := f_page.selection.head.blendAlpha
   if blend_alpha
     @blend_alpha.setValue(blend_alpha)
   else
     @blend_alpha.reset()
 
   if f_page.selection.isHeadImage
-    @alpha_lock.checked = attr(f_page.selection.head, 'alpha_lock')
+    @alpha_lock.checked = f_page.selection.head.alphaLock
     @.openSection('i')
   else
     @.closeSection('i')

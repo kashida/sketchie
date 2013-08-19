@@ -48,7 +48,7 @@ Convenience wrapper for the html canvas.
   => cvs
 
 :copyCanvas
-  cvs\HTMLCanvasElement\$
+  cvs\!HTMLCanvasElement\$
   @ctx.putImageData(cvs.getContext('2d').getImageData(#), 0, 0)
     0
     0

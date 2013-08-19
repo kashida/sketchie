@@ -14,31 +14,30 @@
     f_page.selection.clear()
   img := f_page.selection.head
   f_page.selection.clear()
-  if img && attr(img, 'ref_img')
+  if img && attr(img.element, 'ref_img')
     img = null
 
   // Move all items after the selected image to a separate div.
-  upper_items := img ? f_page.items.after(img) : []
+  upper_items := img && f_page.items.after(img) || []
   f_page.items.remove(upper_items)
   div := create('div', {class: 'itemlist itemlist_upper'})
   upper_items.forEach(##)
-    item\Element\$
-    div.appendChild(item)
+    item\model.Item\$
+    div.appendChild(item.element)
   f_viewport.copyTo(div)
   document.body.insertBefore(div, f_cursor.div())
-  @.activateImage(img)
+  @.activateImage(\model.Image\(img))
 
 :<deactivate
-  img := @.image
-  img_spec := f_surface.imageSpec(@.image)
+  img_spec := f_surface.imageSpec(@.image && @.image.img)
   ^()
   if !img_spec
     // No image remaining.
     f_page.selection.clear()
-    if img
-      f_page.items.remove(img)
+    if @.image.element
+      f_page.items.remove(@.image)
     =>
-  img_spec.makeImageItem(img)
+  img_spec.makeImageItem(@.image)
 
   // Remove the temporary div for the upper items.
   div := id('itemlist_upper')

@@ -5,12 +5,13 @@ Canvas that's fixed to the viewport size.
   ^(canvas_or_w, h)
 
 :activate
-  img\Image\$
-  alpha_lock\b\$
+  img\Image\?
+  alpha_lock\b\? false
   // Need to match the backing store resolution with screen resolution.
   @.canvas.style.display = 'block'
   @.setScale(f_viewport.scale())
-  @.copyImage(img)
+  if img
+    @.copyImage(img)
   @.updateAlphaLock(alpha_lock)
 
 :updateAlphaLock
@@ -28,13 +29,13 @@ Val is the opacity value [0, 1.0], but resets to default when null.
   @.canvas.style.opacity = val
 
 Takes view coordinates and returns [r, g, b, a] array in [0, 255] range.
-:pickColor
+:pickColor\data.Color\
   x\n\$
   y\n\$
   scale := f_viewport.scale()
   pixels := @.ctx.getImageData(x / scale, y / scale, 1, 1)
   d := pixels.data
-  => [d[0], d[1], d[2], d[3]]
+  => data.Color.fromByteRange(d[0], d[1], d[2], d[3])
 
 :imageSpec\PositionedPixels\
   orig_img\Image\?

@@ -1,20 +1,35 @@
 Global components of the app -- i.e. only one instance in the lifetime of the app.
-:
-  f_scrawler := null
-  f_viewport := null
-  f_surface := null
-  f_stroke_layer := null
-  f_color_palette := null
-  f_tool_palette := null
-  f_item_palette := null
-  f_cursor := null
-  f_dispatcher := null
-  f_editor_modes := null
-  f_hex_control := null
-  f_z_order := null
-  f_strokes := null
-  f_global_buttons := null
-  f_page := null
+:~
+  /** @type {Scrawler} */
+  var f_scrawler;
+  /** @type {Viewport} */
+  var f_viewport;
+  /** @type {Surface} */
+  var f_surface;
+  /** @type {Surface} */
+  var f_stroke_layer;
+  /** @type {palette.Color} */
+  var f_color_palette;
+  /** @type {palette.Tool} */
+  var f_tool_palette;
+  /** @type {palette.Item} */
+  var f_item_palette;
+  /** @type {Cursor} */
+  var f_cursor;
+  /** @type {Dispatcher} */
+  var f_dispatcher;
+  /** @type {editor.Modes} */
+  var f_editor_modes;
+  /** @type {HexControl} */
+  var f_hex_control;
+  /** @type {model.ZOrder} */
+  var f_z_order;
+  /** @type {stroke.Set} */
+  var f_strokes;
+  /** @type {ui.GlobalButtonBox} */
+  var f_global_buttons;
+  /** @type {model.Page} */
+  var f_page;
 
 ::Scrawler
   @run_as_extension\b\$

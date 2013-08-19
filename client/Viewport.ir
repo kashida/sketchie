@@ -1,7 +1,8 @@
-::
+::<drag.Dragger
   @viewport\Element\ id('itemlist')
   @active\b\ true
   @drag_active\b\ false
+  ^()
   @.reset()
   listen(document.body, 'mousedown', ##)
     evt\Event\$
@@ -77,12 +78,12 @@ incr should be -1, 0, or 1 where positive is zooming in
 
 Change offset (but not scaling) to put the item in view.
 :showItem
-  item\Element\$
+  item\model.Item\$
   // Viewport and the item in item coord space.
   vp0 := @viewToItem(&data.Vec2(0, 0))
   vp1 := @viewToItem(&data.Vec2(@viewport.offsetWidth, @viewport.offsetHeight))
-  p0 := elemPosition(item)
-  p1 := elemPositionBR(item)
+  p0 := item.position
+  p1 := item.positionBR
 
   // Find center positin delta.
   dcx := (vp0.x + vp1.x - p0.x - p1.x) * 0.5
@@ -114,7 +115,7 @@ Change scaling and offset to put all the items in view.
     'translate(' + Math.floor(@offset_x) + 'px, ' + Math.floor(@offset_y) + 'px)'
 
 :copyTo
-  div\Element\$
+  div\model.Item\$
   div.style['-webkit-transform'] = @viewport.style['-webkit-transform']
 
 :@dragStart
@@ -131,17 +132,16 @@ Change scaling and offset to put all the items in view.
   evt.preventDefault()
   => true
 
-:@dragUpdate
+:<dragUpdate
   evt\Event\$
   if !@active
     =>
   @offset_x = @base_x + (evt.clientX - @mouse_x) / @scale
   @offset_y = @base_y + (evt.clientY - @mouse_y) / @scale
   @setViewport()
-  => false
 
-:dragEnd
+:<dragEnd
   evt\Event\$
   if !@active
     =>
-  @dragUpdate(evt)
+  @.dragUpdate(evt)

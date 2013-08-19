@@ -112,10 +112,8 @@
   => {c:col.rgb}
 
 :setColorRgb
-  r\n\$
-  g\n\$
-  b\n\$
-  @setColor(data.Color.fromByteRange(r, g, b).hsl)
+  c\data.Color\$
+  @setColor(c.hsl)
 
 :@setColor
   hsl\data.Hsl\$

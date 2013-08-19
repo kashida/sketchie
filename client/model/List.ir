@@ -1,26 +1,23 @@
 ::
-  @list\Element\ id('itemlist')
-  @.each(##)
+  @list\!Element\ id('itemlist')
+  eachChild(@list, ##)
     el\!Element\$
-    @bless(el)
+    if !el.item
+      &%.Item(el)
 
 All child elements need to be blessed when added, and disposed when removed.
-:@bless
-  el\!Element\$
-  if !el.item
-    &%.Item(el)
 :@dispose
-  el\!Element\$
-  if el.item
-    el.item.dispose()
+  item\!%.Item\$
+  @list.removeChild(item.element)
+  item.dispose()
 
 :children+\NodeList\
   => @list.childNodes
-:childrenArray+\A.<Node>\
+:childrenArray+\!A.<%.Item>\
   arr := []
   eachChild(@list, ##)
-    c\Element\$
-    arr.push(c)
+    el\Element\$
+    arr.push(\!%.Item\(el.item))
   => arr
 
 :first
@@ -38,10 +35,10 @@ All child elements need to be blessed when added, and disposed when removed.
   => @.children[index]
 
 :each
-  handler\F\$
+  handler\f(!%.Item, Element)\$
   eachChild(@list, ##)
-    item\Element\$
-    handler(item)
+    el\Element\$
+    handler(\!%.Item\(el.item), el)
 
 :until
   back_to_front\b\$
@@ -57,85 +54,79 @@ All child elements need to be blessed when added, and disposed when removed.
         =>
 
 :zOrder
-  items\A.<Element>\$
+  items\!A.<!%.Item>\$
   => @.childrenArray.filter(##)
-    item\Node\$
+    item\%.Item\$
     => items.indexOf(item) >= 0
 
 :remove
-  items\Element|A.<!Element>\$
-  if items instanceof Element
+  items\!%.Item|!A.<!%.Item>\$
+  if items instanceof %.Item
     @dispose(items)
-    @list.removeChild(items)
   else
     items.forEach(##)
-      item\!Element\$
+      item\!%.Item\$
       @dispose(item)
-      @list.removeChild(item)
 
 :insertFirst
-  items\A.<!Element>\$
+  items\A.<!%.Item>\$
   items.forEach(##)
-    item\!Element\$
-    @bless(item)
-    @list.insertBefore(item, @list.firstChild)
+    item\!%.Item\$
+    @list.insertBefore(item.element, @list.firstChild)
 
 :appendEnd
-  items\Element|A.<!Element>\$
-  if items instanceof Element
-    @bless(items)
-    @list.appendChild(items)
+  items\!%.Item|!A.<!%.Item>\$
+  if items instanceof %.Item
+    @list.appendChild(items.element)
   else
     items.forEach(##)
-      item\!Element\$
-      @bless(item)
-      @list.appendChild(item)
+      item\!%.Item\$
+      @list.appendChild(item.element)
 
 :insertBefore
-  pivot\Element\$
-  items\A.<!Element>\$
+  pivot\%.Item\$
+  items\!A.<!%.Item>\$
   if pivot
     items.forEach(##)
-      item\!Element\$
-      @bless(item)
-      @list.insertBefore(item, pivot)
+      item\!%.Item\$
+      @list.insertBefore(item.element, pivot.element)
   else
     @.appendEnd(items)
 
 :insertAfter
-  pivot\Element\$
-  items\A.<!Element>\$
-  if pivot.nextSibling
+  pivot\!%.Item\$
+  items\!A.<!%.Item>\$
+  if pivot.element.nextSibling
     items.forEach(##)
-      item\!Element\$
-      @bless(item)
-      @list.insertBefore(item, pivot.nextSibling)
+      item\!%.Item\$
+      @list.insertBefore(item.element, pivot.element.nextSibling)
   else
     @.appendEnd(items)
 
 :replace
-  orig_item\Element\$
-  new_item\Element\$
-  next := orig_item.nextSibling
-  @list.removeChild(orig_item)
+  orig_item\!%.Item\$
+  new_item\!%.Item\$
+  next := orig_item.element.nextSibling
+  @dispose(orig_item)
   if next
-    @list.insertBefore(new_item, next)
+    @list.insertBefore(new_item.element, next)
   else
-    @list.appendChild(new_item)
+    @list.appendChild(new_item.element)
 
 :top
   handler\F\$
   => @.topIn(@.childrenArray, handler)
 :topIn
-  nodes\A.<Element>\$
+  items\!A.<!%.Item>\$
   handler\F\$
   top_y := null
   top_item := null
-  nodes.forEach(##)
-    c\Element\$
-    if !top_y || c.offsetTop < top_y
-      top_y = c.offsetTop
-      top_item = c
+  items.forEach(##)
+    item\!%.Item\$
+    el := item.element
+    if !top_y || el.offsetTop < top_y
+      top_y = el.offsetTop
+      top_item = el
   if top_item
     handler(top_item, top_y)
 
@@ -143,23 +134,24 @@ All child elements need to be blessed when added, and disposed when removed.
   handler\F\$
   => @bottomIn(@.childrenArray, handler)
 :@bottomIn
-  nodes\A.<Element>\$
+  nodes\!A.<!%.Item>\$
   handler\F\$
   bottom_y := null
   bottom_item := null
   nodes.forEach(##)
-    c\Element\$
-    if !bottom_y || c.offsetTop > bottom_y
-      bottom_y = c.offsetTop
-      bottom_item = c
+    item\!%.Item\$
+    el := item.element
+    if !bottom_y || el.offsetTop > bottom_y
+      bottom_y = el.offsetTop
+      bottom_item = el
   if bottom_item
     handler(bottom_item, bottom_y)
 
 All the items that are afeter the specified item (exclusive).
-:after\A.<Element>\
-  item\Element\$
+:after\A.<!%.Item>\
+  item\%.Item\$
   for i := 0; i < @.children.length; i++
-    if @.children[i] == item
+    if @.children[i] == item.element
       // We can't use array.slice because children is a NodeList.
       list := []
       for j := i + 1; j < @.children.length; j++
@@ -174,11 +166,11 @@ TODO: setZ and clearZ dons't seem to be used.
   step\n\? 1
   i := init
   @.each(##)
-    item\Element\$
+    item\!%.Item\$
     item.style['zIndex'] = i
     i += step
 
 :clearZ
   @.each(##)
-    item\Element\$
+    item\!%.Item\$
     item.style['zIndex'] = null

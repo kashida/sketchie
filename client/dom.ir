@@ -95,17 +95,6 @@
   else
     node.removeAttribute(name)
         
-::setXform = ##
-  item\Element\$
-  xforms := []
-  r := attr(item, 'xf_r')
-  if r
-    xforms.push('rotate(' + r + 'rad)')
-  s := attr(item, 'xf_s')
-  if s
-    xforms.push('scale(' + s + ')')
-  item.style['-webkit-transform'] = xforms.join(' ')
-
 ::elemPosition = ##
   \data.Vec2\
   elem\Element\$
@@ -143,7 +132,7 @@ TODO: drop this and use elemRect.
     => x + w > rx && x < rx + rw && y + h > ry && y < ry + rh
 
 ::eachChild = ##
-  el\Element\$
-  cb\f(Element,n)\$
+  el\!Element\$
+  cb\f(!Element,n)\$
   for i := 0; i < el.childNodes.length; i++
     cb(el.childNodes[i], i)

@@ -3,3 +3,6 @@
 
 :img+\!Image\
   => \!Image\(@.element)
+
+:src+\s\
+  => @.element.src

@@ -1,2 +1,5 @@
 ::<%.Item
   ^(create('div'))
+
+:text+\s\
+  => @.element.innerText

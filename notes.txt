@@ -1,6 +1,9 @@
 [TODO]
 ux refine:
   context sensitive action button bar.
+    try all the features and fix problems.
+    find everywhere model.Item.element is used and move the logic to
+        model.Item/Text/Image.
     move logic from editor/List etc to actions.
     make controller to create selection action buttons.
     activate criteria.

@@ -8,24 +8,27 @@
   => &%.Rect(@x0, @y0, @x1, @y1)
 
 :w+\n\
-  => @.x1 - @.x0
+  => @x1 - @x0
 
 :h+\n\
-  => @.y1 - @.y0
+  => @y1 - @y0
 
 :p00+\!%.Vec2\
-  => &%.Vec2(@.x0, @.y0)
+  => &%.Vec2(@x0, @y0)
 :p01+\!%.Vec2\
-  => &%.Vec2(@.x0, @.y1)
+  => &%.Vec2(@x0, @y1)
 :p10+\!%.Vec2\
-  => &%.Vec2(@.x1, @.y0)
+  => &%.Vec2(@x1, @y0)
 :p11+\!%.Vec2\
-  => &%.Vec2(@.x1, @.y1)
+  => &%.Vec2(@x1, @y1)
 
 :union\!%.Rect\
   other\!%.Rect\$
   => &%.Rect(#)
-    Math.min(@.x0, other.x0)
-    Math.min(@.y0, other.y0)
-    Math.max(@.x1, other.x1)
-    Math.max(@.y1, other.y1)
+    Math.min(@x0, other.x0)
+    Math.min(@y0, other.y0)
+    Math.max(@x1, other.x1)
+    Math.max(@y1, other.y1)
+
+:center+\%.Vec2\
+  => &%.Vec2((@x0 + @x1) * 0.5, (@y0 + @y1) * 0.5)

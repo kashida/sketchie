@@ -1,36 +1,27 @@
-::
-  @elem\Element\
+::<%.Dragger
+  @item\model.Item\
   @center\data.Vec2\
-  @start_scale\data.Vec2\
   @start_dist\n?\
 
 :activate
-  item\Element\$
-  @elem = item
-  @center = &data.Vec2(#)
-    item.offsetLeft + item.offsetWidth / 2.0
-    item.offsetTop + item.offsetHeight / 2.0
+  item\model.Item\$
+  @item = item
+  @center = item.rect.center
   @start = null
-  @start_scale = &data.Vec2(#)
-    attr(item, 'xf_sx') || 1.0
-    attr(item, 'xf_sy') || 1.0
   f_dispatcher.dragStart(@)
 
 :deactivate
-  @elem = null
+  @item = null
   @center = null
   @start_dist = null
-  @start_sx = @start_sy = null
   f_dispatcher.dragTerminate()
 
-:dragUpdate
+:<dragUpdate
   evt\Event\$
   dx := evt.clientX - @center.x
   dy := evt.clientY - @center.y
   dist := Math.sqrt(dx * dx + dy * dy)
   if !@start_dist
-    @start_dist = dist / (attr(@elem, 'xf_s') || 1)
-    => false
-  setAttr(@elem, 'xf_s', String(dist / @start_dist))
-  setXform(@elem)
-  => false
+    @start_dist = dist / @item.scale
+    =>
+  @item.scale = dist / @start_dist

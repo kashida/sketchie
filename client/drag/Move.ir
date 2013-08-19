@@ -1,33 +1,30 @@
-::
-  @elem\Element\$
-  @mouse_x\?n\
-  @mouse_y\?n\
-  @base_x\?n\
-  @base_y\?n\
-  listen(@elem, 'mousedown', ##)
+::<%.Dragger
+  @item\model.Item\$
+  @mouse_pos\data.Vec2\
+  @base_pos\data.Vec2\
+  listen(@item.element, 'mousedown', ##)
     evt\Event\$
     @dragStart(evt)
 
 :@dragStart
   evt\Event\$
-  if !@elem.getAttribute('active')
+  if !@item.isActive
     =>
   if evt.shiftKey || evt.ctrlKey
     => false
-  @mouse_x = evt.clientX
-  @mouse_y = evt.clientY
-  @base_x = @elem.offsetLeft
-  @base_y = @elem.offsetTop
+  @mouse_pos = &data.Vec2(evt.clientX, evt.clientY)
+  @base_pos = @item.position
   f_dispatcher.dragStart(@)
   evt.preventDefault()
   => true
 
-:dragUpdate
+:<dragUpdate
   evt\Event\$
-  @elem.style.left = @base_x + (evt.clientX - @mouse_x) / f_viewport.scale() + 'px'
-  @elem.style.top = @base_y + (evt.clientY - @mouse_y) / f_viewport.scale() + 'px'
-  => false
+  scale := f_viewport.scale()
+  @item.position = &data.Vec2(#)
+    @base_pos.x + (evt.clientX - @mouse_pos.x) / scale
+    @base_pos.y + (evt.clientY - @mouse_pos.y) / scale
 
-:dragEnd
+:<dragEnd
   evt\Event\$
   @.dragUpdate(evt)

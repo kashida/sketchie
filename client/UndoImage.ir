@@ -10,7 +10,7 @@
 :pop
   if !@buffer.hasChildNodes()
     =>
-  f_surface.copyCanvas(@buffer.lastChild)
+  f_surface.copyCanvas(\!HTMLCanvasElement\(@buffer.lastChild))
   @buffer.removeChild(@buffer.lastChild)
 
 :reset

@@ -1,3 +1,6 @@
+TODO: stop using dom element attributes and just store the properties as
+member vars.
+
 ::
   // Taking the parameter as non-nullable, but the member needs to be nullable
   // for disposing.
@@ -8,13 +11,70 @@
 
 :@bless
   @element.item = @
-  @element.setAttribute('active', '1')
-  @element.dragger = &drag.Move(@element)
+  @.isActive = true
+  @element.dragger = &drag.Move(@)
   listen(@element, 'click', ##)
     evt\Event\$
-    if @element.getAttribute('active') && !evt.ctrlKey
-      f_page.selection.select(@element, evt.shiftKey)
+    if @.isActive && !evt.ctrlKey
+      f_page.selection.select(@, evt.shiftKey)
 
 :dispose
   @element.item = null
+  @element.dragger = null
   @element = null
+
+:position+\data.Vec2\
+  => elemPosition(@element)
+:positionBR+\data.Vec2\
+  => elemPositionBR(@element)
+:position*
+  p\data.Vec2\$
+  @element.style.left = p.x + 'px'
+  @element.style.top = p.y + 'px'
+:rect+\data.Rect\
+  => elemRect(@element)
+
+:rotation+\n\
+  => attr(@element, 'xf_r') || 0
+:rotation*\n\
+  r\n\$
+  setAttr(@element, 'xf_r', String(r))
+  @setXform()
+
+:scale+\n\
+  => attr(@element, 'xf_s') || 1.0
+:scale*
+  s\n\$
+  setAttr(@element, 'xf_s', String(s))
+  @setXform()
+
+:@setXform
+  xforms := []
+  r := @.rotation
+  if r
+    xforms.push('rotate(' + r + 'rad)')
+  s := @.scale
+  if s != 1.0
+    xforms.push('scale(' + s + ')')
+  @element.style['-webkit-transform'] = xforms.join(' ')
+
+:alphaLock+\b\
+  => attr(@element, 'alpha_lock')
+:alphaLock*
+  a\b\$
+  setAttr(@element, 'alpha_lock', a)
+
+:blendAlpha+\n\
+  => Number(attr(@element, 'blend_alpha'))
+:blendAlpha*
+  a\n\$
+  setAttr(@element, 'blend_alpha', String(a))
+
+:isActive+\b\
+  => !!@element.getAttribute('active')
+:isActive*
+  a\b\$
+  if a
+    @element.setAttribute('active', '1')
+  else
+    @element.removeAttribute('active')

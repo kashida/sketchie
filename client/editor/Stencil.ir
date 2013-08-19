@@ -1,5 +1,5 @@
 ::< %.Image
-  @baseImage\Image\
+  @baseImage\model.Item\
   @action\s\ ''
   @.stroke = 'R'
   ^()
@@ -22,18 +22,18 @@
     =>
 
   // Carry out the requested action.
-  img_spec := imageRegion(@baseImage, mask)
+  img_spec := imageRegion(@baseImage.img, mask)
   if !img_spec
     // no intersection of the image and selection.
     =>
 
   created_img := img_spec.makeImageItem()
   if @action == 'x'
-    rest_spec := imageRegion(@baseImage, mask, true)
+    rest_spec := imageRegion(@baseImage.img, mask, true)
     // We don't need to make any action if the entire image was selected
     // and the operation was cut (not copy).
     if rest_spec
-      rest_spec.makeImageItem(@baseImage)
+      rest_spec.makeImageItem(@baseImage.element.item)
   f_page.selection.select(created_img)
   @baseImage = null
   @action = ''

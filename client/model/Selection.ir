@@ -1,7 +1,11 @@
+TODO: use model.Item's members to mark the selected items instead of the
+element's classList.
+but css depends on the class for rendering selected items differently...
+
 ::
   // TODO: take item.List as param and use the classes to mark selected items.
   // so we don't need an array here.
-  @list+\A.<Element>\ []
+  @list+\!A.<!%.Item>\ []
 
 :isAny+\b\
   => @list.length > 0
@@ -9,17 +13,17 @@
   => @list.length == 0
 :count+\n\
   => @list.length
-:head+\Element\
+:head+\%.Item\
   => @list.length <= 0 ? null : @list[0]
 
 :isSelected\b\
-  item\Element\$
+  item\%.Item\$
   => #||
-    item.classList.contains('selected')
-    item.classList.contains('selected_secondary')
+    item.element.classList.contains('selected')
+    item.element.classList.contains('selected_secondary')
 
 :select
-  item\Element\$
+  item\%.Item\$
   push_to_list\b\? false
   if !item || item == @.head
     =>
@@ -27,7 +31,7 @@
     @.head.className = null
   if push_to_list
     if @.isAny
-      @.head.classList.add('selected_secondary')
+      @.head.element.classList.add('selected_secondary')
     if @list.indexOf(item) >= 0
       // Remove the item once.
       @list.splice(@list.indexOf(item), 1)
@@ -36,26 +40,26 @@
     each i in @list
       @list[i].className = null
     @list = []
-  item.classList.add('selected')
+  item.element.classList.add('selected')
   @list.unshift(item)
   f_item_palette.update()
 
 :add
-  item\Element\$
+  item\%.Item\$
   // Add as a secondary selection.
   if !item || @list.indexOf(item) >= 0
     =>
   if @.isAny
-    item.classList.add('selected_secondary')
+    item.element.classList.add('selected_secondary')
     @list.push(item)
   else
-    item.classList.add('selected')
+    item.element.classList.add('selected')
     @list = [item]
     f_item_palette.update()
 
 :remove
-  item\Element\$
-  item.className = null
+  item\%.Item\$
+  item.element.className = null
   i := 0
   while i < @list.length
     if @list[i] == item
@@ -66,27 +70,27 @@
 
 :clear
   @list.forEach(##)
-    item\Element\$
-    item.className = null
+    item\%.Item\$
+    item.element.className = null
   @list = []
   f_item_palette.close()
 
 :isHeadText+\b\
-  => @.isAny && @.head.tagName == 'DIV'
+  => @.isAny && @.head instanceof %.Text
 
 :isAllText+\b\
   if !@.isAny
     => false
   => @list.every(##)
-    el\Element\$
-    => el.tagName == 'DIV'
+    item\%.Item\$
+    => item instanceof %.Text
 
 :isHeadImage+\b\
-  => @.isAny && @.head.tagName == 'IMG'
+  => @.isAny && @.head instanceof %.Image
 
 :isAllImage+\b\
   if !@.isAny
     => false
   => @list.every(##)
-    el\Element\$
-    => el.tagName == 'IMG'
+    item\%.Item\$
+    => item instanceof %.Image

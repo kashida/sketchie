@@ -4,7 +4,7 @@
   @stroke&\s\ 'P'
   @prev_stroke\s\ 'E'
   @last_open_palette\s\ 'c'
-  @image+\Image\
+  @image+\model.Image\
   @alphaLock+\b\ false
   ^()
 
@@ -12,11 +12,11 @@
   evt\Event\$
 
 :activateImage
-  img\Image\$
+  img\model.Image\$
   @image = img
-  @alphaLock = @image && isAttr(@image, 'alpha_lock')
+  @alphaLock = @image && isAttr(@image.img, 'alpha_lock')
 
-  f_surface.activate(@image, @alphaLock)
+  f_surface.activate(@image && @image.img, @alphaLock)
   f_viewport.deactivate()
   f_item_palette.close()
   f_stroke_layer.activate()
@@ -28,11 +28,11 @@
   f_color_palette.update()
 
   if @image
-    @image.style.visibility = 'hidden'
+    @image.img.style.visibility = 'hidden'
 
 :deactivate
   if @image
-    @image.style.visibility = ''
+    @image.img.style.visibility = ''
 
   @undo.reset()
   f_viewport.activate()
@@ -157,7 +157,7 @@
       evt.keyCode == DOM_VK_OPEN_BRACKET
       evt.keyCode == DOM_VK_CLOSE_BRACKET
       --
-      incr := evt.keyCode == DOM_VK_CLOSE_BRACKET
+      incr := evt.keyCode == DOM_VK_CLOSE_BRACKET ? 1 : -1
       if evt.shiftKey && evt.ctrlKey
         f_color_palette.mixAdjust(incr)
       else if evt.shiftKey
@@ -168,7 +168,7 @@
         f_color_palette.lgtAdjust(incr)
 
   else if evt.keyCode == DOM_VK_COMMA || evt.keyCode == DOM_VK_PERIOD
-      incr := evt.keyCode == DOM_VK_PERIOD
+      incr := evt.keyCode == DOM_VK_PERIOD ? 1 : -1
       if evt.shiftKey
         f_tool_palette.alphaAdjust(incr)
       else if evt.ctrlKey
