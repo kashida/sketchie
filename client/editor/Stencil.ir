@@ -15,8 +15,9 @@
 :<deactivate
   mask := f_surface.pixels()
   ^()
+  console.assert(@baseImage)
   f_surface.opacity = null
-  f_page.selection.select(@baseImage)
+  f_page.selection.select(\!model.Image\(@baseImage))
   if @action != 'c' && @action != 'x'
     // Canceled.
     =>

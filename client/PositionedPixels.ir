@@ -3,7 +3,7 @@ Temporary representation of image item.
   @position+\data.Vec2\$
   @dataUrl+\s\$
 
-:makeImageItem\model.Image\
+:makeImageItem\!model.Image\
   img\model.Image\?
   add_img := !img
   if img

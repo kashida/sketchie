@@ -1,4 +1,9 @@
 [TODO]
+bug:
+  no draw cursor when gone into draw mode.
+    -> cursor appears when brush changed.
+  shift-enter during text input width Japanese IME throws exception.
+
 ux refine:
   context sensitive action button bar.
     try all the features and fix problems.

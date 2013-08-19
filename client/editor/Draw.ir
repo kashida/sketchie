@@ -30,14 +30,16 @@
 
 :<deactivate
   img_spec := f_surface.imageSpec(@.image && @.image.img)
+  orig_image := @.image
   ^()
+
   if !img_spec
     // No image remaining.
     f_page.selection.clear()
-    if @.image.element
-      f_page.items.remove(@.image)
-    =>
-  img_spec.makeImageItem(@.image)
+    if orig_image
+      f_page.items.remove(orig_image)
+  else
+    img_spec.makeImageItem(orig_image)
 
   // Remove the temporary div for the upper items.
   div := id('itemlist_upper')

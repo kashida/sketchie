@@ -23,12 +23,10 @@ but css depends on the class for rendering selected items differently...
     item.element.classList.contains('selected_secondary')
 
 :select
-  item\%.Item\$
+  item\!%.Item\$
   push_to_list\b\? false
-  if !item || item == @.head
-    =>
-  if @.isAny
-    @.head.className = null
+  if @.isAny && @.head && @.head.element
+    @.head.element.className = null
   if push_to_list
     if @.isAny
       @.head.element.classList.add('selected_secondary')
@@ -37,8 +35,10 @@ but css depends on the class for rendering selected items differently...
       @list.splice(@list.indexOf(item), 1)
   else
     // Clean up all the selection from the list.
-    each i in @list
-      @list[i].className = null
+    @list.forEach(##)
+      item\!model.Item\$
+      if item.element
+        item.element.className = null
     @list = []
   item.element.classList.add('selected')
   @list.unshift(item)
