@@ -53,9 +53,9 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
   first_position := null
   while f_page.selection.isAny
     f_page.items.topIn(f_page.selection.list, ##)
-      item\model.Item\$
-      while item.firstChild
-        c := item.firstChild
+      item\!model.Item\$
+      while item.element.firstChild
+        c := item.element.firstChild
         item.element.removeChild(c)
         elems.push(c)
       if !first_position

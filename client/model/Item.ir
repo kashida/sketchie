@@ -23,6 +23,12 @@ member vars.
   @element.dragger = null
   @element = null
 
+Returns Item only if the element has an Item associated to it.
+:fromElement = ##
+  \%.Item\
+  el\!Element\$
+  => \%.Item\(el.item)
+
 :position+\data.Vec2\
   => elemPosition(@element)
 :positionBR+\data.Vec2\

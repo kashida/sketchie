@@ -10,7 +10,7 @@
   send_back\b\$
   // Preserve the z order among the selected items.
   remove_list := f_page.items.zOrder(f_page.selection.list)
-  f_page.items.remove(remove_list)
+  f_page.items.removeNoDispose(remove_list)
   if send_back
     f_page.items.insertFirst(remove_list)
   else

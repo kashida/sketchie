@@ -42,15 +42,15 @@ All child elements need to be blessed when added, and disposed when removed.
 
 :until
   back_to_front\b\$
-  handler\F\$
+  handler\f(!%.Item):b\$
   c := @.children
   if back_to_front
     for i := 0; i < c.length; i++
-      if handler(c[i])
+      if handler(\!%.Item\(c[i].item))
         =>
   else
     for i := c.length - 1; i >= 0; i--
-      if handler(c[i])
+      if handler(\!%.Item\(c[i].item))
         =>
 
 :zOrder
@@ -67,6 +67,17 @@ All child elements need to be blessed when added, and disposed when removed.
     items.forEach(##)
       item\!%.Item\$
       @dispose(item)
+
+Same as remove but items do not get disposed. The items are expected
+to be re-inserted immediately to the list.
+:removeNoDispose
+  items\!%.Item|!A.<!%.Item>\$
+  if items instanceof %.Item
+    @list.removeChild(items.element)
+  else
+    items.forEach(##)
+      item\!%.Item\$
+      @list.removeChild(item.element)
 
 :insertFirst
   items\A.<!%.Item>\$
@@ -126,7 +137,7 @@ All child elements need to be blessed when added, and disposed when removed.
     el := item.element
     if !top_y || el.offsetTop < top_y
       top_y = el.offsetTop
-      top_item = el
+      top_item = item
   if top_item
     handler(top_item, top_y)
 
@@ -155,7 +166,7 @@ All the items that are afeter the specified item (exclusive).
       // We can't use array.slice because children is a NodeList.
       list := []
       for j := i + 1; j < @.children.length; j++
-        list.push(@.children[j])
+        list.push(\!%.Item\(@.children[j].item))
       => list
   // item didn't appear in the list.
   => null

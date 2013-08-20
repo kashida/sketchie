@@ -1,9 +1,4 @@
 [TODO]
-bug:
-  no draw cursor when gone into draw mode.
-    -> cursor appears when brush changed.
-  shift-enter during text input width Japanese IME throws exception.
-
 ux refine:
   context sensitive action button bar.
     try all the features and fix problems.
@@ -42,6 +37,31 @@ ux refine:
   list mode palette needs image alpha lock control?
 
   no color and alpha selection / adjustment in stencil mode.
+
+  make view control keys work in all modes.
+    rotate and scale mode.
+    maybe not for the draw / stencil mdoe since that's harder.
+
+bug:
+  no draw cursor when gone into draw mode.
+    -> cursor appears when brush changed.
+
+  shift-enter during text input width Japanese IME throws exception.
+
+  list mode copy xformed text -> make a copy with xform dropped.
+    image copy works fine with xform.
+
+  toggle alpha lock in list mode not working.
+
+  blend alpha control in list mode not working.
+
+  shift-k/j to expand selection only keeps two items selected.
+
+  'h' to hold item broken.
+
+  'n' / shift-'n' for z control in list mode doesn't seem to be working.
+
+  esc from draw mode fails if there is another image with higher (closer) z.
 
 clean up:
   split files > 100 lines.

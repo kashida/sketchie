@@ -71,7 +71,8 @@ but css depends on the class for rendering selected items differently...
 :clear
   @list.forEach(##)
     item\%.Item\$
-    item.element.className = null
+    if item.element
+      item.element.className = null
   @list = []
   f_item_palette.close()
 
