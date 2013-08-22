@@ -14,9 +14,9 @@
 :activateImage
   img\model.Image\$
   @image = img
-  @alphaLock = @image && isAttr(@image.img, 'alpha_lock')
+  @alphaLock = !!@image && @image.alphaLock
 
-  f_surface.activate(@image && @image.img, @alphaLock)
+  f_surface.activate(@image && @image.img, @image && @image.position, @alphaLock)
   f_viewport.deactivate()
   f_item_palette.close()
   f_stroke_layer.activate()

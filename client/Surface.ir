@@ -6,12 +6,13 @@ Canvas that's fixed to the viewport size.
 
 :activate
   img\Image\?
+  img_pos\data.Vec2\?
   alpha_lock\b\? false
   // Need to match the backing store resolution with screen resolution.
   @.canvas.style.display = 'block'
   @.setScale(f_viewport.scale())
   if img
-    @.copyImage(img)
+    @.copyImage(img, img_pos)
   @.updateAlphaLock(alpha_lock)
 
 :updateAlphaLock
@@ -116,6 +117,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
 ::imageRegion = ##
   \PositionedPixels\
   img\Image\$
+  img_pos\data.Vec2\$
   mask\ImageData\$
   diff\b\? false
   // Take either intersection or diff of the images.
@@ -126,19 +128,19 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   %.Surface.intersectPixelRegion(#)
     pixels
     mask
-    Math.floor(img.offsetLeft - sti.x)
-    Math.floor(img.offsetTop - sti.y)
+    Math.floor(img_pos.x - sti.x)
+    Math.floor(img_pos.y - sti.y)
     diff
   rect := %.Surface.findPixelRect(pixels)
   if !rect
     => null
   => &PositionedPixels(#)
-    &data.Vec2(rect.x0 + img.offsetLeft, rect.y0 + img.offsetTop)
+    &data.Vec2(rect.x0 + img_pos.x, rect.y0 + img_pos.y)
     %.Surface.sizedImageData(pixels, rect)
 
 ::blendImages = ##
   \PositionedPixels\
-  images\A.<Image>\$
+  images\A.<model.Image>\$
   if images.length < 1
     => null
   ur := unionRect(images)

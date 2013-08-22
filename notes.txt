@@ -1,10 +1,27 @@
 [TODO]
+code clean up:
+  refactor: move surface into item list div during draw mode, but cancel
+      the transformation with a div.[J]
+    make all image item to have extra div?
+      make canvas position:fixed so no need to cancel xform.
+    itemlist div
+      div to cancel transofrm -- need to set the inverse transform of itemlist
+        canvas
+        original image item hidden?
+      other items...
+
+  find everywhere model.Item.element is used and move the logic to
+      model.Item/Text/Image.
+
+  move logic from editor/List etc to actions.
+
+  split files > 100 lines.
+
+  use eco to render the scrawler page too (not just the list page).
+    like static/filelist.html.
+
 ux refine:
   context sensitive action button bar.
-    try all the features and fix problems.
-    find everywhere model.Item.element is used and move the logic to
-        model.Item/Text/Image.
-    move logic from editor/List etc to actions.
     make controller to create selection action buttons.
     activate criteria.
       hide disabled buttons and animation to hide them.
@@ -23,6 +40,8 @@ ux refine:
 
   change key modifier from shift to control.
     probably need to stop propagate the key events.
+    5.override browser keys for zoom in/out and back to default ctrl-{+-0}
+      preventDefault doesn't seem to be working.
 
   smooth scroll viewport translate with arrow keys in list mode.
     css animation?
@@ -42,7 +61,11 @@ ux refine:
     rotate and scale mode.
     maybe not for the draw / stencil mdoe since that's harder.
 
+  change mouse cursor for button mouse over.
+
 bug:
+  merging two images moves the resulting image to top left corner of the view.
+
   no draw cursor when gone into draw mode.
     -> cursor appears when brush changed.
 
@@ -63,13 +86,6 @@ bug:
 
   esc from draw mode fails if there is another image with higher (closer) z.
 
-clean up:
-  split files > 100 lines.
-
-  use eco to render the scrawler page too (not just the list page).
-    like static/filelist.html.
-
-issues:
   stencile mode:
     sometimes -- change brush and immediately drawing.
       stroke's draw is called w/ color member null.
@@ -114,19 +130,20 @@ new features:
 
   command list based undo (not image copies).
 
+  wacom pen pressure support?
+  https://github.com/ZaneA/WacomWebPlugin
+
 tests:
+  event level end-to-end:
+    capture key and mouse events. replay to test.
+    take snapshot of the entire dom before and after. store the diff.
+    compare the diff's of golden and test result.
   based on undo-redo command buffer?
   command list interleaved with asserts.
   separate browser event level tests?
 
 chrome extension / app packaging.
 
-refactor: move surface into item list div during draw mode, but cancel the transformation with a div.[J]
-  itemlist div
-    div to cancel transofrm -- need to set the inverse transform of itemlist
-      canvas
-      original image item hidden?
-    other items...
 refactor: make checkbox UI.[I]
 >>[J]bug: image item stays in upper items and not able to drag move items anymore.
 2.tool palette
@@ -186,13 +203,9 @@ refactor: make checkbox UI.[I]
 4.perspective guide lines with svg.
 5.drawing with low alpha brush repeatedly doesn't reach alph=1.0.
 5.draw with rotate state kept.
-5.override browser keys for zoom in/out and back to default ctrl-{+-0}
-  preventDefault doesn't seem to be working.
 5.exit or adjust in draw mode when resize viewport.
   trying to capture 'resize' of input_layer in dispatcher, but not working...
-5.individually compile coffee and then merge so we get better error messages?
-  coffee script makes one big scope for the compilation unit -- need to spill all globals.
-5.make hsl parameter not go over the limit by mapping to [0, 1].
+5. make hsl parameter not go over the limit by mapping to [0, 1].
 5. hex slider: tri-axis color control.
 5. add '.html' to the file name when save.
 5. css perspective transform both image and text.

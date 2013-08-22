@@ -13,10 +13,9 @@ Temporary representation of image item.
     img.element.style['-webkit-transform'] = null
   else
     img = &model.Image()
-  img.element.style.left = @.position.x + 'px'
-  img.element.style.top = @.position.y + 'px'
+  img.position = @.position
   img.element.style['-webkit-user-select'] = 'none'
-  img.element.src = @.dataUrl
+  img.src = @.dataUrl
   if add_img
     f_page.items.appendEnd(img)
   f_page.selection.select(img)

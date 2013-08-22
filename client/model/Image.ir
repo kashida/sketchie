@@ -1,8 +1,10 @@
 ::<%.Item
-  ^(&Image())
-
-:img+\!Image\
-  => \!Image\(@.element)
+  @img+\!Image\ &Image()
+  ^(create('div'))
+  @.element.appendChild(@img)
 
 :src+\s\
-  => @.element.src
+  => @img.src
+:src*
+  val\s\$
+  @img.src = val

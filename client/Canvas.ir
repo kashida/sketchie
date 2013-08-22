@@ -33,12 +33,13 @@ Convenience wrapper for the html canvas.
 
 :copyImage
   img\Image\$
+  img_pos\data.Vec2\$
   if !img
     =>
   %.xformDrawImage(#)
     @ctx
     img
-    f_viewport.itemToSurface(elemPosition(img))
+    f_viewport.itemToSurface(img_pos)
 
 :duplicateCanvas
   cvs := create('canvas')

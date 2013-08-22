@@ -7,8 +7,8 @@ body {
   overflow: hidden;
 }
 .itemlist {
-  /* TODO: we can get rid of these 5 lines if we use input_layer for the viewport size
-   * it'd be cleaner because this isn't position:fixed.  */
+  /* TODO: we can get rid of these 5 lines if we use input_layer for the
+     viewport size. it'd be cleaner because this isn't position:fixed.  */
   width: 100%;
   height: 100%;
   margin: 0px;
@@ -37,14 +37,15 @@ body {
   display: none;
 }
 .itemlist > div {
-  border: 1.5px solid LightSteelBlue;
-  margin: 2px 5px;
-  padding: 1px 5px;
+  border: 0;
   font-size: 20px;
   line-height: 25px;
-}
-.itemlist > div, img {
+  margin: 0;
+  padding: 0;
   position: absolute;
+}
+.itemlist > div > img {
+  position: relative;
 }
 .itemlist > div[active]:hover, img[active]:hover {
   box-shadow:

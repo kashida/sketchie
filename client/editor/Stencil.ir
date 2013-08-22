@@ -1,5 +1,5 @@
 ::< %.Image
-  @baseImage\model.Item\
+  @baseImage\model.Image\
   @action\s\ ''
   @.stroke = 'R'
   ^()
@@ -7,7 +7,7 @@
 :<activate
   if !f_page.selection.isHeadImage
     =>
-  @baseImage = f_page.selection.head
+  @baseImage = \model.Image\(f_page.selection.head)
   f_page.selection.clear()
   @.activateImage(null)
   f_surface.opacity = 0.3
@@ -23,18 +23,18 @@
     =>
 
   // Carry out the requested action.
-  img_spec := imageRegion(@baseImage.img, mask)
+  img_spec := imageRegion(@baseImage.img, @baseImage.position, mask)
   if !img_spec
     // no intersection of the image and selection.
     =>
 
   created_img := img_spec.makeImageItem()
   if @action == 'x'
-    rest_spec := imageRegion(@baseImage.img, mask, true)
+    rest_spec := imageRegion(@baseImage.img, @baseImage.position, mask, true)
     // We don't need to make any action if the entire image was selected
     // and the operation was cut (not copy).
     if rest_spec
-      rest_spec.makeImageItem(@baseImage.element.item)
+      rest_spec.makeImageItem(@baseImage)
   f_page.selection.select(created_img)
   @baseImage = null
   @action = ''
