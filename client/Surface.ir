@@ -11,7 +11,7 @@ Canvas that's fixed to the viewport size.
   // Need to match the backing store resolution with screen resolution.
   @.canvas.style.display = 'block'
   @.setScale(f_viewport.scale())
-  if img
+  if img && img_pos
     @.copyImage(img, img_pos)
   @.updateAlphaLock(alpha_lock)
 
@@ -38,7 +38,7 @@ Takes view coordinates and returns [r, g, b, a] array in [0, 255] range.
   d := pixels.data
   => data.Color.fromByteRange(d[0], d[1], d[2], d[3])
 
-:imageSpec\PositionedPixels\
+:imageSpec\pixel.PositionedPixels\
   orig_img\Image\?
   // Produce image spec of this surface plus the original image.
   // Size of the image is reduced to the tight bound.
@@ -51,7 +51,7 @@ Takes view coordinates and returns [r, g, b, a] array in [0, 255] range.
 Orig_img gets added to the outside of the pixels bound.
 Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordinates.
 :mergedImageSpec = ##
-  \PositionedPixels\
+  \pixel.PositionedPixels\
   pixels\ImageData\$
   orig_img\Image\$
   pixels_rect := %.Surface.findPixelRect(pixels)
@@ -79,7 +79,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   => %.Surface.imageRectSpec(cvs.pixels(), undefined, u.p00)
 
 :imageRectSpec = ##
-  \PositionedPixels\
+  \pixel.PositionedPixels\
   pixels\ImageData\$
   rect\!data.Rect\? %.Surface.findPixelRect(pixels)
   offset\!data.Vec2\? &data.Vec2(0, 0)
@@ -88,7 +88,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   item_xy := f_viewport.surfaceToItem(&data.Vec2(#))
     rect.x0 + offset.x
     rect.y0 + offset.y
-  => &PositionedPixels(item_xy, %.Surface.sizedImageData(pixels, rect))
+  => &pixel.PositionedPixels(item_xy, %.Surface.sizedImageData(pixels, rect))
 
 ::xformDrawImage = ##
   ctx\CanvasRenderingContext2D\$
@@ -115,7 +115,7 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   ctx.restore()
 
 ::imageRegion = ##
-  \PositionedPixels\
+  \pixel.PositionedPixels\
   img\Image\$
   img_pos\data.Vec2\$
   mask\ImageData\$
@@ -134,16 +134,18 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   rect := %.Surface.findPixelRect(pixels)
   if !rect
     => null
-  => &PositionedPixels(#)
+  => &pixel.PositionedPixels(#)
     &data.Vec2(rect.x0 + img_pos.x, rect.y0 + img_pos.y)
     %.Surface.sizedImageData(pixels, rect)
 
 ::blendImages = ##
-  \PositionedPixels\
-  images\A.<model.Image>\$
+  \pixel.PositionedPixels\
+  images\!A.<!model.Image>\$
   if images.length < 1
     => null
-  ur := unionRect(images)
+  ur := unionRect(images.map(##))
+    item\!model.Image\$
+    => item.img
   minx := ur.x0
   miny := ur.y0
   maxx := ur.x1
@@ -153,17 +155,17 @@ Pixels_rect is the tight bounds of the pixels in canvas (i.e. viewport) coordina
   cvs := &Canvas(w, h)
   ctx := cvs.ctx
   images.forEach(##)
-    img\Image\$
-    %.xformDrawImage(ctx, img, &data.Vec2(#), true)
-      img.offsetLeft - minx
-      img.offsetTop - miny
+    item\!model.Image\$
+    %.xformDrawImage(ctx, item.img, &data.Vec2(#), true)
+      item.position.x - minx
+      item.position.y - miny
 
   // Now we have the image. Find a tighter bound.
   pixels := cvs.pixels()
   rect := %.Surface.findPixelRect(pixels)
   if !rect
     => null
-  => &PositionedPixels(#)
+  => &pixel.PositionedPixels(#)
     &data.Vec2(rect.x0 + minx, rect.y0 + miny)
     %.Surface.sizedImageData(pixels, rect)
 

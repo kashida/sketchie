@@ -132,7 +132,7 @@ Image methods.
 
 :@copyImageItem
   orig_item\model.Image\$
-  img := &PositionedPixels(#).makeImageItem()
+  img := &pixel.PositionedPixels(#).makeImageItem()
     orig_item.position.plus(10)
     orig_item.src
   img.rotation = orig_item.rotation
@@ -169,7 +169,7 @@ Image methods.
     if !img
       =>
     url = img.src
-  img = &PositionedPixels(#).makeImageItem()
+  img = &pixel.PositionedPixels(#).makeImageItem()
     &data.Vec2(window.pageXOffset, window.pageYOffset)
     url
   setAttr(img.element, 'ref_img', '1')
