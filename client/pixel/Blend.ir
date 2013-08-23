@@ -1,0 +1,27 @@
+::
+  images\!A.<!model.Image>\$
+  @pixels+\pixel.PositionedPixels\
+
+  union := &pixel.UnionRect()
+  images.forEach(##)
+    image\!model.Image\$
+    union.add(image.img)
+
+  ur := union.rect
+  cvs := &Canvas(ur.w + 1, ur.h + 1)
+  ctx := cvs.ctx
+
+  images.forEach(##)
+    image\!model.Image\$
+    &%.XformDrawImage(ctx, image.img, &data.Vec2(#)).withAlpha()
+      image.position.x - ur.x0
+      image.position.y - ur.y0
+
+  // Now we have the image. Find a tighter bound.
+  pixelData := cvs.pixelData
+  rect := pixelData.tightBound()
+  if !rect
+    =>
+  @pixels = &pixel.PositionedPixels(#)
+    &data.Vec2(rect.x0 + ur.x0, rect.y0 + ur.y0)
+    pixelData.urlWithCrop(rect)

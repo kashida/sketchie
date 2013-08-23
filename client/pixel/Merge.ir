@@ -1,0 +1,39 @@
+mergedImageSpec = ##
+::
+  @pixelData\pixel.Data\$
+  // this gets added to the outside of the pixels bound.
+  @orig_img\!Image\$
+
+:pixels\pixel.PositionedPixels\
+  // tight bounds of the pixels in canvas (i.e. viewport) coordinates.
+  pixels_rect := @pixelData.tightBound()
+  if !pixels_rect
+    => null
+
+  // Find the rect that can contain pixels_rect and the transformed image
+  // in document coords.
+  img0 := f_viewport.itemToSurface(elemPosition(@orig_img))
+  img1 := f_viewport.itemToSurface(elemPositionBR(@orig_img))
+  union := &pixel.UnionRect(pixels_rect)
+  union.add(@orig_img, &data.Rect(img0.x, img0.y, img1.x, img1.y))
+  u := union.rect
+  if !u
+    => null
+
+  // New temp canvas, logically located at (u.x0, u.y0) in surface coords.
+  cvs := &Canvas(u.w + 1, u.h + 1)
+  ctx := cvs.ctx
+  &pixel.XformDrawImage(#).noAlpha()
+    ctx
+    @orig_img
+    img0.minus(u.p00)
+  ctx.clearRect(-u.x0, -u.y0, @pixelData.width, @pixelData.height)
+  ctx.putImageData(#)
+    @pixelData.pixels
+    -u.x0
+    -u.y0
+    pixels_rect.x0
+    pixels_rect.y0
+    pixels_rect.w + 1
+    pixels_rect.h + 1
+  => cvs.pixelData.positioned(u.p00)

@@ -101,7 +101,9 @@ Change offset (but not scaling) to put the item in view.
 
 Change scaling and offset to put all the items in view.
 :showAllItems
-  r := unionRect(toArray(f_page.items.children))
+  union := &pixel.UnionRect()
+  union.add(toArray(f_page.items.children))
+  r := union.rect
   vw := @viewport.offsetWidth
   vh := @viewport.offsetHeight
   @scale = r.w / r.h > vw / vh ? vw / r.w : vh / r.h

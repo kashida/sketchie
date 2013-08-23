@@ -1,0 +1,30 @@
+::
+  @image\model.Image\$
+  @mask\ImageData\$
+
+:intersection\pixel.PositionedPixels\
+  => @getRegion(false)
+
+:diff\pixel.PositionedPixels\
+  => @getRegion(true)
+
+:@getRegion
+  diff\b\$
+  pixels\pixel.PositionedPixels\
+
+  // Take either intersection or diff of the images.
+  cvs := &Canvas(@image.width, @image.height)
+  cvs.ctx.drawImage(@image.img, 0, 0)
+  pixelData := cvs.pixelData
+  sti := f_viewport.surfaceToItem(&data.Vec2(0, 0))
+  &%.Intersect(pixelData.pixels).update(#)
+    @mask
+    Math.floor(@image.position.x - sti.x)
+    Math.floor(@image.position.y - sti.y)
+    diff
+  rect := pixelData.tightBound()
+  if !rect
+    => null
+  => &pixel.PositionedPixels(#)
+    rect.p00.plus(@image.position)
+    pixelData.urlWithCrop(rect)

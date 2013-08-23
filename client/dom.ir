@@ -108,8 +108,8 @@ TODO: drop this and use elemRect.
     elem.offsetLeft + elem.offsetWidth
     elem.offsetTop + elem.offsetHeight
 ::elemRect = ##
-  \data.Rect\
-  elem\Element\$
+  \!data.Rect\
+  elem\!Element\$
   => &data.Rect(#)
     elem.offsetLeft
     elem.offsetTop

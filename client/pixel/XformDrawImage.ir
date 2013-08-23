@@ -1,0 +1,31 @@
+::
+  @ctx\CanvasRenderingContext2D\$
+  @img\Image\$
+  @offset\data.Vec2\$
+
+:noAlpha
+  @draw(false)
+
+:withAlpha
+  @draw(true)
+
+:@draw
+  use_alpha\b\$
+  xf_r := attr(@img, 'xf_r')
+  xf_s := attr(@img, 'xf_s')
+  alpha := use_alpha ? attr(@img, 'blend_alpha') : null
+  if !(xf_r || xf_s || alpha)
+    @ctx.drawImage(@img, @offset.x, @offset.y)
+    =>
+  half_w := 0.5 * @img.width
+  half_h := 0.5 * @img.height
+  @ctx.save()
+  @ctx.translate(@offset.x + half_w, @offset.y + half_h)
+  if xf_r
+    @ctx.rotate(xf_r)
+  if xf_s
+    @ctx.scale(xf_s, xf_s)
+  if alpha
+    @ctx.globalAlpha = parseInt(alpha, 10) / 100.0
+  @ctx.drawImage(@img, -half_w, -half_h)
+  @ctx.restore()

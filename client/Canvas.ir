@@ -28,15 +28,15 @@ Convenience wrapper for the html canvas.
   @canvas.width = @canvas.clientWidth / @scale
   @canvas.height = @canvas.clientHeight / @scale
 
-:pixels\ImageData\
-  => @ctx.getImageData(0, 0, @canvas.width, @canvas.height)
+:pixelData+\!pixel.Data\
+  => &pixel.Data(@ctx.getImageData(0, 0, @canvas.width, @canvas.height))
 
 :copyImage
   img\Image\$
   img_pos\data.Vec2\$
   if !img
     =>
-  %.xformDrawImage(#)
+  &pixel.XformDrawImage(#).noAlpha()
     @ctx
     img
     f_viewport.itemToSurface(img_pos)
@@ -45,7 +45,7 @@ Convenience wrapper for the html canvas.
   cvs := create('canvas')
   cvs.width = @canvas.width
   cvs.height = @canvas.height
-  cvs.getContext('2d').putImageData(@.pixels(), 0, 0)
+  cvs.getContext('2d').putImageData(@.pixelData.pixels, 0, 0)
   => cvs
 
 :copyCanvas

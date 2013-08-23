@@ -8,3 +8,9 @@
 :src*
   val\s\$
   @img.src = val
+
+:width+\n\
+  => @img.width
+
+:height+\n\
+  => @img.height
