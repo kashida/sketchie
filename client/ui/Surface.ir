@@ -24,15 +24,13 @@ Canvas that's fixed to the viewport size.
   => @canvas.pixelData
 
 :activate
-  img\Image\?
-  img_pos\data.Vec2\?
-  alpha_lock\b\? false
+  img\model.Image\?
   // Need to match the backing store resolution with screen resolution.
   @canvas.show()
   @canvas.setScale(f_viewport.scale())
-  if img && img_pos
-    @canvas.copyImage(img, img_pos)
-  @.updateAlphaLock(alpha_lock)
+  if img
+    @canvas.copyImage(img, img.position)
+  @.updateAlphaLock(!!img && img.alphaLock)
 
 :updateAlphaLock
   alpha_lock\b\$
@@ -58,7 +56,7 @@ Takes view coordinates and returns [r, g, b, a] array in [0, 255] range.
   => data.Color.fromByteRange(d[0], d[1], d[2], d[3])
 
 :imageSpec\pixel.PositionedPixels\
-  orig_img\Image\?
+  orig_img\!model.Image\?
   // Produce image spec of this surface plus the original image.
   // Size of the image is reduced to the tight bound.
   pixelData := @canvas.pixelData

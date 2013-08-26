@@ -143,9 +143,7 @@ Image methods.
 :@collapseImages
   // Collapse images in their z order.
   merged_spec := &pixel.Blend(#).pixels
-    f_page.items.zOrder(f_page.selection.list).map(##)
-      item\!model.Image\$
-      => item.img
+    f_page.items.zOrder(f_page.selection.list)
   if !merged_spec
     =>
   // Remove all the selected images.

@@ -5,7 +5,7 @@
   union := &pixel.UnionRect()
   images.forEach(##)
     image\!model.Image\$
-    union.add(image.img)
+    union.add(image)
 
   ur := union.rect
   cvs := &dom.Canvas(ur.w + 1, ur.h + 1)
@@ -13,9 +13,8 @@
 
   images.forEach(##)
     image\!model.Image\$
-    &%.XformDrawImage(ctx, image.img, &data.Vec2(#)).withAlpha()
-      image.position.x - ur.x0
-      image.position.y - ur.y0
+    &%.XformDrawImage(ctx, image, #).withAlpha()
+      image.position.minus(ur.p00)
 
   // Now we have the image. Find a tighter bound.
   pixelData := cvs.pixelData
@@ -23,5 +22,5 @@
   if !rect
     =>
   @pixels = &pixel.PositionedPixels(#)
-    &data.Vec2(rect.x0 + ur.x0, rect.y0 + ur.y0)
+    rect.p00.plus(ur.p00)
     pixelData.urlWithCrop(rect)

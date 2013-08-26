@@ -37,7 +37,7 @@
   @.activateImage(\model.Image\(img))
 
 :<deactivate
-  img_spec := f_surface.imageSpec(@.image && @.image.img)
+  img_spec := f_surface.imageSpec(@.image || undefined)
   orig_image := @.image
   ^()
 

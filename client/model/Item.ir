@@ -37,7 +37,7 @@ Returns Item only if the element has an Item associated to it.
   p\data.Vec2\$
   @element.style.left = p.x + 'px'
   @element.style.top = p.y + 'px'
-:rect+\data.Rect\
+:rect+\!data.Rect\
   => dom.elemRect(@element)
 
 :rotation+\n\

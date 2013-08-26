@@ -16,7 +16,7 @@
   @image = img
   @alphaLock = !!@image && @image.alphaLock
 
-  f_surface.activate(@image && @image.img, @image && @image.position, @alphaLock)
+  f_surface.activate(@image)
   f_viewport.deactivate()
   f_item_palette.close()
   f_stroke_layer.activate()

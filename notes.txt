@@ -23,6 +23,7 @@ code clean up:
     like static/filelist.html.
 
 ux refine:
+  text cursor not visible when typing in a new text.
   context sensitive action button bar.
     make controller to create selection action buttons.
     activate criteria.
