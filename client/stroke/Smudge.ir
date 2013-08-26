@@ -18,7 +18,7 @@
     @prev_x = x
     @prev_y = y
     =>
-  ctx := f_surface.ctx
+  ctx := f_surface.context
   src := ctx.getImageData(#)
     @prev_x - @.radius
     @prev_y - @.radius

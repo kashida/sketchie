@@ -1,5 +1,5 @@
 ::<%.Item
-  ^(create('div'))
+  ^(dom.create('div'))
 
 :text+\s\
   => @.element.innerText

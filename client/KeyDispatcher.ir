@@ -1,9 +1,9 @@
 ::
   // Key control.
-  listen(document.body, 'keyup', ##)
+  dom.listen(document.body, 'keyup', ##)
     evt\Event\$
     @dispatch(evt)
-  listen(document.body, 'paste', ##)
+  dom.listen(document.body, 'paste', ##)
     evt\Event\$
     if f_editor_modes.mode == 'l'
       f_editor_modes.editor.pasteImage(evt)

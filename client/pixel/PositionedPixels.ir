@@ -8,8 +8,8 @@ Temporary representation of image item.
   add_img := !img
   if img
     // Refresh the transform.
-    setAttr(img.element, 'xf_r')
-    setAttr(img.element, 'xf_s')
+    dom.setAttr(img.element, 'xf_r')
+    dom.setAttr(img.element, 'xf_s')
     img.element.style['-webkit-transform'] = null
   else
     img = &model.Image()

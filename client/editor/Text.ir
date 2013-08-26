@@ -13,10 +13,10 @@
 
 :@minimumTextDiv
   str\s\? ''
-  div := create('div')
-  div.appendChild(create('br'))
+  div := dom.create('div')
+  div.appendChild(dom.create('br'))
   if str
-    div.appendChild(createText(@trimWhitespace(str)))
+    div.appendChild(dom.createText(@trimWhitespace(str)))
   => div
 
 If remove is true, clean up empty div's and remove the item if it ends up empty.
@@ -27,7 +27,7 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
   sel := f_page.selection.head
   sel.element.normalize()
   // Remove end spaces from all the text nodes.
-  eachChild(sel.element, ##)
+  dom.eachChild(sel.element, ##)
     div\Element\$
     div.innerText = @trimEndWhitespace(div.innerText)
   // Remove empty first and last elements.
@@ -37,10 +37,10 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
     while sel.element.lastChild && sel.element.lastChild.innerText == ''
       sel.element.removeChild(sel.element.lastChild)
   // Re-insert br tag to now empty div's.
-  eachChild(sel.element, ##)
+  dom.eachChild(sel.element, ##)
     div\Element\$
     if div.innerText == ''
-      div.appendChild(create('br'))
+      div.appendChild(dom.create('br'))
   // Remove the element if there's nothing left.
   if remove && sel.element.childNodes.length == 0
     f_page.selection.clear()
@@ -98,7 +98,7 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
     i := index
     while i < node.childNodes.length
       c := node.childNodes[i]
-      str += nodeText(c)
+      str += dom.nodeText(c)
       node.removeChild(c)
     => str
   newstr := ''

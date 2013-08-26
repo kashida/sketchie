@@ -2,11 +2,11 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
 :~
   /** @type {Scrawler} */
   var f_scrawler;
-  /** @type {Viewport} */
+  /** @type {ui.Viewport} */
   var f_viewport;
-  /** @type {Surface} */
+  /** @type {ui.Surface} */
   var f_surface;
-  /** @type {Surface} */
+  /** @type {ui.Surface} */
   var f_stroke_layer;
   /** @type {palette.Color} */
   var f_color_palette;
@@ -14,13 +14,13 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   var f_tool_palette;
   /** @type {palette.Item} */
   var f_item_palette;
-  /** @type {Cursor} */
+  /** @type {ui.Cursor} */
   var f_cursor;
   /** @type {Dispatcher} */
   var f_dispatcher;
   /** @type {editor.Modes} */
   var f_editor_modes;
-  /** @type {HexControl} */
+  /** @type {ui.HexControl} */
   var f_hex_control;
   /** @type {model.ZOrder} */
   var f_z_order;
@@ -38,15 +38,15 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
 
 :@initGlobalComponents
   f_scrawler = this
-  f_viewport = &Viewport()
+  f_viewport = &ui.Viewport()
   f_page = &model.Page()
   f_z_order = &model.ZOrder()
-  f_surface = &Surface(id('surface'))
-  f_stroke_layer = &Surface(id('stroke_layer'))
+  f_surface = &ui.Surface(dom.id('surface'))
+  f_stroke_layer = &ui.Surface(dom.id('stroke_layer'))
   f_color_palette = &palette.Color()
   f_tool_palette = &palette.Tool()
   f_item_palette = &palette.Item()
-  f_cursor = &Cursor()
+  f_cursor = &ui.Cursor()
 
   textEditor := &editor.Text()
   f_editor_modes = &editor.Modes('l', {#})
@@ -58,7 +58,7 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
     's': &editor.Stencil()
   f_dispatcher = &Dispatcher()
   &KeyDispatcher()
-  f_hex_control = &HexControl()
+  f_hex_control = &ui.HexControl()
   f_strokes = &stroke.Set()
 
 upload: ->
@@ -70,7 +70,7 @@ Server access.
   // Send everything in the item list.
   html := #+
     '<div class="itemlist">'
-    id('itemlist').innerHTML
+    dom.id('itemlist').innerHTML
     '</div>\n'
   if @run_as_extension
     bb := &WebKitBlobBuilder()
@@ -78,9 +78,9 @@ Server access.
     bb.append(html)
     bb.append(saveFooter)
     //getURL = window.createBlobURL || window.createObjectURL
-    ifr := id('save_ifr')
+    ifr := dom.id('save_ifr')
     if !ifr
-      ifr = create('iframe')
+      ifr = dom.create('iframe')
       ifr.id = 'save_ifr'
       ifr.style.display = 'none'
     ifr.src = window.webkitURL.createObjectURL(bb.getBlob())
@@ -90,40 +90,40 @@ Server access.
 
 :@buildDom
   f_global_buttons = &ui.GlobalButtonBox()
-  appendChildren(document.body, [#])
-    findOrCreate('div', {class: 'itemlist'})
-    create('canvas', {class: 'surface'})
-    create('canvas', {class: 'stroke_layer'})
-    createDiv('draw_cursor')
-    svgCreate('svg', {class: 'control_root'})
-    createDiv('input_layer')
-    create('form', {}, [createDiv('palette_container', [#])])
-      createDiv(['tool_palette', 'palette'], [#])
-        createDiv('sample_box', [#])
-          create('canvas', {class: 'tool_sample'})
-          createDiv('sample_size')
-        createDiv('tool_lerp')
-        createDiv('tool_alpha')
-        createDiv('tool_radius')
-      createDiv(['color_palette', 'palette'], [#])
-        createDiv('color_sel')
-        createDiv('box', [#])
-          createDiv(['color_sample0', 'color_sample'])
-          createDiv(['color_sample1', 'color_sample'])
-          createDiv('color_mix')
-          createDiv('color_hue')
-          createDiv('color_sat')
-          createDiv('color_lgt')
-        createDiv('color_name')
-      createDiv(['item_palette', 'palette'], [#])
-        createDiv('box', [#])
-          createDiv('item_alpha')
-        createDiv(['image_section', 'palette'], [#])
-          createDiv('box', [#])
-            createDiv('box', [#])
-              create('input', {class: 'image_alph_alock', type: 'checkbox'})
-              createText('alpha lock')
-    createDiv('img_undolist')
+  dom.appendChildren(document.body, [#])
+    dom.findOrCreate('div', {class: 'itemlist'})
+    dom.create('canvas', {class: 'surface'})
+    dom.create('canvas', {class: 'stroke_layer'})
+    dom.createDiv('draw_cursor')
+    dom.svgCreate('svg', {class: 'control_root'})
+    dom.createDiv('input_layer')
+    dom.create('form', {}, [dom.createDiv('palette_container', [#])])
+      dom.createDiv(['tool_palette', 'palette'], [#])
+        dom.createDiv('sample_box', [#])
+          dom.create('canvas', {class: 'tool_sample'})
+          dom.createDiv('sample_size')
+        dom.createDiv('tool_lerp')
+        dom.createDiv('tool_alpha')
+        dom.createDiv('tool_radius')
+      dom.createDiv(['color_palette', 'palette'], [#])
+        dom.createDiv('color_sel')
+        dom.createDiv('box', [#])
+          dom.createDiv(['color_sample0', 'color_sample'])
+          dom.createDiv(['color_sample1', 'color_sample'])
+          dom.createDiv('color_mix')
+          dom.createDiv('color_hue')
+          dom.createDiv('color_sat')
+          dom.createDiv('color_lgt')
+        dom.createDiv('color_name')
+      dom.createDiv(['item_palette', 'palette'], [#])
+        dom.createDiv('box', [#])
+          dom.createDiv('item_alpha')
+        dom.createDiv(['image_section', 'palette'], [#])
+          dom.createDiv('box', [#])
+            dom.createDiv('box', [#])
+              dom.create('input', {class: 'image_alph_alock', type: 'checkbox'})
+              dom.createText('alpha lock')
+    dom.createDiv('img_undolist')
     f_global_buttons.element
 
 :'saveHeader

@@ -1,6 +1,6 @@
 ::<%.Item
   @img+\!Image\ &Image()
-  ^(create('div'))
+  ^(dom.create('div'))
   @.element.appendChild(@img)
 
 :src+\s\

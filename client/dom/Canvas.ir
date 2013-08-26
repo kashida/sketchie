@@ -1,0 +1,67 @@
+Convenience wrapper for the html canvas.
+::
+  // If two values, (width, height).  if one value, (canvas_element).
+  // x and y, if provided, specify the logical position of this canvas in
+  // document coords.
+  canvas_or_w\HTMLCanvasElement|n\$
+  h\n\?
+  @element+\HTMLCanvasElement\
+  @ctx+\CanvasRenderingContext2D\
+  if h
+    @element = %.create('canvas')
+    @element.width = canvas_or_w
+    @element.height = h
+  else
+    @element = \HTMLCanvasElement\(canvas_or_w)
+  @ctx = @element.getContext('2d')
+  @scale = 1.0
+
+:opacity*
+  val\?s|n\$
+  @element.style.opacity = val
+
+:show
+  @element.style.display = 'block'
+
+:hide
+  @element.style.display = 'none'
+
+:clear
+  @ctx.clearRect(0, 0, @element.width, @element.height)
+
+:dataUrl
+  => @element.toDataURL()
+
+:setScale
+  scale\n\$
+  @scale = scale
+  @element.width = @element.clientWidth / @scale
+  @element.height = @element.clientHeight / @scale
+
+:pixelData+\!pixel.Data\
+  => &pixel.Data(@ctx.getImageData(0, 0, @element.width, @element.height))
+
+:copyImage
+  img\Image\$
+  img_pos\data.Vec2\$
+  if !img
+    =>
+  &pixel.XformDrawImage(#).noAlpha()
+    @ctx
+    img
+    f_viewport.itemToSurface(img_pos)
+
+:duplicate\!HTMLCanvasElement\
+  cvs := %.create('canvas')
+  cvs.width = @element.width
+  cvs.height = @element.height
+  cvs.getContext('2d').putImageData(@.pixelData.pixels, 0, 0)
+  => cvs
+
+:copyFrom
+  cvs\!HTMLCanvasElement\$
+  @ctx.putImageData(cvs.getContext('2d').getImageData(#), 0, 0)
+    0
+    0
+    @element.width
+    @element.height

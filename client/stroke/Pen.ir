@@ -16,7 +16,7 @@
   @points.push(&data.Vec2(x, y))
   if @points.length < 2
     =>
-  ctx := f_stroke_layer.ctx
+  ctx := f_stroke_layer.context
   ctx.strokeStyle = @.color.rgb
   ctx.lineWidth = @.radius * 2
   ctx.lineCap = 'round'
@@ -32,7 +32,7 @@
 :blit
   if @points.length < 0
     =>
-  ctx := f_surface.ctx
+  ctx := f_surface.context
   ctx.strokeStyle = @.color.rgba
   ctx.lineWidth = @.radius * 2
   ctx.lineCap = 'round'

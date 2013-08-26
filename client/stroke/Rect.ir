@@ -23,10 +23,10 @@
     @first_x = x
     @first_y = y
     =>
-  @drawRect(f_stroke_layer.ctx, false)
+  @drawRect(f_stroke_layer.context, false)
 
 :blit
-  @drawRect(f_surface.ctx, true)
+  @drawRect(f_surface.context, true)
 
 :@drawRect
   ctx\CanvasRenderingContext2D\$

@@ -11,9 +11,9 @@
 
 :@draw
   use_alpha\b\$
-  xf_r := attr(@img, 'xf_r')
-  xf_s := attr(@img, 'xf_s')
-  alpha := use_alpha ? attr(@img, 'blend_alpha') : null
+  xf_r := dom.attr(@img, 'xf_r')
+  xf_s := dom.attr(@img, 'xf_s')
+  alpha := use_alpha ? dom.attr(@img, 'blend_alpha') : null
   if !(xf_r || xf_s || alpha)
     @ctx.drawImage(@img, @offset.x, @offset.y)
     =>

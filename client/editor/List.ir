@@ -29,7 +29,7 @@
       found_selected.push(item)
     else if found_selected.length > 0
       to_move.push(item)
-      if overlapWithAny(item.element, found_selected)
+      if dom.overlapWithAny(item.element, found_selected)
         // All the non-selected items after the first selected maybe
         // non-overlapping, so we need this flag.
         found = true
@@ -163,7 +163,7 @@ Image methods.
     html := evt.clipboardData.getData('text/html')
     if !html
       =>
-    div := create('div')
+    div := dom.create('div')
     div.innerHTML = html
     img := div.getElementsByTagName('img')[0]
     if !img
@@ -172,7 +172,7 @@ Image methods.
   img = &pixel.PositionedPixels(#).makeImageItem()
     &data.Vec2(window.pageXOffset, window.pageYOffset)
     url
-  setAttr(img.element, 'ref_img', '1')
+  dom.setAttr(img.element, 'ref_img', '1')
   f_page.items.appendEnd(img)
 
 

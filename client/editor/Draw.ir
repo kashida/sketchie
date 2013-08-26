@@ -14,12 +14,12 @@
     f_page.selection.clear()
   img := f_page.selection.head
   f_page.selection.clear()
-  if img && attr(img.element, 'ref_img')
+  if img && dom.attr(img.element, 'ref_img')
     img = null
 
   // Move all items after the selected image to a separate div.
   upper_items := img && f_page.items.after(img) || []
-  div := create('div', {class: 'itemlist itemlist_upper'})
+  div := dom.create('div', {class: 'itemlist itemlist_upper'})
 
   // Removing upper_items from f_page.items list will lose access to the
   // elements. Otoh if we appendChild the elements first the elements will
@@ -50,7 +50,7 @@
     img_spec.makeImageItem(orig_image)
 
   // Remove the temporary div for the upper items.
-  div := id('itemlist_upper')
+  div := dom.id('itemlist_upper')
   while div.childNodes.length > 0
     el := div.firstChild
     div.removeChild(el)

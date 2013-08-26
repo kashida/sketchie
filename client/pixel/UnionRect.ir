@@ -18,9 +18,9 @@
 :@addImage
   img\!Image\$
   img_rect\!data.Rect\?
-  xf_r := attr(img, 'xf_r')
-  xf_s := attr(img, 'xf_s')
-  xfm_rect := img_rect ? img_rect.clone : elemRect(img)
+  xf_r := dom.attr(img, 'xf_r')
+  xf_s := dom.attr(img, 'xf_s')
+  xfm_rect := img_rect ? img_rect.clone : dom.elemRect(img)
   if xf_r || xf_s
     half_w := 0.5 * img_rect.w
     half_h := 0.5 * img_rect.h

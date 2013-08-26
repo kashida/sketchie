@@ -8,7 +8,7 @@
     union.add(image.img)
 
   ur := union.rect
-  cvs := &Canvas(ur.w + 1, ur.h + 1)
+  cvs := &dom.Canvas(ur.w + 1, ur.h + 1)
   ctx := cvs.ctx
 
   images.forEach(##)

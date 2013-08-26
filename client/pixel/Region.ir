@@ -13,7 +13,7 @@
   pixels\pixel.PositionedPixels\
 
   // Take either intersection or diff of the images.
-  cvs := &Canvas(@image.width, @image.height)
+  cvs := &dom.Canvas(@image.width, @image.height)
   cvs.ctx.drawImage(@image.img, 0, 0)
   pixelData := cvs.pixelData
   sti := f_viewport.surfaceToItem(&data.Vec2(0, 0))

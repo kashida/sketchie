@@ -1,5 +1,5 @@
 ::
-  @element+\Element\ createDiv([])
+  @element+\Element\ dom.createDiv([])
   @buttons\A.<%.Button>\ []
   @element.classList.add('buttonbox')
 

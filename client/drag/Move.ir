@@ -2,7 +2,7 @@
   @item\model.Item\$
   @mouse_pos\data.Vec2\
   @base_pos\data.Vec2\
-  listen(@item.element, 'mousedown', ##)
+  dom.listen(@item.element, 'mousedown', ##)
     evt\Event\$
     @dragStart(evt)
 

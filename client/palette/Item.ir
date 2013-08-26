@@ -1,12 +1,12 @@
 Item list mode parameter adjustments.
 
 ::<%.Palette
-  @blend_alpha\Slider\ &Slider('item_alpha', 'blend alpha%', 0, 100, 100, 20)
-  @alpha_lock\Element\ id('image_alph_alock')
+  @blend_alpha\ui.Slider\ &ui.Slider('item_alpha', 'blend alpha%', 0, 100, 100, 20)
+  @alpha_lock\Element\ dom.id('image_alph_alock')
   @blend_alpha.callbackUpdate = ##
     @updateBlendAlpha()
   ^('item_palette', {i: 'image_section'})
-  listen(@alpha_lock, 'change', ##)
+  dom.listen(@alpha_lock, 'change', ##)
     @updateAlphaLock()
 
 :blendAlphaAdjust
@@ -34,7 +34,7 @@ Item list mode parameter adjustments.
   // Update selected item's state, based on control.
   if !f_page.selection.isHeadImage
     =>
-  setAttr(#)
+  dom.setAttr(#)
     f_page.selection.head.element
     'alpha_lock'
     @alpha_lock.checked ? 'true' : undefined

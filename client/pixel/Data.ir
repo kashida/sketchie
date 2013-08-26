@@ -21,7 +21,7 @@ Wrapper of HTML's ImageData.
   rect\data.Rect\$
   w := rect.w + 1
   h := rect.h + 1
-  cvs := &Canvas(w, h)
+  cvs := &dom.Canvas(w, h)
   cvs.ctx.putImageData(@pixels, -rect.x0, -rect.y0, rect.x0, rect.y0, w, h)
   => cvs.dataUrl()
 

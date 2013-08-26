@@ -4,4 +4,4 @@
 :draw
   x\n\$
   y\n\$
-  drawBrushCircle(f_surface.ctx, x, y, @.radius, @.lerp, @.color)
+  &pixel.DrawCircle(f_surface.context, x, y, @.radius, @.lerp, @.color)

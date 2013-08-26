@@ -7,7 +7,7 @@
   if @.alphaLock
     =>
   // No nice eraser functionality in canvas, so implementing one here.
-  ctx := f_surface.ctx
+  ctx := f_surface.context
   delta := @.radius + 1
   delta2 := 2 * delta
   pixels := ctx.getImageData(x - delta, y - delta, delta2, delta2)

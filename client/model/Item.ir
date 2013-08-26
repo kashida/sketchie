@@ -13,7 +13,7 @@ member vars.
   @element.item = @
   @.isActive = true
   @element.dragger = &drag.Move(@)
-  listen(@element, 'click', ##)
+  dom.listen(@element, 'click', ##)
     evt\Event\$
     if @.isActive && !evt.ctrlKey
       f_page.selection.select(@, evt.shiftKey)
@@ -30,28 +30,28 @@ Returns Item only if the element has an Item associated to it.
   => \%.Item\(el.item)
 
 :position+\data.Vec2\
-  => elemPosition(@element)
+  => dom.elemPosition(@element)
 :positionBR+\data.Vec2\
-  => elemPositionBR(@element)
+  => dom.elemPositionBR(@element)
 :position*
   p\data.Vec2\$
   @element.style.left = p.x + 'px'
   @element.style.top = p.y + 'px'
 :rect+\data.Rect\
-  => elemRect(@element)
+  => dom.elemRect(@element)
 
 :rotation+\n\
-  => attr(@element, 'xf_r') || 0
+  => dom.attr(@element, 'xf_r') || 0
 :rotation*\n\
   r\n\$
-  setAttr(@element, 'xf_r', String(r))
+  dom.setAttr(@element, 'xf_r', String(r))
   @setXform()
 
 :scale+\n\
-  => attr(@element, 'xf_s') || 1.0
+  => dom.attr(@element, 'xf_s') || 1.0
 :scale*
   s\n\$
-  setAttr(@element, 'xf_s', String(s))
+  dom.setAttr(@element, 'xf_s', String(s))
   @setXform()
 
 :@setXform
@@ -65,16 +65,16 @@ Returns Item only if the element has an Item associated to it.
   @element.style['-webkit-transform'] = xforms.join(' ')
 
 :alphaLock+\b\
-  => attr(@element, 'alpha_lock')
+  => dom.attr(@element, 'alpha_lock')
 :alphaLock*
   a\b\$
-  setAttr(@element, 'alpha_lock', a)
+  dom.setAttr(@element, 'alpha_lock', a)
 
 :blendAlpha+\n\
-  => Number(attr(@element, 'blend_alpha'))
+  => Number(dom.attr(@element, 'blend_alpha'))
 :blendAlpha*
   a\n\$
-  setAttr(@element, 'blend_alpha', String(a))
+  dom.setAttr(@element, 'blend_alpha', String(a))
 
 :isActive+\b\
   => !!@element.getAttribute('active')

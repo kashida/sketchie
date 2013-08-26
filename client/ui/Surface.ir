@@ -1,40 +1,59 @@
 Canvas that's fixed to the viewport size.
-::<Canvas
+::
   canvas_or_w\HTMLCanvasElement|n\$
   h\n\?
-  ^(canvas_or_w, h)
+  @canvas\!dom.Canvas\ &dom.Canvas(canvas_or_w, h)
+
+:canvasElement+\HTMLCanvasElement\
+  => @canvas.element
+
+:context+\CanvasRenderingContext2D\
+  => @canvas.ctx
+
+:duplicateCanvas\!HTMLCanvasElement\
+  => @canvas.duplicate()
+
+:copyFrom
+  cvs\!HTMLCanvasElement\$
+  @canvas.copyFrom(cvs)
+
+:clear
+  @canvas.clear()
+
+:pixelData+\!pixel.Data\
+  => @canvas.pixelData
 
 :activate
   img\Image\?
   img_pos\data.Vec2\?
   alpha_lock\b\? false
   // Need to match the backing store resolution with screen resolution.
-  @.canvas.style.display = 'block'
-  @.setScale(f_viewport.scale())
+  @canvas.show()
+  @canvas.setScale(f_viewport.scale())
   if img && img_pos
-    @.copyImage(img, img_pos)
+    @canvas.copyImage(img, img_pos)
   @.updateAlphaLock(alpha_lock)
 
 :updateAlphaLock
   alpha_lock\b\$
-  @.ctx.globalCompositeOperation = alpha_lock ? 'source-atop' : 'source-over'
+  @canvas.ctx.globalCompositeOperation = alpha_lock ? 'source-atop' : 'source-over'
 
 :deactivate
-  @.clear()
-  @.canvas.style.display = 'none'
-  @.ctx.globalCompositeOperation = ''
+  @canvas.clear()
+  @canvas.hide()
+  @canvas.ctx.globalCompositeOperation = ''
 
 Val is the opacity value [0, 1.0], but resets to default when null.
 :opacity*
   val\?s|n\$
-  @.canvas.style.opacity = val
+  @canvas.opacity = val
 
 Takes view coordinates and returns [r, g, b, a] array in [0, 255] range.
 :pickColor\data.Color\
   x\n\$
   y\n\$
   scale := f_viewport.scale()
-  pixels := @.ctx.getImageData(x / scale, y / scale, 1, 1)
+  pixels := @canvas.ctx.getImageData(x / scale, y / scale, 1, 1)
   d := pixels.data
   => data.Color.fromByteRange(d[0], d[1], d[2], d[3])
 
@@ -42,7 +61,7 @@ Takes view coordinates and returns [r, g, b, a] array in [0, 255] range.
   orig_img\Image\?
   // Produce image spec of this surface plus the original image.
   // Size of the image is reduced to the tight bound.
-  pixelData := @.pixelData
+  pixelData := @canvas.pixelData
   => #?
     orig_img
     &pixel.Merge(pixelData, orig_img).pixels()

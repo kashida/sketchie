@@ -12,8 +12,8 @@ mergedImageSpec = ##
 
   // Find the rect that can contain pixels_rect and the transformed image
   // in document coords.
-  img0 := f_viewport.itemToSurface(elemPosition(@orig_img))
-  img1 := f_viewport.itemToSurface(elemPositionBR(@orig_img))
+  img0 := f_viewport.itemToSurface(dom.elemPosition(@orig_img))
+  img1 := f_viewport.itemToSurface(dom.elemPositionBR(@orig_img))
   union := &pixel.UnionRect(pixels_rect)
   union.add(@orig_img, &data.Rect(img0.x, img0.y, img1.x, img1.y))
   u := union.rect
@@ -21,7 +21,7 @@ mergedImageSpec = ##
     => null
 
   // New temp canvas, logically located at (u.x0, u.y0) in surface coords.
-  cvs := &Canvas(u.w + 1, u.h + 1)
+  cvs := &dom.Canvas(u.w + 1, u.h + 1)
   ctx := cvs.ctx
   &pixel.XformDrawImage(#).noAlpha()
     ctx

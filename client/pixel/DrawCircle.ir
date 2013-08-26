@@ -1,4 +1,4 @@
-::drawBrushCircle = ##
+::
   ctx\CanvasRenderingContext2D\$
   x\n\$
   y\n\$

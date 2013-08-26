@@ -1,5 +1,5 @@
 ::<%.Editor
-  @undo\UndoImage\ &UndoImage()
+  @undo\dom.UndoImage\ &dom.UndoImage()
   @is_drawing\b\ false
   @stroke&\s\ 'P'
   @prev_stroke\s\ 'E'

@@ -1,6 +1,6 @@
 ::
   @last_p\data.Vec2\
-  @cursor\Element\ id('draw_cursor')
+  @cursor\Element\ dom.id('draw_cursor')
 
 :div
   => @cursor

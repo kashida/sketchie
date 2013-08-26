@@ -42,12 +42,12 @@
   // Copy to the surface.
   // TODO: Can we draw directly to f_surface instead of drawing to
   // f_stroke_layer and then copy?
-  ctx := f_surface.ctx
+  ctx := f_surface.context
   ctx.globalAlpha = @.color.a
-  ctx.drawImage(f_stroke_layer.canvas, 0, 0)
+  ctx.drawImage(f_stroke_layer.canvasElement, 0, 0)
 
 :@setupStroke
-  ctx := f_stroke_layer.ctx
+  ctx := f_stroke_layer.context
   ctx.fillStyle = @.color.rgb
   ctx.lineCap = 'round'
   ctx.lineJoin = 'round'
@@ -61,7 +61,7 @@
   r1\n\? 0
   if x0 == x1 && y0 == y1
     =>
-  ctx := f_stroke_layer.ctx
+  ctx := f_stroke_layer.context
   r0 || (r0 = r1)
   rr0 := @.radius * r0
   rr1 := @.radius * r1

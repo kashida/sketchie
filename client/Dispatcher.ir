@@ -1,40 +1,40 @@
 ::
-  @input_layer\Element\ id('input_layer')
+  @input_layer\Element\ dom.id('input_layer')
   @drag_control\drag.Dragger\
   @mouse_controls\A.<O>\ []
     
-  listen(@input_layer, 'mousedown', ##)
+  dom.listen(@input_layer, 'mousedown', ##)
     evt\Event\$
     @dispatch('mouseDown', evt)
-  listen(@input_layer, 'mousemove', ##)
+  dom.listen(@input_layer, 'mousemove', ##)
     evt\Event\$
     @dispatch('mouseMove', evt)
-  listen(@input_layer, 'mouseup', ##)
+  dom.listen(@input_layer, 'mouseup', ##)
     evt\Event\$
     @dispatch('mouseUp', evt)
-  listen(@input_layer, 'mouseout', ##)
+  dom.listen(@input_layer, 'mouseout', ##)
     evt\Event\$
     @dispatch('mouseOut', evt)
-  listen(@input_layer, 'mousein', ##)
+  dom.listen(@input_layer, 'mousein', ##)
     evt\Event\$
     @dispatch('mouseIn', evt)
-  listen(@input_layer, 'resize', ##)
+  dom.listen(@input_layer, 'resize', ##)
     evt\Event\$
     @dispatch('viewportResize', evt)
 
   // TODO: replace these two with css rules.
-  listen(@input_layer, 'dragstart', ##)
+  dom.listen(@input_layer, 'dragstart', ##)
     evt\Event\$
     @cancelEvents(evt)
-  listen(@input_layer, 'selectstart', ##)
+  dom.listen(@input_layer, 'selectstart', ##)
     evt\Event\$
     @cancelEvents(evt)
 
   // Capture mouse move and up here for dragging.
-  listen(document.body, 'mousemove', ##)
+  dom.listen(document.body, 'mousemove', ##)
     evt\Event\$
     @dragUpdate(evt)
-  listen(document.body, 'mouseup', ##)
+  dom.listen(document.body, 'mouseup', ##)
     evt\Event\$
     @dragEnd(evt)
 

@@ -4,7 +4,7 @@
 :draw
   x\n\$
   y\n\$
-  ctx := f_surface.ctx
+  ctx := f_surface.context
   pixels := ctx.getImageData(x - @.radius, y - @.radius, @.radius * 2, @.radius * 2)
   avg := [0.0, 0.0, 0.0, 0.0]
   weight_sum := 0.0

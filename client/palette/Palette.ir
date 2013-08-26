@@ -1,12 +1,12 @@
 ::
   name\s\$
   secs\O\?
-  @palette\Element\ id(name)
+  @palette\Element\ dom.id(name)
   @is_active\b\ false
   @sections\O\ {}
   if secs
     each section_id in secs
-      @sections[section_id] = id(secs[section_id])
+      @sections[section_id] = dom.id(secs[section_id])
 
 :@open
   @palette.style.display = 'block'

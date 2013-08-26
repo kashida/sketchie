@@ -1,14 +1,14 @@
 ::
-  @svg\Element\ id('control_root')
-  @svg_root\Element\ svgCreate('g')
-  @controller\Slider\
+  @svg\Element\ dom.id('control_root')
+  @svg_root\Element\ dom.svgCreate('g')
+  @controller\ui.Slider\
   @state\O\
   @dragging\b\ false
   @text_scale\n\ 0
-  appendChildren(@svg, [@svg_root])
+  dom.appendChildren(@svg, [@svg_root])
 
 :activate
-  controller\Slider\$
+  controller\ui.Slider\$
   if @controller
     @.deactivate()
   @controller = controller
@@ -93,7 +93,7 @@
   evt\Event\$
   @base_x = evt.clientX
   @base_y = evt.clientY
-  setAttr(#)
+  dom.setAttr(#)
     @svg_root
     'transform'
     'translate(' + evt.clientX + ',' + evt.clientY + ')'
@@ -102,7 +102,7 @@
   if !@state
     =>
   @svgClear()
-  setAttr(@svg_root, 'transform', 'translate(' + @base_x + ',' + @base_y + ')')
+  dom.setAttr(@svg_root, 'transform', 'translate(' + @base_x + ',' + @base_y + ')')
   if @dragging
     @state.forEach(##)
       s\s\$
@@ -127,44 +127,44 @@
   if label.d
     ox = ox * label.d
     oy = oy * label.d
-  hex := svgCreate('path', {#})
+  hex := dom.svgCreate('path', {#})
     d: hex_path
     stroke:'#232'
     'stroke-width':'1'
     opacity: '0.2'
     fill: selected ? '#eb9' : '#468'
-  g := svgCreate('g')
-  appendChildren(@svg_root, [g])
-  appendChildren(g, [hex])
+  g := dom.svgCreate('g')
+  dom.appendChildren(@svg_root, [g])
+  dom.appendChildren(g, [hex])
   if label.c
-    color_band := svgCreate('path', {#})
+    color_band := dom.svgCreate('path', {#})
       d: hex_path
       stroke: label.c
       'stroke-width':'8'
       fill: 'none'
-    setAttr(color_band, 'transform', color_band_scale)
-    appendChildren(g, [color_band])
+    dom.setAttr(color_band, 'transform', color_band_scale)
+    dom.appendChildren(g, [color_band])
   if label.t
     if !@text_scale
       @setTextScale(g)
-    text := svgCreateText(label.t)
-    appendChildren(g, [text])
+    text := dom.svgCreateText(label.t)
+    dom.appendChildren(g, [text])
     bbox := text['getBBox']()
     tx := -bbox.x - bbox.width / 2
     ty := -bbox.y - bbox.height / 2
-    setAttr(#)
+    dom.setAttr(#)
       text
       'transform'
       'scale(' + @text_scale + '),translate(' + tx + ',' + ty + ')'
 
-  setAttr(g, 'transform', 'translate(' + ox + ',' + oy + ')')
+  dom.setAttr(g, 'transform', 'translate(' + ox + ',' + oy + ')')
 
 :@setTextScale
   g\Element\$
   // Text box calculation needs to be done after it is added to svg (so we
   // get the bbox).
-  ref_text := svgCreateText('WWW')
-  appendChildren(g, [ref_text])
+  ref_text := dom.svgCreateText('WWW')
+  dom.appendChildren(g, [ref_text])
   bbox := ref_text['getBBox']()
   @text_scale = hex_size / bbox.width
   g.removeChild(ref_text)
@@ -203,27 +203,3 @@ From center of hex to the corner. hafl of hex height.
     'l', hex_size_cos_30, -hex_size_half
     'z'
   color_band_scale := 'scale(' + ((hex_size - 8) / hex_size) + ')'
-
-::svgCreate = ##
-  \Element\
-  tag\s\$
-  attrs\O\?
-  children\A.<Element>\?
-  ns := 'http://www.w3.org/2000/svg'
-  elem := document.createElementNS(ns, tag)
-  if attrs
-    each attr in attrs
-      elem.setAttribute(attr, attrs[attr])
-  if children
-    children.forEach(##)
-      child\Element\$
-      elem.appendChild(child)
-  => elem
-
-::svgCreateText = ##
-  \Element\
-  text\s\$
-  attrs\O\?
-  elem := svgCreate('text', attrs)
-  appendChildren(elem, [document.createTextNode(text)])
-  => elem

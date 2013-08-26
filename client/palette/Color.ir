@@ -1,8 +1,8 @@
 ::<%.Palette
-  @mix\!Slider\ &Slider('color_mix', 'mix%', 0, 100, 0, 10)
-  @hue\!Slider\ &Slider('color_hue', 'hue%', -300, 300, 0, 10)
-  @sat\!Slider\ &Slider('color_sat', 'sat%', -100, 100, 0, 20)
-  @lgt\!Slider\ &Slider('color_lgt', 'lgt%', -100, 100, 0, 40)
+  @mix\!ui.Slider\ &ui.Slider('color_mix', 'mix%', 0, 100, 0, 10)
+  @hue\!ui.Slider\ &ui.Slider('color_hue', 'hue%', -300, 300, 0, 10)
+  @sat\!ui.Slider\ &ui.Slider('color_sat', 'sat%', -100, 100, 0, 20)
+  @lgt\!ui.Slider\ &ui.Slider('color_lgt', 'lgt%', -100, 100, 0, 40)
   @color_sel\Element|data.Hsl\
   @prev_color\data.Hsl\
   ^('color_palette')
@@ -44,7 +44,7 @@
 
 :activateControl
   p\s\$
-  (\!Slider\({m: @mix, h:@hue, s:@sat, l:@lgt}[p])).activate()
+  (\!ui.Slider\({m: @mix, h:@hue, s:@sat, l:@lgt}[p])).activate()
 
 :unselect
   if @color_sel instanceof Element
@@ -125,7 +125,7 @@
   if @color_sel instanceof Element
     @color_sel.classList.remove('selected')
   @color_sel = hsl
-  id('color_name').innerText = '---'
+  dom.id('color_name').innerText = '---'
   @update()
 
 :swapColors
@@ -184,19 +184,19 @@
     ['40E0D0', 'Turquoise']
     ['007BA7', 'Cerulean']
   //verify = &VerifyColors()
-  cname := id('color_name')
-  csel := id('color_sel')
+  cname := dom.id('color_name')
+  csel := dom.id('color_sel')
   colors.forEach(##)
     c\A\$
     i\n\$
     //verify.check(c[0], c[1])
-    elem := create('div')
+    elem := dom.create('div')
     elem.color_name = c[1]
     elem.style['background-color'] = '#' + c[0]
     elem.classList.remove('selected')
     elem.hsl = data.Color.fromHexString(c[0]).hsl
     // TODO: make just one listener for all the div's.
-    listen(elem, 'click', ##)
+    dom.listen(elem, 'click', ##)
       evt\Event\$
       @mix.reset()
       @hue.reset()
@@ -219,8 +219,8 @@
   @update()
 
 :@update
-  id('color_sample0').style['background-color'] = @.selectedColor.rgb
-  id('color_sample1').style['background-color'] = @prev_color.color.rgb
+  dom.id('color_sample0').style['background-color'] = @.selectedColor.rgb
+  dom.id('color_sample1').style['background-color'] = @prev_color.color.rgb
 
 ::VerifyColors
   @last_rgb\A.<n>\ null

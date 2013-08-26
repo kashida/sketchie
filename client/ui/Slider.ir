@@ -14,7 +14,7 @@
   b_l := %.Slider.createSliderbox(name, @title, @min, @max, @reset_value)
   @box = b_l[0]
   @label = b_l[1]
-  listen(@box, 'click', ##)
+  dom.listen(@box, 'click', ##)
     evt\Event\$
     @.activate()
 
@@ -120,17 +120,17 @@
   range_min\n\$
   range_max\n\$
   init_value\n\$
-  label := create('div', {class: 'box ' + name + '_label'})
+  label := dom.create('div', {class: 'box ' + name + '_label'})
   label.innerText = init_value
-  control_div := create('div', null, [#])
-    createText(title + ': ')
+  control_div := dom.create('div', null, [#])
+    dom.createText(title + ': ')
     label
-  box := id(name)
+  box := dom.id(name)
   box.classList.add('control_box')
   box.appendChild(control_div)
   => [box, label]
 
-::RadiusSlider < Slider
+::RadiusSlider < %.Slider
   name\s\$
   title\s\$
   min\n\$

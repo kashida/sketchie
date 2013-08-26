@@ -1,10 +1,10 @@
 ::<drag.Dragger
-  @viewport\Element\ id('itemlist')
+  @viewport\Element\ dom.id('itemlist')
   @active\b\ true
   @drag_active\b\ false
   ^()
   @.reset()
-  listen(document.body, 'mousedown', ##)
+  dom.listen(document.body, 'mousedown', ##)
     evt\Event\$
     @dragStart(evt)
 

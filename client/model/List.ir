@@ -1,6 +1,6 @@
 ::
-  @list\!Element\ id('itemlist')
-  eachChild(@list, ##)
+  @list\!Element\ dom.id('itemlist')
+  dom.eachChild(@list, ##)
     el\!Element\$
     if !el.item
       &%.Item(el)
@@ -15,7 +15,7 @@ All child elements need to be blessed when added, and disposed when removed.
   => @list.childNodes
 :childrenArray+\!A.<%.Item>\
   arr := []
-  eachChild(@list, ##)
+  dom.eachChild(@list, ##)
     el\Element\$
     arr.push(\!%.Item\(el.item))
   => arr
@@ -36,7 +36,7 @@ All child elements need to be blessed when added, and disposed when removed.
 
 :each
   handler\f(!%.Item, Element)\$
-  eachChild(@list, ##)
+  dom.eachChild(@list, ##)
     el\Element\$
     handler(\!%.Item\(el.item), el)
 

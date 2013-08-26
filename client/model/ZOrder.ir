@@ -5,7 +5,7 @@
   send_back\b\$
   // Works only in image edit mode. move all the items except the one being
   // drawn now.
-  div := id('itemlist_upper')
+  div := dom.id('itemlist_upper')
   item := null
   if send_back
     while div.childNodes.length > 0
@@ -24,7 +24,7 @@
   // Works only in image edit mode. move one item before / after of the image
   // item.
   // TODO: move only the items in viewport.
-  div := id('itemlist_upper')
+  div := dom.id('itemlist_upper')
   item := null
   if send_back
     item = \Node\(div.firstChild)

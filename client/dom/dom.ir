@@ -19,7 +19,7 @@
 ::createDiv = ##
   cls\s|A.<s>\$
   children\A.<Element>\?
-  div := create('div', null, children)
+  div := %.create('div', null, children)
   if cls instanceof Array
     cls.forEach(##)
       c\s\$
@@ -31,6 +31,30 @@
 ::createText = ##
   str\s\$
   => document.createTextNode(str)
+
+::svgCreate = ##
+  \Element\
+  tag\s\$
+  attrs\O\?
+  children\A.<Element>\?
+  ns := 'http://www.w3.org/2000/svg'
+  elem := document.createElementNS(ns, tag)
+  if attrs
+    each attr in attrs
+      elem.setAttribute(attr, attrs[attr])
+  if children
+    children.forEach(##)
+      child\Element\$
+      elem.appendChild(child)
+  => elem
+
+::svgCreateText = ##
+  \Element\
+  text\s\$
+  attrs\O\?
+  elem := %.svgCreate('text', attrs)
+  dom.appendChildren(elem, [document.createTextNode(text)])
+  => elem
 
 ::nodeText = ##
   node\Element\$
@@ -52,11 +76,11 @@
   attrs\O\$
   children\A.<Element>\?
   if attrs['class']
-    elem := id(attrs['class'])
+    elem := %.id(attrs['class'])
     if elem
       elem.parentNode.removeChild(elem)
       => elem
-  elem = create(tag, attrs, children)
+  elem = %.create(tag, attrs, children)
   => elem
 
 ::listen = ##
@@ -82,7 +106,7 @@
 ::isAttr = ##
   node\Element\$
   name\s\$
-  a := attr(node, name)
+  a := %.attr(node, name)
   if !a
     => false
   => a == '1' || a == 'true'
