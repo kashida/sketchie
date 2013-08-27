@@ -1,6 +1,6 @@
 ::
-  @list\!Element\ dom.id('itemlist')
-  dom.eachChild(@list, ##)
+  @element+\!Element\ dom.id('itemlist')
+  dom.eachChild(@element, ##)
     el\!Element\$
     if !el.item
       &%.Item(el)
@@ -8,14 +8,14 @@
 All child elements need to be blessed when added, and disposed when removed.
 :@dispose
   item\!%.Item\$
-  @list.removeChild(item.element)
+  @element.removeChild(item.element)
   item.dispose()
 
 :children+\NodeList\
-  => @list.childNodes
+  => @element.childNodes
 :childrenArray+\!A.<%.Item>\
   arr := []
-  dom.eachChild(@list, ##)
+  dom.eachChild(@element, ##)
     el\Element\$
     arr.push(\!%.Item\(el.item))
   => arr
@@ -36,7 +36,7 @@ All child elements need to be blessed when added, and disposed when removed.
 
 :each
   handler\f(!%.Item, Element)\$
-  dom.eachChild(@list, ##)
+  dom.eachChild(@element, ##)
     el\Element\$
     handler(\!%.Item\(el.item), el)
 
@@ -73,26 +73,26 @@ to be re-inserted immediately to the list.
 :removeNoDispose
   items\!%.Item|!A.<!%.Item>\$
   if items instanceof %.Item
-    @list.removeChild(items.element)
+    @element.removeChild(items.element)
   else
     items.forEach(##)
       item\!%.Item\$
-      @list.removeChild(item.element)
+      @element.removeChild(item.element)
 
 :insertFirst
   items\A.<!%.Item>\$
   items.forEach(##)
     item\!%.Item\$
-    @list.insertBefore(item.element, @list.firstChild)
+    @element.insertBefore(item.element, @element.firstChild)
 
 :appendEnd
   items\!%.Item|!A.<!%.Item>\$
   if items instanceof %.Item
-    @list.appendChild(items.element)
+    @element.appendChild(items.element)
   else
     items.forEach(##)
       item\!%.Item\$
-      @list.appendChild(item.element)
+      @element.appendChild(item.element)
 
 :insertBefore
   pivot\%.Item\$
@@ -100,7 +100,7 @@ to be re-inserted immediately to the list.
   if pivot
     items.forEach(##)
       item\!%.Item\$
-      @list.insertBefore(item.element, pivot.element)
+      @element.insertBefore(item.element, pivot.element)
   else
     @.appendEnd(items)
 
@@ -110,7 +110,7 @@ to be re-inserted immediately to the list.
   if pivot.element.nextSibling
     items.forEach(##)
       item\!%.Item\$
-      @list.insertBefore(item.element, pivot.element.nextSibling)
+      @element.insertBefore(item.element, pivot.element.nextSibling)
   else
     @.appendEnd(items)
 
@@ -120,9 +120,9 @@ to be re-inserted immediately to the list.
   next := orig_item.element.nextSibling
   @dispose(orig_item)
   if next
-    @list.insertBefore(new_item.element, next)
+    @element.insertBefore(new_item.element, next)
   else
-    @list.appendChild(new_item.element)
+    @element.appendChild(new_item.element)
 
 :top
   handler\F\$

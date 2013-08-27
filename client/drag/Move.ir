@@ -20,7 +20,7 @@
 
 :<dragUpdate
   evt\Event\$
-  scale := f_viewport.scale()
+  scale := f_viewport.scale
   @item.position = &data.Vec2(#)
     @base_pos.x + (evt.clientX - @mouse_pos.x) / scale
     @base_pos.y + (evt.clientY - @mouse_pos.y) / scale

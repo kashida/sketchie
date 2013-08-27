@@ -1,16 +1,17 @@
 [TODO]
 code clean up:
-  move pixel manipulation routines into one dir.
-    make them use model.Image instead of Image element.
   refactor: move surface into item list div during draw mode, but cancel
       the transformation with a div.[J]
-    make all image item to have extra div?
-      make canvas position:fixed so no need to cancel xform.
+    re-drawing a image item has coord error.
+      check with moved viewport too.
+    make editor.Image's 'V' and 'N' key works.
+      ZOrder's element moving methods assume itemlist_upper.
+      move editor.List's methods to ZOrder and use them.
     itemlist div
       div to cancel transofrm -- need to set the inverse transform of itemlist
         canvas
-        original image item hidden?
-      other items...
+
+  remove attr and setAttr from all but model.
 
   find everywhere model.Item.element is used and move the logic to
       model.Item/Text/Image.

@@ -7,6 +7,7 @@ Convenience wrapper for the html canvas.
   h\n\?
   @element+\HTMLCanvasElement\
   @ctx+\CanvasRenderingContext2D\
+  @scale\n\ 1.0
   if h
     @element = %.create('canvas')
     @element.width = canvas_or_w
@@ -14,7 +15,6 @@ Convenience wrapper for the html canvas.
   else
     @element = \HTMLCanvasElement\(canvas_or_w)
   @ctx = @element.getContext('2d')
-  @scale = 1.0
 
 :opacity*
   val\?s|n\$
@@ -32,9 +32,8 @@ Convenience wrapper for the html canvas.
 :dataUrl
   => @element.toDataURL()
 
-:setScale
-  scale\n\$
-  @scale = scale
+:scale*
+  @scale = value
   @element.width = @element.clientWidth / @scale
   @element.height = @element.clientHeight / @scale
 
@@ -43,11 +42,10 @@ Convenience wrapper for the html canvas.
 
 :copyImage
   img\!model.Image\$
-  img_pos\data.Vec2\$
   &pixel.XformDrawImage(#).noAlpha()
     @ctx
     img
-    f_viewport.itemToSurface(img_pos)
+    f_viewport.itemToSurface(img.position)
 
 :duplicate\!HTMLCanvasElement\
   cvs := %.create('canvas')

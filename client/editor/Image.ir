@@ -16,6 +16,10 @@
   @image = img
   @alphaLock = !!@image && @image.alphaLock
 
+  if @image
+    f_surface.attachToImage(@image)
+  else
+    f_surface.attachBeforeElement(f_stroke_layer.element)
   f_surface.activate(@image)
   f_viewport.deactivate()
   f_item_palette.close()
@@ -37,6 +41,7 @@
   @undo.reset()
   f_viewport.activate()
   f_surface.deactivate()
+  f_surface.detach()
   f_stroke_layer.deactivate()
   f_dispatcher.deactivate()
   f_cursor.hide()
@@ -90,7 +95,7 @@
 
 :@drawSegment
   evt\Event\$
-  scale := f_viewport.scale()
+  scale := f_viewport.scale
   f_strokes.get(f_tool_palette.tool()).draw(#)
     evt.clientX / scale
     evt.clientY / scale
@@ -132,10 +137,11 @@
       @prev_stroke = tmp
       f_tool_palette.setParam(@stroke)
 
-  else if evt.keyCode == c('V')
-    f_z_order.moveAll(@image, evt.shiftKey)
-  else if evt.keyCode == c('N')
-    f_z_order.move(@image, evt.shiftKey)
+  // TODO: use same routine as in editor.List.
+  //else if evt.keyCode == c('V')
+  //  f_z_order.moveAll(@image, evt.shiftKey)
+  //else if evt.keyCode == c('N')
+  //  f_z_order.move(@image, evt.shiftKey)
 
   else if evt.keyCode == c('X')
     @alphaLock = !@alphaLock

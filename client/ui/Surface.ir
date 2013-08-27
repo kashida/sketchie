@@ -4,7 +4,7 @@ Canvas that's fixed to the viewport size.
   h\n\?
   @canvas\!dom.Canvas\ &dom.Canvas(canvas_or_w, h)
 
-:canvasElement+\HTMLCanvasElement\
+:element+\HTMLCanvasElement\
   => @canvas.element
 
 :context+\CanvasRenderingContext2D\
@@ -23,13 +23,24 @@ Canvas that's fixed to the viewport size.
 :pixelData+\!pixel.Data\
   => @canvas.pixelData
 
+:attachToImage
+  img\!model.Image\$
+  img.element.appendChild(@canvas.element)
+
+:attachBeforeElement
+  ref_el\Element\$
+  ref_el.parentNode.insertBefore(@canvas.element, ref_el)
+
+:detach
+  @canvas.element.parentNode.removeChild(@canvas.element)
+
 :activate
   img\model.Image\?
   // Need to match the backing store resolution with screen resolution.
   @canvas.show()
-  @canvas.setScale(f_viewport.scale())
+  @canvas.scale = f_viewport.scale
   if img
-    @canvas.copyImage(img, img.position)
+    @canvas.copyImage(img)
   @.updateAlphaLock(!!img && img.alphaLock)
 
 :updateAlphaLock
@@ -50,7 +61,7 @@ Takes view coordinates and returns [r, g, b, a] array in [0, 255] range.
 :pickColor\data.Color\
   x\n\$
   y\n\$
-  scale := f_viewport.scale()
+  scale := f_viewport.scale
   pixels := @canvas.ctx.getImageData(x / scale, y / scale, 1, 1)
   d := pixels.data
   => data.Color.fromByteRange(d[0], d[1], d[2], d[3])

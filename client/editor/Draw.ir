@@ -17,23 +17,6 @@
   if img && dom.attr(img.element, 'ref_img')
     img = null
 
-  // Move all items after the selected image to a separate div.
-  upper_items := img && f_page.items.after(img) || []
-  div := dom.create('div', {class: 'itemlist itemlist_upper'})
-
-  // Removing upper_items from f_page.items list will lose access to the
-  // elements. Otoh if we appendChild the elements first the elements will
-  // be removed from their original parent node (and so model.List will
-  // lose track of them).
-  elems := upper_items.map(##)
-    item\!model.Item\$
-    => item.element
-  f_page.items.remove(upper_items)
-  elems.forEach(##)
-    el\Element\$
-    div.appendChild(el)
-  f_viewport.copyTo(div)
-  document.body.insertBefore(div, f_cursor.div())
   @.activateImage(\model.Image\(img))
 
 :<deactivate
@@ -48,14 +31,6 @@
       f_page.items.remove(orig_image)
   else
     img_spec.makeImageItem(orig_image)
-
-  // Remove the temporary div for the upper items.
-  div := dom.id('itemlist_upper')
-  while div.childNodes.length > 0
-    el := div.firstChild
-    div.removeChild(el)
-    f_page.items.appendEnd(\!model.Item\(model.Item.fromElement(el)))
-  document.body.removeChild(div)
 
 :dispatch
   evt\Event\$

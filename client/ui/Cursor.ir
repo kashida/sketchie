@@ -8,7 +8,7 @@
 :update
   @cursor.style.display = 'block'
 
-  r := f_tool_palette.radius() * f_viewport.scale()
+  r := f_tool_palette.radius() * f_viewport.scale
   @cursor.style['border-radius'] = r + 'px'
   size := (r * 2) + 'px'
   @cursor.style.width = size
@@ -30,7 +30,7 @@
 :move
   x\n\$
   y\n\$
-  r := f_tool_palette.radius() * f_viewport.scale()
+  r := f_tool_palette.radius() * f_viewport.scale
   @cursor.style.left = (x - r) + 'px'
   @cursor.style.top = (y - r) + 'px'
   @last_p = &data.Vec2(x, y)
