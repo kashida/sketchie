@@ -36,11 +36,19 @@ Canvas that's fixed to the viewport size.
 
 :activate
   img\model.Image\?
-  // Need to match the backing store resolution with screen resolution.
+  // Need to match the backing store resolution with logical resolution.
+  viewport_scale := f_viewport.scale
+  viewport_scale_inverse := 1.0 / viewport_scale
   @canvas.show()
-  @canvas.scale = f_viewport.scale
+  @canvas.scale = viewport_scale
+  @canvas.ctx.save()
+  @canvas.ctx.scale(viewport_scale_inverse, viewport_scale_inverse)
   if img
-    @canvas.copyImage(img)
+    //xfm.fromItemInverse(img)
+    &pixel.XformDrawImage(#).noAlpha()
+      @canvas.ctx
+      img
+
   @.updateAlphaLock(!!img && img.alphaLock)
 
 :updateAlphaLock
@@ -49,6 +57,7 @@ Canvas that's fixed to the viewport size.
 
 :deactivate
   @canvas.clear()
+  @canvas.ctx.restore()
   @canvas.hide()
   @canvas.ctx.globalCompositeOperation = ''
 

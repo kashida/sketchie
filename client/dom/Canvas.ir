@@ -40,13 +40,6 @@ Convenience wrapper for the html canvas.
 :pixelData+\!pixel.Data\
   => &pixel.Data(@ctx.getImageData(0, 0, @element.width, @element.height))
 
-:copyImage
-  img\!model.Image\$
-  &pixel.XformDrawImage(#).noAlpha()
-    @ctx
-    img
-    f_viewport.itemToSurface(img.position)
-
 :duplicate\!HTMLCanvasElement\
   cvs := %.create('canvas')
   cvs.width = @element.width

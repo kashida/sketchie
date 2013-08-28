@@ -95,10 +95,7 @@
 
 :@drawSegment
   evt\Event\$
-  scale := f_viewport.scale
-  f_strokes.get(f_tool_palette.tool()).draw(#)
-    evt.clientX / scale
-    evt.clientY / scale
+  f_strokes.get(f_tool_palette.tool()).draw(evt.clientX, evt.clientY)
 
 :@endSegment
   evt\Event\$
