@@ -26,13 +26,14 @@ Canvas that's fixed to the viewport size.
 :attachToImage
   img\!model.Image\$
   img.element.appendChild(@canvas.element)
+  @canvas.setToAbsolute(img.position)
 
 :attachBeforeElement
   ref_el\Element\$
   ref_el.parentNode.insertBefore(@canvas.element, ref_el)
 
 :detach
-  @canvas.element.parentNode.removeChild(@canvas.element)
+  @canvas.detach()
 
 :activate
   img\model.Image\?
@@ -44,11 +45,10 @@ Canvas that's fixed to the viewport size.
   @canvas.ctx.save()
   @canvas.ctx.scale(viewport_scale_inverse, viewport_scale_inverse)
   if img
-    //xfm.fromItemInverse(img)
     &pixel.XformDrawImage(#).noAlpha()
       @canvas.ctx
       img
-
+      img.position
   @.updateAlphaLock(!!img && img.alphaLock)
 
 :updateAlphaLock

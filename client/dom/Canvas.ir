@@ -54,3 +54,23 @@ Convenience wrapper for the html canvas.
     0
     @element.width
     @element.height
+
+Attaching a canvas to div leaves the canvas's coord system to be parented to
+the div even when the canvas is position:fixed. Switching to position:absolute
+and counter the xform.
+TODO: need to counter other item transforms and viewport transforms.
+:setToAbsolute
+  p\data.Vec2\$
+  @element.style.position = 'absolute'
+  @element.style.width = document.width + 'px'
+  @element.style.height = document.height + 'px'
+  @element.style.left = -p.x + 'px'
+  @element.style.top = -p.y + 'px'
+
+:detach
+  @element.parentNode.removeChild(@element)
+  @element.style.position = undefined
+  @element.style.width = undefined
+  @element.style.height = undefined
+  @element.style.left = undefined
+  @element.style.top = undefined

@@ -16,7 +16,6 @@
   f_page.selection.clear()
   if img && dom.attr(img.element, 'ref_img')
     img = null
-
   @.activateImage(\model.Image\(img))
 
 :<deactivate
