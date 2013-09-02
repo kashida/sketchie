@@ -1,7 +1,5 @@
 [TODO]
 code clean up:
-  remove attr and setAttr from all but model.
-
   find everywhere model.Item.element is used and move the logic to
       model.Item/Text/Image.
 

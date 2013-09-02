@@ -77,17 +77,6 @@ Sort the list of input items into z-order.
       item\!%.Item\$
       @dispose(item)
 
-Same as remove but items do not get disposed. The items are expected
-to be re-inserted immediately to the list.
-:removeNoDispose
-  items\!%.Item|!A.<!%.Item>\$
-  if items instanceof %.Item
-    @element.removeChild(items.element)
-  else
-    items.forEach(##)
-      item\!%.Item\$
-      @element.removeChild(item.element)
-
 :insertFirst
   items\A.<!%.Item>\$
   items.forEach(##)

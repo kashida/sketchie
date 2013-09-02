@@ -5,7 +5,6 @@
   send_back\b\$
   // Preserve the z order among the selected items.
   remove_list := f_page.items.zOrder(items)
-  //f_page.items.removeNoDispose(remove_list)
   if send_back
     f_page.items.insertFirst(remove_list)
   else
@@ -19,12 +18,10 @@
   if send_back
     prev_item := f_page.items.childAt(idx - 1)
     if prev_item
-      //f_page.items.removeNoDispose(item)
       f_page.items.insertBefore(prev_item, [item])
   else
     next_item := f_page.items.childAt(idx + 1)
     if next_item
-      //f_page.items.removeNoDispose(item)
       f_page.items.insertAfter(next_item, [item])
 
 :shiftOneWithOverlap
