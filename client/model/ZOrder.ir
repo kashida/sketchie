@@ -1,44 +1,57 @@
 ::
 
-:moveAll
-  img\model.Image\$
+:moveToEnd
+  items\!A.<!%.Item>\$
   send_back\b\$
-  // Works only in image edit mode. move all the items except the one being
-  // drawn now.
-  div := dom.id('itemlist_upper')
-  item := null
+  // Preserve the z order among the selected items.
+  remove_list := f_page.items.zOrder(items)
+  //f_page.items.removeNoDispose(remove_list)
   if send_back
-    while div.childNodes.length > 0
-      item = \Node\(div.firstChild)
-      div.removeChild(item)
-      f_page.items.insertBefore(img, [item])
+    f_page.items.insertFirst(remove_list)
   else
-    while (f_page.items.length() > 0 && !img) || f_page.items.length() > 1
-      item = img ? f_page.items.child(-2) : f_page.items.last()
-      f_page.items.remove(item)
-      div.insertBefore(item, div.firstChild)
+    f_page.items.appendEnd(remove_list)
 
-:move
-  img\model.Image\$
+:shiftOne
+  item\!%.Item\$
   send_back\b\$
-  // Works only in image edit mode. move one item before / after of the image
-  // item.
   // TODO: move only the items in viewport.
-  div := dom.id('itemlist_upper')
-  item := null
+  idx := f_page.items.indexOf(item)
   if send_back
-    item = \Node\(div.firstChild)
-    if !item
-      =>
-    div.removeChild(item)
-    f_page.items.insertBefore(img, [item])
+    prev_item := f_page.items.childAt(idx - 1)
+    if prev_item
+      //f_page.items.removeNoDispose(item)
+      f_page.items.insertBefore(prev_item, [item])
   else
-    list := f_page.items.children
-    item = #?
-      img
-      list.length < 2 ? null : list[list.length - 2]
-      list.empty ? null : f_page.items.last()
-    if !item
-      =>
-    f_page.items.remove(item)
-    div.insertBefore(item, div.firstChild)
+    next_item := f_page.items.childAt(idx + 1)
+    if next_item
+      //f_page.items.removeNoDispose(item)
+      f_page.items.insertAfter(next_item, [item])
+
+:shiftOneWithOverlap
+  send_back\b\$
+  // First find a selected item and then find a non-selected item that has
+  // overlapping region with one of the selected items.
+  found_selected := []
+  to_move := []
+  found := false
+  f_page.items.until(send_back, ##)
+    item\model.Item\$
+    if f_page.selection.isSelected(item)
+      found_selected.push(item)
+    else if found_selected.length > 0
+      to_move.push(item)
+      if dom.overlapWithAny(item.element, found_selected.map(##))
+        item\%.Item\$
+        => item.element
+        --
+        // All the non-selected items after the first selected maybe
+        // non-overlapping, so we need this flag.
+        found = true
+        => true
+    => false
+  if to_move.length > 0 && found
+    //f_page.items.remove(to_move)
+    if send_back
+      f_page.items.insertBefore(found_selected[0], to_move)
+    else
+      f_page.items.insertAfter(found_selected[0], to_move)

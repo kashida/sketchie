@@ -134,11 +134,11 @@
       @prev_stroke = tmp
       f_tool_palette.setParam(@stroke)
 
-  // TODO: use same routine as in editor.List.
-  //else if evt.keyCode == c('V')
-  //  f_z_order.moveAll(@image, evt.shiftKey)
-  //else if evt.keyCode == c('N')
-  //  f_z_order.move(@image, evt.shiftKey)
+  else if evt.keyCode == c('V')
+    f_z_order.moveToEnd([@image], !evt.shiftKey)
+  else if evt.keyCode == c('N')
+    if @image
+      f_z_order.shiftOne(@image, !evt.shiftKey)
 
   else if evt.keyCode == c('X')
     @alphaLock = !@alphaLock

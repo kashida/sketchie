@@ -1,15 +1,8 @@
 [TODO]
 code clean up:
-  refactor: move surface into item list div during draw mode, but cancel
-      the transformation with a div.[J]
-    re-drawing a image item has coord error.
-      check with moved viewport too.
-    make editor.Image's 'V' and 'N' key works.
-      ZOrder's element moving methods assume itemlist_upper.
-      move editor.List's methods to ZOrder and use them.
-    itemlist div
-      div to cancel transofrm -- need to set the inverse transform of itemlist
-        canvas
+  make editor.Image's 'V' and 'N' key works.
+    ZOrder's element moving methods assume itemlist_upper.
+    move editor.List's methods to ZOrder and use them.
 
   remove attr and setAttr from all but model.
 
@@ -68,6 +61,12 @@ ux refine:
   change mouse cursor for button mouse over.
 
 bug:
+  save page with an image, load the page, and edit the image.
+    exception in xformdrawimage?
+
+  make sure drawing surface coord system is right:
+    with viewport xforms
+    with item xforms (when editing an image item).
   merging two images moves the resulting image to top left corner of the view.
 
   no draw cursor when gone into draw mode.

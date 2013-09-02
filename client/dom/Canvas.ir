@@ -69,8 +69,8 @@ TODO: need to counter other item transforms and viewport transforms.
 
 :detach
   @element.parentNode.removeChild(@element)
-  @element.style.position = undefined
-  @element.style.width = undefined
-  @element.style.height = undefined
-  @element.style.left = undefined
-  @element.style.top = undefined
+  @element.style.position = ''
+  @element.style.width = ''
+  @element.style.height = ''
+  @element.style.left = ''
+  @element.style.top = ''

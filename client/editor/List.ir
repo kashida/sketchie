@@ -6,42 +6,6 @@
   f_page.items.remove(f_page.selection.list)
   f_page.selection.clear()
 
-:@zOrderToEnd
-  send_back\b\$
-  // Preserve the z order among the selected items.
-  remove_list := f_page.items.zOrder(f_page.selection.list)
-  f_page.items.removeNoDispose(remove_list)
-  if send_back
-    f_page.items.insertFirst(remove_list)
-  else
-    f_page.items.appendEnd(remove_list)
-
-:@zOrderToShift
-  send_back\b\$
-  // First find a selected item and then find a non-selected item that has
-  // overlapping region with one of the selected items.
-  found_selected := []
-  to_move := []
-  found := false
-  f_page.items.until(send_back, ##)
-    item\model.Item\$
-    if f_page.selection.isSelected(item)
-      found_selected.push(item)
-    else if found_selected.length > 0
-      to_move.push(item)
-      if dom.overlapWithAny(item.element, found_selected)
-        // All the non-selected items after the first selected maybe
-        // non-overlapping, so we need this flag.
-        found = true
-        => true
-    => false
-  if to_move.length > 0 && found
-    f_page.items.remove(to_move)
-    if send_back
-      f_page.items.insertBefore(found_selected[0], to_move)
-    else
-      f_page.items.insertAfter(found_selected[0], to_move)
-
 :@moveSelection
   move_down\b\$
   // Find the element below the current one and move the selection to it.
@@ -58,7 +22,7 @@
         f_page.selection.select(item)
         f_viewport.showItem(item)
     =>
-  if f_page.items.empty()
+  if f_page.items.isEmpty
     =>
 
   // Find items that is just above and just below the selected item.
@@ -202,13 +166,13 @@ Key handler.
 
   // z control.
   else if key == c('V')
-    @zOrderToEnd(true)
+    f_z_order.moveToEnd(f_page.selection.list, true)
   else if key == c('V') + shift
-    @zOrderToEnd(false)
+    f_z_order.moveToEnd(f_page.selection.list, false)
   else if key == c('N')
-    @zOrderToShift(false)
+    f_z_order.shiftOneWithOverlap(false)
   else if key == c('N') + shift
-    @zOrderToShift(true)
+    f_z_order.shiftOneWithOverlap(true)
 
   // Transform.
   else if key == c('R')

@@ -29,6 +29,9 @@ Returns Item only if the element has an Item associated to it.
   el\!Element\$
   => \%.Item\(el.item)
 
+:hasElement\b\
+  el\!Element\$
+  => el == @element
 :position+\data.Vec2\
   => dom.elemPosition(@element)
 :positionBR+\data.Vec2\

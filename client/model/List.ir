@@ -11,8 +11,12 @@ All child elements need to be blessed when added, and disposed when removed.
   @element.removeChild(item.element)
   item.dispose()
 
-:children+\NodeList\
-  => @element.childNodes
+:@children\!NodeList\
+  => @element.children
+:@toItem
+  el\Element\$
+  => el ? \!%.Item\(el.item) : null
+
 :childrenArray+\!A.<%.Item>\
   arr := []
   dom.eachChild(@element, ##)
@@ -20,40 +24,45 @@ All child elements need to be blessed when added, and disposed when removed.
     arr.push(\!%.Item\(el.item))
   => arr
 
-:first
-  => @.children[0]
-:last
-  => @.children[@.children.length - 1]
-:length
-  => @.children.length
-:empty
-  => @.children.length == 0
-:child
-  index\n\$
-  if index < 0
-    index += @.length()
-  => @.children[index]
+:first+\%.Item\
+  => @toItem(@element.firstElementChild)
+:last+\!Element\
+  => @toItem(@element.lastElementChild)
+:length+\n\
+  => @children().length
+:isEmpty+\b\
+  => @.length == 0
+:childAt\%.Item\
+  idx\n\$
+  => @toItem(@children()[idx])
+:indexOf\n\
+  item\!%.Item\$
+  for i := 0; i < @.length; i++
+    if item.hasElement(@children()[i])
+      => i
+  => -1
 
 :each
-  handler\f(!%.Item, Element)\$
+  cb\f(!%.Item, !Element)\$
   dom.eachChild(@element, ##)
     el\Element\$
-    handler(\!%.Item\(el.item), el)
+    cb(\!%.Item\(el.item), el)
 
 :until
   back_to_front\b\$
-  handler\f(!%.Item):b\$
-  c := @.children
+  cb\f(!%.Item):b\$
+  c := @children()
   if back_to_front
     for i := 0; i < c.length; i++
-      if handler(\!%.Item\(c[i].item))
+      if cb(@toItem(c[i]))
         =>
   else
     for i := c.length - 1; i >= 0; i--
-      if handler(\!%.Item\(c[i].item))
+      if cb(@toItem(c[i]))
         =>
 
-:zOrder
+Sort the list of input items into z-order.
+:zOrder\!A.<!%.Item>\
   items\!A.<!%.Item>\$
   => @.childrenArray.filter(##)
     item\%.Item\$
@@ -161,27 +170,12 @@ to be re-inserted immediately to the list.
 All the items that are afeter the specified item (exclusive).
 :after\A.<!%.Item>\
   item\%.Item\$
-  for i := 0; i < @.children.length; i++
-    if @.children[i] == item.element
+  for i := 0; i < @children().length; i++
+    if @children()[i] == item.element
       // We can't use array.slice because children is a NodeList.
       list := []
-      for j := i + 1; j < @.children.length; j++
-        list.push(\!%.Item\(@.children[j].item))
+      for j := i + 1; j < @children().length; j++
+        list.push(\!%.Item\(@children()[j].item))
       => list
   // item didn't appear in the list.
   => null
-
-TODO: setZ and clearZ dons't seem to be used.
-:setZ
-  init\n\$
-  step\n\? 1
-  i := init
-  @.each(##)
-    item\!%.Item\$
-    item.style['zIndex'] = i
-    i += step
-
-:clearZ
-  @.each(##)
-    item\!%.Item\$
-    item.style['zIndex'] = null
