@@ -1,9 +1,8 @@
 ::
   @text\s\$
   @cb\F\$
-  @element+\Element\ dom.createDiv([])
+  @element+\Element\ dom.createDiv('button')
   @element.innerHTML = text
-  @element.classList.add('button')
   dom.listen(@element, 'click', ##)
     @action()
 
