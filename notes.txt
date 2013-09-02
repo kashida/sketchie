@@ -1,9 +1,5 @@
 [TODO]
 code clean up:
-  make editor.Image's 'V' and 'N' key works.
-    ZOrder's element moving methods assume itemlist_upper.
-    move editor.List's methods to ZOrder and use them.
-
   remove attr and setAttr from all but model.
 
   find everywhere model.Item.element is used and move the logic to

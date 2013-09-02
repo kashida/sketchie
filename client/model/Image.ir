@@ -3,6 +3,15 @@
   ^(dom.create('div'))
   @.element.appendChild(@img)
 
+:isReference+\b\
+  => !!dom.attr(@.element, 'ref_img')
+:isReference*
+  r\b\$
+  if r
+    @.element.setAttribute('ref_img', '1')
+  else
+    @.element.removeAttribute('ref_img')
+
 :src+\s\
   => @img.src
 :src*

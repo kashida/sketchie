@@ -14,7 +14,7 @@
     f_page.selection.clear()
   img := f_page.selection.head
   f_page.selection.clear()
-  if img && dom.attr(img.element, 'ref_img')
+  if img && img.isReference
     img = null
   @.activateImage(\model.Image\(img))
 

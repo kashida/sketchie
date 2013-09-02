@@ -34,10 +34,7 @@ Item list mode parameter adjustments.
   // Update selected item's state, based on control.
   if !f_page.selection.isHeadImage
     =>
-  dom.setAttr(#)
-    f_page.selection.head.element
-    'alpha_lock'
-    @alpha_lock.checked ? 'true' : undefined
+  f_page.selection.head.alphaLock = !!@alpha_lock.checked
 
 :update
   // Update the control based on the seleted item's state.

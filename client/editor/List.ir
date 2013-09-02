@@ -134,7 +134,7 @@ Image methods.
   img = &pixel.PositionedPixels(#).makeImageItem()
     &data.Vec2(window.pageXOffset, window.pageYOffset)
     url
-  dom.setAttr(img.element, 'ref_img', '1')
+  img.isReference = true
   f_page.items.appendEnd(img)
 
 
