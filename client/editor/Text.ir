@@ -1,83 +1,39 @@
 ::<%.Editor
+  @text\model.Text\
   ^()
 
-:<deactivate
+:<activate\b\
+  sub_mode\s\$
+  create_new := sub_mode == 'o'
+  cursor_top := sub_mode == 'i'
 
-:@trimWhitespace
-  str\s\$
-  => str.replace(/^\s+/, '').replace(/\s+$/, '')
-
-:@trimEndWhitespace
-  str\s\$
-  => str.replace(/^[\r\n]*/, '').replace(/\s+$/, '')
-
-:@minimumTextDiv
-  str\s\? ''
-  div := dom.create('div')
-  div.appendChild(dom.create('br'))
-  if str
-    div.appendChild(dom.createText(@trimWhitespace(str)))
-  => div
-
-If remove is true, clean up empty div's and remove the item if it ends up empty.
-:@normalizeTextItem
-  remove\b\$
-  if !f_page.selection.isHeadText
-    =>
-  sel := f_page.selection.head
-  sel.element.normalize()
-  // Remove end spaces from all the text nodes.
-  dom.eachChild(sel.element, ##)
-    div\Element\$
-    div.innerText = @trimEndWhitespace(div.innerText)
-  // Remove empty first and last elements.
-  if remove
-    while sel.element.firstChild && sel.element.firstChild.innerText == ''
-      sel.element.removeChild(sel.element.firstChild)
-    while sel.element.lastChild && sel.element.lastChild.innerText == ''
-      sel.element.removeChild(sel.element.lastChild)
-  // Re-insert br tag to now empty div's.
-  dom.eachChild(sel.element, ##)
-    div\Element\$
-    if div.innerText == ''
-      div.appendChild(dom.create('br'))
-  // Remove the element if there's nothing left.
-  if remove && sel.element.childNodes.length == 0
+  if create_new
+    // Add a text box at the right location and make it visible.
+    @text = %.Text.makeTextItem('', f_page.selection.head)
+    f_page.items.appendEnd([@text])
+    f_page.selection.select(@text)
+  else
+    if !f_page.selection.isHeadText
+      => false
+    @text = \!model.Text\(f_page.selection.head)
     f_page.selection.clear()
-    sel.element.blur()
-    f_page.items.remove(sel)
 
-:collapseTexts
-  // Collapse texts in y order.
-  elems := []
-  first_position := null
-  while f_page.selection.isAny
-    f_page.items.topIn(f_page.selection.list, ##)
-      item\!model.Item\$
-      while item.element.firstChild
-        c := item.element.firstChild
-        item.element.removeChild(c)
-        elems.push(c)
-      if !first_position
-        first_position = item.position
-      f_page.selection.remove(item)
-      f_page.items.remove(item)
+  if sub_mode == 'c'
+    // This is a copy request.
+    t := %.Text.makeTextItem(@text.text)
+    t.position = @text.position.plus(10)
+    f_page.items.appendEnd(t)
+    => false
 
-  // Create an empty text item and add the elements.
-  newtext := @makeTextItem('')
-  newtext.element.removeChild(newtext.element.firstChild)
-  elems.forEach(##)
-    elem\model.Item\$
-    newtext.element.appendChild(elem)
-  f_page.items.appendEnd(newtext)
-  newtext.element.style.left = first_position.x + 'px'
-  newtext.element.style.top = first_position.y + 'px'
-  f_page.selection.select(newtext)
+  @text.editable = true
+  @text.setCursor(cursor_top)
+  => true
 
-:@splitTextbox
-  if !f_page.selection.isHeadText
-    =>
-  sel := f_page.selection.head
+:<deactivate
+  @text.editable = false
+  @text.normalize(true)
+
+:@split
   cursor := window.getSelection()
 
   // Find the div the cusor is in now.
@@ -102,7 +58,8 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
       node.removeChild(c)
     => str
   newstr := ''
-  cursor_div_index := until_children(sel.element, ##)
+  // TODO: move the use of @text.element to model.Text.
+  cursor_div_index := until_children(@text.element, ##)
     \b\
     c\Node\$
     if c == cursor.anchorNode
@@ -122,98 +79,60 @@ If remove is true, clean up empty div's and remove the item if it ends up empty.
     => false
 
   // Move all the rest div's to a new item.
-  newtext := @makeTextItem(newstr, sel)
-  i := cursor_div_index + 1
-  while i < sel.element.childNodes.length
-    c = sel.element.childNodes[i]
-    sel.element.removeChild(c)
-    newtext.element.appendChild(c)
+  newtext := %.Text.makeTextItem(newstr, @text)
+  newtext.moveChildrenFrom(@text, cursor_div_index + 1)
   f_page.items.appendEnd(newtext)
 
   // Remove the previous item if there's no text now.
-  @makeEditable(false)
-  @normalizeTextItem(true)
+  @text.editable = false
+  @text.normalize(true)
 
   // Activate the new item.
-  f_page.selection.select(newtext)
-  @normalizeTextItem(false)
-  @makeEditable()
-  newtext.element.focus()
-  window.getSelection().collapse(newtext.element, 0)
-
-:addText
-  create_new\b\$
-  cursor_top\b\? false
-  if !(create_new || f_page.selection.isHeadText)
-    =>
-  if create_new
-    // Add a text box at the right location and make it visible.
-    text := @makeTextItem('', f_page.selection.head)
-    f_page.items.appendEnd([text])
-    f_page.selection.select(text)
-
-  @makeEditable()
-  f_editor_modes.changeModeTo('t')
-  window.getSelection().collapse(#)
-    f_page.selection.head.element
-    cursor_top ? 0 :f_page.selection.head.element.innerText.length
-  f_page.selection.head.element.focus()
-
-:@makeEditable
-  start\b\? true
-  text\!model.Item\? null
-  if !text && !f_page.selection.isHeadText
-    =>
-  text = text || f_page.selection.head
-  text.element.contentEditable = start
-  text.element.style['-webkit-user-select'] = start ? 'text' : 'none'
-
-:copyTextItem
-  orig_item\model.Text\$
-  item := @makeTextItem(orig_item.text)
-  item.position = orig_item.position.plus(10)
-  f_page.items.appendEnd(item)
-
-:@makeTextItem\!model.Item\
-  str\s\$
-  ref_item\model.Item\?
-  p := &data.Vec2(window.pageXOffset, window.pageYOffset)
-  if ref_item
-    p = ref_item.position.plus2n(- 5, ref_item.element.clientHeight + 2)
-  text := &model.Text()
-  text.element.appendChild(@minimumTextDiv(str))
-  @makeEditable(false, text)
-  text.position = p
-  => text
-
-:@commitTextbox
-  if !f_page.selection.isHeadText
-    =>
-  @makeEditable(false)
-  @normalizeTextItem(true)
-  f_editor_modes.popMode()
-
-Make sure there is at least one div left when there is backspace in text
-edit mode.
-:@textBackspace
-  if !f_page.selection.isHeadText
-    =>
-  sel := f_page.selection.head.element
-  sel.normalize()
-  if sel.childNodes.length == 1 && sel.firstChild.tagName == 'BR'
-    sel.removeChild(sel.firstChild)
-  if sel.childNodes.length != 0
-    =>
-  sel.appendChild(@minimumTextDiv())
-  window.getSelection().collapse(sel, 0)
+  @text = newtext
+  f_page.selection.select(@text)
+  @text.normalize(false)
+  @text.editable = true
+  @text.setCursor(true)
 
 :dispatch
   evt\Event\$
   if evt.keyCode == DOM_VK_RETURN && evt.shiftKey
-    @splitTextbox()
+    @split()
 
   else if evt.keyCode == DOM_VK_ESCAPE
-    @commitTextbox()
+    f_editor_modes.popMode()
 
   else if evt.keyCode == DOM_VK_BACK_SPACE
-    @textBackspace()
+    @text.backspace()
+
+:makeTextItem = ##
+  \!model.Text\
+  str\s\$
+  ref_item\model.Item\?
+  t := &model.Text()
+  t.text = str
+  t.editable = false
+  t.position = ref_item ? # : #
+    ref_item.position.plus2n(-5, ref_item.rect.h + 2)
+    &data.Vec2(window.pageXOffset, window.pageYOffset)
+  => t
+
+:collapseSelected = ##
+  // Collapse texts in y order.
+  // Create an empty text item and add the elements.
+  newtext := %.Text.makeTextItem('')
+  newtext.emptyChildren()
+
+  is_first := true
+  while f_page.selection.isAny
+    f_page.items.topIn(f_page.selection.list, ##)
+      item\!model.Item\$
+      newtext.moveChildrenFrom(item)
+      if is_first
+        newtext.position = item.position
+        is_first = false
+      f_page.selection.remove(item)
+      f_page.items.remove(item)
+
+  f_page.items.appendEnd(newtext)
+  f_page.selection.select(newtext)

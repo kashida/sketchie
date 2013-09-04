@@ -14,9 +14,14 @@ Currently selected editor.
   
 :changeModeTo
   next_mode\s\$
-  assert(next_mode != @.mode)
-  @modes.push(next_mode)
-  @.editor.activate()
+  mode := next_mode[0]
+  assert(mode != @.mode)
+  @modes.push(mode)
+  result := @.editor.activate(next_mode.substr(1))
+  if !result
+    // Give up and go back to the previous mode.
+    @modes.pop()
+    assert(@modes.length > 0)
 
 :popMode
   next_mode\s\?

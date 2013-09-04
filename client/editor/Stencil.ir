@@ -4,13 +4,15 @@
   @.stroke = 'R'
   ^()
 
-:<activate
+:<activate\b\
+  sub_mode\s\$
   if !f_page.selection.isHeadImage
-    =>
+    => false
   @baseImage = \model.Image\(f_page.selection.head)
   f_page.selection.clear()
   @.activateImage(null)
   f_surface.opacity = 0.3
+  => true
 
 :<deactivate
   mask := f_surface.pixelData.pixels

@@ -2,8 +2,10 @@
   @dragger\drag.Scale\ &drag.Scale()
   ^()
 
-:<activate
+:<activate\b\
+  sub_mode\s\$
   @dragger.activate(f_page.selection.head)
+  => true
 
 :dispatch
   evt\Event\$

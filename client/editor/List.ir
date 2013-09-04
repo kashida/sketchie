@@ -1,5 +1,4 @@
 ::<%.Editor
-  @text_editor\%.Text\$
   ^()
 
 :@removeSelected
@@ -79,7 +78,7 @@
   f_page.selection.list.slice(0).forEach(##)
     item\model.Item\$
     if item instanceof model.Text
-      @text_editor.copyTextItem(item)
+      f_editor_modes.changeModeTo('tc')
     else
       @copyImageItem(\model.Image\(item))
 
@@ -87,7 +86,7 @@
   if f_page.selection.count < 2
     =>
   if f_page.selection.isAllText
-    @text_editor.collapseTexts()
+    %.Text.collapseSelected()
   else if f_page.selection.isAllImage
     @collapseImages()
 
@@ -200,11 +199,11 @@ Key handler.
 
   // Entering to the text mode.
   else if key == c('O')
-    @text_editor.addText(true)
+    f_editor_modes.changeModeTo('to')
   else if key == c('I')
-    @text_editor.addText(false, true)
+    f_editor_modes.changeModeTo('ti')
   else if key == c('E')
-    @text_editor.addText(false)
+    f_editor_modes.changeModeTo('te')
 
   // Draw / stencil mode change.
   else if key == c('D')

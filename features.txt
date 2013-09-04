@@ -31,6 +31,7 @@ list (default) mode:
   'j' move selection to item below.
   shift + 'k' expand selection up.
   shift + 'j' expand selection down.
+  esc clears selection.
   'h' toggles the hold of the item (no mouse actions).
   shift + 'h' unholds all items.
 
@@ -116,3 +117,60 @@ text mode:
 rotate / scale mode:
   esc to get out.
   mouse move to rotate / scale the primary selected item.
+
+
+
+
+
+[to be implemented]
+? need slider?
+  alpha, viewport zoom, etc.
+
+- mode button box: items, draw, text, stencil.
+  one and only one selected at any time.
+  current mode should be hilighted, but disabled as a button.
+  ? stencil button should be in the selection button box?
+  ? text and draw mode here will edit the selected item if there's one?
+  ? should the buttons move to selection button box?
+  ? button go up to the page list mode (same as shift-u)?
+
+items mode subdivides to:
+  click select (with ctrl and shift for mult-select).
+  drag rect select (with ctrl for add select).
+  drag item.
+  item rotate.
+  item scale.
+  viewport drag.
+  ? should all these be done w/o mode change?
+    like control widget show up for scaling?
+
+- items tool box (no need for selection).
+  viewport controls -- zoom in, out, default, show all.
+    disabled in draw and stencil mode.
+  paste image / text.
+  clear selection.
+
+- item selection box.
+  copy.
+  delete.
+  alpha -- toggle alpha lock, alpha up / down.
+    alpha lock is a toggle button.
+  merge (only when multiple selection of same type).
+  z control -- move by one, move overlapped by one, to the end.
+    need to work in text, draw, and stencil mode too...
+
+- text edit box.
+  move cursor to beginning / end.
+  split text items.
+
+- draw tool box.
+  stroke selection.
+  undo stroke.
+  ? swap primary / secondary color?
+  ? hue, saturation, lightness, mix adjustment?
+  ? brush param controls: alpha, size, lerp?
+  ? toggle toolbox and color box?
+
+- stencil tool box.
+  copy image and exit.
+  cut image and exit.

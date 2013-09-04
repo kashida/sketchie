@@ -3,3 +3,80 @@
 
 :text+\s\
   => @.element.innerText
+:text*
+  str\s\$
+  @.element.innerHTML = ''
+  @.element.appendChild(@makeMinimumTextDiv(str))
+
+:editable*
+  e\b\$
+  @.element.contentEditable = e
+  @.element.style['-webkit-user-select'] = e ? 'text' : 'none'
+
+:emptyChildren
+  while @.element.firstChild
+    @.element.removeChild(@.element.firstChild)
+
+:@makeMinimumTextDiv
+  str\s\? ''
+  div := dom.create('div')
+  div.appendChild(dom.create('br'))
+  if str
+    div.appendChild(dom.createText(str.trim()))
+  => div
+
+Make sure there is at least one div left when there is backspace in text
+edit mode.
+:backspace
+  el:= @.element
+  el.normalize()
+  if el.childNodes.length == 1 && el.firstChild.tagName == 'BR'
+    el.removeChild(el.firstChild)
+  if el.childNodes.length != 0
+    =>
+  el.appendChild(@makeMinimumTextDiv())
+  window.getSelection().collapse(el, 0)
+
+:setCursor
+  beginning\b\$
+  window.getSelection().collapse(#)
+    @.element
+    beginning ? 0 : @.element.innerText.length
+  @.element.focus()
+
+:moveChildrenFrom
+  other\%.Text\$
+  start\n\? 0
+  i := start
+  while i < other.element.childNodes.length
+    @.element.appendChild(other.element.childNodes[i])
+
+:@trimEndWhitespace
+  str\s\$
+  => str.replace(/^[\r\n]*/, '').replace(/\s+$/, '')
+
+:normalize
+  // if true, clean up empty div's and remove the item if it ends up empty.
+  remove\b\$
+  el := @.element
+  el.normalize()
+  // Remove end spaces from all the text nodes.
+  dom.eachChild(el, ##)
+    div\Element\$
+    div.innerText = @trimEndWhitespace(div.innerText)
+  // Remove empty first and last elements.
+  if remove
+    while el.firstChild && el.firstChild.innerText == ''
+      el.removeChild(el.firstChild)
+    while el.lastChild && el.lastChild.innerText == ''
+      el.removeChild(el.lastChild)
+  // Re-insert br tag to now empty div's.
+  dom.eachChild(el, ##)
+    div\Element\$
+    if div.innerText == ''
+      div.appendChild(dom.create('br'))
+  // Remove the element if there's nothing left.
+  if remove && el.childNodes.length == 0
+    f_page.selection.clear()
+    el.blur()
+    f_page.items.remove(@)

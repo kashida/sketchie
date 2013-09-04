@@ -1,7 +1,9 @@
 All editor implementation should support the methods here.
 ::
 
-:activate
+:activate\b\
+  sub_mode\s\$
+  => false
 
 :deactivate
 

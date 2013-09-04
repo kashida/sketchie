@@ -10,11 +10,9 @@ Temporary representation of image item.
     // Refresh the transform.
     img.rotation = 0
     img.scale = 1.0
-    img.element.style['-webkit-transform'] = null
   else
     img = &model.Image()
   img.position = @.position
-  img.element.style['-webkit-user-select'] = 'none'
   img.src = @.dataUrl
   if add_img
     f_page.items.appendEnd(img)

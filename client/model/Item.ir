@@ -6,7 +6,6 @@ member vars.
   // for disposing.
   el\!Element\$
   @element+\Element\ el
-
   @bless()
 
 :@bless

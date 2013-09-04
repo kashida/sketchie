@@ -1,6 +1,7 @@
 ::<%.Item
   @img+\!Image\ &Image()
   ^(dom.create('div'))
+  @.element.style['-webkit-user-select'] = 'none'
   @.element.appendChild(@img)
 
 :isReference+\b\

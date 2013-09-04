@@ -48,10 +48,9 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   f_item_palette = &palette.Item()
   f_cursor = &ui.Cursor()
 
-  textEditor := &editor.Text()
   f_editor_modes = &editor.Modes('l', {#})
-    'l': &editor.List(textEditor)
-    't': textEditor
+    'l': &editor.List()
+    't': &editor.Text()
     'r': &editor.Rotate()
     'q': &editor.Scale()
     'd': &editor.Draw()
