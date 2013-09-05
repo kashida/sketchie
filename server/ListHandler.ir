@@ -1,6 +1,8 @@
 ::
   @ctxt\RequestContext\$
 
+:TEMPLATE = 'static/filelist.html'
+
 :reply\b\
   // Check if the path exists.
   target_dir := _path.join('data', @ctxt.path)
@@ -9,11 +11,10 @@
     => true
 
   // Load the template file.
-  templ_file := 'static/filelist.html'
-  if !_path.existsSync(templ_file)
-    @ctxt.response(500, templ_file + ' not found')
+  if !_path.existsSync(%.ListHandler.TEMPLATE)
+    @ctxt.response(500, %.ListHandler.TEMPLATE + ' not found')
     => true
-  templ := _fs.readFileSync(templ_file, 'utf8')
+  templ := _fs.readFileSync(%.ListHandler.TEMPLATE, 'utf8')
 
   // Get the file list and make a new file name.
   file_list := _fs.readdirSync(target_dir)
@@ -24,9 +25,14 @@
 
   // Render.
   @ctxt.res.writeHead(200, {'Content-Type': 'text/html'})
-  @ctxt.res.write(_eco.render(templ, {#}))
-    path: target_dir
-    files: file_list
-    newname: newname
+  try
+    @ctxt.res.write(_ejs.render(templ, {#}))
+      //debug: true
+      path: target_dir
+      files: file_list
+      newname: newname
+  catch e
+    @ctxt.response(500, e.stack)
+    => true
   @ctxt.response(200)
   => true

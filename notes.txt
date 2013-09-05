@@ -1,14 +1,34 @@
 [TODO]
 code clean up:
-  find everywhere model.Item.element is used and move the logic to
-      model.Item/Text/Image.
+  use eco to render the scrawler page too (not just the list page).
+    like static/filelist.html.
 
   move logic from editor/List etc to actions.
 
   split files > 100 lines.
 
-  use eco to render the scrawler page too (not just the list page).
-    like static/filelist.html.
+tests:
+  browser initiated test mode.
+    test end point.
+    load a blank scrawler page with all tests each in a script tag.
+    include all the tests in the test dir unless specified with ?test=filename.
+  test utility.
+    make sure to load test utility file first.
+    command to find element by name / class and send event to it.
+    command to wait (timeout with 0?).
+    command to assert / check dom states.
+    command to reset app state (or reload the page with appropriate cgi param)?
+  automatically insert the reset command after each test.
+  server records the results.
+    need to send up the results.
+
+  event level end-to-end:
+    capture key and mouse events. replay to test.
+    take snapshot of the entire dom before and after. store the diff.
+    compare the diff's of golden and test result.
+  based on undo-redo command buffer?
+  command list interleaved with asserts.
+  separate browser event level tests?
 
 ux refine:
   css: change mouse cursor for buttons.
@@ -133,15 +153,6 @@ new features:
 
   wacom pen pressure support?
   https://github.com/ZaneA/WacomWebPlugin
-
-tests:
-  event level end-to-end:
-    capture key and mouse events. replay to test.
-    take snapshot of the entire dom before and after. store the diff.
-    compare the diff's of golden and test result.
-  based on undo-redo command buffer?
-  command list interleaved with asserts.
-  separate browser event level tests?
 
 chrome extension / app packaging.
 

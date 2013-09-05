@@ -20,3 +20,12 @@ _ir2js.createPackageList =  function(basedir, files) {};
  * @return {Array.<string>}
  */
 _ir2js.createSortedList = function(files) {};
+
+
+var _ejs;
+
+/**
+ * @param {string} template
+ * @param {Object} params
+ */
+_ejs.render = function(template, params) {};

@@ -1,5 +1,5 @@
 <html><head>
-    <title>File List: <%= @path %></title>
+    <title>File List: <%= path %></title>
     <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
     <link rel="icon" href="images/favicon.png" type="image/png" />
     <style>
@@ -25,11 +25,11 @@
       }
     </style>
     </head><body>
-    <div id="header">files under: <%= @path %></div>
+    <div id="header">files under: <%= path %></div>
     <div id="filelist">
-      <a href="<%= @newname %>">[Create New]</a>
-      <% for file in @files: %>
+      <a href="<%= newname %>">[Create New]</a>
+      <% files.forEach(function(file) { %>
       <a href="<%= file %>"><%= file %></a>
-      <% end %>
+      <% }); %>
     </div>
 </body></html>

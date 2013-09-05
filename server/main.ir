@@ -1,5 +1,5 @@
 :
-  _eco = require('eco')
+  _ejs = require('ejs')
   _fs = require('fs')
   _http = require('http')
   _path = require('path')
@@ -7,7 +7,7 @@
   _util = require('util')
   _ir2js = require('ir2js')
 
-:::log = console.log
+::log = console.log
 
 
 ############################################################
