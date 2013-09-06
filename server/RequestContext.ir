@@ -38,3 +38,11 @@
   @res.end()
   if msg
     log(code + ' ' + msg)
+
+:tryWithResponse
+  cb\F\$
+  try
+    cb()
+    @.response(200)
+  catch e
+    @.response(500, e.stack)

@@ -1,42 +1,32 @@
-:'header_start
-  <!doctype html>
-  <html><head>
-    <title>Scrawler</title>
-    <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
-    <link rel="icon" href="images/favicon.png" type="image/png" />
-    <link rel="stylesheet" href="scrawler.css" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Fredericka+the+Great|Montez|Over+the+Rainbow|Mystery+Quest|Indie+Flower" rel="stylesheet" type="text/css">
-
-:'header_end
-    </head><body>
-
-:'footer
-  </body></html>
-
-:'script_load
-  <script>run_scrawler();</script>
-
-::script_marker = '<!-- SCRAWLER_SCRIPT -->'
-
-
-
 ::
   @ctxt\RequestContext\$
 
+:SCRIPT_LOAD = '<script>run_scrawler();</script>'
+:OPEN_MARKER = '<!--%'
+:CLOSE_MARKER = '%-->'
+:TEMPLATE = 'static/page.html'
+
+:@template\?s\
+  if !_path.existsSync(%.HtmlHandler.TEMPLATE)
+    @ctxt.response(500, %.HtmlHandler.TEMPLATE + ' not found')
+    => null
+  => _fs.readFileSync(%.HtmlHandler.TEMPLATE, 'utf8')
+
 :post
   // TODO: handle sub-dirs.
-  data := header_start + script_marker + header_end
+  tmpl := @template()
+  if tmpl === null
+    =>
+  data := ''
   @ctxt.req.setEncoding('utf8')
   @ctxt.req.on('data', ##)
     chunk\s\$
     data += chunk
   @ctxt.req.once('end', ##)
-    data += footer
-    _fs.writeFileSync(_path.join('data', @ctxt.path), data)
-
-    // Make the response.
-    @ctxt.res.writeHead(200)
-    @ctxt.response(200)
+    @ctxt.tryWithResponse(##)
+      html := _ejs.render(\s\(tmpl), {contents: data})
+      @ctxt.res.writeHead(200)
+      _fs.writeFileSync(_path.join('data', @ctxt.path), html)
 
 :packageList\s\
   code\CodeHandler\$
@@ -56,16 +46,32 @@
 :replaceScript
   html\s\$
   code\CodeHandler\$
-  => html.replace(script_marker, #+) + script_load
-    @.packageList(code)
-    @.scriptList(code)
+  try
+    => _ejs.render(html, {#})
+      open: %.HtmlHandler.OPEN_MARKER
+      close: %.HtmlHandler.CLOSE_MARKER
+      script: #+
+        @.packageList(code)
+        @.scriptList(code)
+      init: %.HtmlHandler.SCRIPT_LOAD
+  catch e
+    log(e.stack)
+    => html
 
 :create
   code\CodeHandler\$
-  @ctxt.res.writeHead(200, {'Content-Type': 'text/html'})
-  @ctxt.res.write(header_start)
-  @ctxt.res.write(@.packageList(code))
-  @ctxt.res.write(@.scriptList(code))
-  @ctxt.res.write(header_end + footer)
-  @ctxt.res.write(script_load)
-  @ctxt.response(200)
+  tmpl := @template()
+  if tmpl === null
+    =>
+  @ctxt.tryWithResponse(##)
+    html := _ejs.render(#, {#})
+      _ejs.render(\s\(tmpl), {contents: ''})
+      --
+      open: %.HtmlHandler.OPEN_MARKER
+      close: %.HtmlHandler.CLOSE_MARKER
+      script: #+
+        @.packageList(code)
+        @.scriptList(code)
+      init: %.HtmlHandler.SCRIPT_LOAD
+    @ctxt.res.writeHead(200, {'Content-Type': 'text/html'})
+    @ctxt.res.write(html)

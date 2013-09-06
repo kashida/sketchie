@@ -1,6 +1,6 @@
 [TODO]
 code clean up:
-  use eco to render the scrawler page too (not just the list page).
+  use ejs to render the scrawler page too (not just the list page).
     like static/filelist.html.
 
   move logic from editor/List etc to actions.
