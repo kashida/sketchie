@@ -1,0 +1,28 @@
+::
+  @ctxt\RequestContext\$
+  @base\RequestHandler\
+  @list\ListHandler\
+  @code\CodeHandler\
+  @testCode\CodeHandler\
+  @html\HtmlHandler\
+  @test\TestHandler\
+  @listRender\RenderHandler\
+  @pageRender\RenderHandler\
+
+Lazy create the sub-handlers.
+:base+\RequestHandler\
+  => @base || (@base = &RequestHandler(@ctxt, @))
+:list+\ListHandler\
+  => @list || (@list = &ListHandler(@ctxt, @))
+:code+\CodeHandler\
+  => @code || (@code = &CodeHandler(@ctxt, @, '_s', 'client'))
+:testCode+\CodeHandler\
+  => @testCode || (@testCode = &CodeHandler(@ctxt, @, '_ts', 'test'))
+:html+\HtmlHandler\
+  => @html || (@html = &HtmlHandler(@ctxt, @))
+:test+\TestHandler\
+  => @test || (@test = &TestHandler(@ctxt, @))
+:listRender+\RenderHandler\
+  => @listRender || (@listRender = &RenderHandler(@ctxt, @, 'static/filelist.html'))
+:pageRender+\RenderHandler\
+  => @pageRender || (@pageRender = &RenderHandler(@ctxt, @, 'static/page.html'))

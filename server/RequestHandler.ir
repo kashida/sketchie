@@ -1,36 +1,16 @@
-Base handler.
-
 ::
   @ctxt\RequestContext\$
-  @list\ListHandler\
-  @code\CodeHandler\
-  @html\HtmlHandler\
-
-Lazy create the sub-handlers.
-:list+\ListHandler\
-  => @list || (@list = &ListHandler(@ctxt))
-:code+\CodeHandler\
-  => @code || (@code = &CodeHandler(@ctxt))
-:html+\HtmlHandler\
-  => @html || (@html = &HtmlHandler(@ctxt))
+  @handlers\HandlerSet\$
 
 :@sendFile\b\
   input_file\s\$
   replacer := @ctxt.mime == 'text/html' ? ## : undefined
     text\s\$
-    => @.html.replaceScript(text, @.code)
+    => @handlers.html.replaceScript(text)
   if !@ctxt.sendFile(input_file, replacer)
     => false
   @ctxt.response(200)
   => true
-
-:process
-  if @ctxt.req.method == 'POST'
-    => @.html.post()
-  if @ctxt.path[@ctxt.path.length - 1] == '/'
-    @.list.reply()
-  else
-    @handleGetRequest()
 
 :@handleGetRequest
   if !@ctxt.mime
@@ -42,7 +22,19 @@ Lazy create the sub-handlers.
     @sendFile(_path.join('data', @ctxt.path))
 
     // If js, we might be able to compile one.
-    @ctxt.ext == 'js' && @.code.send()
+    @ctxt.ext == 'js' && #||
+      @handlers.code.reply()
+      @handlers.testCode.reply()
 
     // Must be a new file request.
-    @ctxt.ext == 'html' && @.html.create(@.code)
+    @ctxt.ext == 'html' && @handlers.html.create()
+    @ctxt.response(404)
+
+:process
+  if @ctxt.path == '/_t'
+    => @handlers.test.reply()
+  if @ctxt.req.method == 'POST'
+    => @handlers.html.post()
+  if @ctxt.path[@ctxt.path.length - 1] == '/'
+    => @handlers.list.reply()
+  @handleGetRequest()

@@ -1,0 +1,37 @@
+::
+  @ctxt\RequestContext\$
+  @handlers\HandlerSet\$
+  @template_file\s\$
+
+:@template\?s\
+  if !_path.existsSync(@template_file)
+    @ctxt.response(500, @template_file + ' not found')
+    => null
+  => _fs.readFileSync(@template_file, 'utf8')
+
+:reply
+  opts\A.<O>\$
+  // Load the template file.
+  html := @template()
+  if html === null
+    =>
+
+  // Render.
+  @ctxt.tryWithResponse(##)
+    opts.forEach(##)
+      opt\O\$
+      log(opt)
+      html = _ejs.render(html, opt)
+    @ctxt.res.writeHead(200, {'Content-Type': 'text/html'})
+    @ctxt.res.write(html)
+
+:saveAndReply
+  opt\O\$
+  path\s\$
+  tmpl := @template()
+  if tmpl === null
+    =>
+
+  @ctxt.tryWithResponse(##)
+    _fs.writeFileSync(path, _ejs.render(\s\(tmpl), opt))
+    @ctxt.res.writeHead(200)

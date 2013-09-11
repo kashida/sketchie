@@ -19,5 +19,5 @@
   _http.createServer(##).listen(port, host)
     req\_http.ServerRequest\$
     res\_http.ServerResponse\$
-    &RequestHandler(&RequestContext(req, res)).process()
+    &HandlerSet(&RequestContext(req, res)).base.process()
   log('Server running at http://' + host + ':' + port)

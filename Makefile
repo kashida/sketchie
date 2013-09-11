@@ -69,6 +69,7 @@ $(SERVER_PKG):
 # Main targets.
 
 client: compiled/_scrawler.js
+server: compiled/server.js
 
 sort:
 	@echo "$(shell $(SORTJS) $(CLIENT_JS))"
@@ -79,7 +80,7 @@ compiled/_scrawler.js: $(CLIENT_JS) $(CLIENT_PKG)
 	$(addprefix --js ,$(shell $(SORTJS) $(CLIENT_JS))) || \
   rm $@
 
-serve: compiled/server.js
+run: compiled/server.js
 	node $^
 
 compiled/server.js: compiled/_server.js

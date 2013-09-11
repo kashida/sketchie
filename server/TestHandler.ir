@@ -1,0 +1,26 @@
+::
+  @ctxt\RequestContext\$
+  @handlers\HandlerSet\$
+
+:@serve
+  name\s\$
+  src := _path.join('test', name + '.ir')
+  log('== ' + src)
+  if !_path.existsSync(src)
+    @ctxt.response(404, src)
+    =>
+
+  // Load the template file.
+  &Compile('test').run()
+  @handlers.html.create([#])
+    '_utils.js'
+    name + '.js'
+
+:reply
+  // Check if the path contains the test name.
+  name := @ctxt.query['tgt']
+  if !name
+    // TODO: traverse all tests.
+    @ctxt.response(404)
+    =>
+  @serve(name)

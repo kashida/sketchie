@@ -1,59 +1,18 @@
 ::
   @ctxt\RequestContext\$
-  @allIr\A.<s>\
+  @handlers\HandlerSet\$
+  @prefix\s\$
+  @dir\s\$
 
 Possibly compile ir to js and serve.
-:send\b\
-  path_re := /^\/_s\/(.*)$/.exec(@ctxt.path)
+:reply\b\
+  path_re := &RegExp('^/' + @prefix + '/(.*)$').exec(@ctxt.path)
   if !path_re
     => false
   path := path_re[1]
 
-  @compile([path.replace(/\.js$/, '.ir')])
-  if @ctxt.sendFile(_path.join('compiled/client', path))
+  &Compile(@dir).run([path.replace(/\.js$/, '.ir')])
+  if @ctxt.sendFile(_path.join('compiled', @dir, path))
     @ctxt.response(200)
     => true
   => false
-
-:@compile
-  files\A.<s>\$
-  try
-    _ir2js.compileFiles('client', files.map(##), 'compiled/client', true)
-      file\s\$
-      => _path.join('client', file)
-  catch e
-    log(e)
-
-:@findAllIr
-  dir\s\? ''
-  dir_path := _path.join('client', dir)
-  results := []
-  _fs.readdirSync(dir_path).forEach(##)
-    file\s\$
-    file_path := _path.join(dir_path, file)
-    path := _path.join(dir, file)
-    stats := _fs.statSync(file_path)
-    if stats.isFile() && /\.ir$/.test(file)
-      => results.push(path)
-    if stats.isDirectory()
-      Array.prototype.push.apply(results, @findAllIr(path))
-  => results
-
-Cached list of all ir files.
-:allIr+\A.<s>\
-  => @allIr || (@allIr = @findAllIr())
-
-List of JS package declarations.
-:pkgList+\A.<s>\
-  @compile(@.allIr)
-  => _ir2js.createPackageList('', @.allIr)
-
-JS file list. Paths are relative from compiled/client/.
-:scriptList+\A.<s>\
-  @compile(@.allIr)
-  => _ir2js.createSortedList(@.allIr.map(##)).map(##)
-    file\s\$
-    => 'compiled/client/' + file.replace(/\.ir$/, '.js')
-    --
-    file\s\$
-    => file.replace(/^compiled\/client\//, '')

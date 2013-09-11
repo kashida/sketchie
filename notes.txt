@@ -1,17 +1,10 @@
 [TODO]
-code clean up:
-  use ejs to render the scrawler page too (not just the list page).
-    like static/filelist.html.
-
-  move logic from editor/List etc to actions.
-
-  split files > 100 lines.
-
 tests:
   browser initiated test mode.
     test end point.
-    load a blank scrawler page with all tests each in a script tag.
-    include all the tests in the test dir unless specified with ?test=filename.
+    _t/testname loads a blank scrawler page with the specified test in a script tag.
+    _t/ automatically finds the first test in alpha order.
+      also sets continue_test = true.
   test utility.
     make sure to load test utility file first.
     command to find element by name / class and send event to it.
@@ -30,7 +23,14 @@ tests:
   command list interleaved with asserts.
   separate browser event level tests?
 
+code clean up:
+  move logic from editor/List etc to actions.
+
+  split files > 100 lines.
+
 ux refine:
+  find icons from www.flaticon.com.
+
   css: change mouse cursor for buttons.
 
   css: nowhere but text item is user selectable.

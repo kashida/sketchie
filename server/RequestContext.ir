@@ -1,11 +1,17 @@
 ::
   @req+\_http.ServerRequest\$
   @res+\_http.ServerResponse\$
-  @path+\s\ _url.parse(@req.url).pathname
+  @parsed\O\ _url.parse(@req.url, true)
   @fileType\FileType\
 
+:path+\s\
+  => @parsed.pathname
+
+:query+\O\
+  => @parsed.query
+
 :fileType+\FileType\
-  => @fileType || (@fileType = &FileType(@path))
+  => @fileType || (@fileType = &FileType(@.path))
 
 :ext+\s\
   => @.fileType.ext

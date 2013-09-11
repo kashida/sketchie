@@ -1,77 +1,68 @@
 ::
   @ctxt\RequestContext\$
+  @handlers\HandlerSet\$
 
 :SCRIPT_LOAD = '<script>run_scrawler();</script>'
 :OPEN_MARKER = '<!--%'
 :CLOSE_MARKER = '%-->'
-:TEMPLATE = 'static/page.html'
-
-:@template\?s\
-  if !_path.existsSync(%.HtmlHandler.TEMPLATE)
-    @ctxt.response(500, %.HtmlHandler.TEMPLATE + ' not found')
-    => null
-  => _fs.readFileSync(%.HtmlHandler.TEMPLATE, 'utf8')
 
 :post
   // TODO: handle sub-dirs.
-  tmpl := @template()
-  if tmpl === null
-    =>
   data := ''
   @ctxt.req.setEncoding('utf8')
   @ctxt.req.on('data', ##)
     chunk\s\$
     data += chunk
   @ctxt.req.once('end', ##)
-    @ctxt.tryWithResponse(##)
-      html := _ejs.render(\s\(tmpl), {contents: data})
-      @ctxt.res.writeHead(200)
-      _fs.writeFileSync(_path.join('data', @ctxt.path), html)
+    @handlers.pageRender.saveAndReply(#)
+      {contents: data}
+      _path.join('data', @ctxt.path)
 
-:packageList\s\
-  code\CodeHandler\$
+:@packageList\s\
   => #+
     '<script>\n'
-    code.pkgList.map(##).join('')
+    &Compile('client').pkgList().map(##).join('')
       line\s\$
       => line + '\n'
     '</script>\n'
 
-:scriptList\s\
-  code\CodeHandler\$
-  => code.scriptList.map(##).join('')
+:@scriptList\s\
+  additional_scripts\A.<s>\? []
+  list := &Compile('client').scriptList.map(##).join('')
     file\s\$
     => '<script src="/_s/' + file + '"></script>\n'
+  if additional_scripts.length
+    list += additional_scripts.map(##).join('')
+      file\s\$
+      => '<script src="/_ts/' + file + '"></script>\n'
+  => list
 
-:replaceScript
-  html\s\$
-  code\CodeHandler\$
+Try to render. If fail, return the input as is (and log the error message).
+:@tryReplace\s\
+  tmpl\s\$
+  opt\O\$
   try
-    => _ejs.render(html, {#})
-      open: %.HtmlHandler.OPEN_MARKER
-      close: %.HtmlHandler.CLOSE_MARKER
-      script: #+
-        @.packageList(code)
-        @.scriptList(code)
-      init: %.HtmlHandler.SCRIPT_LOAD
+    => _ejs.render(tmpl, opt)
   catch e
     log(e.stack)
-    => html
+    => tmpl
+
+:replaceScript\s\
+  html\s\$
+  => @tryReplace(html, {#})
+    open: %.HtmlHandler.OPEN_MARKER
+    close: %.HtmlHandler.CLOSE_MARKER
+    script: #+
+      @packageList()
+      @scriptList()
+    init: %.HtmlHandler.SCRIPT_LOAD
 
 :create
-  code\CodeHandler\$
-  tmpl := @template()
-  if tmpl === null
-    =>
-  @ctxt.tryWithResponse(##)
-    html := _ejs.render(#, {#})
-      _ejs.render(\s\(tmpl), {contents: ''})
-      --
-      open: %.HtmlHandler.OPEN_MARKER
-      close: %.HtmlHandler.CLOSE_MARKER
-      script: #+
-        @.packageList(code)
-        @.scriptList(code)
-      init: %.HtmlHandler.SCRIPT_LOAD
-    @ctxt.res.writeHead(200, {'Content-Type': 'text/html'})
-    @ctxt.res.write(html)
+  additional_scripts\A.<s>\?
+  @handlers.pageRender.reply([{contents: ''}, {#}])
+    open: %.HtmlHandler.OPEN_MARKER
+    close: %.HtmlHandler.CLOSE_MARKER
+    script: #+
+      @packageList()
+      @scriptList(additional_scripts)
+    init: %.HtmlHandler.SCRIPT_LOAD
