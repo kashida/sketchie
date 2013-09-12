@@ -59,10 +59,11 @@ Try to render. If fail, return the input as is (and log the error message).
 
 :create
   additional_scripts\A.<s>\?
+  additional_init\s\? ''
   @handlers.pageRender.reply([{contents: ''}, {#}])
     open: %.HtmlHandler.OPEN_MARKER
     close: %.HtmlHandler.CLOSE_MARKER
     script: #+
       @packageList()
       @scriptList(additional_scripts)
-    init: %.HtmlHandler.SCRIPT_LOAD
+    init: %.HtmlHandler.SCRIPT_LOAD + additional_init

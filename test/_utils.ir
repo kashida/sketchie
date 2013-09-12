@@ -1,2 +1,40 @@
-:
-  console.log('test util')
+TODO:
+- Command to send events to any elem (mainly mouse click).
+- Command to wait (timeout with 0?).
+- Command to assert / check dom states.
+
+::sendKeyCode
+  code\n\$
+  shift\b\? false
+  // There seems to be webkit bug that KeyboardEvent not allowing keyCode to be set.
+  e := &Event('keyup')
+  e.keyCode = code
+  e.shiftKey = shift
+  e.target = document.body
+  document.body.dispatchEvent(e)
+
+::sendKeys = ##
+  kstr\s\$
+  shift\b\? false
+  kstr.split('').forEach(##)
+    kchar\s\$
+    sendKeyCode(c(kchar.toUpperCase()), shift)
+
+::sendInput = ##
+  str\s\$
+  sel := window.getSelection()
+  node := sel.anchorNode
+  offset := sel.anchorOffset
+  if node instanceof Text
+    current_str := node.wholeText
+    node.replaceWholeText(#)
+      current_str.substr(0, offset)
+      str
+      current_str.substr(offset)
+    sel.collapse(node, offset + str.length)
+  else
+    node.innerText = str
+
+::select = ##
+  sel\s\$
+  => document.querySelector(sel)

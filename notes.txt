@@ -1,27 +1,14 @@
 [TODO]
 tests:
-  browser initiated test mode.
-    test end point.
-    _t/testname loads a blank scrawler page with the specified test in a script tag.
-    _t/ automatically finds the first test in alpha order.
-      also sets continue_test = true.
-  test utility.
-    make sure to load test utility file first.
-    command to find element by name / class and send event to it.
-    command to wait (timeout with 0?).
-    command to assert / check dom states.
-    command to reset app state (or reload the page with appropriate cgi param)?
-  automatically insert the reset command after each test.
   server records the results.
     need to send up the results.
+    need to trap onerror.
+    reload page if continue_test
+  browser initiated test mode.
+    _t/ automatically finds the first test in alpha order.
+      also sets continue_test = true.
 
-  event level end-to-end:
-    capture key and mouse events. replay to test.
-    take snapshot of the entire dom before and after. store the diff.
-    compare the diff's of golden and test result.
-  based on undo-redo command buffer?
-  command list interleaved with asserts.
-  separate browser event level tests?
+  closure compile the test and test util too.
 
 code clean up:
   move logic from editor/List etc to actions.

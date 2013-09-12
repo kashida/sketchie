@@ -10,8 +10,10 @@
 
 :@dispatch
   evt\Event\$
-  l(f_editor_modes.mode + ': "' +
-  |String.fromCharCode(evt.keyCode) + '"(' + evt.keyCode + ')')
+  l(#+)
+    f_editor_modes.mode + ': "'
+    String.fromCharCode(evt.keyCode)
+    '"(' + evt.keyCode + ')'
   if #&&
     evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
     f_dispatcher.mouseControlLength > 1

@@ -2,17 +2,18 @@
   @ctxt\RequestContext\$
   @handlers\HandlerSet\$
 
+:SCRIPT_RUN = '<script>new Test().run()</script>'
+
 :@serve
   name\s\$
   src := _path.join('test', name + '.ir')
-  log('== ' + src)
   if !_path.existsSync(src)
     @ctxt.response(404, src)
     =>
 
   // Load the template file.
   &Compile('test').run()
-  @handlers.html.create([#])
+  @handlers.html.create([#], %.TestHandler.SCRIPT_RUN)
     '_utils.js'
     name + '.js'
 
