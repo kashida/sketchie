@@ -1,5 +1,5 @@
 ::
-  @ctxt\RequestContext\$
+  @ctxt\Context\$
   @handlers\HandlerSet\$
 
 :SCRIPT_LOAD = '<script>run_scrawler();</script>'

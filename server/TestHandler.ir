@@ -1,5 +1,5 @@
 ::
-  @ctxt\RequestContext\$
+  @ctxt\Context\$
   @handlers\HandlerSet\$
 
 :SCRIPT_RUN = '<script>new Test().run()</script>'
