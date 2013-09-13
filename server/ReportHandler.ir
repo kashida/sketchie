@@ -1,0 +1,12 @@
+::
+  @ctxt\Context\$
+  @handlers\HandlerSet\$
+
+:post
+  data := ''
+  @ctxt.req.setEncoding('utf8')
+  @ctxt.req.on('data', ##)
+    chunk\s\$
+    data += chunk
+  @ctxt.req.once('end', ##)
+    log(data)

@@ -33,6 +33,8 @@
 :process
   if @ctxt.path == '/_t'
     => @handlers.test.reply()
+  if @ctxt.path == '/_tr'
+    => @handlers.report.post()
   if @ctxt.req.method == 'POST'
     => @handlers.html.post()
   if @ctxt.path[@ctxt.path.length - 1] == '/'

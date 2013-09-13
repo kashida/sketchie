@@ -6,6 +6,7 @@
   @testCode\CodeHandler\
   @html\HtmlHandler\
   @test\TestHandler\
+  @report\ReportHandler\
   @listRender\RenderHandler\
   @pageRender\RenderHandler\
 
@@ -22,6 +23,8 @@ Lazy create the sub-handlers.
   => @html || (@html = &HtmlHandler(@ctxt, @))
 :test+\TestHandler\
   => @test || (@test = &TestHandler(@ctxt, @))
+:report+\ReportHandler\
+  => @report || (@report = &ReportHandler(@ctxt, @))
 :listRender+\RenderHandler\
   => @listRender || (@listRender = &RenderHandler(@ctxt, @, 'static/filelist.html'))
 :pageRender+\RenderHandler\

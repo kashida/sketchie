@@ -38,3 +38,7 @@ TODO:
 ::select = ##
   sel\s\$
   => document.querySelector(sel)
+
+::report
+  desc\s\$
+  xhrPost('/_tr', desc)

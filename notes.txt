@@ -1,12 +1,14 @@
 [TODO]
 tests:
   server records the results.
+    write ReportHandler for _tr posts.
     need to send up the results.
     need to trap onerror.
-    reload page if continue_test
+    make util a class and each test inherit from it.
   browser initiated test mode.
     _t/ automatically finds the first test in alpha order.
       also sets continue_test = true.
+    reload page if continue_test
 
   closure compile the test and test util too.
 
@@ -16,6 +18,8 @@ code clean up:
   split files > 100 lines.
 
 ux refine:
+  try http://fortawesome.github.io/Font-Awesome/
+
   find icons from www.flaticon.com.
 
   css: change mouse cursor for buttons.
