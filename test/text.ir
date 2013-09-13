@@ -1,10 +1,10 @@
-::Test
+::Test<TestBase
+  ^('Text')
 
-:run
-  sendKeys('o')
-  sendInput('abc')
-  sendKeyCode(DOM_VK_ESCAPE)
-  itemlist := select('.itemlist')
-  verify(itemlist.children.length == 1)
-  verify(itemlist.firstChild.innerText.trim() == 'abc')
-  report('done')
+:test
+  @sendKeys('o')
+  @sendInput('abc')
+  @sendKeyCode(DOM_VK_ESCAPE)
+  itemlist := @select('.itemlist')
+  @verify(itemlist.children.length == 1)
+  @verify(itemlist.firstChild.innerText.trim() == 'abc')

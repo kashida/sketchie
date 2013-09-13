@@ -3,7 +3,40 @@ TODO:
 - Command to wait (timeout with 0?).
 - Command to assert / check dom states.
 
-::sendKeyCode
+::TestBase
+  @name\s\$
+  @success\b\ true
+  @testName\s\ ''
+
+:run
+  @init()
+  @runTests()
+  @report(@success ? 'GOOD' : 'BAD')
+
+:@init
+  window.onerror = ##
+    err\s\$
+    file\s\$
+    line\n\$
+    @success = false
+    @report(#)
+      'error: ' + err
+      '    ' + file + ' (line ' + line + ')'
+    => true
+
+:@runTests
+  // run all the methods that has names starting with 'test'.
+  each m in @
+    if /^test/.test(m) && typeof(@[m]) == 'function'
+      @testName = m
+      try
+        @[m].apply(@)
+      catch e
+        @success = false
+        @reportException(e)
+      @testName = ''
+
+:@sendKeyCode
   code\n\$
   shift\b\? false
   // There seems to be webkit bug that KeyboardEvent not allowing keyCode to be set.
@@ -13,14 +46,14 @@ TODO:
   e.target = document.body
   document.body.dispatchEvent(e)
 
-::sendKeys = ##
+:@sendKeys
   kstr\s\$
   shift\b\? false
   kstr.split('').forEach(##)
     kchar\s\$
-    sendKeyCode(c(kchar.toUpperCase()), shift)
+    @sendKeyCode(c(kchar.toUpperCase()), shift)
 
-::sendInput = ##
+:@sendInput
   str\s\$
   sel := window.getSelection()
   node := sel.anchorNode
@@ -35,33 +68,36 @@ TODO:
   else
     node.innerText = str
 
-::select = ##
+:@select
   sel\s\$
   => document.querySelector(sel)
 
-::report
-  desc\s\$
-  xhrPost('/_tr', desc)
-
-::verify = ##
+:@verify
   cond\b\$
   if cond
     =>
+  @success = false
   try
     // Make an error to get the stack trace.
     throw &Error()
   catch e
-    report(#+)
-      '* fail:\n'
-      // Dropping the first two lines which are error message ("Error") and
-      // this function's scope.
-      e.stack.split('\n').slice(2).join('\n')
+    @reportException(e, 'failure')
 
-:
-  window.onerror = ##
-    err\s\$
-    file\s\$
-    line\n\$
-    report(#+)
-      '* error: ' + err + '\n'
-      '   ' + file + ' (line ' + line + ')'
+:@report
+  line\s\$
+  desc\s\? ''
+  xhrPost('/_tr', '* [' + # + '] ' + line + #)
+    @testName ? @name + '.' + @testName : @name
+    desc ? '\n' + desc : ''
+
+:@reportException
+  e\Error\$
+  title\s\?
+  stack_lines := e.stack.split('\n')
+  title_line = title || stack_lines[0]
+  @report(#)
+    title_line + ':'
+    stack_lines.slice(1).filter(##).join('\n')
+      line\s\$
+      // Dropping the stacks that belong to this class.
+      => !/^\s*at\s+TestBase\./.test(line)
