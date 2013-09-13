@@ -42,3 +42,26 @@ TODO:
 ::report
   desc\s\$
   xhrPost('/_tr', desc)
+
+::verify = ##
+  cond\b\$
+  if cond
+    =>
+  try
+    // Make an error to get the stack trace.
+    throw &Error()
+  catch e
+    report(#+)
+      '* fail:\n'
+      // Dropping the first two lines which are error message ("Error") and
+      // this function's scope.
+      e.stack.split('\n').slice(2).join('\n')
+
+:
+  window.onerror = ##
+    err\s\$
+    file\s\$
+    line\n\$
+    report(#+)
+      '* error: ' + err + '\n'
+      '   ' + file + ' (line ' + line + ')'

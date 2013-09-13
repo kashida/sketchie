@@ -5,6 +5,6 @@
   sendInput('abc')
   sendKeyCode(DOM_VK_ESCAPE)
   itemlist := select('.itemlist')
-  assert(itemlist.children.length == 1)
-  assert(itemlist.firstChild.innerText.trim() == 'abc')
+  verify(itemlist.children.length == 1)
+  verify(itemlist.firstChild.innerText.trim() == 'abc')
   report('done')
