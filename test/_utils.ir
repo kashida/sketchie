@@ -1,8 +1,3 @@
-TODO:
-- Command to send events to any elem (mainly mouse click).
-- Command to wait (timeout with 0?).
-- Command to assert / check dom states.
-
 ::TestBase
   @name\s\$
   @success\b\ true
@@ -10,6 +5,7 @@ TODO:
 
 :run
   @init()
+  @ackStart()
   @runTests()
   @report(@success ? 'GOOD' : 'BAD')
 
@@ -24,6 +20,9 @@ TODO:
       '    ' + file + ' (line ' + line + ')'
     => true
 
+:@ackStart
+  xhrPost('/_tr', '<<<Test:' + @name + '>>>')
+
 :@runTests
   // run all the methods that has names starting with 'test'.
   each m in @
@@ -35,6 +34,10 @@ TODO:
         @success = false
         @reportException(e)
       @testName = ''
+      @clear()
+
+:@clear
+  f_page.clear()
 
 :@sendKeyCode
   code\n\$
@@ -67,6 +70,36 @@ TODO:
     sel.collapse(node, offset + str.length)
   else
     node.innerText = str
+
+:@mouseDispatch
+  element\Element\$
+  event_name\s\$
+  x\n\?
+  y\n\?
+  opts = {target: element}
+  if x !== undefined
+    opts.clientX = x
+  if y !== undefined
+    opts.clientY = y
+  element.dispatchEvent(&MouseEvent(event_name, opts))
+
+:@sendDrag
+  x0\n\$
+  y0\n\$
+  x1\n\$
+  y1\n\$
+  el := dom.id('input_layer')
+  @mouseDispatch(el, 'mousedown', x0, y0)
+  for i := 0; i <= 10; i++
+    a := 0.1 * i
+    @mouseDispatch(el, 'mousemove', #, #)
+      a * x0 + (1.0 - a) * x1
+      a * y0 + (1.0 - a) * y1
+  @mouseDispatch(el, 'mouseup', x1, y1)
+
+:@sendClickToButton
+  name\s\$
+  @mouseDispatch(dom.id('button_' + name), 'click')
 
 :@select
   sel\s\$

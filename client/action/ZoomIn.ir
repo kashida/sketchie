@@ -1,2 +1,2 @@
 ::<%.Action
-  ^('<sup>z</sup>+')
+  ^('zi', '<sup>z</sup>+')

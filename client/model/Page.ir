@@ -1,3 +1,7 @@
 ::
   @items+\%.List\ &%.List()
   @selection+\%.Selection\ &%.Selection()
+
+:clear
+  @items.clear()
+  @selection.clear()

@@ -1,18 +1,22 @@
 [TODO]
+write draw test.
+  keyboard.
+  button click.
+generalize button key shortcuts.
+write text button click test.
+
+code clean up:
+  move logic from editor/List etc to actions.
+
+  split files > 100 lines.
+
 tests:
-  server records the results.
-    make util a class and each test inherit from it.
   browser initiated test mode.
     _t/ automatically finds the first test in alpha order.
       also sets continue_test = true.
     reload page if continue_test
 
   closure compile the test and test util too.
-
-code clean up:
-  move logic from editor/List etc to actions.
-
-  split files > 100 lines.
 
 ux refine:
   try http://fortawesome.github.io/Font-Awesome/

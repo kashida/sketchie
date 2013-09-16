@@ -10,5 +10,5 @@
   ^()
   @actions.forEach(##)
     action\action.Action\$
-    @.add(&ui.Button(action.text, ##))
+    @.add(&ui.Button(action.name, action.text, ##))
       action.trigger()

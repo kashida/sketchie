@@ -7,6 +7,9 @@ but css depends on the class for rendering selected items differently...
   // so we don't need an array here.
   @list+\!A.<!%.Item>\ []
 
+:clear
+  @list = []
+
 :isAny+\b\
   => @list.length > 0
 :isEmpty+\b\

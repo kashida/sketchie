@@ -11,6 +11,9 @@ All child elements need to be blessed when added, and disposed when removed.
   @element.removeChild(item.element)
   item.dispose()
 
+:clear
+  @element.innerHTML = ''
+
 :@children\!NodeList\
   => @element.children
 :@toItem

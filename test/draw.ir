@@ -1,0 +1,26 @@
+::Test<TestBase
+  ^('Draw')
+
+:testNoImage
+  @sendKeys('d')
+  @sendDrag(100, 100, 100, 100)
+  @sendKeys('a')
+  itemlist := @select('.itemlist')
+  @verify(itemlist.children.length == 0)
+
+:testKey
+  @sendKeys('d')
+  @sendDrag(30, 30, 70, 70)
+  @sendKeys('a')
+  //window.setTimeout(##, 0)
+  itemlist := @select('.itemlist')
+  @verify(itemlist.children.length == 1)
+  @verify(itemlist.firstChild.firstChild instanceof Image)
+
+:testButton
+  @sendClickToButton('D')
+  @sendDrag(30, 30, 70, 70)
+  @sendKeys('a')
+  itemlist := @select('.itemlist')
+  @verify(itemlist.children.length == 1)
+  @verify(itemlist.firstChild.firstChild instanceof Image)
