@@ -1,8 +1,16 @@
 ::Test<TestBase
   ^('Text')
 
-:test
+:testKey
   @sendKeys('o')
+  @sendInput('abc')
+  @sendKeyCode(DOM_VK_ESCAPE)
+  itemlist := @select('.itemlist')
+  @verify(itemlist.children.length == 1)
+  @verify(itemlist.firstChild.innerText.trim() == 'abc')
+
+:testButton
+  @sendClickToButton('T')
   @sendInput('abc')
   @sendKeyCode(DOM_VK_ESCAPE)
   itemlist := @select('.itemlist')

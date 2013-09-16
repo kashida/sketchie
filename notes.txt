@@ -1,12 +1,7 @@
 [TODO]
-write draw test.
-  keyboard.
-  button click.
-generalize button key shortcuts.
-write text button click test.
-
 code clean up:
   move logic from editor/List etc to actions.
+    generalize button key shortcuts.
 
   split files > 100 lines.
 

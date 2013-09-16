@@ -1,2 +1,8 @@
 ::<%.Action
   ^('T')
+
+:isActive+\b\
+  => !f_page.selection.isEmpty
+
+:trigger
+  f_editor_modes.changeModeTo('to')
