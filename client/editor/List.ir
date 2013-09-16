@@ -2,7 +2,7 @@
   ^()
 
 :@removeSelected
-  f_page.items.remove(f_page.selection.list)
+  f_page.list.remove(f_page.selection.list)
   f_page.selection.clear()
 
 :@moveSelection
@@ -11,23 +11,23 @@
   if !f_page.selection.isAny
     // Special case.  we select eithe the first or the last element.
     if move_down
-      f_page.items.top(##)
+      f_page.list.top(##)
         item\!model.Item\$
         f_page.selection.select(item)
         f_viewport.showItem(item)
     else
-      f_page.items.bottom(##)
+      f_page.list.bottom(##)
         item\!model.Item\$
         f_page.selection.select(item)
         f_viewport.showItem(item)
     =>
-  if f_page.items.isEmpty
+  if f_page.list.isEmpty
     =>
 
   // Find items that is just above and just below the selected item.
   next_item := null
   y := next_y := f_page.selection.head.position.y
-  f_page.items.each(##)
+  f_page.list.each(##)
     c\model.Item\$
     if c == f_page.selection.head
       =>
@@ -67,7 +67,7 @@
   f_page.selection.clear()
 
 :@unholdAll
-  f_page.items.each(##)
+  f_page.list.each(##)
     item\model.Item\$
     item.isActive = true
     item.style['pointer-events'] = null
@@ -101,16 +101,16 @@ Image methods.
   img.rotation = orig_item.rotation
   img.scale = orig_item.scale
   img.alphaLock = orig_item.alphaLock
-  f_page.items.appendEnd(img)
+  f_page.list.appendEnd(img)
 
 :@collapseImages
   // Collapse images in their z order.
   merged_spec := &pixel.Blend(#).pixels
-    f_page.items.zOrder(f_page.selection.list)
+    f_page.list.zOrder(f_page.selection.list)
   if !merged_spec
     =>
   // Remove all the selected images.
-  f_page.items.remove(f_page.selection.list)
+  f_page.list.remove(f_page.selection.list)
   // Add the newly created image.
   f_page.selection.select(merged_spec.makeImageItem())
   f_item_palette.update()
@@ -134,7 +134,7 @@ Image methods.
     &data.Vec2(window.pageXOffset, window.pageYOffset)
     url
   img.isReference = true
-  f_page.items.appendEnd(img)
+  f_page.list.appendEnd(img)
 
 
 ------------------------------------------------------------

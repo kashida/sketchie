@@ -10,7 +10,7 @@
   if create_new
     // Add a text box at the right location and make it visible.
     @text = %.Text.makeTextItem('', f_page.selection.head)
-    f_page.items.appendEnd([@text])
+    f_page.list.appendEnd([@text])
     f_page.selection.select(@text)
   else
     if !f_page.selection.isHeadText
@@ -22,7 +22,7 @@
     // This is a copy request.
     t := %.Text.makeTextItem(@text.text)
     t.position = @text.position.plus(10)
-    f_page.items.appendEnd(t)
+    f_page.list.appendEnd(t)
     => false
 
   @text.editable = true
@@ -81,7 +81,7 @@
   // Move all the rest div's to a new item.
   newtext := %.Text.makeTextItem(newstr, @text)
   newtext.moveChildrenFrom(@text, cursor_div_index + 1)
-  f_page.items.appendEnd(newtext)
+  f_page.list.appendEnd(newtext)
 
   // Remove the previous item if there's no text now.
   @text.editable = false
@@ -125,14 +125,14 @@
 
   is_first := true
   while f_page.selection.isAny
-    f_page.items.topIn(f_page.selection.list, ##)
+    f_page.list.topIn(f_page.selection.list, ##)
       item\!model.Item\$
       newtext.moveChildrenFrom(item)
       if is_first
         newtext.position = item.position
         is_first = false
       f_page.selection.remove(item)
-      f_page.items.remove(item)
+      f_page.list.remove(item)
 
-  f_page.items.appendEnd(newtext)
+  f_page.list.appendEnd(newtext)
   f_page.selection.select(newtext)

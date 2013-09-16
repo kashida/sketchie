@@ -79,4 +79,4 @@ edit mode.
   if remove && el.childNodes.length == 0
     f_page.selection.clear()
     el.blur()
-    f_page.items.remove(@)
+    f_page.list.remove(@)
