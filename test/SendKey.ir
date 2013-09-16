@@ -1,0 +1,33 @@
+::
+
+:code
+  code\n\$
+  shift\b\? false
+  // There seems to be webkit bug that KeyboardEvent not allowing keyCode to be set.
+  e := &Event('keyup')
+  e.keyCode = code
+  e.shiftKey = shift
+  e.target = document.body
+  document.body.dispatchEvent(e)
+
+:send
+  kstr\s\$
+  shift\b\? false
+  kstr.split('').forEach(##)
+    kchar\s\$
+    @.code(c(kchar.toUpperCase()), shift)
+
+:input
+  str\s\$
+  sel := window.getSelection()
+  node := sel.anchorNode
+  offset := sel.anchorOffset
+  if node instanceof Text
+    current_str := node.wholeText
+    node.replaceWholeText(#)
+      current_str.substr(0, offset)
+      str
+      current_str.substr(offset)
+    sel.collapse(node, offset + str.length)
+  else
+    node.innerText = str

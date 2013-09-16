@@ -1,0 +1,70 @@
+::
+  @name\s\$
+  @success\b\ true
+  @testName\s\ ''
+  @key+\SendKey\ &SendKey()
+  @mouse+\TriggerMouse\ &TriggerMouse()
+  @util+\Util\ &Util()
+
+:run
+  @init()
+  @ackStart()
+  @runTests()
+  @report(@success ? 'GOOD' : 'BAD')
+
+:@init
+  window.onerror = ##
+    err\s\$
+    file\s\$
+    line\n\$
+    @success = false
+    @report(#)
+      'error: ' + err
+      '    ' + file + ' (line ' + line + ')'
+    => true
+
+:@ackStart
+  xhrPost('/_tr', '<<<Test:' + @name + '>>>')
+
+:@runTests
+  // run all the methods that has names starting with 'test'.
+  each m in @
+    if /^test/.test(m) && typeof(@[m]) == 'function'
+      @testName = m
+      try
+        @[m].apply(@)
+      catch e
+        @success = false
+        @reportException(e)
+      @testName = ''
+      @util.clear()
+
+:@verify
+  cond\b\$
+  if cond
+    =>
+  @success = false
+  try
+    // Make an error to get the stack trace.
+    throw &Error()
+  catch e
+    @reportException(e, 'failure')
+
+:@report
+  line\s\$
+  desc\s\? ''
+  xhrPost('/_tr', '* [' + # + '] ' + line + #)
+    @testName ? @name + '.' + @testName : @name
+    desc ? '\n' + desc : ''
+
+:@reportException
+  e\Error\$
+  title\s\?
+  stack_lines := e.stack.split('\n')
+  title_line = title || stack_lines[0]
+  @report(#)
+    title_line + ':'
+    stack_lines.slice(1).filter(##).join('\n')
+      line\s\$
+      // Dropping the stacks that belong to this class.
+      => !/^\s*at\s+TestBase\./.test(line)

@@ -1,0 +1,32 @@
+::
+
+:@mouseDispatch
+  element\Element\$
+  event_name\s\$
+  x\n\?
+  y\n\?
+  opts = {target: element}
+  if x !== undefined
+    opts.clientX = x
+  if y !== undefined
+    opts.clientY = y
+  element.dispatchEvent(&MouseEvent(event_name, opts))
+
+:drag
+  x0\n\$
+  y0\n\$
+  x1\n\$
+  y1\n\$
+  el := dom.id('input_layer')
+  @mouseDispatch(el, 'mousedown', x0, y0)
+  for i := 0; i <= 10; i++
+    a := 0.1 * i
+    @mouseDispatch(el, 'mousemove', #, #)
+      a * x0 + (1.0 - a) * x1
+      a * y0 + (1.0 - a) * y1
+  @mouseDispatch(el, 'mouseup', x1, y1)
+
+:clickButton
+  name\s\$
+  @mouseDispatch(dom.id('button_' + name), 'click')
+

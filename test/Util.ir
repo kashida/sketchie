@@ -1,0 +1,8 @@
+::
+
+:clear
+  f_page.clear()
+
+:select
+  sel\s\$
+  => document.querySelector(sel)

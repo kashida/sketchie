@@ -34,15 +34,17 @@ Cached list of all ir files.
   catch e
     log(e)
 
-JS file list. Paths are relative from compiled/client/.
+JS file list. Paths are relative from compiled/<sub_dir>/.
 :scriptList+\A.<s>\
   @.run()
+  // prefix path that ends with the separateor, e.g. '/'.
+  prefix := _path.join('compiled', @sub_dir, '$').slice(0, -1)
   => _ir2js.createSortedList(@.allIr.map(##)).map(##)
     file\s\$
-    => 'compiled/client/' + file.replace(/\.ir$/, '.js')
+    => prefix + file.replace(/\.ir$/, '.js')
     --
     file\s\$
-    => file.replace(/^compiled\/client\//, '')
+    => file.replace(prefix, '')
 
 List of JS package declarations.
 :pkgList

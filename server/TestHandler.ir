@@ -6,16 +6,19 @@
 
 :@serve
   name\s\$
-  src := _path.join('test', name + '.ir')
+  src := _path.join('test', '_' + name + '.ir')
   if !_path.existsSync(src)
     @ctxt.response(404, src)
     =>
 
   // Load the template file.
-  &Compile('test').run()
-  @handlers.html.create([#], %.TestHandler.SCRIPT_RUN)
-    '_utils.js'
-    name + '.js'
+  c := &Compile('test')
+  c.run()
+  list := c.scriptList.filter(##)
+    file\s\$
+    => !/^_/.test(file)
+  list.push('_' + name + '.js')
+  @handlers.html.create(list, %.TestHandler.SCRIPT_RUN)
 
 :reply
   // Check if the path contains the test name.

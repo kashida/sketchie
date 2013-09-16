@@ -2,17 +2,17 @@
   ^('Text')
 
 :testKey
-  @sendKeys('o')
-  @sendInput('abc')
-  @sendKeyCode(DOM_VK_ESCAPE)
-  itemlist := @select('.itemlist')
+  @key.send('o')
+  @key.input('abc')
+  @key.code(DOM_VK_ESCAPE)
+  itemlist := @util.select('.itemlist')
   @verify(itemlist.children.length == 1)
   @verify(itemlist.firstChild.innerText.trim() == 'abc')
 
 :testButton
-  @sendClickToButton('T')
-  @sendInput('abc')
-  @sendKeyCode(DOM_VK_ESCAPE)
-  itemlist := @select('.itemlist')
+  @mouse.clickButton('T')
+  @key.input('abc')
+  @key.code(DOM_VK_ESCAPE)
+  itemlist := @util.select('.itemlist')
   @verify(itemlist.children.length == 1)
   @verify(itemlist.firstChild.innerText.trim() == 'abc')
