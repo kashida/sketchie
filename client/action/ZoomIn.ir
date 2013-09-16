@@ -1,2 +1,5 @@
 ::<%.Action
   ^('zi', '<sup>z</sup>+')
+
+:trigger
+  f_viewport.zoom(1)
