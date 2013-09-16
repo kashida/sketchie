@@ -1,0 +1,17 @@
+::
+  @actions\A.<%.Action>\ [#]
+    &%.NewDraw()
+    &%.NewText()
+    &%.Paste()
+    &%.ZoomIn()
+    &%.ZoomOut()
+    &%.ZoomDefault()
+    &%.ZoomShowAll()
+  @buttons\ui.ButtonBox\ &ui.ButtonBox()
+  @actions.forEach(##)
+    action\action.Action\$
+    @buttons.add(&ui.Button(action.name, action.text, ##))
+      action.trigger()
+
+:element+\Element\
+  => @buttons.element

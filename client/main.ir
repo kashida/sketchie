@@ -26,8 +26,8 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   var f_z_order;
   /** @type {stroke.Set} */
   var f_strokes;
-  /** @type {ui.GlobalButtonBox} */
-  var f_global_buttons;
+  /** @type {action.GlobalSet} */
+  var f_global_actions;
   /** @type {model.Page} */
   var f_page;
 
@@ -88,7 +88,7 @@ Server access.
     xhrPost(location.pathname, html)
 
 :@buildDom
-  f_global_buttons = &ui.GlobalButtonBox()
+  f_global_actions := &action.GlobalSet()
   dom.appendChildren(document.body, [#])
     dom.findOrCreate('div', {class: 'itemlist'})
     dom.create('canvas', {class: 'stroke_layer'})
@@ -122,7 +122,7 @@ Server access.
               dom.create('input', {class: 'image_alph_alock', type: 'checkbox'})
               dom.createText('alpha lock')
     dom.createDiv('img_undolist')
-    f_global_buttons.element
+    f_global_actions.element
 
 :'saveHeader
   <!doctype html>
