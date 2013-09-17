@@ -1,0 +1,6 @@
+// Go back to the list page.
+::<%.Action
+  ^('^', 'U:s')
+
+:trigger
+  window.location.assign('/')

@@ -1,62 +1,10 @@
 ::<%.Editor
   ^()
 
-:@removeSelected
-  f_page.list.remove(f_page.selection.list)
-  f_page.selection.clear()
-
-:@moveSelection
-  move_down\b\$
-  // Find the element below the current one and move the selection to it.
-  if !f_page.selection.isAny
-    // Special case.  we select eithe the first or the last element.
-    if move_down
-      f_page.list.top(##)
-        item\!model.Item\$
-        f_page.selection.select(item)
-        f_viewport.showItem(item)
-    else
-      f_page.list.bottom(##)
-        item\!model.Item\$
-        f_page.selection.select(item)
-        f_viewport.showItem(item)
-    =>
-  if f_page.list.isEmpty
-    =>
-
-  // Find items that is just above and just below the selected item.
-  next_item := null
-  y := next_y := f_page.selection.head.position.y
-  f_page.list.each(##)
-    c\model.Item\$
-    if c == f_page.selection.head
-      =>
-    cy := c.position.y
-    // We want to move up and found an item above the current.
-    // this is either the first occurence or that's the closest to the
-    // current so far.
-    found_above_candidate := #&&
-      !move_down
-      cy < y
-      !next_item || next_y < cy
-    // We want to move down and found an item below the current.
-    // this is either the first occurence or that's the closest to the
-    // current so far.
-    found_below_candidate := #&&
-      move_down
-      cy > y
-      !next_item || next_y > cy
-    if found_above_candidate || found_below_candidate
-      next_item = c
-      next_y = cy
-  if next_item
-    f_page.selection.select(\!model.Item\(next_item))
-    f_viewport.showItem(next_item)
-
 :@expandSelection
   move_down\b\$
   current := f_page.selection.head
-  @moveSelection(move_down)
+  &model.MoveSelection(move_down)
   f_page.selection.add(current)
 
 :@holdSelection
@@ -72,48 +20,8 @@
     item.isActive = true
     item.style['pointer-events'] = null
 
-:@copyItem
-  // Need to make a copy because f_page.selection.list gets destroyed
-  // during the copies.
-  f_page.selection.list.slice(0).forEach(##)
-    item\model.Item\$
-    if item instanceof model.Text
-      f_editor_modes.changeModeTo('tc')
-    else
-      @copyImageItem(\model.Image\(item))
-
-:@collapseItems
-  if f_page.selection.count < 2
-    =>
-  if f_page.selection.isAllText
-    %.Text.collapseSelected()
-  else if f_page.selection.isAllImage
-    @collapseImages()
-
 ------------------------------------------------------------
 Image methods.
-
-:@copyImageItem
-  orig_item\model.Image\$
-  img := &pixel.PositionedPixels(#).makeImageItem()
-    orig_item.position.plus(10)
-    orig_item.src
-  img.rotation = orig_item.rotation
-  img.scale = orig_item.scale
-  img.alphaLock = orig_item.alphaLock
-  f_page.list.appendEnd(img)
-
-:@collapseImages
-  // Collapse images in their z order.
-  merged_spec := &pixel.Blend(#).pixels
-    f_page.list.zOrder(f_page.selection.list)
-  if !merged_spec
-    =>
-  // Remove all the selected images.
-  f_page.list.remove(f_page.selection.list)
-  // Add the newly created image.
-  f_page.selection.select(merged_spec.makeImageItem())
-  f_item_palette.update()
 
 :pasteImage
   evt\Event\$
@@ -149,9 +57,9 @@ Key handler.
 
   // Selection control.
   if key == c('K')
-    @moveSelection(false)
+    &model.MoveSelection(false)
   else if key == c('J')
-    @moveSelection(true)
+    &model.MoveSelection(true)
   else if key == c('K') + shift
     @expandSelection(false)
   else if key == c('J') + shift
@@ -180,18 +88,6 @@ Key handler.
   else if key == c('T')
     f_item_palette.close()
     f_editor_modes.changeModeTo('q')
-
-  // Copy the selected item.
-  else if key == c('C')
-    @copyItem()
-
-  // Delete.
-  else if key == c('D') + shift
-    @removeSelected()
-
-  // Merge items.
-  else if key == c('M')
-    @collapseItems()
 
   // Open / close the control palette.
   else if key == c(' ')
@@ -224,13 +120,5 @@ Key handler.
     f_viewport.move(1, 0)
   else if key == DOM_VK_DOWN
     f_viewport.move(0, 1)
-
-  // Save.
-  else if key == c('S') + shift
-    f_page.selection.clear()
-    f_scrawler.upload()
-  // Go back to the list page.
-  else if key == c('U') + shift
-    window.location.assign('/')
 
   f_global_actions.dispatch(\KeyboardEvent\(evt))

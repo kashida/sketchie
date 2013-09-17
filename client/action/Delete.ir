@@ -1,0 +1,6 @@
+::<%.Action
+  ^('Del', 'D:s', 'D<sub>el</sub>')
+
+:trigger
+  f_page.list.remove(f_page.selection.list)
+  f_page.selection.clear()

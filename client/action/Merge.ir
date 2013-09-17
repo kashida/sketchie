@@ -1,0 +1,22 @@
+::<%.Action
+  ^('M', 'M')
+
+:trigger
+  if f_page.selection.count < 2
+    =>
+  if f_page.selection.isAllText
+    editor.Text.collapseSelected()
+  else if f_page.selection.isAllImage
+    @collapseImages()
+
+:@collapseImages
+  // Collapse images in their z order.
+  merged_spec := &pixel.Blend(#).pixels
+    f_page.list.zOrder(f_page.selection.list)
+  if !merged_spec
+    =>
+  // Remove all the selected images.
+  f_page.list.remove(f_page.selection.list)
+  // Add the newly created image.
+  f_page.selection.select(merged_spec.makeImageItem())
+  f_item_palette.update()

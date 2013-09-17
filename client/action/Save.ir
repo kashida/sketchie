@@ -1,0 +1,6 @@
+::<%.Action
+  ^('S', 'S:s')
+
+:trigger
+  f_page.selection.clear()
+  f_scrawler.upload()

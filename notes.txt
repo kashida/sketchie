@@ -1,8 +1,6 @@
 [TODO]
 code clean up:
   move logic from editor/List etc to actions.
-    generalize button key shortcuts.
-
   split files > 100 lines.
 
 tests:

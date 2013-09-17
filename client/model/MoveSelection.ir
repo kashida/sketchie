@@ -1,0 +1,47 @@
+::
+  move_down\b\$
+  // Find the element below the current one and move the selection to it.
+  if !f_page.selection.isAny
+    // Special case.  we select eithe the first or the last element.
+    if move_down
+      f_page.list.top(##)
+        item\!model.Item\$
+        f_page.selection.select(item)
+        f_viewport.showItem(item)
+    else
+      f_page.list.bottom(##)
+        item\!model.Item\$
+        f_page.selection.select(item)
+        f_viewport.showItem(item)
+    =>
+  if f_page.list.isEmpty
+    =>
+
+  // Find items that is just above and just below the selected item.
+  next_item := null
+  y := next_y := f_page.selection.head.position.y
+  f_page.list.each(##)
+    c\model.Item\$
+    if c == f_page.selection.head
+      =>
+    cy := c.position.y
+    // We want to move up and found an item above the current.
+    // this is either the first occurence or that's the closest to the
+    // current so far.
+    found_above_candidate := #&&
+      !move_down
+      cy < y
+      !next_item || next_y < cy
+    // We want to move down and found an item below the current.
+    // this is either the first occurence or that's the closest to the
+    // current so far.
+    found_below_candidate := #&&
+      move_down
+      cy > y
+      !next_item || next_y > cy
+    if found_above_candidate || found_below_candidate
+      next_item = c
+      next_y = cy
+  if next_item
+    f_page.selection.select(\!model.Item\(next_item))
+    f_viewport.showItem(next_item)
