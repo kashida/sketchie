@@ -1,0 +1,21 @@
+::
+  @element+\Element\ dom.createDiv('selection_marker')
+
+:init
+  f_page.selection.onChange.then(##)
+    @setRect()
+
+:@setRect
+  item := f_page.selection.head
+  if !item
+    @element.style.width = ''
+    @element.style.height = ''
+    @element.style.top = ''
+    @element.style.left = ''
+    =>
+
+  r := dom.elemRect(\!Element\(item.element))
+  @element.style.width = r.w + 'px'
+  @element.style.height = r.h + 'px'
+  @element.style.top = r.y0 + 'px'
+  @element.style.left = r.x0 + 'px'

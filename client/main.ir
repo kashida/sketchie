@@ -8,6 +8,8 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   var f_surface;
   /** @type {ui.Surface} */
   var f_stroke_layer;
+  /** @type {ui.Selection} */
+  var f_selection_marker;
   /** @type {palette.Color} */
   var f_color_palette;
   /** @type {palette.Tool} */
@@ -59,6 +61,7 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   &dispatch.Key()
   f_hex_control = &ui.HexControl()
   f_strokes = &stroke.Set()
+  f_selection_marker.init()
 
 upload: ->
   chrome.extension.sendRequest ['list'], (resp) ->
@@ -89,7 +92,9 @@ Server access.
 
 :@buildDom
   f_global_actions = &action.GlobalSet()
+  f_selection_marker = &ui.Selection()
   dom.appendChildren(document.body, [#])
+    f_selection_marker.element
     dom.findOrCreate('div', {class: 'itemlist'})
     dom.create('canvas', {class: 'stroke_layer'})
     dom.createDiv('draw_cursor')

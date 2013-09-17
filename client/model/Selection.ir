@@ -6,6 +6,7 @@ but css depends on the class for rendering selected items differently...
   // TODO: take item.List as param and use the classes to mark selected items.
   // so we don't need an array here.
   @list+\!A.<!%.Item>\ []
+  @onChange+\!%.SelectionChangeEvent\ &%.SelectionChangeEvent()
 
 :clear
   @list = []
@@ -45,6 +46,7 @@ but css depends on the class for rendering selected items differently...
     @list = []
   item.element.classList.add('selected')
   @list.unshift(item)
+  @onChange.fire()
   f_item_palette.update()
 
 :add
@@ -59,6 +61,7 @@ but css depends on the class for rendering selected items differently...
     item.element.classList.add('selected')
     @list = [item]
     f_item_palette.update()
+  @onChange.fire()
 
 :remove
   item\%.Item\$
@@ -69,6 +72,7 @@ but css depends on the class for rendering selected items differently...
       @list.splice(i, 1)
       break
     i++
+  @onChange.fire()
   f_item_palette.update()
 
 :clear
@@ -77,6 +81,7 @@ but css depends on the class for rendering selected items differently...
     if item.element
       item.element.className = null
   @list = []
+  @onChange.fire()
   f_item_palette.close()
 
 :isHeadText+\b\

@@ -1,0 +1,13 @@
+TODO: Generalize this as a NullEvent (when there's more events written) which
+is for all the timing only (no params) events.
+::
+  @handlers\!A.<f()>\ []
+
+:then
+  handler\f()\$
+  @handlers.push(handler)
+  
+:fire
+  @handlers.forEach(##)
+    handler\f()\$
+    handler()
