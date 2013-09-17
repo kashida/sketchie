@@ -88,7 +88,7 @@ Server access.
     xhrPost(location.pathname, html)
 
 :@buildDom
-  f_global_actions := &action.GlobalSet()
+  f_global_actions = &action.GlobalSet()
   dom.appendChildren(document.body, [#])
     dom.findOrCreate('div', {class: 'itemlist'})
     dom.create('canvas', {class: 'stroke_layer'})

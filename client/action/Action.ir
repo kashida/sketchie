@@ -1,5 +1,6 @@
 ::
   @name+\s\$
+  @key+\s\? ''
   @text+\s\? @name
 
 :isActive+\b\

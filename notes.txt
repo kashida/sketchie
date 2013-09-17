@@ -245,6 +245,5 @@ path mid points:
 [style]
 - Class names: camel case starts with upper case. Same file name.
   drop class name after '::' if that's the first class in the file.
-- Method names: camel case starts with lower case.
-- Member names, func params, local vars: names with underscore.
-  exception is member with accessors -> same as methods.
+- Method and member names: camel case starts with lower case.
+- Func params and local vars: names with underscore.

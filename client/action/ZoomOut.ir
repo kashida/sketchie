@@ -1,5 +1,5 @@
 ::<%.Action
-  ^('zo', '<sup>z</sup>-')
+  ^('zo', '-', '<sup>z</sup>-')
 
 :trigger
   f_viewport.zoom(-1)

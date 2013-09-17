@@ -198,16 +198,12 @@ Key handler.
     f_item_palette.toggle()
 
   // Entering to the text mode.
-  else if key == c('O')
-    f_editor_modes.changeModeTo('to')
   else if key == c('I')
     f_editor_modes.changeModeTo('ti')
   else if key == c('E')
     f_editor_modes.changeModeTo('te')
 
   // Draw / stencil mode change.
-  else if key == c('D')
-    f_editor_modes.changeModeTo('d')
   else if key == c('S')
     f_editor_modes.changeModeTo('s')
 
@@ -218,20 +214,6 @@ Key handler.
   // Adjust the image blend alpha.
   else if key == DOM_VK_COMMA + shift || key == DOM_VK_PERIOD + shift
     f_item_palette.blendAlphaAdjust(evt.keyCode == DOM_VK_PERIOD ? 1 : -1)
-
-  // Zoom in/out.
-  else if key == DOM_VK_EQUALS
-    f_viewport.zoom(1)
-    evt.preventDefault()
-  else if key == DOM_VK_MINUS
-    f_viewport.zoom(-1)
-    evt.preventDefault()
-  else if key == c('0')
-    f_viewport.reset()
-    evt.preventDefault()
-  else if key == c('0') + shift
-    f_viewport.showAllItems()
-    evt.preventDefault()
 
   // Viewport control.
   else if key == DOM_VK_LEFT
@@ -250,3 +232,5 @@ Key handler.
   // Go back to the list page.
   else if key == c('U') + shift
     window.location.assign('/')
+
+  f_global_actions.dispatch(evt)

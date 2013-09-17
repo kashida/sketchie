@@ -1,5 +1,5 @@
 ::<%.Action
-  ^('zd', '<sup>z</sup>.')
+  ^('zd', '0', '<sup>z</sup>.')
 
 :trigger
   f_viewport.reset()
