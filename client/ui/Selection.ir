@@ -6,16 +6,22 @@
     @setRect()
 
 :@setRect
-  item := f_page.selection.head
-  if !item
+  if f_page.selection.isEmpty
     @element.style.width = ''
     @element.style.height = ''
     @element.style.top = ''
     @element.style.left = ''
     =>
 
-  r := dom.elemRect(\!Element\(item.element))
-  @element.style.width = r.w + 'px'
-  @element.style.height = r.h + 'px'
-  @element.style.top = r.y0 + 'px'
-  @element.style.left = r.x0 + 'px'
+  rect := null
+  f_page.selection.list.forEach(##)
+    item\model.Item\$
+    r := dom.elemRect(\!Element\(item.element))
+    if rect
+      rect = rect.union(r)
+    else
+      rect = r
+  @element.style.width = rect.w + 'px'
+  @element.style.height = rect.h + 'px'
+  @element.style.top = rect.y0 + 'px'
+  @element.style.left = rect.x0 + 'px'
