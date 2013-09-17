@@ -1,5 +1,5 @@
 ::
-  @actions\A.<%.Action>\ [#]
+  @actions\!A.<!%.Action>\ [#]
     &%.NewDraw()
     &%.NewText()
     &%.Paste()
@@ -12,14 +12,25 @@
     &%.ZoomOut()
     &%.ZoomDefault()
     &%.ZoomShowAll()
+    &%.ClearSelection()
+    &%.ExpandSelectionDown()
+    &%.ExpandSelectionUp()
+    &%.MoveSelectionDown()
+    &%.MoveSelectionUp()
   @buttons\ui.ButtonBox\ &ui.ButtonBox()
   @keyMap\!O.<!%.Action>\ {}
   @actions.forEach(##)
-    action\action.Action\$
-    @buttons.add(&ui.Button(action.name, action.text, ##))
-      action.trigger()
+    action\!action.Action\$
     if action.key
-      @keyMap[action.key] = action
+      if action.key instanceof Array
+        action.key.forEach(##)
+          k\s\$
+          @keyMap[k] = action
+      else
+        @keyMap[action.key] = action
+    if action.text
+      @buttons.add(&ui.Button(action.name, action.text, ##))
+        action.trigger()
 
 :element+\Element\
   => @buttons.element

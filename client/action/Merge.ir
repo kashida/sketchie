@@ -1,5 +1,5 @@
 ::<%.Action
-  ^('M', 'M')
+  ^('M', 'M', 'M')
 
 :trigger
   if f_page.selection.count < 2

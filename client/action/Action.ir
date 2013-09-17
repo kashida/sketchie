@@ -1,7 +1,7 @@
 ::
   @name+\s\$
-  @key+\s\? ''
-  @text+\s\? @name
+  @key+\s|!A.<s>\? ''
+  @text+\s\? ''
 
 :isActive+\b\
   => true

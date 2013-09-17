@@ -20,7 +20,7 @@ All child elements need to be blessed when added, and disposed when removed.
   el\Element\$
   => el ? \!%.Item\(el.item) : null
 
-:childrenArray+\!A.<%.Item>\
+:childrenArray+\!A.<!%.Item>\
   arr := []
   dom.eachChild(@element, ##)
     el\Element\$
@@ -143,21 +143,17 @@ Sort the list of input items into z-order.
     handler(top_item, top_y)
 
 :bottom
-  handler\F\$
-  => @bottomIn(@.childrenArray, handler)
-:@bottomIn
-  nodes\!A.<!%.Item>\$
-  handler\F\$
+  handler\f(!model.Item, n)\$
   bottom_y := null
   bottom_item := null
-  nodes.forEach(##)
+  @.childrenArray.forEach(##)
     item\!%.Item\$
     el := item.element
     if !bottom_y || el.offsetTop > bottom_y
       bottom_y = el.offsetTop
-      bottom_item = el
+      bottom_item = item
   if bottom_item
-    handler(bottom_item, bottom_y)
+    handler(\!model.Item\(bottom_item), bottom_y)
 
 All the items that are afeter the specified item (exclusive).
 :after\A.<!%.Item>\

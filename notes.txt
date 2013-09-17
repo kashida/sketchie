@@ -1,4 +1,10 @@
 [TODO]
+ui -- button set types.
+  no button action.
+  for selected items.
+  for image etc modes.
+  mode designation (draw, sencil, text).
+
 code clean up:
   move logic from editor/List etc to actions.
   split files > 100 lines.
@@ -12,6 +18,9 @@ tests:
   closure compile the test and test util too.
 
 ux refine:
+  text layout strange while adding new text item.
+    cursor not visible before typing anything.
+
   try http://fortawesome.github.io/Font-Awesome/
 
   find icons from www.flaticon.com.
@@ -64,6 +73,8 @@ ux refine:
   change mouse cursor for button mouse over.
 
 bug:
+  selection keys ('k' and 'j') in list mode is strange when there's no selection.
+
   save page with an image, load the page, and edit the image.
     exception in xformdrawimage?
 

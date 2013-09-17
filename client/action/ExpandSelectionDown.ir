@@ -1,0 +1,7 @@
+::<%.Action
+  ^('ExpSelDown', 'J:s')
+
+:trigger
+  current := f_page.selection.head
+  &model.MoveSelection(true)
+  f_page.selection.add(current)

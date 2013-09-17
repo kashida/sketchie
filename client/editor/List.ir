@@ -1,12 +1,6 @@
 ::<%.Editor
   ^()
 
-:@expandSelection
-  move_down\b\$
-  current := f_page.selection.head
-  &model.MoveSelection(move_down)
-  f_page.selection.add(current)
-
 :@holdSelection
   f_page.selection.list.forEach(##)
     item\model.Item\$
@@ -56,17 +50,7 @@ Key handler.
     key += shift
 
   // Selection control.
-  if key == c('K')
-    &model.MoveSelection(false)
-  else if key == c('J')
-    &model.MoveSelection(true)
-  else if key == c('K') + shift
-    @expandSelection(false)
-  else if key == c('J') + shift
-    @expandSelection(true)
-  else if key == DOM_VK_ESCAPE || key == c('A')
-    f_page.selection.clear()
-  else if key == c('H')
+  if key == c('H')
     @holdSelection()
   else if key == c('H') + shift
     @unholdAll()

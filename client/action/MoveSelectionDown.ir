@@ -1,0 +1,5 @@
+::<%.Action
+  ^('MoveSelDown', 'J')
+
+:trigger
+  &model.MoveSelection(true)

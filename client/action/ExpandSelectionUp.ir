@@ -1,0 +1,7 @@
+::<%.Action
+  ^('ExpSelUp', 'K:s')
+
+:trigger
+  current := f_page.selection.head
+  &model.MoveSelection(false)
+  f_page.selection.add(current)

@@ -1,0 +1,5 @@
+::<%.Action
+  ^('MoveSelUp', 'K')
+
+:trigger
+  &model.MoveSelection(false)

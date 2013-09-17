@@ -1,6 +1,5 @@
 ::<%.Action
-  ^('S', 'S:s', 'S')
+  ^('ClearSel', ['A', 'esc'])
 
 :trigger
   f_page.selection.clear()
-  f_scrawler.upload()
