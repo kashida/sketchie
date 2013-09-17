@@ -1,0 +1,33 @@
+::
+  @evt\KeyboardEvent\$
+
+:SPECIAL_KEYS = {#}
+  8  : 'bs'
+  13 : 'ret'
+  27 : 'esc'
+  37 : 'left'
+  38 : 'up'
+  39 : 'right'
+  40 : 'down'
+  187: '='
+  188: ','
+  189: '-'
+  190: '.'
+  219: '['
+  221: ']'
+
+:code+\s\
+  key := @evt.keyCode
+  key_str := #||
+    %.EventKey.SPECIAL_KEYS[key]
+    key >= 32 && key < 127 ? String.fromCharCode(key) : 'xxx'
+  mod := ''
+  if @evt.shiftKey
+    mod += 's'
+  if @evt.ctrlKey
+    mod += 'c'
+  if @evt.altKey
+    mod += 'a'
+  if mod
+    key_str += ':' + mod
+  => key_str

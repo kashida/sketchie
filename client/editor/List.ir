@@ -233,4 +233,4 @@ Key handler.
   else if key == c('U') + shift
     window.location.assign('/')
 
-  f_global_actions.dispatch(evt)
+  f_global_actions.dispatch(\KeyboardEvent\(evt))

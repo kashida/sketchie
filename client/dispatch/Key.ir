@@ -1,7 +1,7 @@
 ::
   // Key control.
   dom.listen(document.body, 'keyup', ##)
-    evt\Event\$
+    evt\KeyboardEvent\$
     @dispatch(evt)
   dom.listen(document.body, 'paste', ##)
     evt\Event\$
@@ -9,7 +9,7 @@
       f_editor_modes.editor.pasteImage(evt)
 
 :@dispatch
-  evt\Event\$
+  evt\KeyboardEvent\$
   l(#+)
     f_editor_modes.mode + ': "'
     String.fromCharCode(evt.keyCode)
@@ -21,4 +21,3 @@
     f_hex_control.deactivate()
     =>
   f_editor_modes.editor.dispatch(evt)
-  // esc or 'A' key to pop mode.

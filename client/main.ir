@@ -16,7 +16,7 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   var f_item_palette;
   /** @type {ui.Cursor} */
   var f_cursor;
-  /** @type {Dispatcher} */
+  /** @type {dispatch.Mouse} */
   var f_dispatcher;
   /** @type {editor.Modes} */
   var f_editor_modes;
@@ -55,8 +55,8 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
     'q': &editor.Scale()
     'd': &editor.Draw()
     's': &editor.Stencil()
-  f_dispatcher = &Dispatcher()
-  &KeyDispatcher()
+  f_dispatcher = &dispatch.Mouse()
+  &dispatch.Key()
   f_hex_control = &ui.HexControl()
   f_strokes = &stroke.Set()
 

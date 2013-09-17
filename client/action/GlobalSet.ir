@@ -19,37 +19,8 @@
 :element+\Element\
   => @buttons.element
 
-:SPECIAL_KEYS = {#}
-  8  : 'bs'
-  13 : 'ret'
-  27 : 'esc'
-  37 : 'left'
-  38 : 'up'
-  39 : 'right'
-  40 : 'down'
-  187: '='
-  188: ','
-  189: '-'
-  190: '.'
-  219: '['
-  221: ']'
-
 :dispatch
-  evt\Event\$
-  shift := 0x100
-  key := evt.keyCode
-  key_str := #||
-    %.GlobalSet.SPECIAL_KEYS[key]
-    key >= 32 && key < 127 ? String.fromCharCode(key) : 'xxx'
-  mod := ''
-  if evt.shiftKey
-    mod += 's'
-  if evt.ctrlKey
-    mod += 'c'
-  if evt.altKey
-    mod += 'a'
-  if mod
-    key_str += ':' + mod
-
-  if key_str in @keyMap
-    @keyMap[key_str].trigger()
+  evt\KeyboardEvent\$
+  code := &dispatch.EventKey(evt).code
+  if code in @keyMap
+    @keyMap[code].trigger()
