@@ -104,5 +104,5 @@ Key handler.
     f_viewport.move(1, 0)
   else if key == DOM_VK_DOWN
     f_viewport.move(0, 1)
-
-  f_global_actions.dispatch(\KeyboardEvent\(evt))
+  else
+    f_global_actions.dispatch(\KeyboardEvent\(evt))

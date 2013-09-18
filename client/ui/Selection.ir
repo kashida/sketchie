@@ -6,6 +6,10 @@
     @setRect()
   f_viewport.onChange.then(##)
     @setRect()
+  f_editor_modes.onChange.then(##)
+    // Chrome doesn't give me the updated image size if accessed immediately.
+    window.setTimeout(##, 10)
+      @setRect()
 
 :@setRect
   if f_page.selection.isEmpty

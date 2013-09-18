@@ -2,6 +2,7 @@
   default_mode\s\$
   @editors\O.<s, editor.Editor>\$
   @modes\A.<s>\ [default_mode]
+  @onChange+\!NullEvent\ &NullEvent()
 
 Current mode.
 :mode+\s\
@@ -22,6 +23,8 @@ Currently selected editor.
     // Give up and go back to the previous mode.
     @modes.pop()
     assert(@modes.length > 0)
+    =>
+  @onChange.fire()
 
 :popMode
   next_mode\s\?
@@ -30,3 +33,5 @@ Currently selected editor.
   assert(@modes.length > 0)
   if next_mode
     @.changeModeTo(next_mode)
+    =>
+  @onChange.fire()

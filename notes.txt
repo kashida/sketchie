@@ -1,7 +1,6 @@
 [TODO]
 ui
   selection marker.
-    offset of the boundary look little off...
     react to item creation or edit when their sizes chagne.
     limit the rect size to view.
     cover the area of rotated items.
@@ -26,6 +25,8 @@ tests:
   closure compile the test and test util too.
 
 ux refine:
+  need to do something about text's outline (focus marker).
+
   text layout strange while adding new text item.
     cursor not visible before typing anything.
 
@@ -81,6 +82,8 @@ ux refine:
   change mouse cursor for button mouse over.
 
 bug:
+  loading saved page makes all items model.Item (not Text or Image).
+
   selection expand only keeps last two.
 
   selection keys ('k' and 'j') in list mode is strange when there's no selection.
