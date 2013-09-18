@@ -6,20 +6,6 @@ body {
   background-repeat: repeat;
   overflow: hidden;
 }
-.itemlist {
-  /* TODO: we can get rid of these 5 lines if we use input_layer for the
-     viewport size. it'd be cleaner because this isn't position:fixed.  */
-  width: 100%;
-  height: 100%;
-  margin: 0px;
-  padding: 0px;
-  border: 0px;
-
-  top: 0px;
-  left: 0px;
-  position: absolute;
-  overflow: visible;
-}
 .input_layer {
   width: 100%;
   height: 100%;
@@ -223,6 +209,11 @@ body {
 .selection_box {
   left: 1px;
   bottom: 1px;
+  position: absolute;
+  top: 100%;
+  width: 1000px;
+  margin-top: 10px;
+  margin-left: -10px;
 }
 .selection_box > div {
   display: inline-block;

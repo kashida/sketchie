@@ -131,7 +131,7 @@ Server access.
               dom.createText('alpha lock')
     dom.createDiv('img_undolist')
     f_global_actions.element
-    f_selection_actions.element
+  f_selection_marker.element.appendChild(f_selection_actions.element)
 
 :'saveHeader
   <!doctype html>

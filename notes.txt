@@ -1,6 +1,7 @@
 [TODO]
 consider putting selection marker inside viewport xform.
   need one more level of div for xform which holds the marker and itemlist.
+  -> need to modify save / load code too.
 
 ui
   button set types.

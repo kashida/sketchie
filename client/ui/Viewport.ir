@@ -31,35 +31,31 @@
 
 :itemToView\!data.Vec2\
   p\data.Vec2\$
-  half_w := @viewport.offsetWidth / 2
-  half_h := @viewport.offsetHeight / 2
+  c := &dom.ClientRect().center
   => &data.Vec2(#)
-    (p.x + @offset_x - half_w) * @scale + half_w
-    (p.y + @offset_y - half_h) * @scale + half_h
+    (p.x + @offset_x - c.x) * @scale + c.x
+    (p.y + @offset_y - c.y) * @scale + c.y
 
 :itemToSurface\!data.Vec2\
   p\data.Vec2\$
-  half_w := @viewport.offsetWidth / 2
-  half_h := @viewport.offsetHeight / 2
+  c := &dom.ClientRect().center
   => &data.Vec2(#)
-    p.x + @offset_x - half_w + half_w / @scale
-    p.y + @offset_y - half_h + half_h / @scale
+    p.x + @offset_x - c.x + c.x / @scale
+    p.y + @offset_y - c.y + c.y / @scale
 
 :@viewToItem\!data.Vec2\
   p\data.Vec2\$
-  half_w := @viewport.offsetWidth / 2
-  half_h := @viewport.offsetHeight / 2
+  c := &dom.ClientRect().center
   => &data.Vec2(#)
-    (p.x - half_w) / @scale - @offset_x + half_w
-    (p.y - half_h) / @scale - @offset_y + half_h
+    (p.x - c.x) / @scale - @offset_x + c.x
+    (p.y - c.y) / @scale - @offset_y + c.y
 
 :surfaceToItem\!data.Vec2\
   p\data.Vec2\$
-  half_w := @viewport.offsetWidth / 2
-  half_h := @viewport.offsetHeight / 2
+  c := &dom.ClientRect().center
   => &data.Vec2(#)
-    p.x - @offset_x + half_w - half_w / @scale
-    p.y - @offset_y + half_h - half_h / @scale
+    p.x - @offset_x + c.x - c.x / @scale
+    p.y - @offset_y + c.y - c.y / @scale
 
 incr should be -1, 0, or 1 where positive is zooming in
 :zoom
@@ -73,18 +69,18 @@ incr should be -1, 0, or 1 where positive is zooming in
 :move
   dx\n\$
   dy\n\$
-  w := @viewport.offsetWidth
-  h := @viewport.offsetHeight
-  @offset_x += dx * @viewport.clientWidth / 3 / @scale
-  @offset_y += dy * @viewport.clientHeight / 3 / @scale
+  cr := &dom.ClientRect()
+  @offset_x += dx * cr.w / 3 / @scale
+  @offset_y += dy * cr.h / 3 / @scale
   @setViewport()
 
 Change offset (but not scaling) to put the item in view.
 :showItem
   item\model.Item\$
   // Viewport and the item in item coord space.
-  vp0 := @viewToItem(&data.Vec2(0, 0))
-  vp1 := @viewToItem(&data.Vec2(@viewport.offsetWidth, @viewport.offsetHeight))
+  cr := &dom.ClientRect()
+  vp0 := @viewToItem(cr.p00)
+  vp1 := @viewToItem(cr.p11)
   p0 := item.position
   p1 := item.positionBR
 
@@ -107,11 +103,10 @@ Change scaling and offset to put all the items in view.
   union := &pixel.UnionRect()
   union.add(f_page.list.childrenArray)
   r := union.rect
-  vw := @viewport.offsetWidth
-  vh := @viewport.offsetHeight
-  @scale = r.w / r.h > vw / vh ? vw / r.w : vh / r.h
-  @offset_x = -r.x0 - r.w * 0.5 + vw * 0.5
-  @offset_y = -r.y0 - r.h * 0.5 + vh * 0.5
+  cr := &dom.ClientRect()
+  @scale = r.w / r.h > cr.w / cr.h ? cr.w / r.w : cr.h / r.h
+  @offset_x = -r.x0 - r.w * 0.5 + cr.w * 0.5
+  @offset_y = -r.y0 - r.h * 0.5 + cr.h * 0.5
   @setViewport()
 
 :@setViewport
