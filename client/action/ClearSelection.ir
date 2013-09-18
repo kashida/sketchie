@@ -1,5 +1,5 @@
 ::<%.Action
-  ^('ClearSel', ['A', 'esc'])
+  ^('ClearSel', ['A', 'esc'], 'E<sub>sc</sub>')
 
 :trigger
   f_page.selection.clear()

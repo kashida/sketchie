@@ -1,9 +1,12 @@
 ::
-  @element+\Element\ dom.createDiv([])
+  clsName\s\$
+  @element+\Element\ dom.createDiv(['buttonbox', clsName])
   @buttons\A.<%.Button>\ []
-  @element.classList.add('buttonbox')
 
 :add
-  b\%.Button\$
+  name\s\$
+  text\s\$
+  cb\f()\$
+  b := &ui.Button(name, text, cb)
   @buttons.push(b)
   @element.appendChild(b.element)

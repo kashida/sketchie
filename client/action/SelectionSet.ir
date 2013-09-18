@@ -1,4 +1,7 @@
 ::<%.Set
   actions := [#]
+    &%.Delete()
+    &%.Merge()
     &%.Duplicate()
-  ^(actions, &ui.ButtonBox())
+    &%.ClearSelection()
+  ^(actions, &ui.SelectionBox())
