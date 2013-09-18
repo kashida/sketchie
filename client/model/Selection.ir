@@ -6,7 +6,7 @@ but css depends on the class for rendering selected items differently...
   // TODO: take item.List as param and use the classes to mark selected items.
   // so we don't need an array here.
   @list+\!A.<!%.Item>\ []
-  @onChange+\!%.SelectionChangeEvent\ &%.SelectionChangeEvent()
+  @onChange+\!NullEvent\ &NullEvent()
 
 :clear
   @list = []

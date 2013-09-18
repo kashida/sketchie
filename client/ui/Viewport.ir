@@ -1,9 +1,13 @@
 ::<drag.Dragger
   @viewport\Element\ dom.id('itemlist')
+  @onChange+\!NullEvent\ &NullEvent()
   @active\b\ true
   @drag_active\b\ false
+  @scale\n\ 1.0
+  @offset_x\n\ 0
+  @offset_y\n\ 0
   ^()
-  @.reset()
+  @setViewport()
   dom.listen(document.body, 'mousedown', ##)
     evt\Event\$
     @dragStart(evt)
@@ -26,13 +30,12 @@
   => &data.Vec2(@offset_x, @offset_y)
 
 :itemToView\data.Vec2\
-  x\n\$
-  y\n\$
+  p\data.Vec2\$
   half_w := @viewport.offsetWidth / 2
   half_h := @viewport.offsetHeight / 2
   => &data.Vec2(#)
-    (x + @offset_x - half_w) * @scale + half_w
-    (y + @offset_y - half_h) * @scale + half_h
+    (p.x + @offset_x - half_w) * @scale + half_w
+    (p.y + @offset_y - half_h) * @scale + half_h
 
 :itemToSurface\data.Vec2\
   p\data.Vec2\$
@@ -115,6 +118,7 @@ Change scaling and offset to put all the items in view.
   @viewport.style['-webkit-transform'] = [#].join(' ')
     'scale(' + @scale + ')'
     'translate(' + Math.floor(@offset_x) + 'px, ' + Math.floor(@offset_y) + 'px)'
+  @onChange.fire()
 
 :copyTo
   div\model.Item\$

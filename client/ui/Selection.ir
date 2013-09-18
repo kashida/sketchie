@@ -4,6 +4,8 @@
 :init
   f_page.selection.onChange.then(##)
     @setRect()
+  f_viewport.onChange.then(##)
+    @setRect()
 
 :@setRect
   if f_page.selection.isEmpty
@@ -21,7 +23,9 @@
       rect = rect.union(r)
     else
       rect = r
-  @element.style.width = rect.w + 'px'
-  @element.style.height = rect.h + 'px'
-  @element.style.top = rect.y0 + 'px'
-  @element.style.left = rect.x0 + 'px'
+  p00 := f_viewport.itemToView(rect.p00)
+  p11 := f_viewport.itemToView(rect.p11)
+  @element.style.width = (p11.x - p00.x) + 'px'
+  @element.style.height = (p11.y - p00.y) + 'px'
+  @element.style.left = p00.x + 'px'
+  @element.style.top = p00.y + 'px'
