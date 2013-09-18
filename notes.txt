@@ -1,14 +1,6 @@
 [TODO]
-consider putting selection marker inside viewport xform.
-  need one more level of div for xform which holds the marker and itemlist.
-  -> need to modify save / load code too.
-
 ui
   button set types.
-    for selected items.
-      button box that follows selection marker.
-        below the marker.
-      smart position of the box so that it won't go outside of view.
     for image etc modes.
     mode designation (draw, sencil, text).
 
@@ -25,6 +17,14 @@ tests:
   closure compile the test and test util too.
 
 ux refine:
+  smart position of the selection box.
+    so that it won't go outside of view.
+    so it won't overlap with other buttons.
+
+  consider putting selection marker inside viewport xform.
+    need one more level of div for xform which holds the marker and itemlist.
+    -> need to modify save / load code too.
+
   selection marker padding -- bit smaller on left and too large on right?
 
   individual button show/hide animation for selection state change.

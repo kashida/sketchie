@@ -1,0 +1,5 @@
+::<%.Action
+  ^('ZOrderT', 'V:s', 'Z<sub>top</sub>')
+
+:trigger
+  f_z_order.moveToEnd(f_page.selection.list, false)

@@ -1,0 +1,5 @@
+::<%.Action
+  ^('ZOrderD', 'N', 'Zdown')
+
+:trigger
+  f_z_order.shiftOneWithOverlap(false)

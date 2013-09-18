@@ -55,16 +55,6 @@ Key handler.
   else if key == c('H') + shift
     @unholdAll()
 
-  // z control.
-  else if key == c('V')
-    f_z_order.moveToEnd(f_page.selection.list, true)
-  else if key == c('V') + shift
-    f_z_order.moveToEnd(f_page.selection.list, false)
-  else if key == c('N')
-    f_z_order.shiftOneWithOverlap(false)
-  else if key == c('N') + shift
-    f_z_order.shiftOneWithOverlap(true)
-
   // Transform.
   else if key == c('R')
     f_item_palette.close()

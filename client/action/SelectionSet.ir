@@ -4,4 +4,8 @@
     &%.Merge()
     &%.Duplicate()
     &%.ClearSelection()
+    &%.ToBottomZ()
+    &%.ToTopZ()
+    &%.DownOneZ()
+    &%.UpOneZ()
   ^(actions, &ui.SelectionBox())
