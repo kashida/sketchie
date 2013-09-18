@@ -11,12 +11,22 @@
     window.setTimeout(##, 10)
       @setRect()
 
-:@setRect
-  if f_page.selection.isEmpty
+:rect*
+  r\data.Rect\$
+  if r
+    @element.style.width = r.w + 'px'
+    @element.style.height = r.h + 'px'
+    @element.style.left = r.x0 + 'px'
+    @element.style.top = r.y0 + 'px'
+  else
     @element.style.width = ''
     @element.style.height = ''
     @element.style.top = ''
     @element.style.left = ''
+
+:@setRect
+  if f_page.selection.isEmpty
+    @.rect = null
     =>
 
   rect := null
@@ -27,9 +37,6 @@
       rect = rect.union(r)
     else
       rect = r
-  p00 := f_viewport.itemToView(rect.p00)
-  p11 := f_viewport.itemToView(rect.p11)
-  @element.style.width = (p11.x - p00.x) + 'px'
-  @element.style.height = (p11.y - p00.y) + 'px'
-  @element.style.left = p00.x + 'px'
-  @element.style.top = p00.y + 'px'
+  @.rect = data.Rect.fromVecs(#).within(&dom.ClientRect().expand(-10))
+    f_viewport.itemToView(rect.p00)
+    f_viewport.itemToView(rect.p11)

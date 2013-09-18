@@ -1,13 +1,13 @@
 [TODO]
 ui
   selection marker.
-    react to item creation or edit when their sizes chagne.
     limit the rect size to view.
     cover the area of rotated items.
   button set types.
     for selected items.
       another button set.
       button box that follows selection marker.
+        below the marker.
       smart position of the box so that it won't go outside of view.
     for image etc modes.
     mode designation (draw, sencil, text).

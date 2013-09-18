@@ -1,0 +1,4 @@
+::<data.Rect
+  w := document.documentElement.clientWidth
+  h := document.documentElement.clientHeight
+  ^(0, 0, w, h)

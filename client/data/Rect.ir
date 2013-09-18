@@ -4,6 +4,12 @@
   @x1&\n\$
   @y1&\n\$
 
+:fromVecs = ##
+  \!%.Rect\
+  p00\!%.Vec2\$
+  p11\!%.Vec2\$
+  => &%.Rect(p00.x, p00.y, p11.x, p11.y)
+
 :clone+\!%.Rect\
   => &%.Rect(@x0, @y0, @x1, @y1)
 
@@ -22,6 +28,19 @@
 :p11+\!%.Vec2\
   => &%.Vec2(@x1, @y1)
 
+:expand\!%.Rect\
+  val\n\$
+  x0 := @x0 - val
+  y0 := @y0 - val
+  x1 := @x1 + val
+  y1 := @y1 + val
+  // Shrink only down to size 0.
+  if x0 > x1
+    x0 = x1 = 0.5 * (x0 + x1)
+  if y0 > y1
+    y0 = y1 = 0.5 * (y0 + y1)
+  => &%.Rect(x0, y0, x1, y1)
+
 :union\!%.Rect\
   other\!%.Rect\$
   => &%.Rect(#)
@@ -29,6 +48,21 @@
     Math.min(@y0, other.y0)
     Math.max(@x1, other.x1)
     Math.max(@y1, other.y1)
+
+:within\!%.Rect\
+  other\!%.Rect\$
+  l(@)
+  l(other)
+  l(&%.Rect(#))
+    inrange(other.x0, other.x1, @x0)
+    inrange(other.y0, other.y1, @y0)
+    inrange(other.x0, other.x1, @x1)
+    inrange(other.y0, other.y1, @y1)
+  => &%.Rect(#)
+    inrange(other.x0, other.x1, @x0)
+    inrange(other.y0, other.y1, @y0)
+    inrange(other.x0, other.x1, @x1)
+    inrange(other.y0, other.y1, @y1)
 
 :center+\%.Vec2\
   => &%.Vec2((@x0 + @x1) * 0.5, (@y0 + @y1) * 0.5)

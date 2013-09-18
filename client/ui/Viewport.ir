@@ -29,7 +29,7 @@
 :offset\data.Vec2\
   => &data.Vec2(@offset_x, @offset_y)
 
-:itemToView\data.Vec2\
+:itemToView\!data.Vec2\
   p\data.Vec2\$
   half_w := @viewport.offsetWidth / 2
   half_h := @viewport.offsetHeight / 2
@@ -37,7 +37,7 @@
     (p.x + @offset_x - half_w) * @scale + half_w
     (p.y + @offset_y - half_h) * @scale + half_h
 
-:itemToSurface\data.Vec2\
+:itemToSurface\!data.Vec2\
   p\data.Vec2\$
   half_w := @viewport.offsetWidth / 2
   half_h := @viewport.offsetHeight / 2
@@ -45,7 +45,7 @@
     p.x + @offset_x - half_w + half_w / @scale
     p.y + @offset_y - half_h + half_h / @scale
 
-:@viewToItem\data.Vec2\
+:@viewToItem\!data.Vec2\
   p\data.Vec2\$
   half_w := @viewport.offsetWidth / 2
   half_h := @viewport.offsetHeight / 2
@@ -53,7 +53,7 @@
     (p.x - half_w) / @scale - @offset_x + half_w
     (p.y - half_h) / @scale - @offset_y + half_h
 
-:surfaceToItem\data.Vec2\
+:surfaceToItem\!data.Vec2\
   p\data.Vec2\$
   half_w := @viewport.offsetWidth / 2
   half_h := @viewport.offsetHeight / 2
