@@ -8,7 +8,7 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   var f_surface;
   /** @type {ui.Surface} */
   var f_stroke_layer;
-  /** @type {ui.Selection} */
+  /** @type {ui.SelectionMarker} */
   var f_selection_marker;
   /** @type {palette.Color} */
   var f_color_palette;
@@ -95,7 +95,7 @@ Server access.
 :@buildDom
   f_global_actions = &action.GlobalSet()
   f_selection_actions = &action.SelectionSet()
-  f_selection_marker = &ui.Selection()
+  f_selection_marker = &ui.SelectionMarker()
   dom.appendChildren(document.body, [#])
     f_selection_marker.element
     dom.findOrCreate('div', {class: 'itemlist'})

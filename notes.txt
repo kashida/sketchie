@@ -1,4 +1,7 @@
 [TODO]
+consider putting selection marker inside viewport xform.
+  need one more level of div for xform which holds the marker and itemlist.
+
 ui
   button set types.
     for selected items.
@@ -22,9 +25,6 @@ tests:
 
 ux refine:
   selection marker padding -- bit smaller on left and too large on right?
-
-  consider putting selection marker inside viewport xform.
-    need one more level of div for xform which holds the marker and itemlist.
 
   individual button show/hide animation for selection state change.
     use action's valid/invalid flags.
