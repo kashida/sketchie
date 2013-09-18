@@ -30,6 +30,8 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   var f_strokes;
   /** @type {action.GlobalSet} */
   var f_global_actions;
+  /** @type {action.SelectionSet} */
+  var f_selection_actions;
   /** @type {model.Page} */
   var f_page;
 
@@ -92,6 +94,7 @@ Server access.
 
 :@buildDom
   f_global_actions = &action.GlobalSet()
+  f_selection_actions = &action.SelectionSet()
   f_selection_marker = &ui.Selection()
   dom.appendChildren(document.body, [#])
     f_selection_marker.element
@@ -128,6 +131,7 @@ Server access.
               dom.createText('alpha lock')
     dom.createDiv('img_undolist')
     f_global_actions.element
+    f_selection_actions.element
 
 :'saveHeader
   <!doctype html>

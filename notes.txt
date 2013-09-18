@@ -1,11 +1,7 @@
 [TODO]
 ui
-  selection marker.
-    limit the rect size to view.
-    cover the area of rotated items.
   button set types.
     for selected items.
-      another button set.
       button box that follows selection marker.
         below the marker.
       smart position of the box so that it won't go outside of view.
@@ -25,6 +21,16 @@ tests:
   closure compile the test and test util too.
 
 ux refine:
+  selection marker padding -- bit smaller on left and too large on right?
+
+  consider putting selection marker inside viewport xform.
+    need one more level of div for xform which holds the marker and itemlist.
+
+  individual button show/hide animation for selection state change.
+    use action's valid/invalid flags.
+
+  selection marker - cover the area of rotated items.
+
   need to do something about text's outline (focus marker).
 
   text layout strange while adding new text item.

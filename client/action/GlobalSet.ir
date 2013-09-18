@@ -1,10 +1,9 @@
-::
-  @actions\!A.<!%.Action>\ [#]
+::<%.Set
+  actions := [#]
     &%.NewDraw()
     &%.NewText()
     &%.Paste()
     &%.Delete()
-    &%.Duplicate()
     &%.Merge()
     &%.Save()
     &%.BackToList()
@@ -17,26 +16,4 @@
     &%.ExpandSelectionUp()
     &%.MoveSelectionDown()
     &%.MoveSelectionUp()
-  @buttons\ui.ButtonBox\ &ui.ButtonBox()
-  @keyMap\!O.<!%.Action>\ {}
-  @actions.forEach(##)
-    action\!action.Action\$
-    if action.key
-      if action.key instanceof Array
-        action.key.forEach(##)
-          k\s\$
-          @keyMap[k] = action
-      else
-        @keyMap[action.key] = action
-    if action.text
-      @buttons.add(&ui.Button(action.name, action.text, ##))
-        action.trigger()
-
-:element+\Element\
-  => @buttons.element
-
-:dispatch
-  evt\KeyboardEvent\$
-  code := &dispatch.EventKey(evt).code
-  if code in @keyMap
-    @keyMap[code].trigger()
+  ^(actions, &ui.ButtonBox())

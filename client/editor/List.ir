@@ -106,3 +106,4 @@ Key handler.
     f_viewport.move(0, 1)
   else
     f_global_actions.dispatch(\KeyboardEvent\(evt))
+    f_selection_actions.dispatch(\KeyboardEvent\(evt))
