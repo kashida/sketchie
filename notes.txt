@@ -1,11 +1,10 @@
 [TODO]
 ui
   selection marker.
-    view coords.
-      listen to view changes.
     offset of the boundary look little off...
     react to item creation or edit when their sizes chagne.
     limit the rect size to view.
+    cover the area of rotated items.
   button set types.
     for selected items.
       another button set.
