@@ -1,274 +1,301 @@
 [TODO]
-ui
-  button set types.
-    for image etc modes.
-    mode designation (draw, sencil, text).
+1.first thing to do.
+3.definitely needs to be done, but can wait.
+5.need re-eval.
 
-code clean up:
-  move logic from editor/List etc to actions.
-  split files > 100 lines.
-
-tests:
-  browser initiated test mode.
-    _t/ automatically finds the first test in alpha order.
-      also sets continue_test = true.
-    reload page if continue_test
-
-  closure compile the test and test util too.
-
-ux refine:
-  smart position of the selection box.
-    so that it won't go outside of view.
-    so it won't overlap with other buttons.
-
-  consider putting selection marker inside viewport xform.
-    need one more level of div for xform which holds the marker and itemlist.
-    -> need to modify save / load code too.
-
-  selection marker padding -- bit smaller on left and too large on right?
-
-  individual button show/hide animation for selection state change.
-    use action's valid/invalid flags.
-
-  selection marker - cover the area of rotated items.
-
-  need to do something about text's outline (focus marker).
-
-  text layout strange while adding new text item.
-    cursor not visible before typing anything.
-
-  try http://fortawesome.github.io/Font-Awesome/
-
-  find icons from www.flaticon.com.
-
-  css: change mouse cursor for buttons.
-
-  css: nowhere but text item is user selectable.
-
-  text cursor not visible when typing in a new text.
-  context sensitive action button bar.
-    make controller to create selection action buttons.
-    activate criteria.
-      hide disabled buttons and animation to hide them.
-      add each action a method to tell when it's activated / deactivated.
-      make framework to activate / deactivate based on selection changes.
-    should all global buttons diappear if there's a single selection?
-    set up action registration and hook up short-cut key mapping.
-    try extended font set for button graphics.
-
-    based on item selection, change set of buttons.
-    draw a border around selected items and move the button bar next to it.
-    button bar stay in view even when the border goes outside.
-      -> need some indication of selectio in case border all goes outside.
-
-  make item primary selection visually clearer in css.
-
-  change key modifier from shift to control.
+app:
+  2.change key modifier from shift to control.[M]
     probably need to stop propagate the key events.
-    5.override browser keys for zoom in/out and back to default ctrl-{+-0}
-      preventDefault doesn't seem to be working.
 
-  smooth scroll viewport translate with arrow keys in list mode.
-    css animation?
+  2.mode indicator -- item edit, draw, stencil, text.
 
-  mode indicator -- both editor mode and drag mode.
- 
-  texts in palette are selectable.
+  3.chrome extension / app packaging.
+    shortcut key to open scratch pad from any page.
 
-  make toggle button for the alpha lock etc.
-    we can then get rid of the form tag.
-
-  list mode palette needs image alpha lock control?
-
-  no color and alpha selection / adjustment in stencil mode.
-
-  make view control keys work in all modes.
-    rotate and scale mode.
-    maybe not for the draw / stencil mdoe since that's harder.
-
-  change mouse cursor for button mouse over.
-
-bug:
-  loading saved page makes all items model.Item (not Text or Image).
-
-  selection expand only keeps last two.
-
-  selection keys ('k' and 'j') in list mode is strange when there's no selection.
-
-  save page with an image, load the page, and edit the image.
-    exception in xformdrawimage?
-
-  make sure drawing surface coord system is right:
-    with viewport xforms
-    with item xforms (when editing an image item).
-  merging two images moves the resulting image to top left corner of the view.
-
-  no draw cursor when gone into draw mode.
-    -> cursor appears when brush changed.
-
-  shift-enter during text input width Japanese IME throws exception.
-
-  list mode copy xformed text -> make a copy with xform dropped.
-    image copy works fine with xform.
-
-  toggle alpha lock in list mode not working.
-
-  blend alpha control in list mode not working.
-
-  shift-k/j to expand selection only keeps two items selected.
-
-  'h' to hold item broken.
-
-  'n' / shift-'n' for z control in list mode doesn't seem to be working.
-
-  esc from draw mode fails if there is another image with higher (closer) z.
-
-  stencile mode:
-    sometimes -- change brush and immediately drawing.
-      stroke's draw is called w/ color member null.
-
-  list mode palette -> alpha hex control is not working.
-
-  smudge leaves dark area around edge.
-
-  drag scroll viewport.
-
-new features:
-  apply rotate and scale mouse drag to all the selected items.
-    not just the primary selection.
-
-  hex control overhaul.
-    drag hex and keep selected region fixed in screen.
-
-  move color adjustment to a different app.
-
-  move brush parameters to a different app.
-
-  add translate mode in list editor.
-    treat it same as rotate and scale.
-    the default is click to select only.
-
-  organize all the controls (specially the list mode).
-    keep the key control as shortcut, but add mouse controls.
-
-  save:
+  3.save overhaul.
+    spinner.
     save done message.
     leave page w/o save warning.
     auto-save.
     google docs.
 
-  draw mode:
-    brush pressure.
-    alpha lock mode indicator.
-    selected stroke indicator.
-      alphabet letter on cursor sometimes shows up...
+  4.text style set up screen.
+    border width/color, font-size, line-height, text color, and text-shadow.
+    vertical text.
 
-  ink stroke to use timing information for the stroke width.
+  4.color set up screen.
+    move color adjustment to a different app.
 
-  command list based undo (not image copies).
+  4.brush set up screen.
+    move brush parameters to a different app.
+    show only tool control that are meaningful for the selected tool.
+    ink stroke parameter contorl (iri/nuki length and speed sensitivity).
+    random brush control.
+    gradient brush control.
 
-  wacom pen pressure support?
-  https://github.com/ZaneA/WacomWebPlugin
+  4.page config screen.
+    background texture image selection.
+    default text style.
 
-chrome extension / app packaging.
+  4.screen capture of the entire page (outside of scroll region too).
 
-refactor: make checkbox UI.[I]
->>[J]bug: image item stays in upper items and not able to drag move items anymore.
-2.tool palette
-  hex 6 dir multi-level selection.[H]
-  >>[H]2.stroke type selection into the tool palette.[C]
-  >>[C]1.shift qwerty for updating brush config.
-  >>[C]2.show only tool control that are meaningful for the selected tool.
-  >>[C]2.ink stroke parameter contorl (iri/nuki length and speed sensitivity).
-  >>[E][C]random brush control.
-  >>[G][C]gradient brush control.
-  3.tool selection icons (same as tool sample) on the right edge with keyboard key assignment.
-2.item mode selection
-  2.key to move selection to up / down in overlapped z order.
-  2.rectangle and free draw for item selection.[D]
-  2.implement click select and item drag move with input layer.[F]
-  3.remember current item position key / snap back to the remembered position key -- for easier selection.
-3.stroke
-  3.random position, rotation, size, color, image, etc.[E]
-  3.image brush.
-  3.gradient brush -- one dot with gradient (gradient with transparency possible?).[G]
-  3.brushes to fill between stroke sample points where brush went too fast.
-  3.brushes to average out sample point positions for smoother storokes.
-2.ui
-  >>[I]2.display image state somewhere (in draw mode too) -- transform and alpha_lock.
-  2.display mode state -- item edit, draw, stencil, rotate, etc.
-  2.make palette open/close consistent with the selected item.
-  3.visual response for save (and other commands) / state indicator.  use css cursor change?
-  3.display number of selected items and their type (image / text).
->>[D]2.zoom with rectangle drawing.
-2.edit mode form for text -- border width/color, font-size, line-height, text color, and text-shadow.
-2.move / scroll
-  2.drag move all selected.
-  2.switch select / item move / scroll modes.  also scroll when dragging no item area.
-  3.send selected to bottom of the page.
-  3.draw guide to define drawing area.
-  3.scale x and y separately.
-3.flip vert/horiz images.
-3.make stencil with scaled / rotated images work.
-4.page
-  2.background texture image selection.
-  2.default font size etc manipulation.
-  4.live preview of the whole page (or specified region).
-4.undo
-  2.text edits.
-  3.image non-draw mode manipulations.
-4.copy to internalize the pasted image.
-4.color palette -- instead of hsl, blend black, white, gray (of the same tone), and prev color.
-4.temporarily flip the viewport -- easier for some stroke directions.
-4.store in dropbox.
-  4.store note in html format.
-  4.load saved note.
-  4.store app config.
-4.image manipulation
+  5.hex control overhaul.
+    drag hex and keep selected region fixed in screen.
+
+  5.make view control keys work in all modes.
+    rotate and scale mode.
+    maybe not for the draw / stencil mdoe since that's harder.
+
+  5.copy to internalize the pasted image.
+
+  5.store in dropbox.
+    store note in html format.
+    load saved note.
+    store app config.
+
+viewport:
+  2.exit or adjust in draw mode when resize viewport.
+    trying to capture 'resize' of input_layer in dispatcher, but not working...
+
+  3.viewport control by mouse.[A]
+    scaling control still needs to be done by buttons / keys.
+
+  >>[A][B][L]3.selection of drag viewport mode.
+    enabeld on in list mode (or maybe also text mode).
+    viewport move / rotate.
+    selection (box select).
+    change pointer cursor too.
+    need the mode indicator too.
+
+  >>[M]3.override browser keys for zoom in/out and back to default ctrl-{+-0}
+    preventDefault doesn't seem to be working.
+
+  4.viewport rotate (mouse) and flip (button?).[B]
+
+  3.viewport follow cursor in text mode.
+
+  4.consider putting selection marker inside viewport xform.
+    need one more level of div for xform which holds the marker and itemlist.
+    -> need to modify save / load code too.
+
+  >>[D]4.zoom with rectangle drawing.
+
+  5.smooth scroll viewport translate with arrow keys in list mode.
+    css animation?
+
+buttons:
+  2.individual button show/hide for selection state change.
+    with animation.
+    use action's valid/invalid flags.
+    no keys should work for selection buttons when inactive.
+
+  2.css: change mouse cursor for button hover.
+
+  3.button icon.
+    try http://fortawesome.github.io/Font-Awesome/
+    find icons from www.flaticon.com.
+
+  3.change tool box controls to buttons.[N]
+    alpha lock (for image).
+      need a toggle button.
+      move from list mode to image mode.
+    alpha value control.
+
+selection:
+  1.marker padding -- bit smaller on left and too large on right?
+
+  2.drag handle.
+    move, rotate, scale.
+
+  2.make item primary selection visually clearer in css.
+
+  3.item flip vert/horiz.
+
+  3.marker - cover the area of rotated items.
+
+  3.box select items.[L]
+    also additive / subtractive select.
+
+  3.drag control handle show/hide.
+    this selection should stick thru selection changes.
+    need the mode indicator too.
+
+  3.copy/cut/paste selected items.
+
+  4.lasso for item selection.[D]
+
+  4.key to move selection to up / down in overlapped z order.
+
+  4.display number of selected items and their type (image / text).
+
+  5.smart position of the selection box.
+    so that it won't go outside of view.
+    so it won't overlap with other buttons.
+
+list mode:
+  4.drop item holding ('h' key).[O]
+
+  2.go up to the list page (shift-'u') is too easy.
+
+  3.text item width control.
+    or height for vertical text.
+
+  3.scale / translate view to show all selected.
+
+  3.list mode undo.
+
+  4.draw guide to define drawing area.
+    like width=1000px for XGA.
+
+  3.apply rotate and scale mouse drag to all the selected items.
+    not just the primary selection.
+    with the center of rotation / scaling at the center of all items.
+
+  4.perspective guide lines with svg.
+
+  4.css perspective transform both image and text.
+
+  5.item scale x and y separately.
+
+text item / mode:
+  2.review text item border.
+    while in text mode too.
+
+  2.keep browser focus in the text box.
+    if outside clicked, bounce focus back.
+
+  2.no selection of other ui components.
+
+  2.hide text item outline (browser's focus marker).
+
+  2.text layout strange while adding new text item.
+
+  2.css: nowhere but text item is user selectable.
+    texts in palette are selectable.
+
+  2.text cursor not visible when typing in a new text.
+    when there's nothing.
+
+  3.edit mode key controls (with ctrl).
+    go to the beginning / end of the text.
+    go to the beginning / end of line.
+    'esc'.
+    split into another item.
+    drop the 'i' and 'e' list mode keys.
+
+image mode:
+  2.make buttons for all actions.
+
+  2.alpha lock mode indicator.
+    alphabet letter on cursor sometimes shows up...
+
+  2.selected stroke indicator.
+
+  2.display image state somewhere (in draw mode too) -- transform and alpha_lock.
+
+  3.command list based undo (not image copies).
+
+  3.make sure image mode undo is working.
+
+  3.brush pressure.
+    wacom pen pressure support?
+    https://github.com/ZaneA/WacomWebPlugin
+
+  3.stroke
+    3.random position, rotation, size, color, image, etc.[E]
+    3.image brush.
+    3.gradient brush -- one dot with gradient (gradient with transparency
+        possible?).[G]
+    3.brushes to fill between stroke sample points where brush went too fast.
+    3.brushes to average out sample point positions for smoother storokes.
+    4.ink stroke to use timing information for the stroke width.
+
+  3.tool selection icons (same as tool sample) on the right edge with keyboard
+      key assignment.
+
+  4.draw with rotate state kept.
+
+image filters:
   4.blend modes.
+    no preview -- just compute in js.
+
   4.blur.
-  4.color correction.
-4.perspective guide lines with svg.
-5.drawing with low alpha brush repeatedly doesn't reach alph=1.0.
-5.draw with rotate state kept.
-5.exit or adjust in draw mode when resize viewport.
-  trying to capture 'resize' of input_layer in dispatcher, but not working...
-5. make hsl parameter not go over the limit by mapping to [0, 1].
-5. hex slider: tri-axis color control.
-5. add '.html' to the file name when save.
-5. css perspective transform both image and text.
 
--- extension only
-bug: saved page doesn't get the background image when loaded.
-screen capture.
-make my own icon 19x19.
-shortcut key to open scratch pad from any page.
+  4.image color correction.
 
---- svg
-keep one svg element with namespace (xmlns and xlink).
-  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-create tag:
-  C=document.createElementNS(xmlns,"circle")
-  C.setAttributeNS(null,"r",50)
-image href attribute:
-  I.setAttributeNS("http://www.w3.org/1999/xlink","xlink:href","newone.jpg")
-  I.href.baseVal="newone.jpg"
-get attribute:
-  document.getElementById("R").height.baseVal.value
-create text tag:
-  T=document.createElementNS(xmlns,"text")
-  Msg=document.createTextNode(4321)
-  T.appendChild(Msg)
-  document.documentElement.appendChild(T)
-modify text in text tag:
-  T=document.getElementById(id)
-bounding box:
-  getBBox
-  getScreenBBox
-path mid points:
-  getTotalLength()
-  getPointAtLength
-  T.firstChild.nodeValue=s
+stencil mode:
+  2.make buttons for all actions.
+
+  3.drop color and alpha selection / adjustment.
+
+  4.make stencil with scaled / rotated images work.
+
+code clean up:
+  3.move logic from editor/List etc to actions.
+
+  3.split files > 100 lines.
+
+  >>[N]4.get rid of the form tag.
+
+tests:
+  1.browser initiated test mode.
+    _t/ automatically finds the first test in alpha order.
+      also sets continue_test = true.
+    reload page if continue_test
+
+  1.closure compile the test and test util too.
+
+  1.karma.
+
+bug:
+  0.loading saved page makes all items model.Item (not Text or Image).
+
+  1.selection expand (shift-k/j) only keeps last two.
+
+  1.selection keys ('k' and 'j') in list mode is strange when there's no selection.
+
+  1.save page with an image, load the page, and edit the image.
+    exception in xformdrawimage?
+
+  1.merging two images moves the resulting image to top left corner of the view.
+
+  2.make sure drawing surface coord system is right:
+    with viewport xforms
+    with item xforms (when editing an image item).
+    and write test.
+
+  2.'n' / shift-'n' for z control in list mode doesn't seem to be working.
+
+  2.esc from draw mode fails if there is another image with higher (closer) z.
+
+  3.no draw cursor when gone into draw mode.
+    -> cursor appears when brush changed.
+
+  3.shift-enter during text input width Japanese IME throws exception.
+
+  3.list mode copy xformed text -> make a copy with xform dropped.
+    image copy works fine with xform.
+
+  >>[N]4.toggle alpha lock in list mode not working.
+
+  >>[N]4.blend alpha control in list mode not working.
+
+  >>[O]4.'h' to hold item broken.
+
+  3. make hsl parameter not go over the limit by mapping to [0, 1].
+
+  4.stencile mode:
+    sometimes -- change brush and immediately drawing.
+      stroke's draw is called w/ color member null.
+
+  4.list mode palette -> alpha hex control is not working.
+
+  4.smudge leaves dark area around edge.
+
+  4.drawing with low alpha brush repeatedly doesn't reach alph=1.0.
+
+  4.extension only: saved page doesn't get the background image when loaded.
+
 
 
 [style]

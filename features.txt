@@ -123,54 +123,76 @@ rotate / scale mode:
 
 
 [to be implemented]
-? need slider?
-  alpha, viewport zoom, etc.
+controls:
+  overlay controls.
+    position fixed to document.
+    style them differently so look ok overlapping with viewport which has
+        controls too.
+    - mode indicator: list, text, draw, and stencil.
+    - go to file list page.
+    - save and save state indicator.
+      activated only when there's something to save.
+      disabled during text, draw, or stencil mode.
+    - viewport controls -- zoom in, out, default, show all, show all selected.
+      disabled during text, draw, or stencil mode.
+    - mouse control mode change (selection / viewport drag).
+      selection mode allows box select.
+      viewport drag move and rotate.
+    - viewport flip horiz and vert.
 
-- mode button box: items, draw, text, stencil.
-  one and only one selected at any time.
-  current mode should be hilighted, but disabled as a button.
-  ? stencil button should be in the selection button box?
-  ? text and draw mode here will edit the selected item if there's one?
-  ? should the buttons move to selection button box?
-  ? button go up to the page list mode (same as shift-u)?
+  pop-up.
+    click on non-item area to show.
+    hide with any action.
+      action from this control.
+      item selected.
+      viewport change.
+    - new text.
+    - new drawing.
+    - paste image or text.
 
-items mode subdivides to:
-  click select (with ctrl and shift for mult-select).
-  drag rect select (with ctrl for add select).
-  drag item.
-  item rotate.
-  item scale.
-  viewport drag.
-  ? should all these be done w/o mode change?
-    like control widget show up for scaling?
+  selection control.
+    stay in client area as long as part of the selection marker is in.
+    - rotate / scale / move handles.
+      go outside of the marker if the selection box is too small.
+    - handle show / hide.
+    - flip horiz / vert.
+    - edit text.
+    - edit drawing.
+    - go to stencil mode.
+    - clear selection.
+    - copy.
+    - delete.
+    - alpha value control.
+    - merge (only when multiple selection of same type).
+    - z control -- move by one, move overlapped by one, to the end.
+      need to work in text, draw, and stencil mode too...
 
-- items tool box (no need for selection).
-  viewport controls -- zoom in, out, default, show all.
-    disabled in draw and stencil mode.
-  paste image / text.
-  clear selection.
+  edit mode (text/draw/stencil) control.
+    horizontal at the bottom of the screen.
+    - esc.
+    text mode:
+      - split text item at the cursor.
+        useful on touch device.
+    draw/stencil mode:
+      - stroke selection and incidator.
+      - brush size control.
+      - brush alpha control.
+      - undo stroke.
+    draw mode:
+      - color selection and indicator.
+        make it easy to select the previously selected color.
+        keep colors from color pick.
+      - alpha lock toggle / indicator.
+      - go to stencil mode button.
+    stencil mode:
+      - cut button.
+      - copy button.
 
-- item selection box.
-  copy.
-  delete.
-  alpha -- toggle alpha lock, alpha up / down.
-    alpha lock is a toggle button.
-  merge (only when multiple selection of same type).
-  z control -- move by one, move overlapped by one, to the end.
-    need to work in text, draw, and stencil mode too...
-
-- text edit box.
-  move cursor to beginning / end.
-  split text items.
-
-- draw tool box.
-  stroke selection.
-  undo stroke.
-  ? swap primary / secondary color?
-  ? hue, saturation, lightness, mix adjustment?
-  ? brush param controls: alpha, size, lerp?
-  ? toggle toolbox and color box?
-
-- stencil tool box.
-  copy image and exit.
-  cut image and exit.
+mouse controls in list mode:
+  global modes:
+    - click to select.
+      also box select.
+      click on outside of item opens pop-up.
+      ctrl-click or ctrl-box-draw for multi-select.
+    - drag (anywhere including on items) to move viewport.
+  - selection: drag handles for move, rotate, and scale.
