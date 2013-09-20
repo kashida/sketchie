@@ -3,7 +3,7 @@
   dom.eachChild(@element, ##)
     el\!Element\$
     if !el.item
-      &%.Item(el)
+      %.Item.create(el)
 
 All child elements need to be blessed when added, and disposed when removed.
 :@dispose

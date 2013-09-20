@@ -1,6 +1,7 @@
 ::<%.Item
-  @img+\!Image\ &Image()
-  ^(dom.create('div'))
+  el\!Element\?
+  @img+\!Image\ (el && \!Image\(el.firstChild)) || &Image()
+  ^(el)
   @.element.style['-webkit-user-select'] = 'none'
   @.element.appendChild(@img)
 

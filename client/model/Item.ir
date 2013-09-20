@@ -4,9 +4,14 @@ member vars.
 ::
   // Taking the parameter as non-nullable, but the member needs to be nullable
   // for disposing.
-  el\!Element\$
+  el\!Element\? dom.create('div')
   @element+\Element\ el
   @bless()
+
+:create = ##
+  \%.Item\
+  el\!Element\$
+  => el.firstChild.tagName == 'IMG' ? &%.Image(el) : &%.Text(el)
 
 :@bless
   @element.item = @
