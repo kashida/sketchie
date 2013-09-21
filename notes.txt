@@ -248,8 +248,6 @@ tests:
   1.karma.
 
 bug:
-  0.loading saved page makes all items model.Item (not Text or Image).
-
   1.selection expand (shift-k/j) only keeps last two.
 
   1.selection keys ('k' and 'j') in list mode is strange when there's no selection.
