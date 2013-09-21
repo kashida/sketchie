@@ -3,6 +3,18 @@
 3.definitely needs to be done, but can wait.
 5.need re-eval.
 
+tests:
+  1.launch browser from command line.
+
+  1.browser initiated test mode.
+    _t/ automatically finds the first test in alpha order.
+      also sets continue_test = true.
+    reload page if continue_test
+
+  1.closure compile the test and test util too.
+
+  1.test saving and loading page.
+
 app:
   2.change key modifier from shift to control.[M]
     probably need to stop propagate the key events.
@@ -236,16 +248,6 @@ code clean up:
   3.split files > 100 lines.
 
   >>[N]4.get rid of the form tag.
-
-tests:
-  1.browser initiated test mode.
-    _t/ automatically finds the first test in alpha order.
-      also sets continue_test = true.
-    reload page if continue_test
-
-  1.closure compile the test and test util too.
-
-  1.karma.
 
 bug:
   1.selection expand (shift-k/j) only keeps last two.

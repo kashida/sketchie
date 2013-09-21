@@ -93,6 +93,10 @@ compiled/_server.js: $(SERVER_JS) $(SERVER_PKG)
 	$(addprefix --js ,$(shell $(SORTJS) $(SERVER_JS))) || \
   rm $@
 
+tests:
+	chromium-browser 'localhost:1357/_t?tgt=text'
+	chromium-browser 'localhost:1357/_t?tgt=draw'
+
 # TODO: make the rest work.
 chrome/background.js: server/background.coffee
 	coffee -j $@ -c $^
@@ -101,7 +105,6 @@ chrome/femto.js: $(CLIENT_JS)
 	coffee -j $@ -c $^
 
 ext: chrome/femto.js chrome/background.js
-
 
 ############################################################
 # Non-build commands.
