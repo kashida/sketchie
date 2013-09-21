@@ -68,3 +68,6 @@
       line\s\$
       // Dropping the stacks that belong to this class.
       => !/^\s*at\s+TestBase\./.test(line)
+
+:@reloadWithoutReport
+  location.reload()

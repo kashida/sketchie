@@ -1,0 +1,37 @@
+:'saveHeader
+  <!doctype html>
+  <html><head>
+    <title>Scrawler</title>
+    <link rel="stylesheet" href="scrawler.css" type="text/css">
+    </head><body>
+
+:'saveFooter
+  </body></html>
+
+::
+
+:run
+  // Send everything in the item list.
+  html := #+
+    '<div class="itemlist">'
+    dom.id('itemlist').innerHTML
+    '</div>\n'
+  if @run_as_extension
+    bb := &WebKitBlobBuilder()
+    bb.append(saveHeader)
+    bb.append(html)
+    bb.append(saveFooter)
+    //getURL = window.createBlobURL || window.createObjectURL
+    ifr := dom.id('save_ifr')
+    if !ifr
+      ifr = dom.create('iframe')
+      ifr.id = 'save_ifr'
+      ifr.style.display = 'none'
+    ifr.src = window.webkitURL.createObjectURL(bb.getBlob())
+    document.body.appendChild(ifr)
+  else
+    xhrPost(location.pathname, html)
+
+upload: ->
+  chrome.extension.sendRequest ['list'], (resp) ->
+    l resp

@@ -1,0 +1,36 @@
+Global components of the app -- i.e. only one instance in the lifetime of the app.
+:~
+  /** @type {Scrawler} */
+  var f_scrawler;
+  /** @type {ui.Viewport} */
+  var f_viewport;
+  /** @type {ui.Surface} */
+  var f_surface;
+  /** @type {ui.Surface} */
+  var f_stroke_layer;
+  /** @type {ui.SelectionMarker} */
+  var f_selection_marker;
+  /** @type {palette.Color} */
+  var f_color_palette;
+  /** @type {palette.Tool} */
+  var f_tool_palette;
+  /** @type {palette.Item} */
+  var f_item_palette;
+  /** @type {ui.Cursor} */
+  var f_cursor;
+  /** @type {dispatch.Mouse} */
+  var f_dispatcher;
+  /** @type {editor.Modes} */
+  var f_editor_modes;
+  /** @type {ui.HexControl} */
+  var f_hex_control;
+  /** @type {model.ZOrder} */
+  var f_z_order;
+  /** @type {stroke.Set} */
+  var f_strokes;
+  /** @type {action.GlobalSet} */
+  var f_global_actions;
+  /** @type {action.SelectionSet} */
+  var f_selection_actions;
+  /** @type {model.Page} */
+  var f_page;

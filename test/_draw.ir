@@ -12,7 +12,6 @@
   @key.send('d')
   @mouse.drag(30, 30, 70, 70)
   @key.send('a')
-  //window.setTimeout(##, 0)
   itemlist := @util.select('.itemlist')
   @verify(itemlist.children.length == 1)
   @verify(itemlist.firstChild.firstChild instanceof Image)

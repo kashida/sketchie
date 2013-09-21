@@ -3,4 +3,4 @@
 
 :trigger
   f_page.selection.clear()
-  f_scrawler.upload()
+  &Upload().run()

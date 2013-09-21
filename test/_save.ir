@@ -1,0 +1,31 @@
+::Test<TestBase
+  ^('Save')
+
+:test
+  itemlist := @util.select('.itemlist')
+  if itemlist.children.length
+    @loaded()
+    =>
+
+  // Create items and reload.
+  @key.send('o')
+  @key.input('abc')
+  @key.code(DOM_VK_ESCAPE)
+
+  @key.send('d')
+  @mouse.drag(30, 30, 70, 70)
+  @key.send('a')
+
+  @verify(itemlist.children.length == 2)
+
+  @key.send('s', true)
+  @reloadWithoutReport()
+
+:@loaded
+  // This is after reload of the saved data.
+  itemlist := @util.select('.itemlist')
+  @verify(itemlist.children.length == 2)
+  @verify(itemlist.children[0].innerText.trim() == 'abc')
+  @verify(itemlist.children[0].item instanceof model.Text)
+  @verify(itemlist.children[1].firstChild instanceof Image)
+  @verify(itemlist.children[0].item instanceof model.Image)

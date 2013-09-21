@@ -4,16 +4,14 @@
 5.need re-eval.
 
 tests:
-  1.launch browser from command line.
+  1.test saving and loading page.
+
+  1.closure compile the test and test util too.
 
   1.browser initiated test mode.
     _t/ automatically finds the first test in alpha order.
       also sets continue_test = true.
     reload page if continue_test
-
-  1.closure compile the test and test util too.
-
-  1.test saving and loading page.
 
 app:
   2.change key modifier from shift to control.[M]

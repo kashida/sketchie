@@ -96,6 +96,7 @@ compiled/_server.js: $(SERVER_JS) $(SERVER_PKG)
 tests:
 	chromium-browser 'localhost:1357/_t?tgt=text'
 	chromium-browser 'localhost:1357/_t?tgt=draw'
+	#chromium-browser 'localhost:1357/_t?tgt=save'
 
 # TODO: make the rest work.
 chrome/background.js: server/background.coffee
