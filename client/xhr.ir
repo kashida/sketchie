@@ -1,25 +1,20 @@
 ::xhrPost = ##
   uri\s\$
-  payload\s\$
+  payload\s|O\$
   callback\F\?
   xhr := &XMLHttpRequest()
-  xhr.open('POST', uri)
   if callback
-    xhr.onreadystatechange = ##
-      if xhr.readyState != 4
-        =>
+    xhr.upload.addEventListener("load", ##, false)
       callback(xhr)
-  //xhr.send(JSON.stringify(payload))
-  xhr.send(payload)
+  xhr.open('POST', uri)
+  xhr.send(payload instanceof Object ? JSON.stringify(payload) : payload)
 
 ::xhrGet = ##
   uri\s\$
   callback\F\$
   xhr := &XMLHttpRequest()
-  xhr.open('GET', uri)
   if callback
-    xhr.onreadystatechange = ##
-      if xhr.readyState != 4
-        =>
+    xhr.upload.addEventListener("load", ##, false)
       callback(xhr)
+  xhr.open('GET', uri)
   xhr.send()
