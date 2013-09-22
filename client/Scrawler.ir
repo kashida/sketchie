@@ -28,6 +28,8 @@
   f_strokes = &stroke.Set()
   f_selection_marker.init()
 
+TODO: Move dom building to ejs.
+Works for extension too if statically built and linked.
 :@buildDom
   f_global_actions = &action.GlobalSet()
   f_selection_actions = &action.SelectionSet()

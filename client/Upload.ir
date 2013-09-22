@@ -1,13 +1,3 @@
-:'saveHeader
-  <!doctype html>
-  <html><head>
-    <title>Scrawler</title>
-    <link rel="stylesheet" href="scrawler.css" type="text/css">
-    </head><body>
-
-:'saveFooter
-  </body></html>
-
 ::
 
 :run
@@ -31,6 +21,17 @@
     document.body.appendChild(ifr)
   else
     xhrPost(location.pathname, html)
+
+TODO: Statically create this from ejs.
+:'saveHeader
+  <!doctype html>
+  <html><head>
+    <title>Scrawler</title>
+    <link rel="stylesheet" href="scrawler.css" type="text/css">
+    </head><body>
+
+:'saveFooter
+  </body></html>
 
 upload: ->
   chrome.extension.sendRequest ['list'], (resp) ->

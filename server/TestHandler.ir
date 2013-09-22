@@ -6,6 +6,7 @@
 
 :@serve
   name\s\$
+  data\s\? ''
   src := _path.join('test', '_' + name + '.ir')
   if !_path.existsSync(src)
     @ctxt.response(404, src)
@@ -27,4 +28,5 @@
     // TODO: traverse all tests.
     @ctxt.response(404)
     =>
-  @serve(name)
+  data := @ctxt.query['dt']
+  @serve(name, data)

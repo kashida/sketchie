@@ -10,7 +10,8 @@
   @init()
   @ackStart()
   @runTests()
-  @report(@success ? 'GOOD' : 'BAD')
+  @report(@success ? 'GOOD' : 'BAD', undefined, ##)
+    close()
 
 :@init
   window.onerror = ##
@@ -53,7 +54,8 @@
 :@report
   line\s\$
   desc\s\? ''
-  xhrPost('/_tr', '* [' + # + '] ' + line + #)
+  cb\F\?
+  xhrPost('/_tr', '* [' + # + '] ' + line + #, cb)
     @testName ? @name + '.' + @testName : @name
     desc ? '\n' + desc : ''
 

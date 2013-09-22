@@ -20,6 +20,7 @@ app:
   2.mode indicator -- item edit, draw, stencil, text.
 
   3.chrome extension / app packaging.
+    move static dom building and dom for saving file into ejs.
     shortcut key to open scratch pad from any page.
 
   3.save overhaul.

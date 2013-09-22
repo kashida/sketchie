@@ -18,7 +18,11 @@
 
   @verify(itemlist.children.length == 2)
 
+  url := location.href
+  history.replaceState({}, '', '__save_test')
   @key.send('s', true)
+
+  history.replaceState({}, '', location.href + '&dt=__save_test')
   @reloadWithoutReport()
 
 :@loaded
