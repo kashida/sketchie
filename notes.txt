@@ -3,8 +3,12 @@
 3.definitely needs to be done, but can wait.
 5.need re-eval.
 
+0.finish all priority 1's and re-eval for publishing.
+
 tests:
   1.test saving and loading page.
+    server -- no separate test handler, just load a page with extra
+      test script specified by the url param.
 
   1.closure compile the test and test util too.
 
@@ -47,6 +51,7 @@ app:
   4.page config screen.
     background texture image selection.
     default text style.
+    http://subtlepatterns.com/
 
   4.screen capture of the entire page (outside of scroll region too).
 
@@ -120,6 +125,9 @@ selection:
 
   2.make item primary selection visually clearer in css.
 
+  2.additive select by default.
+    esc key or unselect button to clear the selectin.
+
   3.item flip vert/horiz.
 
   3.marker - cover the area of rotated items.
@@ -138,6 +146,8 @@ selection:
   4.key to move selection to up / down in overlapped z order.
 
   4.display number of selected items and their type (image / text).
+
+  4.toggle for additive select / click to select (unselect everything else).
 
   5.smart position of the selection box.
     so that it won't go outside of view.

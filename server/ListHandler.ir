@@ -2,7 +2,7 @@
   @ctxt\Context\$
   @handlers\HandlerSet\$
 
-:reply
+:@reply
   // Check if the path exists.
   target_dir := _path.join('data', @ctxt.path)
   if !_path.existsSync(target_dir)
@@ -20,3 +20,9 @@
     path: target_dir
     files: file_list
     newname: newname
+
+:tryProcess\b\
+  if @ctxt.path[@ctxt.path.length - 1] != '/'
+    => false
+  @reply()
+  => true

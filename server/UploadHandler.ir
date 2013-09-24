@@ -3,16 +3,19 @@
   @handlers\HandlerSet\$
 
 :@post
+  // TODO: handle sub-dirs.
   data := ''
   @ctxt.req.setEncoding('utf8')
   @ctxt.req.on('data', ##)
     chunk\s\$
     data += chunk
   @ctxt.req.once('end', ##)
-    log(data)
+    @handlers.pageRender.saveAndReply(#)
+      {contents: data}
+      _path.join('data', @ctxt.path)
 
 :tryProcess\b\
-  if @ctxt.path != '/_log'
+  if @ctxt.req.method != 'POST'
     => false
   @post()
   => true

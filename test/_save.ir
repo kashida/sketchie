@@ -19,10 +19,10 @@
   @verify(itemlist.children.length == 2)
 
   url := location.href
-  history.replaceState({}, '', '__save_test')
+  history.replaceState({}, '', '_save_test.html')
   @key.send('s', true)
 
-  history.replaceState({}, '', location.href + '&dt=__save_test')
+  history.replaceState({}, '', location.href + '?test=save')
   @reloadWithoutReport()
 
 :@loaded
@@ -31,5 +31,5 @@
   @verify(itemlist.children.length == 2)
   @verify(itemlist.children[0].innerText.trim() == 'abc')
   @verify(itemlist.children[0].item instanceof model.Text)
-  @verify(itemlist.children[1].firstChild instanceof Image)
-  @verify(itemlist.children[0].item instanceof model.Image)
+  @verify(itemlist.children[1].firstChild.tagName == 'IMG')
+  @verify(itemlist.children[1].item instanceof model.Image)

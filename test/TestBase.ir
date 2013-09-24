@@ -5,13 +5,15 @@
   @key+\SendKey\ &SendKey()
   @mouse+\TriggerMouse\ &TriggerMouse()
   @util+\Util\ &Util()
+  @dropReport\b\ false
 
 :run
   @init()
   @ackStart()
   @runTests()
-  @report(@success ? 'GOOD' : 'BAD', undefined, ##)
-    close()
+  if !@dropReport
+    @report(@success ? 'GOOD' : 'BAD', undefined, ##)
+      close()
 
 :@init
   window.onerror = ##
@@ -25,7 +27,7 @@
     => true
 
 :@ackStart
-  xhrPost('/_tr', '<<<Test:' + @name + '>>>')
+  xhrPost('/_log', '<<<Test:' + @name + '>>>')
 
 :@runTests
   // run all the methods that has names starting with 'test'.
@@ -55,7 +57,7 @@
   line\s\$
   desc\s\? ''
   cb\F\?
-  xhrPost('/_tr', '* [' + # + '] ' + line + #, cb)
+  xhrPost('/_log', '* [' + # + '] ' + line + #, cb)
     @testName ? @name + '.' + @testName : @name
     desc ? '\n' + desc : ''
 
@@ -73,3 +75,4 @@
 
 :@reloadWithoutReport
   location.reload()
+  @dropReport = true

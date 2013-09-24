@@ -6,18 +6,6 @@
 :OPEN_MARKER = '<!--%'
 :CLOSE_MARKER = '%-->'
 
-:post
-  // TODO: handle sub-dirs.
-  data := ''
-  @ctxt.req.setEncoding('utf8')
-  @ctxt.req.on('data', ##)
-    chunk\s\$
-    data += chunk
-  @ctxt.req.once('end', ##)
-    @handlers.pageRender.saveAndReply(#)
-      {contents: data}
-      _path.join('data', @ctxt.path)
-
 :@packageList\s\
   => #+
     '<script>\n'
@@ -27,12 +15,11 @@
     '</script>\n'
 
 :@scriptList\s\
-  additional_scripts\A.<s>\? []
   list := &Compile('client').scriptList.map(##).join('')
     file\s\$
     => '<script src="/_s/' + file + '"></script>\n'
-  if additional_scripts.length
-    list += additional_scripts.map(##).join('')
+  if @ctxt.extraScripts.length
+    list += @ctxt.extraScripts.map(##).join('')
       file\s\$
       => '<script src="/_ts/' + file + '"></script>\n'
   => list
@@ -55,15 +42,13 @@ Try to render. If fail, return the input as is (and log the error message).
     script: #+
       @packageList()
       @scriptList()
-    init: %.HtmlHandler.SCRIPT_LOAD
+    init: %.HtmlHandler.SCRIPT_LOAD + @ctxt.extraInit
 
 :create
-  additional_scripts\A.<s>\?
-  additional_init\s\? ''
   @handlers.pageRender.reply([{contents: ''}, {#}])
     open: %.HtmlHandler.OPEN_MARKER
     close: %.HtmlHandler.CLOSE_MARKER
     script: #+
       @packageList()
-      @scriptList(additional_scripts)
-    init: %.HtmlHandler.SCRIPT_LOAD + additional_init
+      @scriptList()
+    init: %.HtmlHandler.SCRIPT_LOAD + @ctxt.extraInit

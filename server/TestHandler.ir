@@ -2,31 +2,28 @@
   @ctxt\Context\$
   @handlers\HandlerSet\$
 
-:SCRIPT_RUN = '<script>new Test().run()</script>'
-
-:@serve
+:@setScripts
   name\s\$
   data\s\? ''
   src := _path.join('test', '_' + name + '.ir')
   if !_path.existsSync(src)
-    @ctxt.response(404, src)
+    log('unknown test requested: ' + name)
     =>
 
-  // Load the template file.
+  // Compile the test scripts and make the list.
   c := &Compile('test')
   c.run()
   list := c.scriptList.filter(##)
     file\s\$
     => !/^_/.test(file)
   list.push('_' + name + '.js')
-  @handlers.html.create(list, %.TestHandler.SCRIPT_RUN)
+  @ctxt.extraScripts = list
+  @ctxt.extraInit = '<script>new Test().run()</script>'
 
-:reply
-  // Check if the path contains the test name.
-  name := @ctxt.query['tgt']
-  if !name
-    // TODO: traverse all tests.
-    @ctxt.response(404)
-    =>
-  data := @ctxt.query['dt']
-  @serve(name, data)
+:tryProcess\b\
+  name := @ctxt.query['test']
+  if name
+    @setScripts(name)
+  // Regardless of the test param, let other handlers either create or send
+  // an existing html.
+  => false
