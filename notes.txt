@@ -6,10 +6,6 @@
 0.finish all priority 1's and re-eval for publishing.
 
 tests:
-  1.test saving and loading page.
-    server -- no separate test handler, just load a page with extra
-      test script specified by the url param.
-
   1.closure compile the test and test util too.
 
   1.browser initiated test mode.

@@ -13,7 +13,7 @@
   @runTests()
   if !@dropReport
     @report(@success ? 'GOOD' : 'BAD', undefined, ##)
-      close()
+      window.close()
 
 :@init
   window.onerror = ##
@@ -65,7 +65,7 @@
   e\Error\$
   title\s\?
   stack_lines := e.stack.split('\n')
-  title_line = title || stack_lines[0]
+  title_line := title || stack_lines[0]
   @report(#)
     title_line + ':'
     stack_lines.slice(1).filter(##).join('\n')

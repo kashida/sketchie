@@ -5,12 +5,12 @@
   event_name\s\$
   x\n\?
   y\n\?
-  opts = {target: element}
+  opts := {target: element}
   if x !== undefined
     opts.clientX = x
   if y !== undefined
     opts.clientY = y
-  element.dispatchEvent(&MouseEvent(event_name, opts))
+  element.dispatchEvent(createMouseEvent(event_name, opts))
 
 :drag
   x0\n\$
@@ -30,3 +30,10 @@
   name\s\$
   @mouseDispatch(dom.id('button_' + name), 'click')
 
+Closure's default extern has MouseEvent constructor with no params. Working
+around with this util function.
+:~
+  /** @suppress {checkTypes} */
+  var createMouseEvent = function(type, opts) {
+    return new MouseEvent('keyup', opts);
+  }

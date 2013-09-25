@@ -3,8 +3,9 @@
 :code
   code\n\$
   shift\b\? false
-  // There seems to be webkit bug that KeyboardEvent not allowing keyCode to be set.
-  e := &Event('keyup')
+  // There seems to be webkit bug that KeyboardEvent not allowing keyCode to be
+  // set.
+  e := createEvent('keyup')
   e.keyCode = code
   e.shiftKey = shift
   e.target = document.body
@@ -24,10 +25,18 @@
   offset := sel.anchorOffset
   if node instanceof Text
     current_str := node.wholeText
-    node.replaceWholeText(#)
+    node.replaceWholeText(#+)
       current_str.substr(0, offset)
       str
       current_str.substr(offset)
     sel.collapse(node, offset + str.length)
   else
     node.innerText = str
+
+Closure's default extern has Event constructor with no params. Working around
+with this util function.
+:~
+  /** @suppress {checkTypes} */
+  var createEvent = function(type) {
+    return new Event('keyup');
+  }

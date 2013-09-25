@@ -5,6 +5,8 @@ SERVER_PKG=compiled/server/packages.js
 
 CLIENT_IR=$(wildcard client/*.ir) $(wildcard client/*/*.ir)
 CLIENT_JS=$(patsubst %.ir,%.js,$(subst client,compiled/client,$(CLIENT_IR)))
+TESTS_IR=$(filter-out test/_%,$(wildcard test/*.ir))
+TESTS_JS=$(patsubst %.ir,%.js,$(subst test,compiled/test,$(TESTS_IR)))
 SERVER_IR=$(wildcard server/*.ir)
 SERVER_JS=$(patsubst %.ir,%.js,$(subst server,compiled/server,$(SERVER_IR)))
 
@@ -52,6 +54,10 @@ compiled/client/%.js: client/%.ir
 	@mkdir -p `dirname $@`
 	@ir2js --basedir=client --outdir=compiled/client $^
 
+compiled/test/%.js: test/%.ir
+	@mkdir -p `dirname $@`
+	@ir2js --basedir=test --outdir=compiled/test $^
+
 compiled/server/%.js: server/%.ir
 	@mkdir -p `dirname $@`
 	@ir2js --basedir=server --outdir=compiled/server $^
@@ -78,7 +84,7 @@ compiled/_scrawler.js: $(CLIENT_JS) $(CLIENT_PKG)
 	@echo '===== VERIFY client: compiling'
 	java $(CLOSURE_ARGS) --js_output_file $@ --js $(CLIENT_PKG) \
 	$(addprefix --js ,$(shell $(SORTJS) $(CLIENT_JS))) || \
-  rm $@
+	rm $@
 
 run: compiled/server.js
 	node $^
@@ -91,15 +97,25 @@ compiled/_server.js: $(SERVER_JS) $(SERVER_PKG)
 	@echo '===== VERIFY server: compiling'
 	java $(CLOSURE_ARGS) --js_output_file $@ --js $(SERVER_PKG) \
 	$(addprefix --js ,$(shell $(SORTJS) $(SERVER_JS))) || \
-  rm $@
+	rm $@
 
-tests:
+tests: compiled/_tests.js
 	chromium-browser 'localhost:1357/_t.html?test=text'
 	chromium-browser 'localhost:1357/_t.html?test=draw'
 	rm -f data/_save_test.html
 	chromium-browser 'localhost:1357/_t.html?test=save'
 
-# TODO: make the rest work.
+# TODO: Compile the test files too.
+# They use the same class name (Test), so they conflict if all compiled into
+# one js. Either use different class names or compile them into separate js
+# files.
+compiled/_tests.js: $(CLIENT_JS) $(TESTS_JS) $(CLIENT_PKG)
+	@echo '===== VERIFY tests: compiling'
+	java $(CLOSURE_ARGS) --js_output_file $@ --js $(CLIENT_PKG) \
+	$(addprefix --js ,$(shell $(SORTJS) $(CLIENT_JS) $(TESTS_JS))) || \
+	rm $@
+
+# TODO: Make the rest work for Chrome Extension.
 chrome/background.js: server/background.coffee
 	coffee -j $@ -c $^
 
