@@ -5,7 +5,6 @@
   @key+\SendKey\ &SendKey()
   @mouse+\TriggerMouse\ &TriggerMouse()
   @util+\Util\ &Util()
-  @dropReport\b\ false
 
 :run
   name\s\$
@@ -14,11 +13,10 @@
   @init()
   @ackStart()
   @runTests()
-  if @dropReport
-    =>
   @report(@success ? 'GOOD' : 'BAD', undefined, ##)
     if next
-      window.history.replaceState({}, '', '_t.html?test=.' + next)
+      window.history.replaceState({}, '', #)
+        location.href.replace(/^.*\??/, '') + '?test=.' + next
       location.reload()
     else
       window.close()
@@ -50,7 +48,11 @@
       @testName = ''
       @util.clear()
 
-:@verify
+:setPageTo
+  page\s\$
+  window.history.replaceState({}, '', page)
+
+:verify
   cond\b\$
   if cond
     =>
@@ -80,7 +82,3 @@
       line\s\$
       // Dropping the stacks that belong to this class.
       => !/^\s*at\s+TestBase\./.test(line)
-
-:@reloadWithoutReport
-  location.reload()
-  @dropReport = true

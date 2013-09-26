@@ -1,0 +1,19 @@
+::Test<TestBase
+  ^('Save1')
+  @.setPageTo('_save_test.html')
+
+:test
+  itemlist := @.util.select('.itemlist')
+  @.verify(itemlist.children.length == 0)
+
+  // Create items and save.
+  @.key.send('o')
+  @.key.input('abc')
+  @.key.code(DOM_VK_ESCAPE)
+
+  @.key.send('d')
+  @.mouse.drag(30, 30, 70, 70)
+  @.key.send('a')
+
+  @.verify(itemlist.children.length == 2)
+  @.key.send('s', true)

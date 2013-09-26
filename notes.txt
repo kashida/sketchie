@@ -3,16 +3,9 @@
 3.definitely needs to be done, but can wait.
 5.need re-eval.
 
-0.finish all priority 1's and re-eval for publishing.
-
-tests:
-  1.browser initiated test mode.
-    try to see if the first test runs.
-      ends with the next test name in the location bar?
-    make it go to the next one.
-    _t/ automatically finds the first test in alpha order.
-      also sets continue_test = true.
-    reload page if continue_test
+0.finish all priority 1's.
+0.test all features and note bugs.
+0.re-eval for publishing.
 
 app:
   2.change key modifier from shift to control.[M]
