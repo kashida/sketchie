@@ -38,5 +38,5 @@ with this util function.
 :~
   /** @suppress {checkTypes} */
   var createEvent = function(type) {
-    return new Event('keyup');
+    return new Event(type);
   }

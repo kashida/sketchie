@@ -35,5 +35,5 @@ around with this util function.
 :~
   /** @suppress {checkTypes} */
   var createMouseEvent = function(type, opts) {
-    return new MouseEvent('keyup', opts);
+    return new MouseEvent(type, opts);
   }

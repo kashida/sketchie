@@ -1,3 +1,4 @@
+TODO: Split into two tests _save1 and _save2.
 ::Test<TestBase
   ^('Save')
 
@@ -22,7 +23,7 @@
   history.replaceState({}, '', '_save_test.html')
   @key.send('s', true)
 
-  history.replaceState({}, '', location.href + '?test=save')
+  history.replaceState({}, '', location.href + '?test=.save')
   @reloadWithoutReport()
 
 :@loaded

@@ -1,5 +1,5 @@
 ::
-  @name\s\$
+  @name\s\ ''
   @success\b\ true
   @testName\s\ ''
   @key+\SendKey\ &SendKey()
@@ -8,11 +8,19 @@
   @dropReport\b\ false
 
 :run
+  name\s\$
+  next\s\$
+  @name = name
   @init()
   @ackStart()
   @runTests()
-  if !@dropReport
-    @report(@success ? 'GOOD' : 'BAD', undefined, ##)
+  if @dropReport
+    =>
+  @report(@success ? 'GOOD' : 'BAD', undefined, ##)
+    if next
+      window.history.replaceState({}, '', '_t.html?test=.' + next)
+      location.reload()
+    else
       window.close()
 
 :@init

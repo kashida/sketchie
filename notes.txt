@@ -6,9 +6,10 @@
 0.finish all priority 1's and re-eval for publishing.
 
 tests:
-  1.closure compile the test and test util too.
-
   1.browser initiated test mode.
+    try to see if the first test runs.
+      ends with the next test name in the location bar?
+    make it go to the next one.
     _t/ automatically finds the first test in alpha order.
       also sets continue_test = true.
     reload page if continue_test

@@ -1,10 +1,25 @@
+Run the test by setting up extra scripts and extra init fields in the context.
+Activated with "test=<name>" query string where the name is the test file name
+without the prefix "_" or ".ir" extension. If the name is preceded by a period,
+the test will continue to the next one. "test=." is equvalent
+"test=.<first_test>".
 ::
   @ctxt\Context\$
   @handlers\HandlerSet\$
 
+:@scriptList\!A.<s>\
+  scripts := _fs.readdirSync('test').filter(##).map(##)
+    fname\s\$
+    => fname[0] == '_'
+    --
+    fname\s\$
+    => fname.replace(/^_(.*)\.ir/, '$1')
+  scripts.sort()
+  => scripts
+
 :@setScripts
   name\s\$
-  data\s\? ''
+  next\s\? ''
   src := _path.join('test', '_' + name + '.ir')
   if !_path.existsSync(src)
     log('unknown test requested: ' + name)
@@ -18,12 +33,30 @@
     => !/^_/.test(file)
   list.push('_' + name + '.js')
   @ctxt.extraScripts = list
-  @ctxt.extraInit = '<script>new Test().run()</script>'
+  @ctxt.extraInit = #+
+    '<script>new Test().run("'
+    name
+    '", "'
+    next
+    '")</script>'
+
+:@setup
+  name\s\$
+  if name[0] != '.'
+    @setScripts(name)
+    =>
+  scripts := @scriptList()
+  if !scripts.length
+    =>
+  idx := scripts.indexOf(name.substr(1))
+  if idx < 0
+    idx = 0
+  @setScripts(scripts[idx], scripts[idx + 1])
 
 :tryProcess\b\
   name := @ctxt.query['test']
   if name
-    @setScripts(name)
+    @setup(name)
   // Regardless of the test param, let other handlers either create or send
   // an existing html.
   => false

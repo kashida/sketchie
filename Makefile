@@ -100,10 +100,8 @@ compiled/_server.js: $(SERVER_JS) $(SERVER_PKG)
 	rm $@
 
 tests: compiled/_tests.js
-	chromium-browser 'localhost:1357/_t.html?test=text'
-	chromium-browser 'localhost:1357/_t.html?test=draw'
 	rm -f data/_save_test.html
-	chromium-browser 'localhost:1357/_t.html?test=save'
+	chromium-browser 'localhost:1357/_t.html?test=.'
 
 # TODO: Compile the test files too.
 # They use the same class name (Test), so they conflict if all compiled into
