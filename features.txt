@@ -139,6 +139,7 @@ controls:
       selection mode allows box select.
       viewport drag move and rotate.
     - viewport flip horiz and vert.
+    - hold selection.
 
   pop-up.
     click on non-item area to show.

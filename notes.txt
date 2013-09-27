@@ -142,8 +142,6 @@ selection:
     so it won't overlap with other buttons.
 
 list mode:
-  4.drop item holding ('h' key).[O]
-
   2.go up to the list page (shift-'u') is too easy.
 
   3.text item width control.
@@ -153,12 +151,14 @@ list mode:
 
   3.list mode undo.
 
-  4.draw guide to define drawing area.
-    like width=1000px for XGA.
+  3.make 'h' to hold item work.
 
   3.apply rotate and scale mouse drag to all the selected items.
     not just the primary selection.
     with the center of rotation / scaling at the center of all items.
+
+  4.draw guide to define drawing area.
+    like width=1000px for XGA.
 
   4.perspective guide lines with svg.
 
@@ -249,12 +249,7 @@ code clean up:
 bug:
   1.selection expand (shift-k/j) only keeps last two.
 
-  1.selection keys ('k' and 'j') in list mode is strange when there's no selection.
-
-  1.save page with an image, load the page, and edit the image.
-    exception in xformdrawimage?
-
-  1.merging two images moves the resulting image to top left corner of the view.
+  2.marker doesn't move if drag item ends with cursor on top of another item.
 
   2.make sure drawing surface coord system is right:
     with viewport xforms
@@ -264,6 +259,8 @@ bug:
   2.'n' / shift-'n' for z control in list mode doesn't seem to be working.
 
   2.esc from draw mode fails if there is another image with higher (closer) z.
+
+  3.after marge two images, marker doesn't cover the entire new image boundary.
 
   3.no draw cursor when gone into draw mode.
     -> cursor appears when brush changed.
@@ -276,8 +273,6 @@ bug:
   >>[N]4.toggle alpha lock in list mode not working.
 
   >>[N]4.blend alpha control in list mode not working.
-
-  >>[O]4.'h' to hold item broken.
 
   3. make hsl parameter not go over the limit by mapping to [0, 1].
 
