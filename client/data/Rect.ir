@@ -51,13 +51,6 @@
 
 :within\!%.Rect\
   other\!%.Rect\$
-  l(@)
-  l(other)
-  l(&%.Rect(#))
-    inrange(other.x0, other.x1, @x0)
-    inrange(other.y0, other.y1, @y0)
-    inrange(other.x0, other.x1, @x1)
-    inrange(other.y0, other.y1, @y1)
   => &%.Rect(#)
     inrange(other.x0, other.x1, @x0)
     inrange(other.y0, other.y1, @y0)

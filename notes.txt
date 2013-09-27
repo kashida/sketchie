@@ -108,8 +108,6 @@ buttons:
     alpha value control.
 
 selection:
-  1.marker padding -- bit smaller on left and too large on right?
-
   2.drag handle.
     move, rotate, scale.
 
