@@ -91,3 +91,6 @@ Returns Item only if the element has an Item associated to it.
     @element.setAttribute('active', '1')
   else
     @element.removeAttribute('active')
+
+:focus
+  @element.focus()

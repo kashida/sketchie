@@ -22,9 +22,7 @@ but css depends on the class for rendering selected items differently...
 
 :isSelected\b\
   item\%.Item\$
-  => #||
-    item.element.classList.contains('selected')
-    item.element.classList.contains('selected_secondary')
+  => item.element.classList.contains('selected')
 
 :select
   item\!%.Item\$
@@ -32,8 +30,6 @@ but css depends on the class for rendering selected items differently...
   if @.isAny && @.head && @.head.element
     @.head.element.className = null
   if push_to_list
-    if @.isAny
-      @.head.element.classList.add('selected_secondary')
     if @list.indexOf(item) >= 0
       // Remove the item once.
       @list.splice(@list.indexOf(item), 1)
@@ -45,6 +41,7 @@ but css depends on the class for rendering selected items differently...
         item.element.className = null
     @list = []
   item.element.classList.add('selected')
+  item.focus()
   @list.unshift(item)
   @onChange.fire()
   f_item_palette.update()
@@ -54,13 +51,10 @@ but css depends on the class for rendering selected items differently...
   // Add as a secondary selection.
   if !item || @list.indexOf(item) >= 0
     =>
-  if @.isAny
-    item.element.classList.add('selected_secondary')
-    @list.push(item)
-  else
-    item.element.classList.add('selected')
-    @list = [item]
-    f_item_palette.update()
+  item.element.classList.add('selected')
+  @list.push(item)
+  item.focus()
+  f_item_palette.update()
   @onChange.fire()
 
 :remove

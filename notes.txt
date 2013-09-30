@@ -116,6 +116,8 @@ selection:
   2.additive select by default.
     esc key or unselect button to clear the selectin.
 
+  2.drop the difference of primary and secondary selection.
+
   3.item flip vert/horiz.
 
   3.marker - cover the area of rotated items.

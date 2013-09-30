@@ -1,0 +1,48 @@
+::Test<TestBase
+  ^('Selection')
+
+:@makeItems
+  n\n\$
+  for i := 0; i < n; i++
+    @.key.send('o')
+    @.key.input('abc')
+    @.key.code(DOM_VK_ESCAPE)
+  @.key.send('a')
+
+:@verifySelection
+  sels\A.<b>\$
+  itemlist := @.util.select('.itemlist')
+  sels.forEach(##)
+    sel\b\$
+    i\n\$
+    @.verify(itemlist.children[i].classList.contains('selected') == sel)
+
+:testMoveSelection
+  @makeItems(2)
+  @.key.send('j')
+  @verifySelection([true, false])
+  @.key.send('j')
+  @verifySelection([false, true])
+  @.key.send('k')
+  @verifySelection([true, false])
+  @.key.send('a')
+  @verifySelection([false, false])
+
+:testExpandSelection
+  @makeItems(3)
+  @.key.send('j')
+  @verifySelection([true, false, false])
+  @.key.send('j', true)
+  @verifySelection([true, true, false])
+  @.key.send('j', true)
+  @verifySelection([true, true, true])
+  @.key.send('j', true)
+  @verifySelection([true, true, true])
+  @.key.send('a')
+  @.key.send('k')
+  @.key.send('k')
+  @verifySelection([false, true, false])
+  @.key.send('k', true)
+  @verifySelection([true, true, false])
+  @.key.send('k', true)
+  @verifySelection([true, true, false])

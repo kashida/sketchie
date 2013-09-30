@@ -125,35 +125,34 @@ Sort the list of input items into z-order.
   else
     @element.appendChild(new_item.element)
 
-:top
-  handler\F\$
-  => @.topIn(@.childrenArray, handler)
-:topIn
+TODO: Some of top, topIn, bottom, bottomIn shouldn't be necessary. Drop them.
+:top\%.Item\
+  => @.topIn(@.childrenArray)
+:topIn\%.Item\
   items\!A.<!%.Item>\$
-  handler\F\$
   top_y := null
   top_item := null
   items.forEach(##)
     item\!%.Item\$
-    el := item.element
-    if !top_y || el.offsetTop < top_y
-      top_y = el.offsetTop
+    p := item.position
+    if top_y === null || p.y < top_y
+      top_y = p.y
       top_item = item
-  if top_item
-    handler(top_item, top_y)
+  => top_item
 
-:bottom
-  handler\f(!model.Item, n)\$
+:bottom\%.Item\
+  => @.bottomIn(@.childrenArray)
+:bottomIn\%.Item\
+  items\!A.<!%.Item>\$
   bottom_y := null
   bottom_item := null
-  @.childrenArray.forEach(##)
+  items.forEach(##)
     item\!%.Item\$
-    el := item.element
-    if !bottom_y || el.offsetTop > bottom_y
-      bottom_y = el.offsetTop
+    p := item.position
+    if bottom_y === null || p.y > bottom_y
+      bottom_y = p.y
       bottom_item = item
-  if bottom_item
-    handler(\!model.Item\(bottom_item), bottom_y)
+  => bottom_item
 
 All the items that are afeter the specified item (exclusive).
 :after\A.<!%.Item>\

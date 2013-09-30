@@ -3,5 +3,5 @@
 
 :trigger
   current := f_page.selection.head
-  &model.MoveSelection(false)
+  &model.MoveSelection(false, true)
   f_page.selection.add(current)

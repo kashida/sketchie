@@ -43,7 +43,7 @@ edit mode.
   window.getSelection().collapse(#)
     @.element
     beginning ? 0 : @.element.innerText.length
-  @.element.focus()
+  @.focus()
 
 :moveChildrenFrom
   other\%.Text\$
