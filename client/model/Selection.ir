@@ -2,6 +2,8 @@ TODO: use model.Item's members to mark the selected items instead of the
 element's classList.
 but css depends on the class for rendering selected items differently...
 
+First element in the 'list' is the primary selection, and should have the focus.
+
 ::
   // TODO: take item.List as param and use the classes to mark selected items.
   // so we don't need an array here.

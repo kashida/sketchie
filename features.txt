@@ -38,8 +38,8 @@ list (default) mode:
   z control.
   'v' sends item to farthest z.
   shift + 'v' bring item to nearest z.
-  'n' sends item to farther than any overlapped items in z.
-  shift + 'n' bring item to nearer than any overlapped items in z.
+  'n' sends item to one farther than any overlapped items in z.
+  shift + 'n' bring item to one nearer than any overlapped items in z.
 
   space to toggle palette display (for the selected item).
     click on alpha to invoke hex adjust mode.

@@ -3,8 +3,6 @@
 3.definitely needs to be done, but can wait.
 5.need re-eval.
 
-0.finish all priority 1's.
-0.test all features and note bugs.
 0.re-eval for publishing.
 
 app:
@@ -12,6 +10,10 @@ app:
     probably need to stop propagate the key events.
 
   2.mode indicator -- item edit, draw, stencil, text.
+
+  2.paste text from outside does not work -- seems to be making image item.
+
+  3.make list files page prettier.
 
   3.chrome extension / app packaging.
     move static dom building and dom for saving file into ejs.
@@ -111,12 +113,13 @@ selection:
   2.drag handle.
     move, rotate, scale.
 
-  2.make item primary selection visually clearer in css.
+  2.make item primary selection (ones with focus) visually different in css.
 
   2.additive select by default.
     esc key or unselect button to clear the selectin.
 
-  2.drop the difference of primary and secondary selection.
+  2.selection become small (zero size?) after image draw or merging two image
+      items -- doesn't always happen...
 
   3.item flip vert/horiz.
 
@@ -159,6 +162,8 @@ list mode:
     not just the primary selection.
     with the center of rotation / scaling at the center of all items.
 
+  3.rotate and scale mode don't work when mouse cursor outside of the item.
+
   4.draw guide to define drawing area.
     like width=1000px for XGA.
 
@@ -187,6 +192,8 @@ text item / mode:
   2.text cursor not visible when typing in a new text.
     when there's nothing.
 
+  2.select the text item after escaping from text edit mode.
+
   3.edit mode key controls (with ctrl).
     go to the beginning / end of the text.
     go to the beginning / end of line.
@@ -202,7 +209,12 @@ image mode:
 
   2.selected stroke indicator.
 
-  2.display image state somewhere (in draw mode too) -- transform and alpha_lock.
+  2.display image state somewhere (in draw mode too) -- transform and
+      alpha_lock.
+
+  2.color control '[' and ']' not working -- both bring values up.
+
+  2.brush param control ',' and '.' not working -- both bring values up.
 
   3.command list based undo (not image copies).
 
@@ -249,8 +261,6 @@ code clean up:
   >>[N]4.get rid of the form tag.
 
 bug:
-  1.selection expand (shift-k/j) only keeps last two.
-
   2.marker doesn't move if drag item ends with cursor on top of another item.
 
   2.make sure drawing surface coord system is right:
