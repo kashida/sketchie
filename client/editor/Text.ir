@@ -113,8 +113,8 @@
   t.text = str
   t.editable = false
   t.position = ref_item ? # : #
-    ref_item.position.plus2n(-5, ref_item.rect.h + 2)
-    &data.Vec2(window.pageXOffset, window.pageYOffset)
+    ref_item.position.plus2n(0, ref_item.rect.h + 2)
+    &data.Vec2(window.pageXOffset + 15, window.pageYOffset + 15)
   => t
 
 :collapseSelected = ##

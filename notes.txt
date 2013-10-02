@@ -6,16 +6,14 @@
 5.need re-eval.
 
 app:
-  0.make list files page prettier.
-
   0.mode indicator -- item edit, draw, stencil, text.
+
+  0.decide the app name.
 
   0.prepare iarc package.
     take screen shots.
     write a readme in docs (with screen shots).
     upload only necessary files to docs.
-
-  0.decide the app name.
 
   1.paste text from outside does not work -- seems to be making image item.
 
@@ -104,7 +102,20 @@ viewport:
     css animation?
 
 buttons:
-  2.individual button show/hide for selection state change.
+  0.better global button rendering.
+    spell out the actions.
+    change font.
+    center vertically + horizontally.
+    separate section for zoom.
+
+  0.better selection button rendering.
+    spell out the actions.
+    change font.
+    center vertically + horizontally.
+    adjust the width for string.
+    different color from global button.
+
+  0.individual button show/hide for selection state change.
     with animation.
     use action's valid/invalid flags.
     no keys should work for selection buttons when inactive.
@@ -122,12 +133,17 @@ buttons:
     alpha value control.
 
 selection:
+  1.shift-click to add second selection removes selection class from the first
+      one.
+
   2.make item primary selection (ones with focus) visually different in css.
 
   2.display number of selected items and their type (image / text).
 
   3.drag handle.
     move, rotate, scale.
+
+  3.hide selection during drag items.
 
   3.additive select by default.
     esc key or unselect button to clear the selectin.
@@ -159,7 +175,9 @@ selection:
     so it won't overlap with other buttons.
 
 list mode:
-  0.prettier item outline (browser's focus marker) css.
+  1.consistent item focus outline rendering.
+    for images too.
+    make sure to move the focus for selection changes.
 
   2.go up to the list page (shift-'u') is too easy.
 
@@ -188,9 +206,6 @@ list mode:
   5.item scale x and y separately.
 
 text item / mode:
-  0.review text item border.
-    while in text mode too.
-
   1.keep browser focus in the text box.
     if outside clicked, bounce focus back.
 
