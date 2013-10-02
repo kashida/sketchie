@@ -1,51 +1,62 @@
 [TODO]
-1.first thing to do.
+0.for iarc eval.
+1.first thing to do -> for git publish.
+2.first thing after publish -> for chrome app publish.
 3.definitely needs to be done, but can wait.
 5.need re-eval.
 
-0.re-eval for publishing.
-
 app:
+  0.make list files page prettier.
+
+  0.mode indicator -- item edit, draw, stencil, text.
+
+  0.prepare iarc package.
+    take screen shots.
+    write a readme in docs (with screen shots).
+    upload only necessary files to docs.
+
+  0.decide the app name.
+
+  1.paste text from outside does not work -- seems to be making image item.
+
   2.change key modifier from shift to control.[M]
     probably need to stop propagate the key events.
 
-  2.mode indicator -- item edit, draw, stencil, text.
-
-  2.paste text from outside does not work -- seems to be making image item.
-
-  3.make list files page prettier.
-
-  3.chrome extension / app packaging.
-    move static dom building and dom for saving file into ejs.
-    shortcut key to open scratch pad from any page.
-
-  3.save overhaul.
+  2.save overhaul.
     spinner.
     save done message.
     leave page w/o save warning.
     auto-save.
     google docs.
 
-  4.text style set up screen.
+  3.chrome extension / app packaging.
+    move static dom building and dom for saving file into ejs.
+    shortcut key to open scratch pad from any page.
+
+  3.text style set up screen.
     border width/color, font-size, line-height, text color, and text-shadow.
     vertical text.
+    make a separate html tab first and then iframe dialog over main page.
 
-  4.color set up screen.
+  3.color set up screen.
     move color adjustment to a different app.
+    make a separate html tab first and then iframe dialog over main page.
 
-  4.brush set up screen.
+  3.brush set up screen.
     move brush parameters to a different app.
     show only tool control that are meaningful for the selected tool.
     ink stroke parameter contorl (iri/nuki length and speed sensitivity).
     random brush control.
     gradient brush control.
+    make a separate html tab first and then iframe dialog over main page.
 
-  4.page config screen.
+  3.page config screen.
     background texture image selection.
     default text style.
     http://subtlepatterns.com/
+    make a separate html tab first and then iframe dialog over main page.
 
-  4.screen capture of the entire page (outside of scroll region too).
+  3.screen capture of the entire page (outside of scroll region too).
 
   5.hex control overhaul.
     drag hex and keep selected region fixed in screen.
@@ -64,6 +75,11 @@ app:
 viewport:
   2.exit or adjust in draw mode when resize viewport.
     trying to capture 'resize' of input_layer in dispatcher, but not working...
+    need to capture window's resize.
+
+  2.consider putting selection marker inside viewport xform.
+    need one more level of div for xform which holds the marker and itemlist.
+    -> need to modify save / load code too.
 
   3.viewport control by mouse.[A]
     scaling control still needs to be done by buttons / keys.
@@ -78,13 +94,9 @@ viewport:
   >>[M]3.override browser keys for zoom in/out and back to default ctrl-{+-0}
     preventDefault doesn't seem to be working.
 
-  4.viewport rotate (mouse) and flip (button?).[B]
-
   3.viewport follow cursor in text mode.
 
-  4.consider putting selection marker inside viewport xform.
-    need one more level of div for xform which holds the marker and itemlist.
-    -> need to modify save / load code too.
+  4.viewport rotate (mouse) and flip (button?).[B]
 
   >>[D]4.zoom with rectangle drawing.
 
@@ -110,15 +122,17 @@ buttons:
     alpha value control.
 
 selection:
-  2.drag handle.
-    move, rotate, scale.
-
   2.make item primary selection (ones with focus) visually different in css.
 
-  2.additive select by default.
+  2.display number of selected items and their type (image / text).
+
+  3.drag handle.
+    move, rotate, scale.
+
+  3.additive select by default.
     esc key or unselect button to clear the selectin.
 
-  2.selection become small (zero size?) after image draw or merging two image
+  3.selection become small (zero size?) after image draw or merging two image
       items -- doesn't always happen...
 
   3.item flip vert/horiz.
@@ -136,18 +150,20 @@ selection:
 
   4.lasso for item selection.[D]
 
-  4.key to move selection to up / down in overlapped z order.
-
-  4.display number of selected items and their type (image / text).
-
   4.toggle for additive select / click to select (unselect everything else).
+
+  5.key to expand selection up / down in overlapped z order.
 
   5.smart position of the selection box.
     so that it won't go outside of view.
     so it won't overlap with other buttons.
 
 list mode:
+  0.prettier item outline (browser's focus marker) css.
+
   2.go up to the list page (shift-'u') is too easy.
+
+  2.rotate and scale mode don't work when mouse cursor outside of the item.
 
   3.text item width control.
     or height for vertical text.
@@ -162,8 +178,6 @@ list mode:
     not just the primary selection.
     with the center of rotation / scaling at the center of all items.
 
-  3.rotate and scale mode don't work when mouse cursor outside of the item.
-
   4.draw guide to define drawing area.
     like width=1000px for XGA.
 
@@ -174,25 +188,24 @@ list mode:
   5.item scale x and y separately.
 
 text item / mode:
-  2.review text item border.
+  0.review text item border.
     while in text mode too.
 
-  2.keep browser focus in the text box.
+  1.keep browser focus in the text box.
     if outside clicked, bounce focus back.
 
-  2.no selection of other ui components.
+  1.no browser selection of other ui components.
 
-  2.hide text item outline (browser's focus marker).
+  1.text layout strange while adding new text item.
 
-  2.text layout strange while adding new text item.
-
-  2.css: nowhere but text item is user selectable.
-    texts in palette are selectable.
-
-  2.text cursor not visible when typing in a new text.
+  1.text cursor not visible when typing in a new text.
     when there's nothing.
 
-  2.select the text item after escaping from text edit mode.
+  1.select the text item after escaping from text edit mode.
+
+  2.css: nowhere but text items are user selectable.
+    but image items can take focus.
+    texts in palette are selectable?
 
   3.edit mode key controls (with ctrl).
     go to the beginning / end of the text.
@@ -202,8 +215,6 @@ text item / mode:
     drop the 'i' and 'e' list mode keys.
 
 image mode:
-  2.make buttons for all actions.
-
   2.alpha lock mode indicator.
     alphabet letter on cursor sometimes shows up...
 
@@ -216,13 +227,9 @@ image mode:
 
   2.brush param control ',' and '.' not working -- both bring values up.
 
+  3.make buttons for all actions.
+
   3.command list based undo (not image copies).
-
-  3.make sure image mode undo is working.
-
-  3.brush pressure.
-    wacom pen pressure support?
-    https://github.com/ZaneA/WacomWebPlugin
 
   3.stroke
     3.random position, rotation, size, color, image, etc.[E]
@@ -236,7 +243,12 @@ image mode:
   3.tool selection icons (same as tool sample) on the right edge with keyboard
       key assignment.
 
-  4.draw with rotate state kept.
+  4.brush pressure.
+    wacom pen pressure support?
+    https://github.com/ZaneA/WacomWebPlugin
+
+  5.draw with rotate state kept.
+    scaling?
 
 image filters:
   4.blend modes.
@@ -247,46 +259,47 @@ image filters:
   4.image color correction.
 
 stencil mode:
-  2.make buttons for all actions.
+  2.drop color and alpha selection / adjustment.
 
-  3.drop color and alpha selection / adjustment.
+  3.make buttons for all actions.
 
-  4.make stencil with scaled / rotated images work.
+  3.make stencil with scaled / rotated images work.
+    or disable, or something...
 
 code clean up:
-  3.move logic from editor/List etc to actions.
+  1.move logic from editor/List etc to actions.
 
-  3.split files > 100 lines.
+  1.split files > 100 lines.
 
-  >>[N]4.get rid of the form tag.
+  >>[N]2.get rid of the form tag.
 
 bug:
-  2.marker doesn't move if drag item ends with cursor on top of another item.
+  2.'n' / shift-'n' for z control in list mode doesn't seem to be working.
+
+  2.esc from draw mode fails if there is another image with higher (closer) z.
 
   2.make sure drawing surface coord system is right:
     with viewport xforms
     with item xforms (when editing an image item).
     and write test.
 
-  2.'n' / shift-'n' for z control in list mode doesn't seem to be working.
+  2.after marge two images, marker doesn't cover the entire new image boundary.
 
-  2.esc from draw mode fails if there is another image with higher (closer) z.
-
-  3.after marge two images, marker doesn't cover the entire new image boundary.
-
-  3.no draw cursor when gone into draw mode.
+  2.no draw cursor when gone into draw mode.
     -> cursor appears when brush changed.
+
+  3.marker doesn't move if drag item ends with cursor on top of another item.
 
   3.shift-enter during text input width Japanese IME throws exception.
 
   3.list mode copy xformed text -> make a copy with xform dropped.
     image copy works fine with xform.
 
+  3. make hsl parameter not go over the limit by mapping to [0, 1].
+
   >>[N]4.toggle alpha lock in list mode not working.
 
   >>[N]4.blend alpha control in list mode not working.
-
-  3. make hsl parameter not go over the limit by mapping to [0, 1].
 
   4.stencile mode:
     sometimes -- change brush and immediately drawing.
@@ -302,7 +315,7 @@ bug:
 
 
 
-[style]
+[code style]
 - Class names: camel case starts with upper case. Same file name.
   drop class name after '::' if that's the first class in the file.
 - Method and member names: camel case starts with lower case.

@@ -13,7 +13,7 @@
         display: block;
         margin: 2px 5px;
         padding: 1px 5px;
-        font-size: 20px;
+        font-size: large;
         line-height: 25px;
         background-color: rgba(240, 240, 255, 0.2);
       }
@@ -21,13 +21,17 @@
         background-color: rgba(200, 230, 255, 0.2);
       }
       #header {
+        font-size: medium;
         margin: 10px 2px 15px 2px;
+      }
+      .create_new {
+        color: #37f;
       }
     </style>
     </head><body>
-    <div id="header">files under: <%= path %></div>
+    <div id="header">Files under: <%= path %></div>
     <div id="filelist">
-      <a href="<%= newname %>">[Create New]</a>
+      <a href="<%= newname %>" class="create_new">[Create New]</a>
       <% files.forEach(function(file) { %>
       <a href="<%= file %>"><%= file %></a>
       <% }); %>
