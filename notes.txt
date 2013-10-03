@@ -125,6 +125,7 @@ buttons:
   3.button icon.
     try http://fortawesome.github.io/Font-Awesome/
     find icons from www.flaticon.com.
+    http://www.elegantthemes.com/blog/resources/elegant-icon-font
 
   3.change tool box controls to buttons.[N]
     alpha lock (for image).

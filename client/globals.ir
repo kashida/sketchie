@@ -22,6 +22,8 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   var f_dispatcher;
   /** @type {editor.Modes} */
   var f_editor_modes;
+  /** @type {ui.ModeIndicator} */
+  var f_mode_indicator;
   /** @type {ui.HexControl} */
   var f_hex_control;
   /** @type {model.ZOrder} */

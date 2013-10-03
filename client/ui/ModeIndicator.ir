@@ -1,0 +1,13 @@
+::
+  @element+\Element\ dom.createDiv('mode_indicator')
+  @element.innerHTML = 'LIST'
+
+:init
+  f_editor_modes.onChange.then(##)
+    @element.innerHTML = {#}[f_editor_modes.mode]
+      l: 'LIST'
+      t: 'TEXT'
+      d: 'DRAW'
+      s: 'STENCIL'
+      r: 'rotate'
+      q: 'scale'

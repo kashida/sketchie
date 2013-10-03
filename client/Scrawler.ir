@@ -27,6 +27,7 @@
   f_hex_control = &ui.HexControl()
   f_strokes = &stroke.Set()
   f_selection_marker.init()
+  f_mode_indicator.init()
 
 TODO: Move dom building to ejs.
 Works for extension too if statically built and linked.
@@ -34,6 +35,7 @@ Works for extension too if statically built and linked.
   f_global_actions = &action.GlobalSet()
   f_selection_actions = &action.SelectionSet()
   f_selection_marker = &ui.SelectionMarker()
+  f_mode_indicator = &ui.ModeIndicator()
   dom.appendChildren(document.body, [#])
     f_selection_marker.element
     dom.findOrCreate('div', {class: 'itemlist'})
@@ -68,6 +70,6 @@ Works for extension too if statically built and linked.
               dom.create('input', {class: 'image_alph_alock', type: 'checkbox'})
               dom.createText('alpha lock')
     dom.createDiv('img_undolist')
+    f_mode_indicator.element
     f_global_actions.element
   f_selection_marker.element.appendChild(f_selection_actions.element)
-
