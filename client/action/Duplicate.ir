@@ -1,6 +1,6 @@
 // Copy the selected item.
 ::<%.Action
-  ^('Dup', 'C', 'D<sub>up</sub>')
+  ^('Dup', 'C', 'copy')
 
 :trigger
   // Need to make a copy because f_page.selection.list gets destroyed

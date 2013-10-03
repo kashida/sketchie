@@ -6,8 +6,6 @@
 5.need re-eval.
 
 app:
-  0.mode indicator -- item edit, draw, stencil, text.
-
   0.decide the app name.
 
   0.prepare iarc package.
@@ -126,6 +124,7 @@ buttons:
     try http://fortawesome.github.io/Font-Awesome/
     find icons from www.flaticon.com.
     http://www.elegantthemes.com/blog/resources/elegant-icon-font
+    http://www.hongkiat.com/blog/webfont-icons/
 
   3.change tool box controls to buttons.[N]
     alpha lock (for image).

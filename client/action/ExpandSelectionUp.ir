@@ -1,5 +1,5 @@
 ::<%.Action
-  ^('ExpSelUp', 'K:s')
+  ^('ExpSelUp', 'K:s', 'expand selection up')
 
 :trigger
   current := f_page.selection.head

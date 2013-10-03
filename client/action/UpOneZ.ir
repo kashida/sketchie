@@ -1,5 +1,5 @@
 ::<%.Action
-  ^('ZOrderU', 'N:s', 'Zup')
+  ^('ZOrderU', 'N:s', 'z up')
 
 :trigger
   f_z_order.shiftOneWithOverlap(true)

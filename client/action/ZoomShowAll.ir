@@ -1,5 +1,5 @@
 ::<%.Action
-  ^('sa', '0:s', '<sup>z</sup>A')
+  ^('sa', '0:s', 'zoom show all')
 
 :trigger
   f_viewport.showAllItems()

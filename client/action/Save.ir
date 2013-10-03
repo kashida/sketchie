@@ -1,5 +1,5 @@
 ::<%.Action
-  ^('S', 'S:s', 'S')
+  ^('S', 'S:s', 'save')
 
 :trigger
   f_page.selection.clear()

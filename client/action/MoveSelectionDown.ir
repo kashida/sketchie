@@ -1,5 +1,5 @@
 ::<%.Action
-  ^('MoveSelDown', 'J')
+  ^('MoveSelDown', 'J', 'move selection down')
 
 :trigger
   &model.MoveSelection(true)

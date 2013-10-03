@@ -1,5 +1,5 @@
 ::<%.Action
-  ^('ZOrderB', 'V', 'Z<sub>btm</sub>')
+  ^('ZOrderB', 'V', 'z bottom')
 
 :trigger
   f_z_order.moveToEnd(f_page.selection.list, true)

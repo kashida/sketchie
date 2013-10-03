@@ -4,6 +4,7 @@ body {
   border: 0px;
   background-image: url('images/seamlesspaper4.png');
   background-repeat: repeat;
+  font-family: 'Source Sans Pro', sans-serif;
   overflow: hidden;
 }
 .input_layer {
@@ -190,16 +191,16 @@ body {
   border-radius: 2px;
   color: #444;
 
-  font-weight: bold;
-  font-family: 'Indie Flower', cursive;
+  font-family: 'Source Sans Pro', sans-serif;
 /*
+  font-family: 'Indie Flower', cursive;
   font-family: 'Mystery Quest', cursive;
   font-family: 'Fredericka the Great', cursive;
   font-family: 'Montez', cursive;
   font-family: 'Over the Rainbow', cursive;
   font-family: 'Mystery Quest', cursive;
 */
-  font-size: 18px;
+  font-size: 15px;
   margin: 2px;
   padding: 2px 8px;
   text-align: center;

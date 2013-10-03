@@ -1,6 +1,6 @@
 // Go back to the list page.
 ::<%.Action
-  ^('^', 'U:s')
+  ^('^', 'U:s', 'back to list page')
 
 :trigger
   window.location.assign('/')

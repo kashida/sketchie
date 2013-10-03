@@ -1,5 +1,5 @@
 ::<%.Action
-  ^('Del', 'D:s', 'D<sub>el</sub>')
+  ^('Del', 'D:s', 'delete')
 
 :trigger
   f_page.list.remove(f_page.selection.list)
