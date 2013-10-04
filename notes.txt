@@ -101,16 +101,11 @@ viewport:
 
 buttons:
   0.better global button rendering.
-    spell out the actions.
-    change font.
-    center vertically + horizontally.
+    separate section for new drawing, text, and paste.
     separate section for zoom.
+    separate section for selection.
 
   0.better selection button rendering.
-    spell out the actions.
-    change font.
-    center vertically + horizontally.
-    adjust the width for string.
     different color from global button.
 
   0.individual button show/hide for selection state change.
@@ -335,3 +330,14 @@ bug:
   drop class name after '::' if that's the first class in the file.
 - Method and member names: camel case starts with lower case.
 - Func params and local vars: names with underscore.
+
+
+
+<link href="http://fonts.googleapis.com/css?family=Fredericka+the+Great|Montez|Over+the+Rainbow|Mystery+Quest|Indie+Flower" rel="stylesheet" type="text/css">
+
+font-family: 'Indie Flower', cursive;
+font-family: 'Mystery Quest', cursive;
+font-family: 'Fredericka the Great', cursive;
+font-family: 'Montez', cursive;
+font-family: 'Over the Rainbow', cursive;
+font-family: 'Mystery Quest', cursive;
