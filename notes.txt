@@ -105,9 +105,6 @@ buttons:
     separate section for zoom.
     separate section for selection.
 
-  0.better selection button rendering.
-    different color from global button.
-
   0.individual button show/hide for selection state change.
     with animation.
     use action's valid/invalid flags.

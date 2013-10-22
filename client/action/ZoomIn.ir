@@ -1,5 +1,5 @@
 ::<%.Action
-  ^('zi', '=', 'zoom in')
+  ^('zi', '=', 'in')
 
 :trigger
   f_viewport.zoom(1)

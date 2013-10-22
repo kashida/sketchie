@@ -126,11 +126,13 @@
   is_first := true
   while f_page.selection.isAny
     item := f_page.list.topIn(f_page.selection.list)
+    f_page.selection.remove(item)
+    if !(item instanceof model.Text)
+      continue
     newtext.moveChildrenFrom(item)
     if is_first
       newtext.position = item.position
       is_first = false
-    f_page.selection.remove(item)
     f_page.list.remove(item)
 
   f_page.list.appendEnd(newtext)

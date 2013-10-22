@@ -2,7 +2,7 @@
   @name\s\$
   @text\s\$
   @cb\F\$
-  @element+\Element\ dom.createDiv('button_' + @name)
+  @element+\Element\ dom.createDiv(['button', 'button_' + @name])
   @element.innerHTML = text
   dom.listen(@element, 'click', ##)
     @action()

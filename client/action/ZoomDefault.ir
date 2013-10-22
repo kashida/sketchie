@@ -1,5 +1,5 @@
 ::<%.Action
-  ^('zd', '0', 'zoom default')
+  ^('zd', '0', 'default')
 
 :trigger
   f_viewport.reset()

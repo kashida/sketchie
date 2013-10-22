@@ -1,5 +1,5 @@
 ::<%.Action
-  ^('T', 'O', 'new text')
+  ^('T', 'O', 'text')
 
 :isActive+\b\
   => !f_page.selection.isEmpty

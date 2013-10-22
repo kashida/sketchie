@@ -13,8 +13,9 @@
 
 :@selectTopOrBottom
   item := @moveDown ? f_page.list.top() : f_page.list.bottom()
-  f_page.selection.select(item)
-  f_viewport.showItem(item)
+  if item
+    f_page.selection.select(item)
+    f_viewport.showItem(item)
 
 :@selectNext
   next_item := @findNext()
@@ -26,7 +27,7 @@
     f_viewport.showItem(next_item)
 
 Find items that is just above and just below the selected item.
-:@findNext\!%.Item\
+:@findNext\%.Item\
   next_item := null
   y := next_y := f_page.selection.head.position.y
   f_page.list.each(##)

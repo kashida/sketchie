@@ -1,19 +1,39 @@
 ::
-  @actions\!A.<!%.Action>\$
-  @box\ui.ButtonBox\$
+  @actions\!A.<!%.Action|!%.Group>\$
+  @box\!ui.ButtonBox\$
   @keyMap\!O.<!%.Action>\ {}
-  @actions.forEach(##)
-    action\!action.Action\$
-    if action.key
-      if action.key instanceof Array
-        action.key.forEach(##)
-          k\s\$
-          @keyMap[k] = action
-      else
-        @keyMap[action.key] = action
-    if action.text
-      @box.add(action.name, action.text, ##)
-        action.trigger()
+  @addActions(@actions, @box)
+
+:@addActions
+  acts\!A.<!%.Action|!%.Group>\$
+  container\!ui.ButtonBox|ui.ButtonGroup\$
+  acts.forEach(##)
+    act\!%.Action|!%.Group\$
+    if act instanceof %.Action
+      @addAction(act, container)
+    else
+      @addGroup(act, container)
+
+:@addAction
+  act\!%.Action\$
+  container\!ui.ButtonBox|ui.ButtonGroup\$
+  if act.key
+    if act.key instanceof Array
+      act.key.forEach(##)
+        k\s\$
+        @keyMap[k] = act
+    else
+      @keyMap[act.key] = act
+  if act.text
+    container.add(act.name, act.text, ##)
+      act.trigger()
+
+:@addGroup
+  grp\!%.Group\$
+  container\!ui.ButtonBox|ui.ButtonGroup\$
+  actGroup := &ui.ButtonGroup(grp.title)
+  @addActions(grp.list, actGroup)
+  container.addGroup(actGroup)
 
 :element+\Element\
   => @box.element

@@ -1,7 +1,8 @@
 ::
-  clsName\s\$
-  @element+\Element\ dom.createDiv(['buttonbox', clsName])
+  @title\string\$
+  @element+\Element\ dom.createDiv(['buttongroup'])
   @buttons\A.<%.Button>\ []
+  @element.appendChild(dom.createText(@title))
 
 :add
   name\s\$
@@ -10,7 +11,3 @@
   b := &ui.Button(name, text, cb)
   @buttons.push(b)
   @element.appendChild(b.element)
-
-:addGroup
-  group\%.ButtonGroup\$
-  @element.appendChild(group.element)

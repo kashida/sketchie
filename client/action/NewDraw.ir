@@ -1,5 +1,5 @@
 ::<%.Action
-  ^('D', 'D', 'new drawing')
+  ^('D', 'D', 'drawing')
 
 :isActive+\b\
   => !f_page.selection.isEmpty
