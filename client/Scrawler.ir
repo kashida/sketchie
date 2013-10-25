@@ -27,6 +27,7 @@
   f_hex_control = &ui.HexControl()
   f_strokes = &stroke.Set()
   f_selection_marker.init()
+  f_selection_actions.init()
   f_mode_indicator.init()
 
 TODO: Move dom building to ejs.

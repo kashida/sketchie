@@ -9,3 +9,7 @@
     &%.DownOneZ()
     &%.UpOneZ()
   ^(actions, &ui.SelectionBox())
+
+:init
+  f_page.selection.onChange.then(##)
+    @.box.updateVisibility()

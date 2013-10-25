@@ -1,11 +1,15 @@
 ::
-  @name\s\$
-  @text\s\$
-  @cb\F\$
-  @element+\Element\ dom.createDiv(['button', 'button_' + @name])
-  @element.innerHTML = text
+  @action\action.Action\$
+  @element+\Element\ dom.createDiv(['button', 'button_' + @action.name])
+  @element.innerHTML = @action.text
   dom.listen(@element, 'click', ##)
-    @action()
+    @trigger()
 
-:@action
-  @cb()
+:@trigger
+  @action.trigger()
+
+:updateVisibility
+  if @action.isActive
+    @element.classList.remove('hidden')
+  else
+    @element.classList.add('hidden')

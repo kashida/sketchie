@@ -1,6 +1,6 @@
 ::
   @actions\!A.<!%.Action|!%.Group>\$
-  @box\!ui.ButtonBox\$
+  @box+\!ui.ButtonBox\$
   @keyMap\!O.<!%.Action>\ {}
   @addActions(@actions, @box)
 
@@ -25,8 +25,7 @@
     else
       @keyMap[act.key] = act
   if act.text
-    container.add(act.name, act.text, ##)
-      act.trigger()
+    container.add(act)
 
 :@addGroup
   grp\!%.Group\$

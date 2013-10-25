@@ -100,11 +100,6 @@ viewport:
     css animation?
 
 buttons:
-  0.better global button rendering.
-    separate section for new drawing, text, and paste.
-    separate section for zoom.
-    separate section for selection.
-
   0.individual button show/hide for selection state change.
     with animation.
     use action's valid/invalid flags.
@@ -117,6 +112,9 @@ buttons:
     find icons from www.flaticon.com.
     http://www.elegantthemes.com/blog/resources/elegant-icon-font
     http://www.hongkiat.com/blog/webfont-icons/
+
+  3.group selection buttons.
+    z control in one group, perhaps layed out vertically.
 
   3.change tool box controls to buttons.[N]
     alpha lock (for image).

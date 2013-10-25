@@ -20,3 +20,7 @@
   // Add the newly created image.
   f_page.selection.select(merged_spec.makeImageItem())
   f_item_palette.update()
+
+:isActive+\b\
+  s := f_page.selection
+  => s.count > 1 && (s.isAllText || s.isAllImage)

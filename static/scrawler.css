@@ -178,6 +178,9 @@ body {
 }
 
 .button {
+  transition-property: width, padding, color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
   -webkit-user-select: none;
   border-radius: 2px;
   box-shadow: inset 0 0 2px black;
@@ -192,6 +195,12 @@ body {
 }
 .button:active {
   box-shadow: 0 0 7px 5px #aae, inset 0 0 2px black;
+}
+.button.hidden {
+  color: rgba(100, 100, 100, 0.0);
+  padding: 7px 2px;
+  text-shadow: none;
+  width: 0;
 }
 
 .buttongroup {
@@ -248,7 +257,6 @@ body {
    */
   margin: -10px;
   transition-property: width, height, top, left;
-  transition-delay: 0;
   transition-duration: 0.3s;
   transition-timing-function: ease-out;
 }
