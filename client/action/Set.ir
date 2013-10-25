@@ -41,4 +41,6 @@
   evt\KeyboardEvent\$
   code := &dispatch.EventKey(evt).code
   if code in @keyMap
-    @keyMap[code].trigger()
+    act := @keyMap[code]
+    if act.isActive
+      act.trigger()

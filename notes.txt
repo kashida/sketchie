@@ -5,6 +5,9 @@
 3.definitely needs to be done, but can wait.
 5.need re-eval.
 
+
+0.make tests pass.
+
 app:
   0.decide the app name.
 
@@ -100,11 +103,6 @@ viewport:
     css animation?
 
 buttons:
-  0.individual button show/hide for selection state change.
-    with animation.
-    use action's valid/invalid flags.
-    no keys should work for selection buttons when inactive.
-
   2.css: change mouse cursor for button hover.
 
   3.button icon.
