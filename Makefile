@@ -74,13 +74,13 @@ $(SERVER_PKG):
 ############################################################
 # Main targets.
 
-client: compiled/_scrawler.js
+client: compiled/_sketchie.js
 server: compiled/server.js
 
 sort:
 	@echo "$(shell $(SORTJS) $(CLIENT_JS))"
 
-compiled/_scrawler.js: $(CLIENT_JS) $(CLIENT_PKG)
+compiled/_sketchie.js: $(CLIENT_JS) $(CLIENT_PKG)
 	@echo '===== VERIFY client: compiling'
 	java $(CLOSURE_ARGS) --js_output_file $@ --js $(CLIENT_PKG) \
 	$(addprefix --js ,$(shell $(SORTJS) $(CLIENT_JS))) || \

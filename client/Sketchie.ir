@@ -4,7 +4,7 @@
   @initGlobalComponents()
 
 :@initGlobalComponents
-  f_scrawler = this
+  f_sketchie = this
   f_viewport = &ui.Viewport()
   f_page = &model.Page()
   f_z_order = &model.ZOrder()

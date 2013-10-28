@@ -26,8 +26,8 @@ TODO: Statically create this from ejs.
 :'saveHeader
   <!doctype html>
   <html><head>
-    <title>Scrawler</title>
-    <link rel="stylesheet" href="scrawler.css" type="text/css">
+    <title>Sketchie</title>
+    <link rel="stylesheet" href="page.css" type="text/css">
     </head><body>
 
 :'saveFooter

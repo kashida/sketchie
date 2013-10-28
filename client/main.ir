@@ -1,5 +1,5 @@
 Entry point.
 :
-  run_scrawler := ##
+  run_sketchie := ##
     run_as_extension\b\? false
-    => &Scrawler(run_as_extension)
+    => &Sketchie(run_as_extension)

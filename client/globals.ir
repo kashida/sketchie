@@ -1,7 +1,7 @@
 Global components of the app -- i.e. only one instance in the lifetime of the app.
 :~
-  /** @type {Scrawler} */
-  var f_scrawler;
+  /** @type {Sketchie} */
+  var f_sketchie;
   /** @type {ui.Viewport} */
   var f_viewport;
   /** @type {ui.Surface} */

@@ -2,7 +2,7 @@
   @ctxt\Context\$
   @handlers\HandlerSet\$
 
-:SCRIPT_LOAD = '<script>run_scrawler();</script>'
+:SCRIPT_LOAD = '<script>run_sketchie();</script>'
 :OPEN_MARKER = '<!--%'
 :CLOSE_MARKER = '%-->'
 
