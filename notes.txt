@@ -10,12 +10,8 @@
 1.study http://snapsvg.io/docs/ for svg api ideas.
 
 app:
-  0.decide the app name.
-
-  0.prepare iarc package.
-    take screen shots.
-    write a readme in docs (with screen shots).
-    upload only necessary files to docs.
+  0.prepare oss package.
+    write app desc.
 
   1.paste text from outside does not work -- seems to be making image item.
 
