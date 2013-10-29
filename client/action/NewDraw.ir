@@ -1,8 +1,5 @@
 ::<%.Action
   ^('D', 'D', 'drawing')
 
-:isActive+\b\
-  => !f_page.selection.isEmpty
-
 :trigger
   f_editor_modes.changeModeTo('d')

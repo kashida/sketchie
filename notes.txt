@@ -1,18 +1,13 @@
 [TODO]
-0.for iarc eval.
 1.first thing to do -> for git publish.
 2.first thing after publish -> for chrome app publish.
 3.definitely needs to be done, but can wait.
 5.need re-eval.
 
 
-0.make tests pass.
 1.study http://snapsvg.io/docs/ for svg api ideas.
 
 app:
-  0.prepare oss package.
-    write app desc.
-
   1.paste text from outside does not work -- seems to be making image item.
 
   2.change key modifier from shift to control.[M]
