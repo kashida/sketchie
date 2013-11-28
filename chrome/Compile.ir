@@ -1,0 +1,52 @@
+::
+  @sub_dir\s\$
+  @allIr\A.<s>\
+
+:@findAllIr
+  dir\s\? ''
+  dir_path := _path.join(@sub_dir, dir)
+  results := []
+  _fs.readdirSync(dir_path).forEach(##)
+    file\s\$
+    file_path := _path.join(dir_path, file)
+    path := _path.join(dir, file)
+    stats := _fs.statSync(file_path)
+    if stats.isFile() && /\.ir$/.test(file)
+      => results.push(path)
+    if stats.isDirectory()
+      Array.prototype.push.apply(results, @findAllIr(path))
+  => results
+
+Cached list of all ir files.
+:allIr+\A.<s>\
+  => @allIr || (@allIr = @findAllIr())
+
+:run
+  files\A.<s>\? @.allIr
+  try
+    _ir2js.compileFiles(#)
+      @sub_dir
+      files.map(##)
+        file\s\$
+        => _path.join(@sub_dir, file)
+      _path.join('compiled', @sub_dir)
+      true
+  catch e
+    log(e)
+
+JS file list. Paths are relative from compiled/<sub_dir>/.
+:scriptList+\A.<s>\
+  @.run()
+  // prefix path that ends with the separateor, e.g. '/'.
+  prefix := _path.join('compiled', @sub_dir, '$').slice(0, -1)
+  => _ir2js.createSortedList(@.allIr.map(##)).map(##)
+    file\s\$
+    => prefix + file.replace(/\.ir$/, '.js')
+    --
+    file\s\$
+    => file.replace(prefix, '')
+
+List of JS package declarations.
+:pkgList
+  @.run()
+  => _ir2js.createPackageList('', @.allIr)

@@ -5,6 +5,28 @@
 5.need re-eval.
 
 
+0.chrome app packaging.
+  make it run as a chrome app w/o data save first.
+
+0.chrome.fileSystem or chrome.syncFileSystem (i.e. google drive).
+  http://developer.chrome.com/apps/app_storage.html
+  http://www.html5rocks.com/en/tutorials/file/filesystem/
+  http://developer.chrome.com/apps/fileSystem.html
+  http://developer.chrome.com/apps/syncFileSystem.html
+  https://github.com/GoogleChrome/chrome-app-samples/tree/master/syncfs-editor
+  might need unlimitedStorage permission
+    http://developer.chrome.com/apps/declare_permissions.html
+
+2.save to (non-sandboxed) local.
+  possible?
+  http://www.html5rocks.com/en/tutorials/dnd/basics/
+
+3.chrome.storage.sync for config.
+  syncs automatically to user's profile.
+  http://developer.chrome.com/apps/storage.html
+  color palette.
+  brushes.
+
 1.study http://snapsvg.io/docs/ for svg api ideas.
 
 app:
@@ -102,6 +124,10 @@ buttons:
     find icons from www.flaticon.com.
     http://www.elegantthemes.com/blog/resources/elegant-icon-font
     http://www.hongkiat.com/blog/webfont-icons/
+    http://photoshopvip.net/archives/56123
+    http://thenounproject.com/
+    http://marcoceppi.github.io/bootstrap-glyphicons/
+    http://gigazine.net/news/20131122-ikons/
 
   3.group selection buttons.
     z control in one group, perhaps layed out vertically.
@@ -162,6 +188,9 @@ list mode:
   2.go up to the list page (shift-'u') is too easy.
 
   2.rotate and scale mode don't work when mouse cursor outside of the item.
+
+  3.visualize overlapping items as layers.
+    allow drag to re-order (z change).
 
   3.text item width control.
     or height for vertical text.

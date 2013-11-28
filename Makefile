@@ -2,6 +2,7 @@ SORTJS=ir2js --stdout --sort
 
 CLIENT_PKG=compiled/client/packages.js
 SERVER_PKG=compiled/server/packages.js
+CHROME_PKG=compiled/chrome/packages.js
 
 CLIENT_IR=$(wildcard client/*.ir) $(wildcard client/*/*.ir)
 CLIENT_JS=$(patsubst %.ir,%.js,$(subst client,compiled/client,$(CLIENT_IR)))
@@ -9,6 +10,8 @@ TESTS_IR=$(filter-out test/_%,$(wildcard test/*.ir))
 TESTS_JS=$(patsubst %.ir,%.js,$(subst test,compiled/test,$(TESTS_IR)))
 SERVER_IR=$(wildcard server/*.ir)
 SERVER_JS=$(patsubst %.ir,%.js,$(subst server,compiled/server,$(SERVER_IR)))
+CHROME_IR=$(wildcard chrome/*.ir)
+CHROME_JS=$(patsubst %.ir,%.js,$(subst chrome,compiled/chrome,$(CHROME_IR)))
 
 CLOSURE_ARGS=
 CLOSURE_ARGS+=-jar closure/compiler.jar
@@ -62,6 +65,10 @@ compiled/server/%.js: server/%.ir
 	@mkdir -p `dirname $@`
 	@ir2js --basedir=server --outdir=compiled/server $^
 
+compiled/chrome/%.js: chrome/%.ir
+	@mkdir -p `dirname $@`
+	@ir2js --basedir=chrome --outdir=compiled/chrome $^
+
 $(CLIENT_PKG):
 	@mkdir -p `dirname $@`
 	@ir2js --pkglist --basedir=client $(CLIENT_IR) > $@
@@ -70,6 +77,9 @@ $(SERVER_PKG):
 	@mkdir -p `dirname $@`
 	@ir2js --pkglist --basedir=server $(SERVER_IR) > $@
 
+$(CHROME_PKG):
+	@mkdir -p `dirname $@`
+	@ir2js --pkglist --basedir=chrome $(CHROME_IR) > $@
 
 ############################################################
 # Main targets.
@@ -113,14 +123,33 @@ compiled/_tests.js: $(CLIENT_JS) $(TESTS_JS) $(CLIENT_PKG)
 	$(addprefix --js ,$(shell $(SORTJS) $(CLIENT_JS) $(TESTS_JS))) || \
 	rm $@
 
-# TODO: Make the rest work for Chrome Extension.
-chrome/background.js: server/background.coffee
-	coffee -j $@ -c $^
 
-chrome/femto.js: $(CLIENT_JS)
-	coffee -j $@ -c $^
+############################################################
+# Chrome App
 
-ext: chrome/femto.js chrome/background.js
+compiled/pages.js: compiled/_pages.js
+	@echo '===== MERGE chrome pages script'
+	ir2js --merge --basedir=compiled --outfile=$@ $(CHROME_JS)
+
+compiled/_pages.js: $(CHROME_JS) $(CHROME_PKG)
+	@echo '===== VERIFY chrome pages script: compiling'
+	java $(CLOSURE_ARGS) --js_output_file $@ --js $(CHROME_PKG) \
+	$(addprefix --js ,$(shell $(SORTJS) $(CHROME_JS))) || \
+	rm $@
+
+bld: compiled/pages.js client
+	rm -rf app
+	mkdir -p app
+	cp chrome/manifest.json app/
+	cp chrome/background.js app/
+	cp -Rf compiled/client app/s
+	cp static/page.css app/
+	cp static/static/images/favicon.png app/
+	node compiled/pages.js > app/page.html
+
+launch: bld
+	chromium-browser --load-and-launch-app=`pwd`/app
+
 
 ############################################################
 # Non-build commands.
