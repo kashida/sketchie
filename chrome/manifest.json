@@ -8,5 +8,5 @@
       "scripts": ["background.js"]
     }
   },
-  "icons": {"16": "favicon.png"}
+  "icons": {"16": "images/favicon.png"}
 }

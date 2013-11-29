@@ -7,10 +7,9 @@
 
 0.chrome app packaging.
   make it run as a chrome app w/o data save first.
-  drop embedded script.
   local font.
-  local images for the background papaer.
-  drop tk files when copying from compiled/chrome.
+
+0.bug: image and text not showing in chrome app.
 
 0.chrome.fileSystem or chrome.syncFileSystem (i.e. google drive).
   http://developer.chrome.com/apps/app_storage.html
@@ -20,6 +19,13 @@
   https://github.com/GoogleChrome/chrome-app-samples/tree/master/syncfs-editor
   might need unlimitedStorage permission
     http://developer.chrome.com/apps/declare_permissions.html
+
+1.bug: empty button in selection menu btwn delete and copy?
+
+2.create app icon.
+  small and big.
+  use for favicon (small).
+  manifest.json takes both.
 
 2.save to (non-sandboxed) local.
   possible?

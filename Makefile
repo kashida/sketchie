@@ -143,8 +143,9 @@ bld: compiled/pages.js client
 	cp chrome/manifest.json app/
 	cp chrome/background.js app/
 	cp -R compiled/client app/s
+	find app/s/ -name '*.tk' -exec rm \{\} \;
 	cp static/page.css app/
-	cp static/images/favicon.png app/
+	cp -R static/images app/images
 	node compiled/pages.js > app/page.html
 
 launch: bld
