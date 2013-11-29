@@ -3,7 +3,6 @@ TODO: Merge with server/HtmlHandler.ir and server/RenderHandler.ir.
 ::
   @template_file\s\ 'static/page.html'
 
-:SCRIPT_LOAD = '<script>run_sketchie();</script>'
 :OPEN_MARKER = '<!--%'
 :CLOSE_MARKER = '%-->'
 
@@ -40,4 +39,4 @@ TODO: Merge with server/HtmlHandler.ir and server/RenderHandler.ir.
     script: #+
       @packageList()
       @scriptList()
-    init: %.RenderPage.SCRIPT_LOAD
+    init: ''

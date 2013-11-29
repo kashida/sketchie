@@ -2,7 +2,6 @@
   @ctxt\Context\$
   @handlers\HandlerSet\$
 
-:SCRIPT_LOAD = '<script>run_sketchie();</script>'
 :OPEN_MARKER = '<!--%'
 :CLOSE_MARKER = '%-->'
 
@@ -42,7 +41,7 @@ Try to render. If fail, return the input as is (and log the error message).
     script: #+
       @packageList()
       @scriptList()
-    init: %.HtmlHandler.SCRIPT_LOAD + @ctxt.extraInit
+    init: @ctxt.extraInit
 
 :create
   @handlers.pageRender.reply([{contents: ''}, {#}])
@@ -51,4 +50,4 @@ Try to render. If fail, return the input as is (and log the error message).
     script: #+
       @packageList()
       @scriptList()
-    init: %.HtmlHandler.SCRIPT_LOAD + @ctxt.extraInit
+    init: @ctxt.extraInit

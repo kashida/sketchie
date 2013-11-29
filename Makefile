@@ -144,7 +144,7 @@ bld: compiled/pages.js client
 	cp chrome/background.js app/
 	cp -Rf compiled/client app/s
 	cp static/page.css app/
-	cp static/static/images/favicon.png app/
+	cp static/images/favicon.png app/
 	node compiled/pages.js > app/page.html
 
 launch: bld
@@ -156,6 +156,7 @@ launch: bld
 
 clean:
 	rm -rf compiled
+	rm -rf app
 
 cclean:
 	rm -rf compiled/client

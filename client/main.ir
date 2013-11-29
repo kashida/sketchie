@@ -1,5 +1,6 @@
 Entry point.
 :
-  run_sketchie := ##
+  window.addEventListener('load', ##, false)
+    e\Event\$
     run_as_extension\b\? false
     => &Sketchie(run_as_extension)
