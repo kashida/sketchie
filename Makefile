@@ -142,7 +142,7 @@ bld: compiled/pages.js client
 	mkdir -p app
 	cp chrome/manifest.json app/
 	cp chrome/background.js app/
-	cp -Rf compiled/client app/s
+	cp -R compiled/client app/s
 	cp static/page.css app/
 	cp static/images/favicon.png app/
 	node compiled/pages.js > app/page.html

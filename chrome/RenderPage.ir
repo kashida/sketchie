@@ -6,14 +6,6 @@ TODO: Merge with server/HtmlHandler.ir and server/RenderHandler.ir.
 :OPEN_MARKER = '<!--%'
 :CLOSE_MARKER = '%-->'
 
-:@packageList\s\
-  => #+
-    '<script>\n'
-    &Compile('client').pkgList().map(##).join('')
-      line\s\$
-      => line + '\n'
-    '</script>\n'
-
 :@scriptList\s\
   => &Compile('client').scriptList.map(##).join('')
     file\s\$
@@ -37,6 +29,6 @@ TODO: Merge with server/HtmlHandler.ir and server/RenderHandler.ir.
     open: %.RenderPage.OPEN_MARKER
     close: %.RenderPage.CLOSE_MARKER
     script: #+
-      @packageList()
+      '<script src="/s/packages.js"></script>\n'
       @scriptList()
     init: ''
