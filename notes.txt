@@ -22,6 +22,8 @@
 
 1.bug: empty button in selection menu btwn delete and copy?
 
+1.chrome app start in file list page.
+
 2.create app icon.
   small and big.
   use for favicon (small).

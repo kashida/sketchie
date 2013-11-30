@@ -137,7 +137,7 @@ compiled/_pages.js: $(CHROME_JS) $(CHROME_PKG)
 	$(addprefix --js ,$(shell $(SORTJS) $(CHROME_JS))) || \
 	rm $@
 
-bld: compiled/pages.js client
+crapp: compiled/pages.js client
 	rm -rf app
 	mkdir -p app
 	cp chrome/manifest.json app/
@@ -146,9 +146,16 @@ bld: compiled/pages.js client
 	find app/s/ -name '*.tk' -exec rm \{\} \;
 	cp static/page.css app/
 	cp -R static/images app/images
+	cp -R static/fonts app/fonts
 	node compiled/pages.js > app/page.html
 
-launch: bld
+fonts:
+	mkdir -p static/fonts
+	curl http://themes.googleusercontent.com/static/fonts/sourcesanspro/v6/ODelI1aHBYDBqgeIAH2zlBM0YzuT7MdOe03otPbuUS0.woff > static/fonts/SourceSansPro-Regular.woff
+	curl http://themes.googleusercontent.com/static/fonts/sourcesanspro/v6/toadOcfmlt9b38dHJxOBGFkQc6VGVFSmCnC_l7QZG60.woff > static/fonts/SourceSansPro-Bold.woff
+	curl http://themes.googleusercontent.com/static/fonts/sourcesanspro/v6/toadOcfmlt9b38dHJxOBGHiec-hVyr2k4iOzEQsW1iE.woff > static/fonts/SourceSansPro-Black.woff
+
+launch: crapp
 	chromium-browser --load-and-launch-app=`pwd`/app
 
 
@@ -158,6 +165,9 @@ launch: bld
 clean:
 	rm -rf compiled
 	rm -rf app
+
+spotless: clean
+	rm -rf static/fonts
 
 cclean:
 	rm -rf compiled/client
