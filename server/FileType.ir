@@ -1,11 +1,12 @@
 :::ext_to_type = {#}
-    txt: ['text/plain', 'utf8']
-    html: ['text/html', 'utf8']
     css: ['text/css', 'utf8']
-    js: ['text/javascript', 'utf8']
-    jpg: ['image/jpeg', null]
-    png: ['image/png', null]
     gif: ['image/gif', null]
+    html: ['text/html', 'utf8']
+    jpg: ['image/jpeg', null]
+    js: ['text/javascript', 'utf8']
+    png: ['image/png', null]
+    txt: ['text/plain', 'utf8']
+    woff: ['font/woff', null]
 
 ::
   path\s\$

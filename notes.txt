@@ -5,10 +5,6 @@
 5.need re-eval.
 
 
-0.chrome app packaging.
-  make it run as a chrome app w/o data save first.
-  local font.
-
 0.bug: image and text not showing in chrome app.
 
 0.chrome.fileSystem or chrome.syncFileSystem (i.e. google drive).
