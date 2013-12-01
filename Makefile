@@ -111,7 +111,7 @@ compiled/_server.js: $(SERVER_JS) $(SERVER_PKG)
 
 tests: compiled/_tests.js
 	rm -f data/_save_test.html
-	chromium-browser 'localhost:1357/_t.html?test=.'
+	chromium-browser 'localhost:1357/_t.html?test=.' &
 
 # TODO: Compile the test files too.
 # They use the same class name (Test), so they conflict if all compiled into
@@ -156,7 +156,7 @@ fonts:
 	curl http://themes.googleusercontent.com/static/fonts/sourcesanspro/v6/toadOcfmlt9b38dHJxOBGHiec-hVyr2k4iOzEQsW1iE.woff > static/fonts/SourceSansPro-Black.woff
 
 launch: crapp
-	chromium-browser --load-and-launch-app=`pwd`/app
+	chromium-browser --load-and-launch-app=`pwd`/app &
 
 
 ############################################################
