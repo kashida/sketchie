@@ -5,8 +5,6 @@
 5.need re-eval.
 
 
-0.bug: image and text not showing in chrome app.
-
 0.chrome.fileSystem or chrome.syncFileSystem (i.e. google drive).
   http://developer.chrome.com/apps/app_storage.html
   http://www.html5rocks.com/en/tutorials/file/filesystem/
@@ -15,6 +13,8 @@
   https://github.com/GoogleChrome/chrome-app-samples/tree/master/syncfs-editor
   might need unlimitedStorage permission
     http://developer.chrome.com/apps/declare_permissions.html
+
+1.the web font seems wrong.
 
 1.bug: empty button in selection menu btwn delete and copy?
 
