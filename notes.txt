@@ -5,50 +5,62 @@
 5.need re-eval.
 
 
-0.chrome.fileSystem or chrome.syncFileSystem (i.e. google drive).
-  http://developer.chrome.com/apps/app_storage.html
-  http://www.html5rocks.com/en/tutorials/file/filesystem/
-  http://developer.chrome.com/apps/fileSystem.html
-  http://developer.chrome.com/apps/syncFileSystem.html
-  https://github.com/GoogleChrome/chrome-app-samples/tree/master/syncfs-editor
-  might need unlimitedStorage permission
-    http://developer.chrome.com/apps/declare_permissions.html
+0.text box shouldn't break lines at whitespaces.
+  or set default width to something reasonable.
 
-1.the web font seems wrong.
+0.drop ui elements that don't work in app mode.
+  global buttons
+    paste -- maybe just image?
+    save and list page.
+    all buttons in the zoom section. (selection wrong).
+  hex parameter controls.
+  color toolbox -- previous color.
+  brush toolbox.
 
-1.bug: empty button in selection menu btwn delete and copy?
-
-1.chrome app start in file list page.
-
-2.create app icon.
-  small and big.
-  use for favicon (small).
-  manifest.json takes both.
-
-2.save to (non-sandboxed) local.
-  possible?
-  http://www.html5rocks.com/en/tutorials/dnd/basics/
-
-3.chrome.storage.sync for config.
-  syncs automatically to user's profile.
-  http://developer.chrome.com/apps/storage.html
-  color palette.
-  brushes.
-
-1.study http://snapsvg.io/docs/ for svg api ideas.
+2.study http://snapsvg.io/docs/ for svg api ideas.
 
 app:
   1.paste text from outside does not work -- seems to be making image item.
 
+  1.chrome.fileSystem or chrome.syncFileSystem (i.e. google drive).
+    http://developer.chrome.com/apps/app_storage.html
+    http://www.html5rocks.com/en/tutorials/file/filesystem/
+    http://developer.chrome.com/apps/fileSystem.html
+    http://developer.chrome.com/apps/syncFileSystem.html
+    https://github.com/GoogleChrome/chrome-app-samples/tree/master/syncfs-editor
+    might need unlimitedStorage permission
+      http://developer.chrome.com/apps/declare_permissions.html
+
+  2.paste image not working in the app.
+
+  2.chrome app start in file list page.
+
   2.change key modifier from shift to control.[M]
     probably need to stop propagate the key events.
 
-  2.save overhaul.
+  2.save ui overhaul.
     spinner.
     save done message.
     leave page w/o save warning.
     auto-save.
     google docs.
+
+  2.save to (non-sandboxed) local.
+    possible?
+    http://www.html5rocks.com/en/tutorials/dnd/basics/
+
+  2.back up to google drive.
+
+  2.create app icon.
+    small and big.
+    use for favicon (small).
+    manifest.json takes both.
+
+  3.chrome.storage.sync for config.
+    syncs automatically to user's profile.
+    http://developer.chrome.com/apps/storage.html
+    color palette.
+    brushes.
 
   3.chrome extension / app packaging.
     move static dom building and dom for saving file into ejs.
@@ -102,6 +114,10 @@ viewport:
     need one more level of div for xform which holds the marker and itemlist.
     -> need to modify save / load code too.
 
+  2.add "mode:" text next to mode indicator.
+
+  2.bug: selection placement wrong when zoomed in / out.
+
   3.viewport control by mouse.[A]
     scaling control still needs to be done by buttons / keys.
 
@@ -126,6 +142,11 @@ viewport:
 
 buttons:
   2.css: change mouse cursor for button hover.
+
+  2.bug: empty button in selection menu btwn delete and copy?
+    merge.
+
+  3.global buttons -- need selection section?
 
   3.button icon.
     try http://fortawesome.github.io/Font-Awesome/
@@ -223,6 +244,8 @@ list mode:
   5.item scale x and y separately.
 
 text item / mode:
+  1.bug: drag or select item while in text mode doesn't get out to item mode.
+
   1.keep browser focus in the text box.
     if outside clicked, bounce focus back.
 
@@ -302,6 +325,8 @@ code clean up:
   1.move logic from editor/List etc to actions.
 
   1.split files > 100 lines.
+
+  2.the web font seems wrong.
 
   >>[N]2.get rid of the form tag.
 
