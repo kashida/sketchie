@@ -1,6 +1,11 @@
 ::<%.Item
   el\!Element\?
+  @onblur\F\
   ^(el)
+
+:dispose
+  ^()
+  @unlisten
 
 :text+\s\
   => @.element.innerText
@@ -11,6 +16,8 @@
 
 :editable*
   e\b\$
+  if !e
+    @unlisten()
   @.element.contentEditable = e
   @.element.style['-webkit-user-select'] = e ? 'text' : 'none'
 
@@ -40,10 +47,19 @@ edit mode.
 
 :setCursor
   beginning\b\$
+  onblur\F\?
   window.getSelection().collapse(#)
     @.element
     beginning ? 0 : @.element.innerText.length
   @.focus()
+  if onblur
+    @unlisten()
+    dom.listen(@.element, 'blur', onblur)
+    @onblur = onblur
+
+:@unlisten
+  if @onblur
+    dom.unlisten(@.element, 'blur', @onblur)
 
 :moveChildrenFrom
   other\%.Text\$

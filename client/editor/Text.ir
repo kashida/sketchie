@@ -26,7 +26,8 @@
     => false
 
   @text.editable = true
-  @text.setCursor(cursor_top)
+  @text.setCursor(cursor_top, ##)
+    f_editor_modes.popMode()
   => true
 
 :<deactivate
@@ -92,7 +93,8 @@
   f_page.selection.select(@text)
   @text.normalize(false)
   @text.editable = true
-  @text.setCursor(true)
+  @text.setCursor(true, ##)
+    f_editor_modes.popMode()
 
 :dispatch
   evt\Event\$

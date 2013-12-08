@@ -90,6 +90,13 @@
   capture\b\? false
   elem.addEventListener(type, listener, capture)
 
+::unlisten = ##
+  elem\Element\$
+  type\s\$
+  listener\F\$
+  capture\b\? false
+  elem.removeEventListener(type, listener, capture)
+
 ::attr = ##
   node\Element\$
   name\s\$
