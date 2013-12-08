@@ -35,3 +35,8 @@ Currently selected editor.
     @.changeModeTo(next_mode)
     =>
   @onChange.fire()
+
+Pops all the stack but leaves one.
+:popAll
+  while @modes.length > 1
+    @.popMode()

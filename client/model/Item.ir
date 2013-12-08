@@ -17,6 +17,7 @@ member vars.
   @element.item = @
   @.isActive = true
   @element.dragger = &drag.Move(@)
+  // TODO: unlisten at dispose.
   dom.listen(@element, 'click', ##)
     evt\Event\$
     if @.isActive && !evt.ctrlKey

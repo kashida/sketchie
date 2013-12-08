@@ -16,6 +16,7 @@
   @base_pos = @item.position
   f_dispatcher.dragStart(@)
   evt.preventDefault()
+  f_editor_modes.popAll()
   => true
 
 :<dragUpdate
