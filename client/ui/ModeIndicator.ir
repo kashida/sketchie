@@ -1,10 +1,13 @@
 ::
   @element+\Element\ dom.createDiv('mode_indicator')
-  @element.innerHTML = 'LIST'
+  @text_el+\Element\ dom.createDiv('mode_indicator_text')
+  @element.appendChild(dom.createText('mode:'))
+  @element.appendChild(@text_el)
+  @text_el.innerHTML = 'LIST'
 
 :init
   f_editor_modes.onChange.then(##)
-    @element.innerHTML = {#}[f_editor_modes.mode]
+    @text_el.innerHTML = {#}[f_editor_modes.mode]
       l: 'LIST'
       t: 'TEXT'
       d: 'DRAW'

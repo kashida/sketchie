@@ -27,7 +27,7 @@ app:
     might need unlimitedStorage permission
       http://developer.chrome.com/apps/declare_permissions.html
 
-  1.paste text from outside does not work -- seems to be making image item.
+  2.paste text from outside does not work -- seems to be making image item.
 
   2.paste image not working in the app.
 
@@ -166,9 +166,6 @@ buttons:
     alpha value control.
 
 selection:
-  1.shift-click to add second selection removes selection class from the first
-      one.
-
   2.make item primary selection (ones with focus) visually different in css.
 
   2.display number of selected items and their type (image / text).
@@ -208,7 +205,7 @@ selection:
     so it won't overlap with other buttons.
 
 list mode:
-  1.consistent item focus outline rendering.
+  2.consistent item focus outline rendering.
     for images too.
     make sure to move the focus for selection changes.
 
@@ -246,11 +243,9 @@ list mode:
   5.item scale x and y separately.
 
 text item / mode:
-  1.remove selection while in text mode.
-    there's still focus outline. selection control may be distructing?
-    and bring focus back after the edit mode is done.
-
   2.css: nowhere but text items are user selectable.
+    only in edit mode -- otherwise (shift) click-select in list mode selects
+      text.
     but image items can take focus.
     texts in palette are selectable?
 
@@ -318,13 +313,13 @@ stencil mode:
     or disable, or something...
 
 code clean up:
-  1.move logic from editor/List etc to actions.
+  2.move logic from editor/List etc to actions.
 
-  1.split files > 100 lines.
-
-  2.the web font seems wrong.
+  2.split files > 100 lines.
 
   >>[N]2.get rid of the form tag.
+
+  2.render html with template (ejs?) and decorate at runtime.
 
 bug:
   2.'n' / shift-'n' for z control in list mode doesn't seem to be working.

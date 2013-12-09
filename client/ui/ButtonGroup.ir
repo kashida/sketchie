@@ -2,7 +2,9 @@
   @title\string\$
   @element+\Element\ dom.createDiv(['buttongroup'])
   @buttons\A.<%.Button>\ []
-  @element.appendChild(dom.createText(@title))
+  @element.appendChild(#)
+    dom.createDiv('buttongroup_label', [#])
+      dom.createText(@title)
 
 :add
   act\action.Action\$
