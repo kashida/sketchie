@@ -242,26 +242,16 @@ list mode:
   5.item scale x and y separately.
 
 text item / mode:
-  1.bug: drag or select item while in text mode doesn't get out to item mode.
-    still need to exit when selection changes.
-
   1.keep selection when entering text mode with i / e.
 
-  1.keep browser focus in the text box.
-    if outside clicked, bounce focus back.
-
-  1.no browser selection of other ui components.
-
-  1.text layout strange while adding new text item.
-
-  1.text cursor not visible when typing in a new text.
-    when there's nothing.
-
-  1.select the text item after escaping from text edit mode.
+  2.remove selection while in text mode.
+    there's still focus outline. selection control may be distructing?
 
   2.css: nowhere but text items are user selectable.
     but image items can take focus.
     texts in palette are selectable?
+
+  2.copy text (to the os).
 
   3.edit mode key controls (with ctrl).
     go to the beginning / end of the text.
