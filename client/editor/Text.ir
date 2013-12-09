@@ -11,12 +11,10 @@
     // Add a text box at the right location and make it visible.
     @text = %.Text.makeTextItem('', f_page.selection.head)
     f_page.list.appendEnd([@text])
-    f_page.selection.select(@text)
   else
     if !f_page.selection.isHeadText
       => false
     @text = \!model.Text\(f_page.selection.head)
-    f_page.selection.clear()
 
   if sub_mode == 'c'
     // This is a copy request.
@@ -25,6 +23,7 @@
     f_page.list.appendEnd(t)
     => false
 
+  f_page.selection.clear()
   @text.editable = true
   @text.setCursor(cursor_top, ##)
     f_editor_modes.popMode()
@@ -33,6 +32,8 @@
 :<deactivate
   @text.editable = false
   @text.normalize(true)
+  if @text.element
+    f_page.selection.select(@text)
 
 :@split
   cursor := window.getSelection()
@@ -90,7 +91,6 @@
 
   // Activate the new item.
   @text = newtext
-  f_page.selection.select(@text)
   @text.normalize(false)
   @text.editable = true
   @text.setCursor(true, ##)

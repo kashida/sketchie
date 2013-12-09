@@ -212,6 +212,10 @@ list mode:
     for images too.
     make sure to move the focus for selection changes.
 
+  2.use only one listener for move drag (and perhaps for rotate and scale too).
+    touchpad drag move is choppy -- too few sample points, it seems.
+    -> listening to the entire viewport and follow the item might help.
+
   2.go up to the list page (shift-'u') is too easy.
 
   2.rotate and scale mode don't work when mouse cursor outside of the item.
@@ -242,16 +246,17 @@ list mode:
   5.item scale x and y separately.
 
 text item / mode:
-  1.keep selection when entering text mode with i / e.
-
-  2.remove selection while in text mode.
+  1.remove selection while in text mode.
     there's still focus outline. selection control may be distructing?
+    and bring focus back after the edit mode is done.
 
   2.css: nowhere but text items are user selectable.
     but image items can take focus.
     texts in palette are selectable?
 
   2.copy text (to the os).
+
+  2.ctrl-enter during text input with Japanese IME exits text mode.
 
   3.edit mode key controls (with ctrl).
     go to the beginning / end of the text.
@@ -338,7 +343,7 @@ bug:
 
   3.marker doesn't move if drag item ends with cursor on top of another item.
 
-  3.shift-enter during text input width Japanese IME throws exception.
+  3.shift-enter during text input with Japanese IME throws exception.
 
   3.list mode copy xformed text -> make a copy with xform dropped.
     image copy works fine with xform.
