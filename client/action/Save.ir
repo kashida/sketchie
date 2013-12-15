@@ -3,4 +3,4 @@
 
 :trigger
   f_page.selection.clear()
-  &Upload().run()
+  &Save().run()

@@ -32,7 +32,3 @@ TODO: Statically create this from ejs.
 
 :'saveFooter
   </body></html>
-
-upload: ->
-  chrome.extension.sendRequest ['list'], (resp) ->
-    l resp

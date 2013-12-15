@@ -5,7 +5,7 @@
 
 :dispose
   ^()
-  @unlisten
+  @unlisten()
 
 :text+\s\
   => @.element.innerText
