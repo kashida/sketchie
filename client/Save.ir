@@ -1,26 +1,74 @@
 ::
 
-:run
-  // Send everything in the item list.
-  html := #+
+:html+\s\
+  => #+
     '<div class="itemlist">'
     dom.id('itemlist').innerHTML
     '</div>\n'
+
+:htmlDoc+\Blob\
+  => &Blob([#], {type: 'text/html'})
+    saveHeader
+    @.html
+    saveFooter
+
+:upload
+  // Send everything in the item list.
   if @run_as_extension
-    bb := &WebKitBlobBuilder()
-    bb.append(saveHeader)
-    bb.append(html)
-    bb.append(saveFooter)
     //getURL = window.createBlobURL || window.createObjectURL
     ifr := dom.id('save_ifr')
     if !ifr
       ifr = dom.create('iframe')
       ifr.id = 'save_ifr'
       ifr.style.display = 'none'
-    ifr.src = window.webkitURL.createObjectURL(bb.getBlob())
+    ifr.src = window.webkitURL.createObjectURL(@.htmlDoc)
     document.body.appendChild(ifr)
   else
-    xhrPost(location.pathname, html)
+    xhrPost(location.pathname, @.html)
+
+This is actually 'export'.
+:store
+  chrome.fileSystem.chooseEntry({type: 'saveFile'}, ##)
+    writableFileEntry\FileEntry\$
+    writableFileEntry.createWriter(##, @err)
+      writer\Writer\$
+      writer.onerror = @err
+      writer.onwriteend = ##
+        // TODO: show some on-screen response.
+        l('write complete')
+      writer.write(@.htmlDoc)
+
+:storeToFs
+  chrome.fileSystem.chooseEntry({type: 'openFile'}, ##)
+    readOnlyEntry\FileEntry\$
+    readOnlyEntry.file(##)
+      file\File\$
+      reader := &FileReader()
+      reader.onerror = @err
+      reader.onloadend = ##
+        e\Event\$
+        l(e.target.result)
+      l(reader.readAsText(file))
+
+TODO: Switch to this syncfs version when it is working.
+:storeToSyncFs
+  chrome.syncFileSystem.requestFileSystem(##)
+  //webkitRequestFileSystem(window.PERSISTENT, 5 * 1024 * 1024, ##, @err)
+    fs\FileSystem\$
+    chrome.syncFileSystem.getUsageAndQuota(fs, ##)
+      info\O\$
+      l(info)
+    fs.root.getFile('log.txt', {create: true, exclusive: true}, ##, @err)
+      entry\FileEntry\$
+      entry.createWriter(##, @err)
+        writer\FileWriter\$
+        writer.onerror = @err
+        writer.write(&Blob([@.html], {type: 'text/plain'}))
+
+:@err
+  e\Error\$
+  l('Save error')
+  l(e)
 
 TODO: Statically create this from ejs.
 :'saveHeader

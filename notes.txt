@@ -5,19 +5,35 @@
 5.need re-eval.
 
 
-0.drop ui elements that don't work in app mode.
-  global buttons
-    paste -- maybe just image?
-    save and list page.
-    all buttons in the zoom section. (selection wrong).
-  hex parameter controls.
-  color toolbox -- previous color.
-  brush toolbox.
-
-2.study http://snapsvg.io/docs/ for svg api ideas.
-
 app:
-  1.chrome.fileSystem or chrome.syncFileSystem (i.e. google drive).
+  0.import and export files.
+    save with html header / footer.
+
+  1.google drive save.
+
+  1.drop ui elements that don't work in app mode.
+    global buttons
+      paste -- maybe just image?
+      save and list page.
+      all buttons in the zoom section. (selection wrong).
+    hex parameter controls.
+    color toolbox -- previous color.
+    brush toolbox.
+
+  2.fix some issues on local export.
+    resolve css path somehow.
+    set the html title right.
+
+  2.export into html in google drive.
+
+  2.use angular for all pages but the main editor?
+    file list.
+    color selection.
+    brush config set.
+    page config.
+    text style set.
+
+  2.chrome.fileSystem or chrome.syncFileSystem (i.e. google drive).
     http://developer.chrome.com/apps/app_storage.html
     http://www.html5rocks.com/en/tutorials/file/filesystem/
     http://developer.chrome.com/apps/fileSystem.html
@@ -25,13 +41,7 @@ app:
     https://github.com/GoogleChrome/chrome-app-samples/tree/master/syncfs-editor
     might need unlimitedStorage permission
       http://developer.chrome.com/apps/declare_permissions.html
-
-  1.use angular for all pages but the main editor?
-    file list.
-    color selection.
-    brush config set.
-    page config.
-    text style set.
+    2.quota management.
 
   2.paste text from outside does not work -- seems to be making image item.
 
@@ -59,6 +69,11 @@ app:
     small and big.
     use for favicon (small).
     manifest.json takes both.
+
+  2.study http://snapsvg.io/docs/ for svg api ideas.
+
+  3.improve animations.
+    http://tympanus.net/codrops/
 
   3.chrome.storage.sync for config.
     syncs automatically to user's profile.

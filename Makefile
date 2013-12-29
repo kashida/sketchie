@@ -156,7 +156,7 @@ fonts:
 	curl http://themes.googleusercontent.com/static/fonts/sourcesanspro/v6/toadOcfmlt9b38dHJxOBGHiec-hVyr2k4iOzEQsW1iE.woff > static/fonts/SourceSansPro-Black.woff
 
 launch: crapp
-	chromium-browser --load-and-launch-app=`pwd`/app &
+	google-chrome --load-and-launch-app=`pwd`/app &
 
 
 ############################################################
