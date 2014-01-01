@@ -30,5 +30,6 @@ TODO: Merge with server/HtmlHandler.ir and server/RenderHandler.ir.
     close: %.RenderPage.CLOSE_MARKER
     script: #+
       '<script src="/s/packages.js"></script>\n'
+      '<script src="/s/config.js"></script>\n'
       @scriptList()
     init: ''

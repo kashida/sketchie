@@ -1,5 +1,4 @@
 ::
-  @run_as_extension\b\$
   @buildDom()
   @initGlobalComponents()
 

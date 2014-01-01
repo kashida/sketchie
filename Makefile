@@ -145,6 +145,7 @@ crapp: compiled/pages.js client
 	cp chrome/manifest.json app/
 	cp chrome/background.js app/
 	cp -R compiled/client app/s
+	cp chrome/config.js app/s/
 	find app/s/ -name '*.tk' -exec rm \{\} \;
 	cp static/page.css app/
 	cp -R static/images app/images

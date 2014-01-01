@@ -14,7 +14,7 @@
 
 :store
   // Send everything in the item list.
-  if @run_as_extension
+  if run_as_extension
     @storeToSyncFs()
   else
     xhrPost(location.pathname, @.html)
