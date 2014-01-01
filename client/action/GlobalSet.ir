@@ -5,6 +5,7 @@
       &%.NewText()
       &%.Paste()
     &%.Save()
+    &%.Export()
     &%.BackToList()
     &%.Group('zoom', [#])
       &%.ZoomIn()

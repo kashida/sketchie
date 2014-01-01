@@ -6,9 +6,6 @@
 
 
 app:
-  0.import and export files.
-    save with html header / footer.
-
   1.google drive save.
 
   1.drop ui elements that don't work in app mode.
@@ -21,6 +18,7 @@ app:
     brush toolbox.
 
   2.fix some issues on local export.
+    export file dialog cancel to work w/o exception.
     resolve css path somehow.
     set the html title right.
 

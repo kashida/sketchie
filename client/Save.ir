@@ -6,52 +6,46 @@
     dom.id('itemlist').innerHTML
     '</div>\n'
 
-:htmlDoc+\Blob\
+:htmlDoc+\!Blob\
   => &Blob([#], {type: 'text/html'})
     saveHeader
     @.html
     saveFooter
 
-:upload
+:store
   // Send everything in the item list.
   if @run_as_extension
-    //getURL = window.createBlobURL || window.createObjectURL
-    ifr := dom.id('save_ifr')
-    if !ifr
-      ifr = dom.create('iframe')
-      ifr.id = 'save_ifr'
-      ifr.style.display = 'none'
-    ifr.src = window.webkitURL.createObjectURL(@.htmlDoc)
-    document.body.appendChild(ifr)
+    @storeToSyncFs()
   else
     xhrPost(location.pathname, @.html)
 
-This is actually 'export'.
-:store
+:exportLocal
   chrome.fileSystem.chooseEntry({type: 'saveFile'}, ##)
-    writableFileEntry\FileEntry\$
-    writableFileEntry.createWriter(##, @err)
-      writer\Writer\$
-      writer.onerror = @err
-      writer.onwriteend = ##
-        // TODO: show some on-screen response.
-        l('write complete')
-      writer.write(@.htmlDoc)
+    entry\Entry\?
+    if entry
+      entry.createWriter(##, @err)
+        writer\FileWriter\$
+        writer.onerror = @writererr
+        writer.onwriteend = ##
+          // TODO: show some on-screen response.
+          l('write complete')
+        writer.write(@.htmlDoc)
 
-:storeToFs
+Sync to local file system -- currently not used.
+:@storeToFs
   chrome.fileSystem.chooseEntry({type: 'openFile'}, ##)
-    readOnlyEntry\FileEntry\$
-    readOnlyEntry.file(##)
-      file\File\$
-      reader := &FileReader()
-      reader.onerror = @err
-      reader.onloadend = ##
-        e\Event\$
-        l(e.target.result)
-      l(reader.readAsText(file))
+    entry\Entry\?
+    if entry
+      entry.file(##)
+        file\!File\$
+        reader := &FileReader()
+        reader.onerror = @writererr
+        reader.onloadend = ##
+          e\Event\$
+          l(e.target.result)
+        l(reader.readAsText(file))
 
-TODO: Switch to this syncfs version when it is working.
-:storeToSyncFs
+:@storeToSyncFs
   chrome.syncFileSystem.requestFileSystem(##)
   //webkitRequestFileSystem(window.PERSISTENT, 5 * 1024 * 1024, ##, @err)
     fs\FileSystem\$
@@ -62,11 +56,16 @@ TODO: Switch to this syncfs version when it is working.
       entry\FileEntry\$
       entry.createWriter(##, @err)
         writer\FileWriter\$
-        writer.onerror = @err
+        writer.onerror = @writererr
         writer.write(&Blob([@.html], {type: 'text/plain'}))
 
+:@writererr
+  e\ProgressEvent\$
+  l('Writer error')
+  l(e)
+
 :@err
-  e\Error\$
+  e\FileError\$
   l('Save error')
   l(e)
 

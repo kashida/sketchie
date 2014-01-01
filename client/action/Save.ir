@@ -3,6 +3,4 @@
 
 :trigger
   f_page.selection.clear()
-  // TODO: Pick the right one based on the env.
-  //&Save().upload()
   &Save().store()

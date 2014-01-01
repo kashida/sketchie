@@ -1,0 +1,6 @@
+::<%.Action
+  ^('E', 'S:x', 'export')
+
+:trigger
+  f_page.selection.clear()
+  &Save().exportLocal()

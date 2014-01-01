@@ -17,6 +17,8 @@ CLOSURE_ARGS=
 CLOSURE_ARGS+=-jar closure/compiler.jar
 CLOSURE_ARGS+=--externs ~/ir2js/misc/externs.js
 CLOSURE_ARGS+=--externs server/externs.js
+CLOSURE_ARGS+=--externs client/externs.js
+CLOSURE_ARGS+=--externs closure/chrome_extensions.js
 CLOSURE_ARGS+=--formatting PRETTY_PRINT
 CLOSURE_ARGS+=--compilation_level ADVANCED_OPTIMIZATIONS
 CLOSURE_ARGS+=--summary_detail_level 3
@@ -149,14 +151,26 @@ crapp: compiled/pages.js client
 	cp -R static/fonts app/fonts
 	node compiled/pages.js > app/page.html
 
+launch: crapp
+	google-chrome --load-and-launch-app=`pwd`/app > /dev/null &
+
+
+############################################################
+# One time set up.
+
 fonts:
 	mkdir -p static/fonts
 	curl http://themes.googleusercontent.com/static/fonts/sourcesanspro/v6/ODelI1aHBYDBqgeIAH2zlBM0YzuT7MdOe03otPbuUS0.woff > static/fonts/SourceSansPro-Regular.woff
 	curl http://themes.googleusercontent.com/static/fonts/sourcesanspro/v6/toadOcfmlt9b38dHJxOBGFkQc6VGVFSmCnC_l7QZG60.woff > static/fonts/SourceSansPro-Bold.woff
 	curl http://themes.googleusercontent.com/static/fonts/sourcesanspro/v6/toadOcfmlt9b38dHJxOBGHiec-hVyr2k4iOzEQsW1iE.woff > static/fonts/SourceSansPro-Black.woff
 
-launch: crapp
-	google-chrome --load-and-launch-app=`pwd`/app &
+closure:
+	mkdir -p closure
+	curl https://closure-compiler.googlecode.com/git/contrib/externs/chrome_extensions.js > closure/chrome_extensions.js
+	curl https://closure-compiler.googlecode.com/files/compiler-20131014.zip > closure/compiler.zip
+	cd closure; unzip compiler.zip
+
+setup: fonts closure
 
 
 ############################################################
@@ -167,7 +181,7 @@ clean:
 	rm -rf app
 
 spotless: clean
-	rm -rf static/fonts
+	rm -rf static/fonts closure
 
 cclean:
 	rm -rf compiled/client

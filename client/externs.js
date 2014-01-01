@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////
-// wacom.
+// Wacom.
 
 /** @constructor */
 var WacomPlugin = function() {};
@@ -47,3 +47,19 @@ WacomPenAPI.prototype.tabY;
 WacomPenAPI.prototype.tiltX;
 /** @type {number} */
 WacomPenAPI.prototype.tiltY;
+
+
+////////////////////////////////////////////////////////////
+// Chrome extensions.
+
+/** @const */
+chrome.syncFileSystem = {};
+
+/** @param {function(FileSystem)} callback */
+chrome.syncFileSystem.requestFileSystem = function(callback) {};
+
+/**
+ * @param {FileSystem} fs
+ * @param {function(Object)} callback
+ */
+chrome.syncFileSystem.getUsageAndQuota = function(fs, callback) {};
