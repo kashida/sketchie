@@ -63,3 +63,10 @@ chrome.syncFileSystem.requestFileSystem = function(callback) {};
  * @param {function(Object)} callback
  */
 chrome.syncFileSystem.getUsageAndQuota = function(fs, callback) {};
+
+
+////////////////////////////////////////////////////////////
+// Config param.
+
+/** @const {boolean} */
+var run_as_extension

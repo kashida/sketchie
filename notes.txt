@@ -6,9 +6,11 @@
 
 
 app:
-  1.google drive save.
+  0.paste text does not work.
 
-  1.drop ui elements that don't work in app mode.
+  0.paste image not working in the app.
+
+  0.drop ui elements that don't work in app mode.
     global buttons
       paste -- maybe just image?
       save and list page.
@@ -17,99 +19,75 @@ app:
     color toolbox -- previous color.
     brush toolbox.
 
-  2.fix some issues on local export.
-    export file dialog cancel to work w/o exception.
-    resolve css path somehow.
-    set the html title right.
+  1.chrome app start in file list page.
 
-  2.export into html in google drive.
+  1.file access.
+    2.fix some issues on local export.
+      export file dialog cancel to work w/o exception.
+      resolve css path somehow.
+      set the html title right.
+    2.export into html in google drive.
+      also resolve css path.
+    2.write json in drvie.
+    2.file list.
+      2.use the right file name for sync.
 
-  2.use angular for all pages but the main editor?
-    file list.
-    color selection.
-    brush config set.
-    page config.
-    text style set.
+  2.configs.
+    2.use angular for all pages but the main editor?
+      file list.
+      color selection.
+      brush config set.
+      page config.
+      text style set.
+    2.chrome.storage.sync for config.
+      syncs automatically to user's profile.
+      http://developer.chrome.com/apps/storage.html
+      color palette.
+      brushes.
+    3.text style set up screen.
+      border width/color, font-size, line-height, text color, and text-shadow.
+      vertical text.
+      make a separate html tab first and then iframe dialog over main page.
+    3.color set up screen.
+      move color adjustment to a different app.
+      make a separate html tab first and then iframe dialog over main page.
+    3.brush set up screen.
+      move brush parameters to a different app.
+      show only tool control that are meaningful for the selected tool.
+      ink stroke parameter contorl (iri/nuki length and speed sensitivity).
+      random brush control.
+      gradient brush control.
+      make a separate html tab first and then iframe dialog over main page.
+    3.page config screen.
+      background texture image selection.
+      default text style.
+      http://subtlepatterns.com/
+      make a separate html tab first and then iframe dialog over main page.
 
-  2.chrome.fileSystem or chrome.syncFileSystem (i.e. google drive).
-    http://developer.chrome.com/apps/app_storage.html
-    http://www.html5rocks.com/en/tutorials/file/filesystem/
-    http://developer.chrome.com/apps/fileSystem.html
-    http://developer.chrome.com/apps/syncFileSystem.html
-    https://github.com/GoogleChrome/chrome-app-samples/tree/master/syncfs-editor
-    might need unlimitedStorage permission
-      http://developer.chrome.com/apps/declare_permissions.html
-    2.quota management.
+  2.chrome app.
+    2.create app icon.
+      small and big.
+      use for favicon (small).
+      manifest.json takes both.
+    3.chrome extension / app packaging.
+      move static dom building and dom for saving file into ejs.
+      shortcut key to open scratch pad from any page.
+      associate extension on driver so sketchie can be invoked from drive too.
 
-  2.paste text from outside does not work -- seems to be making image item.
-
-  2.paste image not working in the app.
-
-  2.chrome app start in file list page.
-
-  2.change key modifier from shift to control.[M]
-    probably need to stop propagate the key events.
-
-  2.save ui overhaul.
-    spinner.
-    save done message.
-    leave page w/o save warning.
-    auto-save.
-    google docs.
-
-  2.save to (non-sandboxed) local.
-    possible?
-    http://www.html5rocks.com/en/tutorials/dnd/basics/
-
-  2.back up to google drive.
-
-  2.create app icon.
-    small and big.
-    use for favicon (small).
-    manifest.json takes both.
-
-  2.study http://snapsvg.io/docs/ for svg api ideas.
-
-  3.improve animations.
-    http://tympanus.net/codrops/
-
-  3.chrome.storage.sync for config.
-    syncs automatically to user's profile.
-    http://developer.chrome.com/apps/storage.html
-    color palette.
-    brushes.
-
-  3.chrome extension / app packaging.
-    move static dom building and dom for saving file into ejs.
-    shortcut key to open scratch pad from any page.
-
-  3.text style set up screen.
-    border width/color, font-size, line-height, text color, and text-shadow.
-    vertical text.
-    make a separate html tab first and then iframe dialog over main page.
-
-  3.color set up screen.
-    move color adjustment to a different app.
-    make a separate html tab first and then iframe dialog over main page.
-
-  3.brush set up screen.
-    move brush parameters to a different app.
-    show only tool control that are meaningful for the selected tool.
-    ink stroke parameter contorl (iri/nuki length and speed sensitivity).
-    random brush control.
-    gradient brush control.
-    make a separate html tab first and then iframe dialog over main page.
-
-  3.page config screen.
-    background texture image selection.
-    default text style.
-    http://subtlepatterns.com/
-    make a separate html tab first and then iframe dialog over main page.
+  2.overall ui.
+    2.change key modifier from shift to control.[M]
+      probably need to stop propagate the key events.
+    2.save ui overhaul.
+      spinner.
+      save done message.
+      leave page w/o save warning.
+      auto-save.
+      google docs.
+    2.study http://snapsvg.io/docs/ for svg api ideas.
+    3.improve animations.
+      http://tympanus.net/codrops/
 
   3.screen capture of the entire page (outside of scroll region too).
-
-  5.hex control overhaul.
-    drag hex and keep selected region fixed in screen.
 
   5.make view control keys work in all modes.
     rotate and scale mode.
@@ -117,12 +95,9 @@ app:
 
   5.copy to internalize the pasted image.
 
-  5.store in dropbox.
-    store note in html format.
-    load saved note.
-    store app config.
-
 viewport:
+  2.bug: selection placement wrong when zoomed in / out.
+
   2.exit or adjust in draw mode when resize viewport.
     trying to capture 'resize' of input_layer in dispatcher, but not working...
     need to capture window's resize.
@@ -130,10 +105,6 @@ viewport:
   2.consider putting selection marker inside viewport xform.
     need one more level of div for xform which holds the marker and itemlist.
     -> need to modify save / load code too.
-
-  2.add "mode:" text next to mode indicator.
-
-  2.bug: selection placement wrong when zoomed in / out.
 
   3.viewport control by mouse.[A]
     scaling control still needs to be done by buttons / keys.
@@ -158,14 +129,12 @@ viewport:
     css animation?
 
 buttons:
-  2.css: change mouse cursor for button hover.
-
-  2.bug: empty button in selection menu btwn delete and copy?
+  1.bug: empty button in selection menu btwn delete and copy?
     merge.
 
-  3.global buttons -- need selection section?
+  2.css: change mouse cursor for button hover.
 
-  3.button icon.
+  2.button icon.
     try http://fortawesome.github.io/Font-Awesome/
     find icons from www.flaticon.com.
     http://www.elegantthemes.com/blog/resources/elegant-icon-font
@@ -176,30 +145,30 @@ buttons:
     http://gigazine.net/news/20131122-ikons/
     http://liginc.co.jp/web/design/material/61236
 
-  3.group selection buttons.
-    z control in one group, perhaps layed out vertically.
-
-  3.change tool box controls to buttons.[N]
+  2.change tool box controls to buttons.[N]
     alpha lock (for image).
       need a toggle button.
       move from list mode to image mode.
     alpha value control.
 
+  3.group selection buttons.
+    z control in one group, perhaps layed out vertically.
+
 selection:
-  2.make item primary selection (ones with focus) visually different in css.
+  1.make item primary selection (ones with focus) visually different in css.
 
   2.display number of selected items and their type (image / text).
 
-  3.drag handle.
+  2.drag handle.
     move, rotate, scale.
 
-  3.hide selection during drag items.
-
-  3.additive select by default.
+  2.additive select by default.
     esc key or unselect button to clear the selectin.
 
-  3.selection become small (zero size?) after image draw or merging two image
+  2.selection become small (zero size?) after image draw or merging two image
       items -- doesn't always happen...
+
+  3.hide selection during drag items.
 
   3.item flip vert/horiz.
 
@@ -225,7 +194,7 @@ selection:
     so it won't overlap with other buttons.
 
 list mode:
-  2.consistent item focus outline rendering.
+  1.consistent item focus outline rendering.
     for images too.
     make sure to move the focus for selection changes.
 
@@ -266,6 +235,13 @@ list mode:
   5.item scale x and y separately.
 
 text item / mode:
+  2.copy text into system clipboard.
+    make sure it gets re-pasted into sketchie.
+
+  2.paste text from outside pasting with style.
+    and the style persists until exiting text mode.
+    need to drop the style.
+
   2.css: nowhere but text items are user selectable.
     only in edit mode -- otherwise (shift) click-select in list mode selects
       text.
