@@ -6,16 +6,11 @@
 
 
 app:
-  0.drop ui elements that don't work in app mode.
-    global buttons
-      paste -- maybe just image?
-      save and list page.
-      all buttons in the zoom section. (selection wrong).
-    hex parameter controls.
-    color toolbox -- previous color.
-    brush toolbox.
+  1.add export button.
+    to local and to drive.
 
   1.chrome app start in file list page.
+    re-enable global list button.
 
   1.file access.
     2.fix some issues on local export.
@@ -27,16 +22,6 @@ app:
     2.write json in drvie.
     2.file list.
       2.use the right file name for sync.
-
-  1.paste text does not work in list mode.
-
-  1.paste image not working in the app.
-    probaby need to xhr the image.
-    http://developer.chrome.com/apps/app_external.html#external
-
-  1.hook up paste global button to paste functionality.
-    button needs to also instercept system paste event.
-    make it work for text and image.
 
   2.configs.
     2.use angular for all pages but the main editor?
@@ -102,7 +87,8 @@ app:
   5.copy to internalize the pasted image.
 
 viewport:
-  2.bug: selection placement wrong when zoomed in / out.
+  1.bug: selection placement wrong when zoomed in / out.
+    2.re-enable global zoom buttons.
 
   2.exit or adjust in draw mode when resize viewport.
     trying to capture 'resize' of input_layer in dispatcher, but not working...
@@ -203,6 +189,19 @@ list mode:
   1.consistent item focus outline rendering.
     for images too.
     make sure to move the focus for selection changes.
+
+  1.paste
+    1.paste text does not work in list mode.
+
+    1.paste image not working in the app.
+      probaby need to xhr the image.
+      http://developer.chrome.com/apps/app_external.html#external
+
+    1.hook up paste global button to paste functionality.
+      button needs to also instercept system paste event.
+      make it work for text and image.
+
+    1.re-enable global paste button.
 
   2.use only one listener for move drag (and perhaps for rotate and scale too).
     touchpad drag move is choppy -- too few sample points, it seems.
@@ -327,6 +326,9 @@ code clean up:
   2.render html with template (ejs?) and decorate at runtime.
 
 bug:
+  0.re-edit image doesn't work.
+    drops the entire image.
+
   2.'n' / shift-'n' for z control in list mode doesn't seem to be working.
 
   2.esc from draw mode fails if there is another image with higher (closer) z.

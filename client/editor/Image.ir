@@ -147,14 +147,14 @@
   else if evt.keyCode == c('F')
     f_color_palette.swapColors()
 
-  else if evt.keyCode == c('M')
-    f_color_palette.activateControl('m')
-  else if evt.keyCode == c('H')
-    f_color_palette.activateControl('h')
-  else if evt.keyCode == c('J')
-    f_color_palette.activateControl('s')
-  else if evt.keyCode == c('L')
-    f_color_palette.activateControl('l')
+  //else if evt.keyCode == c('M')
+  //  f_color_palette.activateControl('m')
+  //else if evt.keyCode == c('H')
+  //  f_color_palette.activateControl('h')
+  //else if evt.keyCode == c('J')
+  //  f_color_palette.activateControl('s')
+  //else if evt.keyCode == c('L')
+  //  f_color_palette.activateControl('l')
 
   else if #||
       evt.keyCode == DOM_VK_OPEN_BRACKET

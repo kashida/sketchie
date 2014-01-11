@@ -16,7 +16,8 @@
   @label = b_l[1]
   dom.listen(@box, 'click', ##)
     evt\Event\$
-    @.activate()
+    // TODO: Remove hex controller code.
+    //@.activate()
 
 :activate
   f_hex_control.activate(@)
