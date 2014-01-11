@@ -6,10 +6,6 @@
 
 
 app:
-  0.paste text does not work.
-
-  0.paste image not working in the app.
-
   0.drop ui elements that don't work in app mode.
     global buttons
       paste -- maybe just image?
@@ -31,6 +27,16 @@ app:
     2.write json in drvie.
     2.file list.
       2.use the right file name for sync.
+
+  1.paste text does not work in list mode.
+
+  1.paste image not working in the app.
+    probaby need to xhr the image.
+    http://developer.chrome.com/apps/app_external.html#external
+
+  1.hook up paste global button to paste functionality.
+    button needs to also instercept system paste event.
+    make it work for text and image.
 
   2.configs.
     2.use angular for all pages but the main editor?
