@@ -62,8 +62,8 @@ TODO: need to counter other item transforms and viewport transforms.
 :setToAbsolute
   p\data.Vec2\$
   @element.style.position = 'absolute'
-  @element.style.width = document.width + 'px'
-  @element.style.height = document.height + 'px'
+  @element.style.width = window.innerWidth + 'px'
+  @element.style.height = window.innerHeight + 'px'
   @element.style.left = -p.x + 'px'
   @element.style.top = -p.y + 'px'
 
