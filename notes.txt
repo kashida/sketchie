@@ -6,11 +6,13 @@
 
 
 app:
+  0.chrome app start in file list page.
+    re-enable global list button.
+    use the right file name for sync.
+    1.write json in drvie.
+
   1.add export button.
     to local and to drive.
-
-  1.chrome app start in file list page.
-    re-enable global list button.
 
   1.file access.
     2.fix some issues on local export.
@@ -19,9 +21,6 @@ app:
       set the html title right.
     2.export into html in google drive.
       also resolve css path.
-    2.write json in drvie.
-    2.file list.
-      2.use the right file name for sync.
 
   2.configs.
     2.use angular for all pages but the main editor?
@@ -326,9 +325,6 @@ code clean up:
   2.render html with template (ejs?) and decorate at runtime.
 
 bug:
-  0.re-edit image doesn't work.
-    drops the entire image.
-
   2.'n' / shift-'n' for z control in list mode doesn't seem to be working.
 
   2.esc from draw mode fails if there is another image with higher (closer) z.
