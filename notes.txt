@@ -6,13 +6,14 @@
 
 
 app:
-  0.chrome app start in file list page.
+  0.write json in drvie.
+
+  0.add export button.
+    to local and to drive.
+
+  1.chrome app start in file list page.
     re-enable global list button.
     use the right file name for sync.
-    1.write json in drvie.
-
-  1.add export button.
-    to local and to drive.
 
   1.file access.
     2.fix some issues on local export.

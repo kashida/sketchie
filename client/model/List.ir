@@ -11,6 +11,11 @@ All child elements need to be blessed when added, and disposed when removed.
   @element.removeChild(item.element)
   item.dispose()
 
+:serializable+\O\
+  => @.childrenArray.map(##)
+    item\!%.Item\$
+    => item.serializable
+
 :clear
   @element.innerHTML = ''
 

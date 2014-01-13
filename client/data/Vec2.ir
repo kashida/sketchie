@@ -2,6 +2,9 @@
   @x&\n\$
   @y&\n\$
 
+:serializable+\O\
+  => [@x, @y]
+
 :minus\%.Vec2\
   other\%.Vec2\$
   => &%.Vec2(@.x - other.x, @.y - other.y)

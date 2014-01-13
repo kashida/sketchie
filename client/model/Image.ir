@@ -5,6 +5,12 @@
   @.element.style['-webkit-user-select'] = 'none'
   @.element.appendChild(@img)
 
+:serializable+\O\
+  obj := @.baseSerializable
+  obj.ref_img = @.isReference
+  obj.src = @.src
+  => obj
+
 :isReference+\b\
   => !!dom.attr(@.element, 'ref_img')
 :isReference*

@@ -1,5 +1,9 @@
 ::
 
+:json+\!Blob\
+  => &Blob([#], {type: 'application/json'})
+    JSON.stringify(f_page.list.serializable)
+
 :html+\s\
   => #+
     '<div class="itemlist">'
@@ -15,7 +19,8 @@
 :store
   // Send everything in the item list.
   if run_as_extension
-    @storeToSyncFs()
+    @storeToSyncFs('sketchie.sktch', @.json)
+    @storeToSyncFs('sketchie.html', @.htmlDoc)
   else
     xhrPost(location.pathname, @.html)
 
@@ -46,18 +51,20 @@ Sync to local file system -- currently not used.
         l(reader.readAsText(file))
 
 :@storeToSyncFs
+  fname\s\$
+  data\!Blob\$
   chrome.syncFileSystem.requestFileSystem(##)
   //webkitRequestFileSystem(window.PERSISTENT, 5 * 1024 * 1024, ##, @err)
     fs\FileSystem\$
-    chrome.syncFileSystem.getUsageAndQuota(fs, ##)
-      info\O\$
-      l(info)
-    fs.root.getFile('log.txt', {create: true, exclusive: true}, ##, @err)
+    //chrome.syncFileSystem.getUsageAndQuota(fs, ##)
+    //  info\O\$
+    //  l(info)
+    fs.root.getFile(fname, {create: true, exclusive: true}, ##, @err)
       entry\FileEntry\$
       entry.createWriter(##, @err)
         writer\FileWriter\$
         writer.onerror = @writererr
-        writer.write(&Blob([@.html], {type: 'text/plain'}))
+        writer.write(data)
 
 :@writererr
   e\ProgressEvent\$

@@ -23,6 +23,15 @@ member vars.
     if @.isActive && !evt.ctrlKey
       f_page.selection.select(@, evt.shiftKey)
 
+:baseSerializable+\O\
+  => {#}
+    p: @.position.serializable
+    r: @.rotation
+    s: @.scale
+    a: @.alphaLock
+    b: @.blendAlpha
+    c: @.isActive
+
 :dispose
   @element.item = null
   @element.dragger = null

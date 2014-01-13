@@ -5,6 +5,9 @@
 :OPEN_MARKER = '<!--%'
 :CLOSE_MARKER = '%-->'
 
+:@config\s\
+  => '<script>var run_as_extension = false;</script>'
+
 :@packageList\s\
   => #+
     '<script>\n'
@@ -39,6 +42,7 @@ Try to render. If fail, return the input as is (and log the error message).
     open: %.HtmlHandler.OPEN_MARKER
     close: %.HtmlHandler.CLOSE_MARKER
     script: #+
+      @config()
       @packageList()
       @scriptList()
     init: @ctxt.extraInit
@@ -48,6 +52,7 @@ Try to render. If fail, return the input as is (and log the error message).
     open: %.HtmlHandler.OPEN_MARKER
     close: %.HtmlHandler.CLOSE_MARKER
     script: #+
+      @config()
       @packageList()
       @scriptList()
     init: @ctxt.extraInit

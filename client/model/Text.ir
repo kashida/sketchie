@@ -7,6 +7,11 @@
   ^()
   @unlisten()
 
+:serializable+\O\
+  obj := @.baseSerializable
+  obj.text = @.text
+  => obj
+
 :text+\s\
   => @.element.innerText
 :text*
