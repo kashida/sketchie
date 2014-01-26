@@ -4,18 +4,29 @@
 3.definitely needs to be done, but can wait.
 5.need re-eval.
 
+0.upload to github.
+  need to make a new repository?
+
+0.upload to play store.
 
 app:
-  0.write json in drvie.
-
-  0.add export button.
-    to local and to drive.
+  0.load json from drvie on start-up.
 
   1.chrome app start in file list page.
     re-enable global list button.
     use the right file name for sync.
 
-  1.file access.
+  1.chrome app.
+    2.create app icon.
+      small and big.
+      use for favicon (small).
+      manifest.json takes both.
+    3.chrome extension / app packaging.
+      move static dom building and dom for saving file into ejs.
+      shortcut key to open scratch pad from any page.
+      associate extension on driver so sketchie can be invoked from drive too.
+
+  2.file access.
     2.fix some issues on local export.
       export file dialog cancel to work w/o exception.
       resolve css path somehow.
@@ -54,16 +65,6 @@ app:
       default text style.
       http://subtlepatterns.com/
       make a separate html tab first and then iframe dialog over main page.
-
-  2.chrome app.
-    2.create app icon.
-      small and big.
-      use for favicon (small).
-      manifest.json takes both.
-    3.chrome extension / app packaging.
-      move static dom building and dom for saving file into ejs.
-      shortcut key to open scratch pad from any page.
-      associate extension on driver so sketchie can be invoked from drive too.
 
   2.overall ui.
     2.change key modifier from shift to control.[M]
@@ -128,6 +129,7 @@ buttons:
 
   2.button icon.
     try http://fortawesome.github.io/Font-Awesome/
+    http://icomoon.io/
     find icons from www.flaticon.com.
     http://www.elegantthemes.com/blog/resources/elegant-icon-font
     http://www.hongkiat.com/blog/webfont-icons/
