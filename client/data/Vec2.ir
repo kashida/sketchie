@@ -5,6 +5,11 @@
 :serializable+\O\
   => [@x, @y]
 
+:createFromObj = ##
+  \!%.Vec2\
+  list\!A.<n>\$
+  => &%.Vec2(list[0], list[1])
+
 :minus\%.Vec2\
   other\%.Vec2\$
   => &%.Vec2(@.x - other.x, @.y - other.y)

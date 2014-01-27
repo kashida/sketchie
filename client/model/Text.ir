@@ -12,6 +12,15 @@
   obj.text = @.text
   => obj
 
+:createFromObj = ##
+  \%.Text\
+  obj\!O\$
+  if !obj.text
+    => null
+  img := &%.Text()
+  img.text = obj.text
+  => img
+
 :text+\s\
   => @.element.innerText
 :text*

@@ -13,7 +13,7 @@
     "fileSystem",
     // This is needed for export.
     "fileSystem.write",
-    // Not using this yet.
+    // Google Drive sync.
     "syncFileSystem",
     // We can probably drop this when syncfs is working.
     "unlimitedStorage"

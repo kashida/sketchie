@@ -59,7 +59,7 @@ Sync to local file system -- currently not used.
     //chrome.syncFileSystem.getUsageAndQuota(fs, ##)
     //  info\O\$
     //  l(info)
-    fs.root.getFile(fname, {create: true, exclusive: true}, ##, @err)
+    fs.root.getFile(fname, {create: true}, ##, @err)
       entry\FileEntry\$
       entry.createWriter(##, @err)
         writer\FileWriter\$

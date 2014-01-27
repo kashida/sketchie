@@ -32,6 +32,20 @@ member vars.
     b: @.blendAlpha
     c: @.isActive
 
+:createFromObj = ##
+  \!%.Item\
+  obj\!O\$
+  item := %.Image.createFromObj(obj)
+  if !item
+    item = %.Text.createFromObj(obj)
+  item.position = data.Vec2.createFromObj(obj.p)
+  item.rotation = obj.r
+  item.scale = obj.s
+  item.alphaLock = obj.a
+  item.blendAlpha = obj.b
+  item.isActive = obj.c
+  => item
+
 :dispose
   @element.item = null
   @element.dragger = null
@@ -46,6 +60,7 @@ Returns Item only if the element has an Item associated to it.
 :hasElement\b\
   el\!Element\$
   => el == @element
+
 :position+\data.Vec2\
   => dom.elemPosition(@element)
 :positionBR+\data.Vec2\

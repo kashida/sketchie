@@ -2,33 +2,6 @@
   @buildDom()
   @initGlobalComponents()
 
-:@initGlobalComponents
-  f_sketchie = this
-  f_viewport = &ui.Viewport()
-  f_page = &model.Page()
-  f_z_order = &model.ZOrder()
-  f_surface = &ui.Surface(dom.create('canvas', {class: 'surface'}))
-  f_stroke_layer = &ui.Surface(dom.id('stroke_layer'))
-  f_color_palette = &palette.Color()
-  f_tool_palette = &palette.Tool()
-  f_item_palette = &palette.Item()
-  f_cursor = &ui.Cursor()
-
-  f_editor_modes = &editor.Modes('l', {#})
-    'l': &editor.List()
-    't': &editor.Text()
-    'r': &editor.Rotate()
-    'q': &editor.Scale()
-    'd': &editor.Draw()
-    's': &editor.Stencil()
-  f_dispatcher = &dispatch.Mouse()
-  &dispatch.Key()
-  f_hex_control = &ui.HexControl()
-  f_strokes = &stroke.Set()
-  f_selection_marker.init()
-  f_selection_actions.init()
-  f_mode_indicator.init()
-
 TODO: Move dom building to ejs.
 Works for extension too if statically built and linked.
 :@buildDom
@@ -73,3 +46,31 @@ Works for extension too if statically built and linked.
     f_mode_indicator.element
     f_global_actions.element
   f_selection_marker.element.appendChild(f_selection_actions.element)
+
+:@initGlobalComponents
+  f_sketchie = this
+  f_viewport = &ui.Viewport()
+  f_page = &model.Page()
+  f_z_order = &model.ZOrder()
+  f_surface = &ui.Surface(dom.create('canvas', {class: 'surface'}))
+  f_stroke_layer = &ui.Surface(dom.id('stroke_layer'))
+  f_color_palette = &palette.Color()
+  f_tool_palette = &palette.Tool()
+  f_item_palette = &palette.Item()
+  f_cursor = &ui.Cursor()
+
+  f_editor_modes = &editor.Modes('l', {#})
+    'l': &editor.List()
+    't': &editor.Text()
+    'r': &editor.Rotate()
+    'q': &editor.Scale()
+    'd': &editor.Draw()
+    's': &editor.Stencil()
+  f_dispatcher = &dispatch.Mouse()
+  &dispatch.Key()
+  f_hex_control = &ui.HexControl()
+  f_strokes = &stroke.Set()
+  f_selection_marker.init()
+  f_selection_actions.init()
+  f_mode_indicator.init()
+

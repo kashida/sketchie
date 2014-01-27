@@ -1,9 +1,12 @@
 ::
   @element+\!Element\ dom.id('itemlist')
-  dom.eachChild(@element, ##)
-    el\!Element\$
-    if !el.item
-      %.Item.create(el)
+  if run_as_extension
+    &Load().asyncLoad()
+  else
+    dom.eachChild(@element, ##)
+      el\!Element\$
+      if !el.item
+        %.Item.create(el)
 
 All child elements need to be blessed when added, and disposed when removed.
 :@dispose
@@ -11,10 +14,16 @@ All child elements need to be blessed when added, and disposed when removed.
   @element.removeChild(item.element)
   item.dispose()
 
-:serializable+\O\
+:serializable+\!A.<!O>\
   => @.childrenArray.map(##)
     item\!%.Item\$
     => item.serializable
+
+:load
+  list\!A.<!O>\$
+  @.appendEnd(list.map(##))
+    obj\!O\$
+    => %.Item.createFromObj(obj)
 
 :clear
   @element.innerHTML = ''

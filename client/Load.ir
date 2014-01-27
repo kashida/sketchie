@@ -1,0 +1,27 @@
+::
+
+:asyncLoad
+  @readFromSyncFs('sketchie.sktch')
+
+:@readFromSyncFs
+  fname\s\$
+  chrome.syncFileSystem.requestFileSystem(##)
+    fs\FileSystem\$
+    fs.root.getFile(fname, {}, ##, @err)
+      entry\FileEntry\$
+      entry.file(##)
+        file\!Blob\$
+        reader := &FileReader()
+        reader.readAsText(file, "utf-8")
+        reader.onload = ##
+          ev\ProgressEvent\$
+          @store(ev.target.result)
+
+:@store
+  json\string\$
+  f_page.list.load(\!A.<!O>\(JSON.parse(json)))
+
+:@err
+  e\FileError\$
+  l('Load error')
+  l(e)
