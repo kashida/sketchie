@@ -165,13 +165,18 @@ fonts:
 	curl http://themes.googleusercontent.com/static/fonts/sourcesanspro/v6/toadOcfmlt9b38dHJxOBGFkQc6VGVFSmCnC_l7QZG60.woff > static/fonts/SourceSansPro-Bold.woff
 	curl http://themes.googleusercontent.com/static/fonts/sourcesanspro/v6/toadOcfmlt9b38dHJxOBGHiec-hVyr2k4iOzEQsW1iE.woff > static/fonts/SourceSansPro-Black.woff
 
+ejs:
+	mkdir -p ejs
+	curl http://embeddedjavascript.googlecode.com/files/ejs_1.0_developer.zip > ejs/ejs_1.0_developer.zip
+	cd ejs; unzip ejs_1.0_developer.zip
+
 closure:
 	mkdir -p closure
 	curl https://closure-compiler.googlecode.com/git/contrib/externs/chrome_extensions.js > closure/chrome_extensions.js
 	curl https://closure-compiler.googlecode.com/files/compiler-20131014.zip > closure/compiler.zip
 	cd closure; unzip compiler.zip
 
-setup: fonts closure
+setup: fonts ejs closure
 
 
 ############################################################
@@ -182,7 +187,7 @@ clean:
 	rm -rf app
 
 spotless: clean
-	rm -rf static/fonts closure
+	rm -rf static/fonts ejs closure
 
 cclean:
 	rm -rf compiled/client

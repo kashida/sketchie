@@ -29,3 +29,12 @@ var _ejs;
  * @param {Object} params
  */
 _ejs.render = function(template, params) {};
+
+
+var _us;
+
+/**
+ * @param {string} str
+ * @return {Object}
+ */
+_ejs.template = function(str) {};

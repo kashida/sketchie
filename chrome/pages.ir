@@ -3,6 +3,7 @@
   _fs = require('fs')
   _path = require('path')
   _ir2js = require('ir2js')
+  _us = require('underscore')
 
 ::log = console.log
 
