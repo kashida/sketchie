@@ -151,7 +151,7 @@ crapp: compiled/pages.js client
 	cp static/page.css app/
 	cp -R static/images app/images
 	cp -R static/fonts app/fonts
-	node compiled/pages.js > app/page.html
+	node compiled/pages.js
 
 launch: crapp
 	google-chrome --load-and-launch-app=`pwd`/app > /dev/null &

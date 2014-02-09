@@ -12,9 +12,11 @@
 
 :htmlDoc+\!Blob\
   => &Blob([#], {type: 'text/html'})
-    saveHeader
-    @.html
-    saveFooter
+    Templates.page({#})
+      editor: false
+      script: ''
+      init: ''
+      contents: @.html
 
 :store
   // Send everything in the item list.
@@ -75,14 +77,3 @@ Sync to local file system -- currently not used.
   e\FileError\$
   l('Save error')
   l(e)
-
-TODO: Statically create this from template.
-:'saveHeader
-  <!doctype html>
-  <html><head>
-    <title>Sketchie</title>
-    <link rel="stylesheet" href="page.css" type="text/css">
-    </head><body>
-
-:'saveFooter
-  </body></html>

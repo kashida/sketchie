@@ -8,11 +8,11 @@ TODO: Merge with server/HtmlHandler.ir and server/RenderHandler.ir.
     file\s\$
     => '<script src="/s/' + file + '"></script>\n'
 
-:@render
+:@render\s\
   opt\!O\$
   // Load the template file.
   if !_fs.existsSync(@template_file)
-    => null
+    throw @template_file + ' not found.'
   tmpl := _fs.readFileSync(@template_file, 'utf8')
 
   // Render.
@@ -20,9 +20,11 @@ TODO: Merge with server/HtmlHandler.ir and server/RenderHandler.ir.
 
 :page
   => @render({#})
+    editor: true
     contents: ''
     script: #+
       '<script src="/s/packages.js"></script>\n'
       '<script src="/s/config.js"></script>\n'
+      '<script src="/s/Templates.js"></script>\n'
       @scriptList()
     init: ''

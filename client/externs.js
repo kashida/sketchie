@@ -69,4 +69,11 @@ chrome.syncFileSystem.getUsageAndQuota = function(fs, callback) {};
 // Config param.
 
 /** @const {boolean} */
-var run_as_extension
+var run_as_extension;
+
+
+////////////////////////////////////////////////////////////
+// Precompiled templates.
+
+/** @const {Object.<string, function(!Object):string>} */
+var Templates;

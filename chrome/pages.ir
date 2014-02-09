@@ -2,10 +2,11 @@
   _fs = require('fs')
   _path = require('path')
   _ir2js = require('ir2js')
-  _us = require('underscore')
+  _us := require('underscore')
 
 ::log = console.log
 
 
 :
-  log(&RenderPage().page())
+  _fs.writeFileSync('app/page.html', &RenderPage().page())
+  _fs.writeFileSync('app/s/Templates.js', &PrecompileTemplate().code())

@@ -1,11 +1,13 @@
 <!doctype html>
 <html><head>
   <title>Sketchie</title>
-  <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
-  <link rel="icon" href="images/favicon.png" type="image/png" />
+  <% if (editor) { %>
+    <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
+    <link rel="icon" href="images/favicon.png" type="image/png" />
+  <% } %>
   <link rel="stylesheet" href="page.css" type="text/css">
 <%= script %>
 </head><body>
-<% contents %>
-<% init %>
+<%= contents %>
+<%= init %>
 </body></html>

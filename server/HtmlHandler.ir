@@ -44,9 +44,10 @@ Try to render. If fail, return the input as is (and log the error message).
 
 :create
   @handlers.pageRender.reply({#})
-    contents: ''
+    editor: true
     script: #+
       @config()
       @packageList()
       @scriptList()
     init: @ctxt.extraInit
+    contents: ''
