@@ -10,7 +10,7 @@
   => _fs.readFileSync(@template_file, 'utf8')
 
 :reply
-  opts\A.<O>\$
+  opt\!O\$
   // Load the template file.
   html := @template()
   if html === null
@@ -18,11 +18,8 @@
 
   // Render.
   @ctxt.tryWithResponse(##)
-    opts.forEach(##)
-      opt\O\$
-      html = _ejs.render(html, opt)
     @ctxt.res.writeHead(200, {'Content-Type': 'text/html'})
-    @ctxt.res.write(html)
+    @ctxt.res.write(_us.template(html, opt))
 
 :saveAndReply
   opt\O\$
@@ -31,6 +28,7 @@
   if tmpl === null
     =>
 
+  log(opt)
   @ctxt.tryWithResponse(##)
-    _fs.writeFileSync(path, _ejs.render(\s\(tmpl), opt))
+    _fs.writeFileSync(path, _us.template(\s\(tmpl), opt))
     @ctxt.res.writeHead(200)

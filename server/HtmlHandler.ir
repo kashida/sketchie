@@ -2,9 +2,6 @@
   @ctxt\Context\$
   @handlers\HandlerSet\$
 
-:OPEN_MARKER = '<!--%'
-:CLOSE_MARKER = '%-->'
-
 :@config\s\
   => '<script>var run_as_extension = false;</script>'
 
@@ -31,7 +28,7 @@ Try to render. If fail, return the input as is (and log the error message).
   tmpl\s\$
   opt\O\$
   try
-    => _ejs.render(tmpl, opt)
+    => _us.template(tmpl, opt)
   catch e
     log(e.stack)
     => tmpl
@@ -39,8 +36,6 @@ Try to render. If fail, return the input as is (and log the error message).
 :replaceScript\s\
   html\s\$
   => @tryReplace(html, {#})
-    open: %.HtmlHandler.OPEN_MARKER
-    close: %.HtmlHandler.CLOSE_MARKER
     script: #+
       @config()
       @packageList()
@@ -48,9 +43,8 @@ Try to render. If fail, return the input as is (and log the error message).
     init: @ctxt.extraInit
 
 :create
-  @handlers.pageRender.reply([{contents: ''}, {#}])
-    open: %.HtmlHandler.OPEN_MARKER
-    close: %.HtmlHandler.CLOSE_MARKER
+  @handlers.pageRender.reply({#})
+    contents: ''
     script: #+
       @config()
       @packageList()

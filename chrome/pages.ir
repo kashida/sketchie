@@ -1,5 +1,4 @@
 :
-  _ejs = require('ejs')
   _fs = require('fs')
   _path = require('path')
   _ir2js = require('ir2js')

@@ -11,7 +11,10 @@
     data += chunk
   @ctxt.req.once('end', ##)
     @handlers.pageRender.saveAndReply(#)
-      {contents: data}
+      {#}
+        contents: data
+        script: ''
+        init: ''
       _path.join('data', @ctxt.path)
 
 :tryProcess\b\

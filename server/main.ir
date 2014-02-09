@@ -1,11 +1,11 @@
 :
-  _ejs = require('ejs')
   _fs = require('fs')
   _http = require('http')
   _path = require('path')
   _url = require('url')
   _util = require('util')
   _ir2js = require('ir2js')
+  _us = require('underscore')
 
 ::log = console.log
 

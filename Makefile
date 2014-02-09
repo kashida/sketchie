@@ -19,6 +19,7 @@ CLOSURE_ARGS+=--externs ~/ir2js/misc/externs.js
 CLOSURE_ARGS+=--externs server/externs.js
 CLOSURE_ARGS+=--externs client/externs.js
 CLOSURE_ARGS+=--externs closure/chrome_extensions.js
+CLOSURE_ARGS+=--externs closure/underscore.js
 CLOSURE_ARGS+=--formatting PRETTY_PRINT
 CLOSURE_ARGS+=--compilation_level ADVANCED_OPTIMIZATIONS
 CLOSURE_ARGS+=--summary_detail_level 3
@@ -168,6 +169,7 @@ fonts:
 closure:
 	mkdir -p closure
 	curl https://closure-compiler.googlecode.com/git/contrib/externs/chrome_extensions.js > closure/chrome_extensions.js
+	curl https://closure-compiler.googlecode.com/git/contrib/externs/underscore-1.5.2.js > closure/underscore.js
 	curl https://closure-compiler.googlecode.com/files/compiler-20131014.zip > closure/compiler.zip
 	cd closure; unzip compiler.zip
 

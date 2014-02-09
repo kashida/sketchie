@@ -76,7 +76,7 @@ Sync to local file system -- currently not used.
   l('Save error')
   l(e)
 
-TODO: Statically create this from ejs.
+TODO: Statically create this from template.
 :'saveHeader
   <!doctype html>
   <html><head>

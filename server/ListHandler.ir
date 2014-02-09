@@ -16,7 +16,7 @@
   while _path.existsSync(_path.join('data', newname))
     newname = generator.nextName()
 
-  @handlers.listRender.reply([{#}])
+  @handlers.listRender.reply({#})
     path: target_dir
     files: file_list
     newname: newname

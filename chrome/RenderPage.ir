@@ -3,31 +3,24 @@ TODO: Merge with server/HtmlHandler.ir and server/RenderHandler.ir.
 ::
   @template_file\s\ 'static/page.html'
 
-:OPEN_MARKER = '<!--%'
-:CLOSE_MARKER = '%-->'
-
 :@scriptList\s\
   => &Compile('client').scriptList.map(##).join('')
     file\s\$
     => '<script src="/s/' + file + '"></script>\n'
 
 :@render
-  opts\A.<O>\$
+  opt\!O\$
   // Load the template file.
   if !_fs.existsSync(@template_file)
     => null
   tmpl := _fs.readFileSync(@template_file, 'utf8')
 
   // Render.
-  opts.forEach(##)
-    opt\O\$
-    tmpl = _ejs.render(tmpl, opt)
-  => tmpl
+  => _us.template(tmpl, opt)
 
 :page
-  => @render([{contents: ''}, {#}])
-    open: %.RenderPage.OPEN_MARKER
-    close: %.RenderPage.CLOSE_MARKER
+  => @render({#})
+    contents: ''
     script: #+
       '<script src="/s/packages.js"></script>\n'
       '<script src="/s/config.js"></script>\n'
