@@ -3,23 +3,21 @@
   @handlers\HandlerSet\$
   @template_file\s\$
 
-:@template\?s\
+:@template\s\
   if !_path.existsSync(@template_file)
     @ctxt.response(500, @template_file + ' not found')
-    => null
+    throw 'Failed to load template ' + @template_file
   => _fs.readFileSync(@template_file, 'utf8')
 
 :reply
   opt\!O\$
   // Load the template file.
   html := @template()
-  if html === null
-    =>
 
   // Render.
   @ctxt.tryWithResponse(##)
     @ctxt.res.writeHead(200, {'Content-Type': 'text/html'})
-    @ctxt.res.write(_us.template(html, opt))
+    @ctxt.res.write(_.template(html, opt))
 
 :saveAndReply
   opt\O\$
@@ -28,7 +26,6 @@
   if tmpl === null
     =>
 
-  log(opt)
   @ctxt.tryWithResponse(##)
-    _fs.writeFileSync(path, _us.template(\s\(tmpl), opt))
+    _fs.writeFileSync(path, _.template(\s\(tmpl), opt))
     @ctxt.res.writeHead(200)

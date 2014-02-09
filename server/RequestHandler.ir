@@ -23,6 +23,7 @@
 
     // If js, we might be able to compile one.
     @ctxt.ext == 'js' && #||
+      @handlers.template.reply()
       @handlers.code.reply()
       @handlers.testCode.reply()
 

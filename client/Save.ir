@@ -1,29 +1,33 @@
 ::
 
 :json+\!Blob\
-  => &Blob([#], {type: 'application/json'})
-    JSON.stringify(f_page.list.serializable)
+  => JSON.stringify(f_page.list.serializable)
+
+:jsonBlob+\!Blob\
+  => &Blob([@.json], {type: 'application/json'})
 
 :html+\s\
-  => #+
-    '<div class="itemlist">'
-    dom.id('itemlist').innerHTML
-    '</div>\n'
+  => Templates.page({#})
+    editor: false
+    script: ''
+    init: ''
+    contents: #+
+      '<div class="itemlist">'
+      dom.id('itemlist').innerHTML
+      '</div>\n'
 
-:htmlDoc+\!Blob\
-  => &Blob([#], {type: 'text/html'})
-    Templates.page({#})
-      editor: false
-      script: ''
-      init: ''
-      contents: @.html
+:htmlBlob+\!Blob\
+  => &Blob([@.html], {type: 'text/html'})
 
 :store
   // Send everything in the item list.
   if run_as_extension
-    @storeToSyncFs('sketchie.sktch', @.json)
-    @storeToSyncFs('sketchie.html', @.htmlDoc)
+    @storeToSyncFs('sketchie.sktch', @.jsonBlob)
+    @storeToSyncFs('sketchie.html', @.htmlBlob)
   else
+    xhrPost(location.pathname.replace(#), @.json)
+      /\.html$/i
+      '.sktch'
     xhrPost(location.pathname, @.html)
 
 :exportLocal
@@ -36,7 +40,7 @@
         writer.onwriteend = ##
           // TODO: show some on-screen response.
           l('write complete')
-        writer.write(@.htmlDoc)
+        writer.write(@.htmlBlob)
 
 Sync to local file system -- currently not used.
 :@storeToFs

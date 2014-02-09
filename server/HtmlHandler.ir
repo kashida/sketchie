@@ -16,11 +16,11 @@
 :@scriptList\s\
   list := &Compile('client').scriptList.map(##).join('')
     file\s\$
-    => '<script src="/_s/' + file + '"></script>\n'
+    => '<script src="/s/' + file + '"></script>\n'
   if @ctxt.extraScripts.length
     list += @ctxt.extraScripts.map(##).join('')
       file\s\$
-      => '<script src="/_ts/' + file + '"></script>\n'
+      => '<script src="/_s/' + file + '"></script>\n'
   => list
 
 Try to render. If fail, return the input as is (and log the error message).
@@ -28,7 +28,7 @@ Try to render. If fail, return the input as is (and log the error message).
   tmpl\s\$
   opt\O\$
   try
-    => _us.template(tmpl, opt)
+    => _.template(tmpl, opt)
   catch e
     log(e.stack)
     => tmpl

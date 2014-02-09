@@ -16,10 +16,12 @@ Lazy create the sub-handlers.
   => @base || (@base = &RequestHandler(@ctxt, @))
 :list+\ListHandler\
   => @list || (@list = &ListHandler(@ctxt, @))
+:template+\TemplateHandler\
+  => @template || (@template = &TemplateHandler(@ctxt, @))
 :code+\CodeHandler\
-  => @code || (@code = &CodeHandler(@ctxt, @, '_s', 'client'))
+  => @code || (@code = &CodeHandler(@ctxt, @, 's', 'client'))
 :testCode+\CodeHandler\
-  => @testCode || (@testCode = &CodeHandler(@ctxt, @, '_ts', 'test'))
+  => @testCode || (@testCode = &CodeHandler(@ctxt, @, '_s', 'test'))
 :html+\HtmlHandler\
   => @html || (@html = &HtmlHandler(@ctxt, @))
 :upload+\HtmlHandler\

@@ -16,7 +16,7 @@ TODO: Merge with server/HtmlHandler.ir and server/RenderHandler.ir.
   tmpl := _fs.readFileSync(@template_file, 'utf8')
 
   // Render.
-  => _us.template(tmpl, opt)
+  => _.template(tmpl, opt)
 
 :page
   => @render({#})
@@ -25,6 +25,5 @@ TODO: Merge with server/HtmlHandler.ir and server/RenderHandler.ir.
     script: #+
       '<script src="/s/packages.js"></script>\n'
       '<script src="/s/config.js"></script>\n'
-      '<script src="/s/Templates.js"></script>\n'
       @scriptList()
     init: ''

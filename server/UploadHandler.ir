@@ -9,13 +9,13 @@
   @ctxt.req.on('data', ##)
     chunk\s\$
     data += chunk
+  log(data)
   @ctxt.req.once('end', ##)
-    @handlers.pageRender.saveAndReply(#)
-      {#}
-        contents: data
-        script: ''
-        init: ''
-      _path.join('data', @ctxt.path)
+    @ctxt.tryWithResponse(##)
+      _fs.writeFileSync(#)
+        _path.join('data', @ctxt.path)
+        data
+      @ctxt.res.writeHead(200)
 
 :tryProcess\b\
   if @ctxt.req.method != 'POST'
