@@ -1,0 +1,26 @@
+::
+  @ctxt\Context\$
+  @handlers\HandlerSet\$
+  @template_file\s\ 'static/page.html'
+
+:@precompile\s\
+  // Load the template file.
+  if !_fs.existsSync(@template_file)
+    throw @template_file + ' not found.'
+  tmpl := _fs.readFileSync(@template_file, 'utf8')
+
+  // Render.
+  => _.template(tmpl).source
+
+:reply\b\
+  if @ctxt.path != '/s/Templates.js'
+    => false
+
+  @ctxt.res.writeHead(200, {'Content-Type': 'text/javascript'})
+  @ctxt.res.write([#].join('\n'))
+    'var Templates = {'
+    'page: '
+    @precompile()
+    '};'
+  @ctxt.response(200)
+  => true

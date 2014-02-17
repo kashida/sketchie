@@ -1,11 +1,42 @@
 <!doctype html>
 <html><head>
   <title>Sketchie</title>
+
   <% if (editor) { %>
     <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
     <link rel="icon" href="images/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="page.css" type="text/css">
+  <% } else { %>
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,900'
+        rel='stylesheet' type='text/css'>
   <% } %>
-  <link rel="stylesheet" href="page.css" type="text/css">
+
+  <style>
+    body {
+      margin: 0px;
+      padding: 0px;
+      border: 0px;
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAQUlEQVQIWz2MjQYAIBCDd3T0/g+aEyWK2vU3zti+m1i2qQNHkdcAKQzhYQA6TelSEsOnT1abnaR6cT8OSWIXd3sBh2MeLAy1VfAAAAAASUVORK5CYII=);
+      background-repeat: repeat;
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 100%;
+    }
+    .itemlist > div {
+      border: 0;
+      font-size: 20px;
+      line-height: 25px;
+      margin: 0;
+      padding: 0;
+      position: absolute;
+    }
+    .itemlist > div > div {
+      white-space: nowrap;
+    }
+    .itemlist > div > img {
+      position: relative;
+    }
+  </style>
+
 
   <% if (editor) { %>
     <script src="/s/Templates.js"></script>

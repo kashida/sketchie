@@ -25,14 +25,10 @@
 
 body {
   -webkit-user-select: none;
-  margin: 0px;
-  padding: 0px;
-  border: 0px;
-  background-image: url('images/seamlesspaper4.png');
-  background-repeat: repeat;
-  font-family: 'Source Sans Pro', sans-serif;
-  font-size: 100%;
   overflow: hidden;
+}
+.itemlist {
+  position: fixed;
 }
 .input_layer {
   width: 100%;
@@ -174,15 +170,6 @@ body {
 .sample_box {
   display: inline-block;
   position: relative;
-}
-.vdivider {
-  display: inline-block;
-  width: 2px;
-  height: 40px;
-  border-style: groove;
-  border-width: 2px;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 .img_undolist {
   display: none;
