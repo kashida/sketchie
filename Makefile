@@ -149,7 +149,8 @@ crapp: compiled/pages.js client
 	cp chrome/config.js app/s/
 	find app/s/ -name '*.tk' -exec rm \{\} \;
 	cp static/page.css app/
-	cp -R static/images app/images
+	mkdir -p app/images
+	cp static/images/favicon.png app/images
 	cp -R static/fonts app/fonts
 	node compiled/pages.js
 
