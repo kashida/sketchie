@@ -201,7 +201,7 @@ body {
 }
 
 .button {
-  transition-property: width, padding, color;
+  transition-property: width, margin, padding, color;
   transition-duration: 0.3s;
   transition-timing-function: ease-out;
   border-radius: 2px;
@@ -217,9 +217,10 @@ body {
 .button:active {
   box-shadow: 0 0 7px 5px #aae, inset 0 0 2px black;
 }
-.button.hidden {
+.buttonbox .button.hidden {
   color: rgba(100, 100, 100, 0.0);
-  padding: 7px 2px;
+  margin: 0;
+  padding: 7px 0;
   text-shadow: none;
   width: 0;
 }
