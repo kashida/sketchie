@@ -4,8 +4,8 @@
   ^(el)
 
 :dispose
-  ^()
   @unlisten()
+  ^()
 
 :serializable+\O\
   obj := @.baseSerializable
