@@ -1,5 +1,5 @@
 ::<drag.Dragger
-  @viewport\Element\ dom.id('itemlist')
+  @element\Element\ dom.id('itemlist')
   @onChange+\!NullEvent\ &NullEvent()
   @active\b\ true
   @drag_active\b\ false
@@ -110,14 +110,18 @@ Change scaling and offset to put all the items in view.
   @setViewport()
 
 :@setViewport
-  @viewport.style['-webkit-transform'] = [#].join(' ')
+  c := &dom.ClientRect().center
+  @element.style['-webkit-transform'] = [#].join(' ')
+    'translate(' + c.x + 'px, ' + c.y + 'px)'
     'scale(' + @scale + ')'
-    'translate(' + Math.floor(@offset_x) + 'px, ' + Math.floor(@offset_y) + 'px)'
+    'translate(' + # + 'px, ' + # + 'px)'
+      Math.floor(@offset_x) - c.x
+      Math.floor(@offset_y) - c.y
   @onChange.fire()
 
 :copyTo
   div\model.Item\$
-  div.style['-webkit-transform'] = @viewport.style['-webkit-transform']
+  div.style['-webkit-transform'] = @element.style['-webkit-transform']
 
 :@dragStart
   evt\Event\$

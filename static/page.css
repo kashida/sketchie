@@ -46,9 +46,6 @@ body {
 
   display: none;
 }
-.itemlist {
-  position: fixed;
-}
 .itemlist > div {
   border: 0;
   font-size: 20px;
