@@ -6,7 +6,7 @@
   dom.listen(document.body, 'paste', ##)
     evt\Event\$
     if f_editor_modes.mode == 'l'
-      f_editor_modes.editor.pasteImage(evt)
+      f_editor_modes.editor.paste(evt)
 
 :@dispatch
   evt\KeyboardEvent\$

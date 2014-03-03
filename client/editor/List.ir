@@ -17,27 +17,41 @@
 ------------------------------------------------------------
 Image methods.
 
-:pasteImage
+:paste
   evt\Event\$
+  types := evt.clipboardData.types
+  if types.length == 0
+    =>
+  type := types[0]
+  data := evt.clipboardData.getData(type)
+  if type == 'text/plain'
+    @pasteText(data)
+  else if type == 'text/html'
+    @pasteImage(data)
+  // Silently ignore if the cilpboard is empty or has data of unknown type.
+
+:@pasteImage
+  imageHtml\s\$
   // Get the image from clipboard.
-  url := evt.clipboardData.getData('text/plain')
-  if !url
-    // The image is copied as html, not as url.
-    html := evt.clipboardData.getData('text/html')
-    if !html
-      =>
-    div := dom.create('div')
-    div.innerHTML = html
-    img := div.getElementsByTagName('img')[0]
-    if !img
-      =>
-    url = img.src
+  // The image is copied as html, not as url.
+  div := dom.create('div')
+  div.innerHTML = imageHtml
+  img := div.getElementsByTagName('img')[0]
+  if !img
+    =>
+  url = img.src
   img = &pixel.PositionedPixels(#).makeImageItem()
     &data.Vec2(window.pageXOffset, window.pageYOffset)
     url
   img.isReference = true
   f_page.list.appendEnd(img)
 
+:@pasteText
+  text\s\$
+  // Add a text box at the right location and make it visible.
+  text := %.Text.makeTextItem(text)
+  f_page.list.appendEnd([text])
+  text.normalize(true)
 
 ------------------------------------------------------------
 Key handler.
