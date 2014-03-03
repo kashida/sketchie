@@ -2,7 +2,8 @@ TODO: use model.Item's members to mark the selected items instead of the
 element's classList.
 but css depends on the class for rendering selected items differently...
 
-First element in the 'list' is the primary selection, and should have the focus.
+First element in the 'list' is the primary selection, and should have the
+primary_selection class.
 
 ::
   // TODO: take item.List as param and use the classes to mark selected items.
@@ -30,7 +31,7 @@ First element in the 'list' is the primary selection, and should have the focus.
   item\!%.Item\$
   push_to_list\b\? false
   if @.isAny && @.head && @.head.element
-    @.head.element.className = null
+    @.head.element.classList.remove('primary_selection')
   if push_to_list
     if @list.indexOf(item) >= 0
       // Remove the item once.
@@ -42,10 +43,10 @@ First element in the 'list' is the primary selection, and should have the focus.
       if item.element
         item.element.className = null
     @list = []
-  item.element.classList.add('selected')
-  item.focus()
   @list.unshift(item)
+  @.head.element.classList.add('selected', 'primary_selection')
   @onChange.fire()
+  // TODO: Make palette listen to onChange.
   f_item_palette.update()
 
 :add
@@ -53,11 +54,13 @@ First element in the 'list' is the primary selection, and should have the focus.
   // Add as a secondary selection.
   if !item || @list.indexOf(item) >= 0
     =>
-  item.element.classList.add('selected')
   @list.push(item)
-  item.focus()
-  f_item_palette.update()
+  item.element.classList.add('selected')
+  if (@list.length == 1)
+    item.element.classList.add('primary_selection')
   @onChange.fire()
+  // TODO: Make palette listen to onChange.
+  f_item_palette.update()
 
 :remove
   item\%.Item\$

@@ -71,6 +71,10 @@ body {
 .selected {
   background-color: rgba(200, 220, 210, 0.4);
 }
+.selected.primary_selection {
+  outline: double 5px #b97;
+}
+
 
 .surface {
   position: fixed;
