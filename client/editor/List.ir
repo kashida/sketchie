@@ -19,39 +19,38 @@ Image methods.
 
 :paste
   evt\Event\$
-  types := evt.clipboardData.types
-  if types.length == 0
+  // Try to get the plain text (easier to access with getData).
+  text := evt.clipboardData.getData('text/plain')
+  if text
+    @pasteText(text)
     =>
-  type := types[0]
-  data := evt.clipboardData.getData(type)
-  if type == 'text/plain'
-    @pasteText(data)
-  else if type == 'text/html'
-    @pasteImage(data)
+  // Otherwise, look for any image item.
+  items := evt.clipboardData.items
+  for i := 0; i < items.length; i++
+    item := items[i]
+    if item.type.match(/^image\//)
+      blob := item.getAsFile()
+      reader := &FileReader()
+      reader.onload = ##
+        e\Event\$
+        @pasteImage(e.target.result)
+      reader.readAsDataURL(blob)
+      break
   // Silently ignore if the cilpboard is empty or has data of unknown type.
 
 :@pasteImage
-  imageHtml\s\$
-  // Get the image from clipboard.
-  // The image is copied as html, not as url.
-  div := dom.create('div')
-  div.innerHTML = imageHtml
-  img := div.getElementsByTagName('img')[0]
-  if !img
-    =>
-  url = img.src
-  img = &pixel.PositionedPixels(#).makeImageItem()
+  url\s\$
+  img := &pixel.PositionedPixels(#).makeImageItem()
     &data.Vec2(window.pageXOffset, window.pageYOffset)
     url
-  img.isReference = true
   f_page.list.appendEnd(img)
 
 :@pasteText
   text\s\$
   // Add a text box at the right location and make it visible.
-  text := %.Text.makeTextItem(text)
-  f_page.list.appendEnd([text])
-  text.normalize(true)
+  item := %.Text.makeTextItem(text)
+  f_page.list.appendEnd([item])
+  item.normalize(true)
 
 ------------------------------------------------------------
 Key handler.
