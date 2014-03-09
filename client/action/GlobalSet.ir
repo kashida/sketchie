@@ -3,7 +3,7 @@
     &%.Group('add', [#])
       &%.NewDraw()
       &%.NewText()
-      //&%.Paste()
+      &%.Paste()
     &%.Save()
     &%.Export()
     //&%.BackToList()

@@ -14,47 +14,6 @@
     item.isActive = true
     item.style['pointer-events'] = null
 
-------------------------------------------------------------
-Image methods.
-
-:paste
-  evt\Event\$
-  // Try to get the plain text (easier to access with getData).
-  text := evt.clipboardData.getData('text/plain')
-  if text
-    @pasteText(text)
-    =>
-  // Otherwise, look for any image item.
-  items := evt.clipboardData.items
-  for i := 0; i < items.length; i++
-    item := items[i]
-    if item.type.match(/^image\//)
-      blob := item.getAsFile()
-      reader := &FileReader()
-      reader.onload = ##
-        e\Event\$
-        @pasteImage(e.target.result)
-      reader.readAsDataURL(blob)
-      break
-  // Silently ignore if the cilpboard is empty or has data of unknown type.
-
-:@pasteImage
-  url\s\$
-  img := &pixel.PositionedPixels(#).makeImageItem()
-    &data.Vec2(window.pageXOffset, window.pageYOffset)
-    url
-  f_page.list.appendEnd(img)
-
-:@pasteText
-  text\s\$
-  // Add a text box at the right location and make it visible.
-  item := %.Text.makeTextItem(text)
-  f_page.list.appendEnd([item])
-  item.normalize(true)
-
-------------------------------------------------------------
-Key handler.
-
 :dispatch
   evt\Event\$
   shift := 0x100

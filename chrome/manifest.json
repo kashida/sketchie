@@ -16,6 +16,8 @@
     // Google Drive sync.
     "syncFileSystem",
     // We can probably drop this when syncfs is working.
-    "unlimitedStorage"
+    "unlimitedStorage",
+    // Need this for execCommand('paste').
+    "clipboardRead"
   ]
 }
