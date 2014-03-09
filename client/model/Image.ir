@@ -7,7 +7,6 @@
 
 :serializable+\O\
   obj := @.baseSerializable
-  obj.ref_img = @.isReference
   obj.src = @.src
   => obj
 
@@ -17,18 +16,8 @@
   if !obj.src
     => null
   img := &%.Image()
-  img.isReference = obj.ref_img
   img.src = obj.src
   => img
-
-:isReference+\b\
-  => !!dom.attr(@.element, 'ref_img')
-:isReference*
-  r\b\$
-  if r
-    @.element.setAttribute('ref_img', '1')
-  else
-    @.element.removeAttribute('ref_img')
 
 :src+\s\
   => @img.src
