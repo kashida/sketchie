@@ -144,7 +144,7 @@ compiled/_pages.js: $(CHROME_JS) $(CHROME_PKG)
 crapp: compiled/pages.js client
 	rm -rf app
 	mkdir -p app
-	cp chrome/manifest.json app/
+	grep -v '^\s*\/\/' chrome/manifest.json > app/manifest.json
 	cp chrome/background.js app/
 	cp -R compiled/client app/s
 	cp chrome/config.js app/s/
@@ -157,6 +157,10 @@ crapp: compiled/pages.js client
 
 launch: crapp
 	google-chrome --load-and-launch-app=`pwd`/app > /dev/null &
+
+pkg: crapp
+	rm -f sketchie.zip
+	cd app; zip -r ../sketchie.zip *
 
 
 ############################################################
@@ -184,6 +188,7 @@ setup: fonts closure
 clean:
 	rm -rf compiled
 	rm -rf app
+	rm -f sketchie.zip
 
 spotless: clean
 	rm -rf static/fonts closure
