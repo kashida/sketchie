@@ -100,6 +100,7 @@ compiled/_sketchie.js: $(CLIENT_JS) $(CLIENT_PKG)
 	rm $@
 
 run: compiled/server.js
+	cp -f assets/* static/images/
 	node $^
 
 compiled/server.js: compiled/_server.js
@@ -150,7 +151,7 @@ crapp: compiled/pages.js client
 	find app/s/ -name '*.tk' -exec rm \{\} \;
 	cp static/page.css app/
 	mkdir -p app/images
-	cp static/images/favicon.png app/images
+	cp assets/* app/images/
 	cp -R static/fonts app/fonts
 	node compiled/pages.js
 
@@ -186,6 +187,7 @@ clean:
 
 spotless: clean
 	rm -rf static/fonts closure
+	rm -rf static/images closure
 
 cclean:
 	rm -rf compiled/client
