@@ -100,6 +100,7 @@ compiled/_sketchie.js: $(CLIENT_JS) $(CLIENT_PKG)
 	rm $@
 
 run: compiled/server.js
+	mkdir -p static/images
 	cp -f assets/* static/images/
 	node $^
 
