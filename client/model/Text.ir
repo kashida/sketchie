@@ -1,6 +1,7 @@
 ::<%.Item
   el\!Element\?
   @onblur\F\
+  @editing\b\ false
   ^(el)
 
 :dispose
@@ -28,10 +29,14 @@
   @.element.innerHTML = ''
   @.element.appendChild(@makeMinimumTextDiv(str))
 
+:<selectable
+  => ^() && !@editing
+
 :editable*
   e\b\$
   if !e
     @unlisten()
+  @editing = e
   @.element.contentEditable = e
   @.element.style['-webkit-user-select'] = e ? 'text' : 'none'
 
@@ -68,8 +73,8 @@ edit mode.
   @.focus()
   if onblur
     @unlisten()
-    dom.listen(@.element, 'blur', onblur)
     @onblur = onblur
+    dom.listen(@.element, 'blur', @onblur)
 
 :@unlisten
   if @onblur

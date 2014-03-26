@@ -20,7 +20,7 @@ member vars.
   // TODO: unlisten at dispose.
   dom.listen(@element, 'click', ##)
     evt\Event\$
-    if @.isActive && !evt.ctrlKey
+    if @.selectable() && !evt.ctrlKey
       f_page.selection.select(@, evt.shiftKey)
 
 :baseSerializable+\O\
@@ -60,6 +60,9 @@ Returns Item only if the element has an Item associated to it.
 :hasElement\b\
   el\!Element\$
   => el == @element
+
+:selectable\b\
+  => @.isActive
 
 :position+\data.Vec2\
   => dom.elemPosition(@element)

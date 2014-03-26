@@ -8,7 +8,7 @@
 
 :@dragStart
   evt\Event\$
-  if !@item.isActive
+  if !@item.selectable()
     =>
   if evt.shiftKey || evt.ctrlKey
     => false
