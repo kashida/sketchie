@@ -41,7 +41,7 @@ primary_selection class.
     @list.forEach(##)
       item\!model.Item\$
       if item.element
-        item.element.className = null
+        item.element.className = ''
     @list = []
   @list.unshift(item)
   @.head.element.classList.add('selected', 'primary_selection')
@@ -78,7 +78,7 @@ primary_selection class.
   @list.forEach(##)
     item\%.Item\$
     if item.element
-      item.element.className = null
+      item.element.className = ''
   @list = []
   @onChange.fire()
   f_item_palette.close()

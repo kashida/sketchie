@@ -26,7 +26,7 @@ Canvas that's fixed to the viewport size.
 :attachToImage
   img\!model.Image\$
   img.element.appendChild(@canvas.element)
-  @canvas.setToAbsolute(img.position)
+  @canvas.setToWindowSize()
 
 :attachBeforeElement
   ref_el\Element\$

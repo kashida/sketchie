@@ -75,6 +75,7 @@ Returns Item only if the element has an Item associated to it.
 :rect+\!data.Rect\
   => dom.elemRect(@element)
 
+TODO: Move transform related code into a separate class.
 :rotation+\n\
   => dom.attr(@element, 'xf_r') || 0
 :rotation*\n\
@@ -99,6 +100,9 @@ Returns Item only if the element has an Item associated to it.
     xforms.push('scale(' + s + ')')
   @element.style['-webkit-transform'] = xforms.join(' ')
 
+:@clearXform
+  @element.style['-webkit-transform'] = ''
+
 :alphaLock+\b\
   => dom.attr(@element, 'alpha_lock')
 :alphaLock*
@@ -122,3 +126,10 @@ Returns Item only if the element has an Item associated to it.
 
 :focus
   @element.focus()
+
+:enableXform*
+  enable\b\$
+  if enable
+    @setXform()
+  else
+    @clearXform()

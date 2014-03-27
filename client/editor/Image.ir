@@ -33,10 +33,12 @@
 
   if @image
     @image.img.style.visibility = 'hidden'
+    @image.enableXform = false
 
 :deactivate
   if @image
     @image.img.style.visibility = ''
+    @image.enableXform = true
 
   @undo.reset()
   f_viewport.activate()
