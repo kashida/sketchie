@@ -11,9 +11,7 @@
 
 :<activate\b\
   sub_mode\s\$
-  if f_page.selection.isHeadText
-    f_page.selection.clear()
-  img := f_page.selection.head
+  img := f_page.selection.isHeadText ? null : f_page.selection.head
   f_page.selection.clear()
   @.activateImage(\model.Image\(img))
   => true
