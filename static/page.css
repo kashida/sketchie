@@ -40,7 +40,6 @@ body {
   position: fixed;
   top: 0px;
   left: 0px;
-  z-index: 1005;
 
   cursor: crosshair;
 
@@ -96,7 +95,6 @@ body {
   position: fixed;
   top: 0px;
   left: 0px;
-  z-index: 1003;
   display: none;
   border-style: solid;
   border-color: #fa9;
@@ -109,7 +107,6 @@ body {
   position: fixed;
   bottom: 0px;
   right: 0px;
-  z-index: 1006;
   background-color: rgba(120, 140, 200, 0.2);
 }
 .palette {
@@ -176,7 +173,6 @@ body {
   display: none;
 }
 .control_root {
-  z-index: 1004;
   position: fixed;
   display: none;
 }
