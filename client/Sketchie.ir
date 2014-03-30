@@ -12,7 +12,6 @@ Works for extension too if statically built and linked.
   dom.appendChildren(document.body, [#])
     f_selection_marker.element
     dom.findOrCreate('div', {class: 'itemlist'})
-    dom.create('canvas', {class: 'stroke_layer'})
     dom.createDiv('draw_cursor')
     dom.svgCreate('svg', {class: 'control_root'})
     dom.createDiv('input_layer')
@@ -53,7 +52,7 @@ Works for extension too if statically built and linked.
   f_page = &model.Page()
   f_z_order = &model.ZOrder()
   f_surface = &ui.Surface(dom.create('canvas', {class: 'surface'}))
-  f_stroke_layer = &ui.Surface(dom.id('stroke_layer'))
+  f_stroke_layer = &ui.Surface(dom.create('canvas', {class: 'stroke_layer'}))
   f_color_palette = &palette.Color()
   f_tool_palette = &palette.Tool()
   f_item_palette = &palette.Item()
@@ -73,4 +72,3 @@ Works for extension too if statically built and linked.
   f_selection_marker.init()
   f_selection_actions.init()
   f_mode_indicator.init()
-

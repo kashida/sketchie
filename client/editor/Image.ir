@@ -18,12 +18,15 @@
 
   if @image
     f_surface.attachToImage(@image)
+    f_stroke_layer.attachToImage(@image)
   else
-    f_surface.attachBeforeElement(f_stroke_layer.element)
+    cursor_el := dom.id('draw_cursor')
+    f_surface.attachBeforeElement(cursor_el)
+    f_stroke_layer.attachBeforeElement(cursor_el)
   f_surface.activate(@image)
+  f_stroke_layer.activate()
   f_viewport.deactivate()
   f_item_palette.close()
-  f_stroke_layer.activate()
   f_dispatcher.pushMouseControl(@)
   f_dispatcher.activate()
   f_tool_palette.setParam(@stroke)
@@ -33,18 +36,17 @@
 
   if @image
     @image.img.style.visibility = 'hidden'
-    @image.enableXform = false
 
 :deactivate
   if @image
     @image.img.style.visibility = ''
-    @image.enableXform = true
 
   @undo.reset()
   f_viewport.activate()
   f_surface.deactivate()
   f_surface.detach()
   f_stroke_layer.deactivate()
+  f_stroke_layer.detach()
   f_dispatcher.deactivate()
   f_cursor.hide()
   f_tool_palette.close()
