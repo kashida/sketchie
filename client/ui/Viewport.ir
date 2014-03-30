@@ -81,8 +81,8 @@ Change offset (but not scaling) to put the item in view.
   cr := &dom.ClientRect()
   vp0 := @viewToItem(cr.p00)
   vp1 := @viewToItem(cr.p11)
-  p0 := item.position
-  p1 := item.positionBR
+  p0 := item.xform.position
+  p1 := item.xform.positionBR
 
   // Find center positin delta.
   dcx := (vp0.x + vp1.x - p0.x - p1.x) * 0.5

@@ -29,12 +29,12 @@
 Find items that is just above and just below the selected item.
 :@findNext\%.Item\
   next_item := null
-  y := next_y := f_page.selection.head.position.y
+  y := next_y := f_page.selection.head.xform.position.y
   f_page.list.each(##)
     c\model.Item\$
     if f_page.selection.isSelected(c)
       =>
-    cy := c.position.y
+    cy := c.xform.position.y
     if @moveDown ? # : #
       // We want to move up and found an item above the current.
       // this is either the first occurence or that's the closest to the

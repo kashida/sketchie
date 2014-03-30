@@ -11,8 +11,8 @@
 
 :@draw
   use_alpha\b\$
-  rotation := @img.rotation
-  scale := @img.scale
+  rotation := @img.xform.rotation
+  scale := @img.xform.scale
   alpha := use_alpha ? @img.blendAlpha : null
   if !(rotation || scale || alpha)
     @ctx.drawImage(@img.img, @offset.x, @offset.y)

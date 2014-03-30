@@ -8,11 +8,11 @@ Temporary representation of image item.
   add_img := !img
   if img
     // Refresh the transform.
-    img.rotation = 0
-    img.scale = 1.0
+    img.xform.rotation = 0
+    img.xform.scale = 1.0
   else
     img = &model.Image()
-  img.position = @.position
+  img.xform.position = @.position
   img.src = @.dataUrl
   if add_img
     f_page.list.appendEnd(img)

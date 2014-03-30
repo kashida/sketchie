@@ -13,7 +13,7 @@
   if evt.shiftKey || evt.ctrlKey
     => false
   @mouse_pos = &data.Vec2(evt.clientX, evt.clientY)
-  @base_pos = @item.position
+  @base_pos = @item.xform.position
   f_dispatcher.dragStart(@)
   evt.preventDefault()
   f_editor_modes.popAll()
@@ -22,7 +22,7 @@
 :<dragUpdate
   evt\Event\$
   scale := f_viewport.scale
-  @item.position = &data.Vec2(#)
+  @item.xform.position = &data.Vec2(#)
     @base_pos.x + (evt.clientX - @mouse_pos.x) / scale
     @base_pos.y + (evt.clientY - @mouse_pos.y) / scale
 

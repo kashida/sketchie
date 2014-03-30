@@ -18,9 +18,9 @@
 :@addImage
   img\!model.Image\$
   img_rect\!data.Rect\?
-  rotation := img.rotation
-  scale := img.scale
-  xfm_rect := img_rect ? img_rect.clone : img.rect
+  rotation := img.xform.rotation
+  scale := img.xform.scale
+  xfm_rect := img_rect ? img_rect.clone : img.xform.rect
   if rotation || scale
     half_w := 0.5 * xfm_rect.w
     half_h := 0.5 * xfm_rect.h

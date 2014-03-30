@@ -148,7 +148,7 @@ TODO: Some of top, topIn, bottom, bottomIn shouldn't be necessary. Drop them.
   top_item := null
   items.forEach(##)
     item\!%.Item\$
-    p := item.position
+    p := item.xform.position
     if top_y === null || p.y < top_y
       top_y = p.y
       top_item = item
@@ -162,7 +162,7 @@ TODO: Some of top, topIn, bottom, bottomIn shouldn't be necessary. Drop them.
   bottom_item := null
   items.forEach(##)
     item\!%.Item\$
-    p := item.position
+    p := item.xform.position
     if bottom_y === null || p.y > bottom_y
       bottom_y = p.y
       bottom_item = item

@@ -19,7 +19,7 @@
   if sub_mode == 'c'
     // This is a copy request.
     t := %.Text.makeTextItem(@text.text)
-    t.position = @text.position.plus(10)
+    t.xform.position = @text.xform.position.plus(10)
     f_page.list.appendEnd(t)
     => false
 
@@ -114,8 +114,8 @@
   t := &model.Text()
   t.text = str
   t.editable = false
-  t.position = ref_item ? # : #
-    ref_item.position.plus2n(0, ref_item.rect.h + 2)
+  t.xform.position = ref_item ? # : #
+    ref_item.xform.position.plus2n(0, ref_item.xform.rect.h + 2)
     &data.Vec2(window.pageXOffset + 15, window.pageYOffset + 15)
   => t
 
@@ -133,7 +133,7 @@
       continue
     newtext.moveChildrenFrom(item)
     if is_first
-      newtext.position = item.position
+      newtext.xform.position = item.xform.position
       is_first = false
     f_page.list.remove(item)
 

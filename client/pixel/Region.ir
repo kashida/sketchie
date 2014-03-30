@@ -19,12 +19,12 @@
   sti := f_viewport.surfaceToItem(&data.Vec2(0, 0))
   &%.Intersect(pixelData.pixels).update(#)
     @mask
-    Math.floor(@image.position.x - sti.x)
-    Math.floor(@image.position.y - sti.y)
+    Math.floor(@image.xform.position.x - sti.x)
+    Math.floor(@image.xform.position.y - sti.y)
     diff
   rect := pixelData.tightBound()
   if !rect
     => null
   => &pixel.PositionedPixels(#)
-    rect.p00.plus(@image.position)
+    rect.p00.plus(@image.xform.position)
     pixelData.urlWithCrop(rect)

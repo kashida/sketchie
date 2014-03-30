@@ -1,0 +1,43 @@
+::
+  @element\!Element\$
+  @rotation+\n\ 0.0
+  @scale+\n\ 1.0
+
+:position+\data.Vec2\
+  => dom.elemPosition(@element)
+:positionBR+\data.Vec2\
+  => dom.elemPositionBR(@element)
+:position*
+  p\data.Vec2\$
+  @element.style.left = p.x + 'px'
+  @element.style.top = p.y + 'px'
+:rect+\!data.Rect\
+  => dom.elemRect(@element)
+
+:rotation*\n\
+  @rotation = value
+  @setXform()
+
+:scale*
+  @scale = value
+  @setXform()
+
+:@setXform
+  xforms := []
+  r := @.rotation
+  if r
+    xforms.push('rotate(' + r + 'rad)')
+  s := @.scale
+  if s != 1.0
+    xforms.push('scale(' + s + ')')
+  @element.style['-webkit-transform'] = xforms.join(' ')
+
+:@clearXform
+  @element.style['-webkit-transform'] = ''
+
+:enableXform*
+  enable\b\$
+  if enable
+    @setXform()
+  else
+    @clearXform()

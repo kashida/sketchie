@@ -1,21 +1,14 @@
-TODO: stop using dom element attributes and just store the properties as
-member vars.
-
 ::
   // Taking the parameter as non-nullable, but the member needs to be nullable
   // for disposing.
   el\!Element\? dom.create('div')
   @element+\Element\ el
-  @bless()
+  @xform+\dom.Xform\ &dom.Xform(el)
+  @isActive&\b\ true
+  @alphaLock&\b\ false
+  @blendAlpha&\n\ 1.0
 
-:create = ##
-  \%.Item\
-  el\!Element\$
-  => el.firstChild.tagName == 'IMG' ? &%.Image(el) : &%.Text(el)
-
-:@bless
   @element.item = @
-  @.isActive = true
   @element.dragger = &drag.Move(@)
   // TODO: unlisten at dispose.
   dom.listen(@element, 'click', ##)
@@ -23,14 +16,19 @@ member vars.
     if @.selectable() && !evt.ctrlKey
       f_page.selection.select(@, evt.shiftKey)
 
+:create = ##
+  \%.Item\
+  el\!Element\$
+  => el.firstChild.tagName == 'IMG' ? &%.Image(el) : &%.Text(el)
+
 :baseSerializable+\O\
   => {#}
-    p: @.position.serializable
-    r: @.rotation
-    s: @.scale
-    a: @.alphaLock
-    b: @.blendAlpha
-    c: @.isActive
+    p: @xform.position.serializable
+    r: @xform.rotation
+    s: @xform.scale
+    a: @alphaLock
+    b: @blendAlpha
+    c: @isActive
 
 :createFromObj = ##
   \!%.Item\
@@ -38,9 +36,9 @@ member vars.
   item := %.Image.createFromObj(obj)
   if !item
     item = %.Text.createFromObj(obj)
-  item.position = data.Vec2.createFromObj(obj.p)
-  item.rotation = obj.r
-  item.scale = obj.s
+  item.xform.position = data.Vec2.createFromObj(obj.p)
+  item.xform.rotation = obj.r
+  item.xform.scale = obj.s
   item.alphaLock = obj.a
   item.blendAlpha = obj.b
   item.isActive = obj.c
@@ -50,6 +48,7 @@ member vars.
   @element.item = null
   @element.dragger = null
   @element = null
+  @xform = null
 
 Returns Item only if the element has an Item associated to it.
 :fromElement = ##
@@ -62,74 +61,7 @@ Returns Item only if the element has an Item associated to it.
   => el == @element
 
 :selectable\b\
-  => @.isActive
-
-:position+\data.Vec2\
-  => dom.elemPosition(@element)
-:positionBR+\data.Vec2\
-  => dom.elemPositionBR(@element)
-:position*
-  p\data.Vec2\$
-  @element.style.left = p.x + 'px'
-  @element.style.top = p.y + 'px'
-:rect+\!data.Rect\
-  => dom.elemRect(@element)
-
-TODO: Move transform related code into a separate class.
-:rotation+\n\
-  => dom.attr(@element, 'xf_r') || 0
-:rotation*\n\
-  r\n\$
-  dom.setAttr(@element, 'xf_r', String(r))
-  @setXform()
-
-:scale+\n\
-  => dom.attr(@element, 'xf_s') || 1.0
-:scale*
-  s\n\$
-  dom.setAttr(@element, 'xf_s', String(s))
-  @setXform()
-
-:@setXform
-  xforms := []
-  r := @.rotation
-  if r
-    xforms.push('rotate(' + r + 'rad)')
-  s := @.scale
-  if s != 1.0
-    xforms.push('scale(' + s + ')')
-  @element.style['-webkit-transform'] = xforms.join(' ')
-
-:@clearXform
-  @element.style['-webkit-transform'] = ''
-
-:alphaLock+\b\
-  => dom.attr(@element, 'alpha_lock')
-:alphaLock*
-  a\b\$
-  dom.setAttr(@element, 'alpha_lock', a)
-
-:blendAlpha+\n\
-  => Number(dom.attr(@element, 'blend_alpha'))
-:blendAlpha*
-  a\n\$
-  dom.setAttr(@element, 'blend_alpha', String(a))
-
-:isActive+\b\
-  => !!@element.getAttribute('active')
-:isActive*
-  a\b\$
-  if a
-    @element.setAttribute('active', '1')
-  else
-    @element.removeAttribute('active')
+  => @isActive
 
 :focus
   @element.focus()
-
-:enableXform*
-  enable\b\$
-  if enable
-    @setXform()
-  else
-    @clearXform()

@@ -15,9 +15,9 @@
 :@copyImageItem
   orig_item\model.Image\$
   img := &pixel.PositionedPixels(#).makeImageItem()
-    orig_item.position.plus(10)
+    orig_item.xform.position.plus(10)
     orig_item.src
-  img.rotation = orig_item.rotation
-  img.scale = orig_item.scale
+  img.xform.rotation = orig_item.xform.rotation
+  img.xform.scale = orig_item.xform.scale
   img.alphaLock = orig_item.alphaLock
   f_page.list.appendEnd(img)

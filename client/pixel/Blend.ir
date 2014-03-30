@@ -14,7 +14,7 @@
   images.forEach(##)
     image\!model.Image\$
     &%.XformDrawImage(ctx, image, #).withAlpha()
-      image.position.minus(ur.p00)
+      image.xform.position.minus(ur.p00)
 
   // Now we have the image. Find a tighter bound.
   pixelData := cvs.pixelData

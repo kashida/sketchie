@@ -6,7 +6,7 @@
 :activate
   item\model.Item\$
   @item = item
-  @center = item.rect.center
+  @center = item.xform.rect.center
   @start_theta = null
   f_dispatcher.dragStart(@)
 
@@ -20,9 +20,9 @@
   evt\Event\$
   theta := @find_theta(evt.clientX, evt.clientY)
   if ! @start_theta
-    @start_theta = theta - @item.rotation
+    @start_theta = theta - @item.xform.rotation
     =>
-  @item.rotation = theta - @start_theta
+  @item.xform.rotation = theta - @start_theta
 
 :@find_theta
   x\n\$

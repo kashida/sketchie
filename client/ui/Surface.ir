@@ -48,7 +48,7 @@ Canvas that's fixed to the viewport size.
     &pixel.XformDrawImage(#).noAlpha()
       @canvas.ctx
       img
-      img.position
+      img.xform.position
   @.updateAlphaLock(!!img && img.alphaLock)
 
 :updateAlphaLock

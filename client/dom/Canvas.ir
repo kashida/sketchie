@@ -56,7 +56,6 @@ Convenience wrapper for the html canvas.
     @element.height
 
 :setToWindowSize
-  p\data.Vec2\$
   @element.style.width = window.innerWidth + 'px'
   @element.style.height = window.innerHeight + 'px'
 
