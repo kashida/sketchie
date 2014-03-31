@@ -11,8 +11,8 @@
 
   // Find the rect that can contain pixels_rect and the transformed image
   // in document coords.
-  img0 := f_viewport.itemToSurface(@orig_img.xform.position)
-  img1 := f_viewport.itemToSurface(@orig_img.xform.positionBR)
+  img0 := ui.Coords.itemToSurface(@orig_img.xform.position)
+  img1 := ui.Coords.itemToSurface(@orig_img.xform.positionBR)
   union := &%.UnionRect(pixels_rect)
   union.add(@orig_img, &data.Rect(img0.x, img0.y, img1.x, img1.y))
   u := union.rect

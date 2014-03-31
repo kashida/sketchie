@@ -32,11 +32,12 @@
   rect := null
   f_page.selection.list.forEach(##)
     item\model.Item\$
+    // TODO: elemRect doesn't consider rotation or scaling.
     r := dom.elemRect(\!Element\(item.element))
     if rect
       rect = rect.union(r)
     else
       rect = r
   @.rect = data.Rect.fromVecs(#).within(&dom.ClientRect().expand(-10))
-    f_viewport.itemToView(rect.p00)
-    f_viewport.itemToView(rect.p11)
+    ui.Coords.doc2view(rect.p00)
+    ui.Coords.doc2view(rect.p11)

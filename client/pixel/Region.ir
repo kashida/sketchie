@@ -16,7 +16,7 @@
   cvs := &dom.Canvas(@image.width, @image.height)
   cvs.ctx.drawImage(@image.img, 0, 0)
   pixelData := cvs.pixelData
-  sti := f_viewport.surfaceToItem(&data.Vec2(0, 0))
+  sti := ui.Coords.surfaceToItem(&data.Vec2(0, 0))
   &%.Intersect(pixelData.pixels).update(#)
     @mask
     Math.floor(@image.xform.position.x - sti.x)

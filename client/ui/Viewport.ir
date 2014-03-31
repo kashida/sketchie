@@ -26,36 +26,8 @@
 :scale+\n\
   => @scale
 
-:offset\data.Vec2\
+:offset+\data.Vec2\
   => &data.Vec2(@offset_x, @offset_y)
-
-:itemToView\!data.Vec2\
-  p\data.Vec2\$
-  c := &dom.ClientRect().center
-  => &data.Vec2(#)
-    (p.x + @offset_x - c.x) * @scale + c.x
-    (p.y + @offset_y - c.y) * @scale + c.y
-
-:itemToSurface\!data.Vec2\
-  p\data.Vec2\$
-  c := &dom.ClientRect().center
-  => &data.Vec2(#)
-    p.x + @offset_x - c.x + c.x / @scale
-    p.y + @offset_y - c.y + c.y / @scale
-
-:@viewToItem\!data.Vec2\
-  p\data.Vec2\$
-  c := &dom.ClientRect().center
-  => &data.Vec2(#)
-    (p.x - c.x) / @scale - @offset_x + c.x
-    (p.y - c.y) / @scale - @offset_y + c.y
-
-:surfaceToItem\!data.Vec2\
-  p\data.Vec2\$
-  c := &dom.ClientRect().center
-  => &data.Vec2(#)
-    p.x - @offset_x + c.x - c.x / @scale
-    p.y - @offset_y + c.y - c.y / @scale
 
 incr should be -1, 0, or 1 where positive is zooming in
 :zoom
@@ -79,8 +51,8 @@ Change offset (but not scaling) to put the item in view.
   item\model.Item\$
   // Viewport and the item in item coord space.
   cr := &dom.ClientRect()
-  vp0 := @viewToItem(cr.p00)
-  vp1 := @viewToItem(cr.p11)
+  vp0 := ui.Coords.viewToItem(cr.p00)
+  vp1 := ui.Coords.viewToItem(cr.p11)
   p0 := item.xform.position
   p1 := item.xform.positionBR
 

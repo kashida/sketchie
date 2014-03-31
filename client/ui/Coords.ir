@@ -1,0 +1,45 @@
+Translates between the three coordinate systems:
+- Viewport (i.e. browser window). Top-left corner is the origin. Pixel scale.
+    This is actually the HTML document's coord sys.
+- Document. DOM's logical coords. Calling it document although it is actually
+    theb itemlist DIV's coords because it conincides with the output HTML
+    document's coord system.
+- Item. Top-left corner of the item is the origin. Pixel scale by default.
+::
+
+:doc2view = ##
+  \!data.Vec2\
+  p\data.Vec2\$
+  c := &dom.ClientRect().center
+  // TODO: Consider view's rotation and flipping.
+  offset := f_viewport.offset
+  => &data.Vec2(#)
+    (p.x + offset.x - c.x) * f_viewport.scale + c.x
+    (p.y + offset.y - c.y) * f_viewport.scale + c.y
+
+:itemToSurface = ##
+  \!data.Vec2\
+  p\data.Vec2\$
+  c := &dom.ClientRect().center
+  offset := f_viewport.offset
+  => &data.Vec2(#)
+    p.x + offset.x - c.x + c.x / f_viewport.scale
+    p.y + offset.y - c.y + c.y / f_viewport.scale
+
+:viewToItem = ##
+  \!data.Vec2\
+  p\data.Vec2\$
+  c := &dom.ClientRect().center
+  offset := f_viewport.offset
+  => &data.Vec2(#)
+    (p.x - c.x) / f_viewport.scale - offset.x + c.x
+    (p.y - c.y) / f_viewport.scale - offset.y + c.y
+
+:surfaceToItem = ##
+  \!data.Vec2\
+  p\data.Vec2\$
+  c := &dom.ClientRect().center
+  offset := f_viewport.offset
+  => &data.Vec2(#)
+    p.x - offset.x + c.x - c.x / f_viewport.scale
+    p.y - offset.y + c.y - c.y / f_viewport.scale
