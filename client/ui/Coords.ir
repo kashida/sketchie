@@ -1,6 +1,7 @@
 Translates between the three coordinate systems:
 - Viewport (i.e. browser window). Top-left corner is the origin. Pixel scale.
-    This is actually the HTML document's coord sys.
+    Rotation and scaling are done around center. This is actually the HTML
+    document's coord sys.
 - Document. DOM's logical coords. Calling it document although it is actually
     theb itemlist DIV's coords because it conincides with the output HTML
     document's coord system.
@@ -43,3 +44,10 @@ Translates between the three coordinate systems:
   => &data.Vec2(#)
     p.x - offset.x + c.x - c.x / f_viewport.scale
     p.y - offset.y + c.y - c.y / f_viewport.scale
+
+:view2item = ##
+  \!data.Vec2\
+  p\!data.Vec2\$
+  xform\!dom.Xform\$
+  // TODO: Use f_viewport and xform to compute.
+  => p

@@ -26,7 +26,6 @@ Canvas that's fixed to the viewport size.
 :attachToImage
   img\!model.Image\$
   img.element.appendChild(@canvas.element)
-  @canvas.setToWindowSize()
 
 :attachBeforeElement
   ref_el\Element\$
@@ -37,19 +36,41 @@ Canvas that's fixed to the viewport size.
 
 :activate
   img\model.Image\?
-  // Need to match the backing store resolution with logical resolution.
-  viewport_scale := f_viewport.scale
-  viewport_scale_inverse := 1.0 / viewport_scale
   @canvas.show()
-  @canvas.scale = viewport_scale
-  @canvas.ctx.save()
-  @canvas.ctx.scale(viewport_scale_inverse, viewport_scale_inverse)
   if img
-    &pixel.XformDrawImage(#).noAlpha()
-      @canvas.ctx
-      img
-      img.xform.position
+    @setCanvasToCoverViewport(img)
+    @setCanvasXformToItem(img)
+    @setCanvasXformToViewport()
+    &pixel.XformDrawImage(@canvas.ctx, img, img.xform.position).noAlpha()
+  else
+    @canvas.setToWindowSize()
+    @setCanvasXformToViewport()
+  // TODO: Find another way to set canvas's width / height (and maybe drop
+  // canvas scaling.
+  @canvas.scale = 1.0
   @.updateAlphaLock(!!img && img.alphaLock)
+
+:@setCanvasToCoverViewport
+  img\!model.Image\$
+  bbox := null
+  &dom.ClientRect().points.forEach(##)
+    p\!data.Vec2\$
+    item_p := ui.Coords.view2item(p, \!dom.Xform\(img.xform))
+    if bbox
+      bbox.expandToInclude(item_p)
+    else
+      bbox = &data.Rect(item_p.x, item_p.y, item_p.x, item_p.y)
+  @canvas.setToRect(\!data.Rect\(bbox))
+
+:@setCanvasXformToItem
+  img\!model.Image\$
+
+:@setCanvasXformToViewport
+  // Need to match the backing store resolution with logical resolution.
+  //viewport_scale := f_viewport.scale
+  //viewport_scale_inverse := 1.0 / viewport_scale
+  //@canvas.ctx.save()
+  //@canvas.ctx.scale(viewport_scale_inverse, viewport_scale_inverse)
 
 :updateAlphaLock
   alpha_lock\b\$

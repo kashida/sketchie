@@ -16,6 +16,9 @@
   @image = img
   @alphaLock = !!@image && @image.alphaLock
 
+  // TODO: Attaching and activating (which include coord calculation) should be
+  // done for surface and stroke_layer at the same time (using a common div,
+  // etc) to save work.
   if @image
     f_surface.attachToImage(@image)
     f_stroke_layer.attachToImage(@image)
@@ -24,7 +27,7 @@
     f_surface.attachBeforeElement(cursor_el)
     f_stroke_layer.attachBeforeElement(cursor_el)
   f_surface.activate(@image)
-  f_stroke_layer.activate()
+  f_stroke_layer.activate(@image)
   f_viewport.deactivate()
   f_item_palette.close()
   f_dispatcher.pushMouseControl(@)

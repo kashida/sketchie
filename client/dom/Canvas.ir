@@ -59,6 +59,13 @@ Convenience wrapper for the html canvas.
   @element.style.width = window.innerWidth + 'px'
   @element.style.height = window.innerHeight + 'px'
 
+:setToRect
+  r\!data.Rect\$
+  @element.style.top = r.x0 + 'px'
+  @element.style.left = r.y0 + 'px'
+  @element.style.width = r.w + 'px'
+  @element.style.height = r.h + 'px'
+
 :detach
   @element.parentNode.removeChild(@element)
   @element.style.position = ''

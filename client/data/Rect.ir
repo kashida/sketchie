@@ -28,6 +28,9 @@
 :p11+\!%.Vec2\
   => &%.Vec2(@x1, @y1)
 
+:points+\!A.<!%.Vec2>\
+  => [@.p00, @.p01, @.p10, @.p11]
+
 :expand\!%.Rect\
   val\n\$
   x0 := @x0 - val
@@ -40,6 +43,14 @@
   if y0 > y1
     y0 = y1 = 0.5 * (y0 + y1)
   => &%.Rect(x0, y0, x1, y1)
+
+In place expansion of the rect to include the given point.
+:expandToInclude
+  p\data.Vec2\$
+  @x0 = Math.min(p.x, @x0)
+  @x1 = Math.max(p.x, @x1)
+  @y0 = Math.min(p.y, @y0)
+  @y1 = Math.max(p.y, @y1)
 
 :union\!%.Rect\
   other\!%.Rect\$
