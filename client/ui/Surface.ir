@@ -38,20 +38,23 @@ Canvas that's fixed to the viewport size.
   img\model.Image\?
   @canvas.show()
   if img
+    // TODO: This save probably needs to be done after canvas.setToRect is
+    // called (which resets the context).
+    @canvas.ctx.save()
     @setCanvasToCoverViewport(img)
+    @canvas.ctx.drawImage(img.img, 0, 0)
     @setCanvasXformToItem(img)
     @setCanvasXformToViewport()
-    &pixel.XformDrawImage(@canvas.ctx, img, img.xform.position).noAlpha()
   else
     @canvas.setToWindowSize()
     @setCanvasXformToViewport()
   // TODO: Find another way to set canvas's width / height (and maybe drop
   // canvas scaling.
-  @canvas.scale = 1.0
   @.updateAlphaLock(!!img && img.alphaLock)
 
 :@setCanvasToCoverViewport
   img\!model.Image\$
+  // Item coordinates bbox of the viewport.
   bbox := null
   &dom.ClientRect().points.forEach(##)
     p\!data.Vec2\$
@@ -61,15 +64,18 @@ Canvas that's fixed to the viewport size.
     else
       bbox = &data.Rect(item_p.x, item_p.y, item_p.x, item_p.y)
   @canvas.setToRect(\!data.Rect\(bbox))
+  // Adjust the canvas coords for the difference.
+  @canvas.ctx.translate(-bbox.x0, -bbox.y0)
 
 :@setCanvasXformToItem
   img\!model.Image\$
+  p := img.xform.position
+  @canvas.ctx.translate(-p.x, -p.y)
 
 :@setCanvasXformToViewport
   // Need to match the backing store resolution with logical resolution.
   //viewport_scale := f_viewport.scale
   //viewport_scale_inverse := 1.0 / viewport_scale
-  //@canvas.ctx.save()
   //@canvas.ctx.scale(viewport_scale_inverse, viewport_scale_inverse)
 
 :updateAlphaLock

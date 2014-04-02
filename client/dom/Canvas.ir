@@ -32,6 +32,9 @@ Convenience wrapper for the html canvas.
 :dataUrl
   => @element.toDataURL()
 
+This resets the canvas context, so it has to be done as soon as canvas size
+is determined.
+TODO: Make it a private method.
 :scale*
   @scale = value
   @element.width = @element.clientWidth / @scale
@@ -58,6 +61,7 @@ Convenience wrapper for the html canvas.
 :setToWindowSize
   @element.style.width = window.innerWidth + 'px'
   @element.style.height = window.innerHeight + 'px'
+  @.scale = 1.0
 
 :setToRect
   r\!data.Rect\$
@@ -65,6 +69,7 @@ Convenience wrapper for the html canvas.
   @element.style.top = r.y0 + 'px'
   @element.style.width = r.w + 'px'
   @element.style.height = r.h + 'px'
+  @.scale = 1.0
 
 :detach
   @element.parentNode.removeChild(@element)
