@@ -10,22 +10,22 @@
   list\!A.<n>\$
   => &%.Vec2(list[0], list[1])
 
-:minus\%.Vec2\
+:minus\!%.Vec2\
   other\%.Vec2\$
   => &%.Vec2(@.x - other.x, @.y - other.y)
 
-:plus\%.Vec2\
+:plus\!%.Vec2\
   other\n|!%.Vec2\$
   if other instanceof %.Vec2
     => &%.Vec2(@.x + other.x, @.y + other.y)
   else
     => &%.Vec2(@.x + other, @.y + other)
 
-:plus2n\%.Vec2\
+:plus2n\!%.Vec2\
   other_x\n\$
   other_y\n\$
   => &%.Vec2(@.x + other_x, @.y + other_y)
 
-:mult\%.Vec2\
+:mult\!%.Vec2\
   s\n\$
   => &%.Vec2(@.x * s, @.y * s)

@@ -27,7 +27,7 @@
     f_surface.attachBeforeElement(cursor_el)
     f_stroke_layer.attachBeforeElement(cursor_el)
   f_surface.activate(@image)
-  f_stroke_layer.activate(@image)
+  f_stroke_layer.activate(@image, false)
   f_viewport.deactivate()
   f_item_palette.close()
   f_dispatcher.pushMouseControl(@)

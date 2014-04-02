@@ -35,21 +35,20 @@ Canvas that's fixed to the viewport size.
   @canvas.detach()
 
 :activate
-  img\model.Image\?
+  img\model.Image\$
+  drawImage\b\? true
   @canvas.show()
+  // TODO: This save probably needs to be done after canvas.setToRect is
+  // called (which resets the context).
+  @canvas.ctx.save()
   if img
-    // TODO: This save probably needs to be done after canvas.setToRect is
-    // called (which resets the context).
-    @canvas.ctx.save()
     @setCanvasToCoverViewport(img)
-    @canvas.ctx.drawImage(img.img, 0, 0)
+    if drawImage
+      @canvas.ctx.drawImage(img.img, 0, 0)
     @setCanvasXformToItem(img)
     @setCanvasXformToViewport()
   else
     @canvas.setToWindowSize()
-    @setCanvasXformToViewport()
-  // TODO: Find another way to set canvas's width / height (and maybe drop
-  // canvas scaling.
   @.updateAlphaLock(!!img && img.alphaLock)
 
 :@setCanvasToCoverViewport
@@ -77,6 +76,8 @@ Canvas that's fixed to the viewport size.
   //viewport_scale := f_viewport.scale
   //viewport_scale_inverse := 1.0 / viewport_scale
   //@canvas.ctx.scale(viewport_scale_inverse, viewport_scale_inverse)
+  p := f_viewport.offset
+  @canvas.ctx.translate(-p.x, -p.y)
 
 :updateAlphaLock
   alpha_lock\b\$

@@ -61,6 +61,8 @@ TODO: Make it a private method.
 :setToWindowSize
   @element.style.width = window.innerWidth + 'px'
   @element.style.height = window.innerHeight + 'px'
+  // TODO: Find another way to set canvas's width / height (and maybe drop
+  // canvas scaling.
   @.scale = 1.0
 
 :setToRect
@@ -69,6 +71,8 @@ TODO: Make it a private method.
   @element.style.top = r.y0 + 'px'
   @element.style.width = r.w + 'px'
   @element.style.height = r.h + 'px'
+  // TODO: Find another way to set canvas's width / height (and maybe drop
+  // canvas scaling.
   @.scale = 1.0
 
 :detach

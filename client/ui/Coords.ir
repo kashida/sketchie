@@ -50,4 +50,4 @@ Translates between the three coordinate systems:
   p\!data.Vec2\$
   xform\!dom.Xform\$
   // TODO: Use f_viewport and xform to compute.
-  => p.minus(xform.position)
+  => p.minus(xform.position).minus(f_viewport.offset)
