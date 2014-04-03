@@ -33,11 +33,14 @@
   f_page.selection.list.forEach(##)
     item\model.Item\$
     // TODO: elemRect doesn't consider rotation or scaling.
-    r := dom.elemRect(\!Element\(item.element))
-    if rect
-      rect = rect.union(r)
+    //r := dom.elemRect(\!Element\(item.element))
+    p := item.xform.position
+    if !rect
+      rect = &data.Rect(p.x, p.y, p.x, p.y)
     else
-      rect = r
+      rect.expandToInclude(p)
+    pBR := item.xform.positionBR
+    rect.expandToInclude(pBR)
   @.rect = data.Rect.fromVecs(#).within(&dom.ClientRect().expand(-10))
     ui.Coords.doc2view(rect.p00)
     ui.Coords.doc2view(rect.p11)

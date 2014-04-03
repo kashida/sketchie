@@ -3,7 +3,7 @@
   @onChange+\!NullEvent\ &NullEvent()
   @active\b\ true
   @drag_active\b\ false
-  @scale\n\ 1.0
+  @scale+\n\ 1.0
   @offset_x\n\ 0
   @offset_y\n\ 0
   ^()
@@ -22,9 +22,6 @@
   @offset_x = 0
   @offset_y = 0
   @setViewport()
-
-:scale+\n\
-  => @scale
 
 :offset+\data.Vec2\
   => &data.Vec2(@offset_x, @offset_y)

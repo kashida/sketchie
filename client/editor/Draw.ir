@@ -27,7 +27,10 @@
     if orig_image
       f_page.list.remove(orig_image)
   else
-    img_spec.makeImageItem(orig_image)
+    if orig_image
+      img_spec.makeImageItem(orig_image)
+    else
+      img_spec.makeNewImageItem()
 
 :dispatch
   evt\Event\$

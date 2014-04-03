@@ -1,20 +1,19 @@
 ::
   @element\!Element\$
+  @position+\data.Vec2\ &data.Vec2(0.0, 0.0)
   @rotation+\n\ 0.0
   @scale+\n\ 1.0
 
-:position+\data.Vec2\
-  => dom.elemPosition(@element)
 :positionBR+\data.Vec2\
-  => dom.elemPositionBR(@element)
-:position*
-  p\data.Vec2\$
-  @element.style.left = p.x + 'px'
-  @element.style.top = p.y + 'px'
+  => dom.elemPositionBR(@element).plus(@position)
 :rect+\!data.Rect\
   => dom.elemRect(@element)
 
-:rotation*\n\
+:position*
+  @position = value
+  @setXform()
+
+:rotation*
   @rotation = value
   @setXform()
 
@@ -23,10 +22,9 @@
   @setXform()
 
 :@setXform
-  xforms := []
-  r := @.rotation
-  if r
-    xforms.push('rotate(' + r + 'rad)')
+  xforms := ['translate(' + @position.x + 'px,' + @position.y + 'px)']
+  if @rotation
+    xforms.push('rotate(' + @rotation + 'rad)')
   s := @.scale
   if s != 1.0
     xforms.push('scale(' + s + ')')
