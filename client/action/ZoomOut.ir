@@ -2,4 +2,4 @@
   ^('zo', '-', 'out')
 
 :trigger
-  f_viewport.zoom(-1)
+  f_viewport.xform.zoom(-1)

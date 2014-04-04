@@ -73,10 +73,10 @@ Canvas that's fixed to the viewport size.
 
 :@setCanvasXformToViewport
   // Need to match the backing store resolution with logical resolution.
-  //viewport_scale := f_viewport.scale
+  //viewport_scale := f_viewport.xform.scale
   //viewport_scale_inverse := 1.0 / viewport_scale
   //@canvas.ctx.scale(viewport_scale_inverse, viewport_scale_inverse)
-  p := f_viewport.offset
+  p := f_viewport.xform.offset
   @canvas.ctx.translate(-p.x, -p.y)
 
 :updateAlphaLock
@@ -98,7 +98,7 @@ Takes view coordinates and returns [r, g, b, a] array in [0, 255] range.
 :pickColor\data.Color\
   x\n\$
   y\n\$
-  scale := f_viewport.scale
+  scale := f_viewport.xform.scale
   pixels := @canvas.ctx.getImageData(x / scale, y / scale, 1, 1)
   d := pixels.data
   => data.Color.fromByteRange(d[0], d[1], d[2], d[3])

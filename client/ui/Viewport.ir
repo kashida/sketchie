@@ -1,13 +1,13 @@
 ::<drag.Dragger
-  @element\Element\ dom.id('itemlist')
+  @element\!Element\ dom.id('itemlist')
   @onChange+\!NullEvent\ &NullEvent()
+  @xform+\!dom.ViewportXform\ &dom.ViewportXform(@element, @onChange)
   @active\b\ true
   @drag_active\b\ false
-  @scale+\n\ 1.0
-  @offset_x\n\ 0
-  @offset_y\n\ 0
+  @mouse_pos\data.Vec2\
+  @base_pos\data.Vec2\
   ^()
-  @setViewport()
+  @xform.reset()
   dom.listen(document.body, 'mousedown', ##)
     evt\Event\$
     @dragStart(evt)
@@ -16,32 +16,6 @@
   @active = true
 :deactivate
   @active = false
-
-:reset
-  @scale = 1.0
-  @offset_x = 0
-  @offset_y = 0
-  @setViewport()
-
-:offset+\data.Vec2\
-  => &data.Vec2(@offset_x, @offset_y)
-
-incr should be -1, 0, or 1 where positive is zooming in
-:zoom
-  incr\n\$
-  if incr > 0
-    @scale = @scale * 1.5
-  if incr < 0
-    @scale = @scale / 1.5
-  @setViewport()
-
-:move
-  dx\n\$
-  dy\n\$
-  cr := &dom.ClientRect()
-  @offset_x += dx * cr.w / 3 / @scale
-  @offset_y += dy * cr.h / 3 / @scale
-  @setViewport()
 
 Change offset (but not scaling) to put the item in view.
 :showItem
@@ -57,15 +31,9 @@ Change offset (but not scaling) to put the item in view.
   dcx := (vp0.x + vp1.x - p0.x - p1.x) * 0.5
   dcy := (vp0.y + vp1.y - p0.y - p1.y) * 0.5
   // Find the minimum distance we need to move to get the item in the view.
-  @offset_x += #?
-    dcx > 0
-    inrange(0, dcx, vp0.x - p0.x)
-    inrange(dcx, 0, vp1.x - p1.x)
-  @offset_y += #?
-    dcy > 0
-    inrange(0, dcy, vp0.y - p0.y)
-    inrange(dcy, 0, vp1.y - p1.y)
-  @setViewport()
+  @xform.move(#)
+    dcx > 0 ? inrange(0, dcx, vp0.x - p0.x) : inrange(dcx, 0, vp1.x - p1.x)
+    dcy > 0 ? inrange(0, dcy, vp0.y - p0.y) : inrange(dcy, 0, vp1.y - p1.y)
 
 Change scaling and offset to put all the items in view.
 :showAllItems
@@ -73,20 +41,10 @@ Change scaling and offset to put all the items in view.
   union.add(f_page.list.childrenArray)
   r := union.rect
   cr := &dom.ClientRect()
-  @scale = r.w / r.h > cr.w / cr.h ? cr.w / r.w : cr.h / r.h
-  @offset_x = -r.x0 - r.w * 0.5 + cr.w * 0.5
-  @offset_y = -r.y0 - r.h * 0.5 + cr.h * 0.5
-  @setViewport()
-
-:@setViewport
-  c := &dom.ClientRect().center
-  @element.style['-webkit-transform'] = [#].join(' ')
-    'translate(' + c.x + 'px, ' + c.y + 'px)'
-    'scale(' + @scale + ')'
-    'translate(' + # + 'px, ' + # + 'px)'
-      Math.floor(@offset_x) - c.x
-      Math.floor(@offset_y) - c.y
-  @onChange.fire()
+  @xform.set(#)
+    r.w / r.h > cr.w / cr.h ? cr.w / r.w : cr.h / r.h
+    -r.x0 - r.w * 0.5 + cr.w * 0.5
+    -r.y0 - r.h * 0.5 + cr.h * 0.5
 
 :copyTo
   div\model.Item\$
@@ -98,10 +56,8 @@ Change scaling and offset to put all the items in view.
     =>
   if !evt.ctrlKey
     =>
-  @mouse_x = evt.clientX
-  @mouse_y = evt.clientY
-  @base_x = @offset_x
-  @base_y = @offset_y
+  @mouse_pos = &data.Vec2(evt.clientX, evt.clientY)
+  @base_pos = @xform.offset.clone
   f_dispatcher.dragStart(@)
   evt.preventDefault()
   => true
@@ -110,9 +66,9 @@ Change scaling and offset to put all the items in view.
   evt\Event\$
   if !@active
     =>
-  @offset_x = @base_x + (evt.clientX - @mouse_x) / @scale
-  @offset_y = @base_y + (evt.clientY - @mouse_y) / @scale
-  @setViewport()
+  @xform.setOffset(#)
+    @base_pos.x + (evt.clientX - @mouse_pos.x) / @xform.scale
+    @base_pos.y + (evt.clientY - @mouse_pos.y) / @xform.scale
 
 :<dragEnd
   evt\Event\$

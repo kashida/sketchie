@@ -96,7 +96,7 @@
   p := @points[index]
   rp := index < 3 ? @points[0] : @points[index - 3]
   dp := p.minus(rp)
-  scale := f_viewport.scale
+  scale := f_viewport.xform.scale
   dist := Math.sqrt(dp.x * dp.x + dp.y * dp.y) * scale
   vscale := dist == 0 ? 1.0 : 10.0 / dist
   => #?

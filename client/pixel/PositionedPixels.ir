@@ -22,9 +22,9 @@ Temporary representation of image item.
 Make a new image item assuming the given position is viewport position.
 The new item's xform is made to reverse the current viewport xform.
 :makeNewImageItem\!model.Image\
-  img = &model.Image()
+  img := &model.Image()
   img.src = @.dataUrl
-  img.xform.position = @.position.minus(f_viewport.offset)
+  img.xform.position = @.position.minus(f_viewport.xform.offset)
   f_page.list.appendEnd(img)
   f_page.selection.select(img)
   => img

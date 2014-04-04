@@ -13,41 +13,41 @@ Translates between the three coordinate systems:
   p\data.Vec2\$
   c := &dom.ClientRect().center
   // TODO: Consider view's rotation and flipping.
-  offset := f_viewport.offset
+  offset := f_viewport.xform.offset
   => &data.Vec2(#)
-    (p.x + offset.x - c.x) * f_viewport.scale + c.x
-    (p.y + offset.y - c.y) * f_viewport.scale + c.y
+    (p.x + offset.x - c.x) * f_viewport.xform.scale + c.x
+    (p.y + offset.y - c.y) * f_viewport.xform.scale + c.y
 
 :itemToSurface = ##
   \!data.Vec2\
   p\data.Vec2\$
   c := &dom.ClientRect().center
-  offset := f_viewport.offset
+  offset := f_viewport.xform.offset
   => &data.Vec2(#)
-    p.x + offset.x - c.x + c.x / f_viewport.scale
-    p.y + offset.y - c.y + c.y / f_viewport.scale
+    p.x + offset.x - c.x + c.x / f_viewport.xform.scale
+    p.y + offset.y - c.y + c.y / f_viewport.xform.scale
 
 :viewToItem = ##
   \!data.Vec2\
   p\data.Vec2\$
   c := &dom.ClientRect().center
-  offset := f_viewport.offset
+  offset := f_viewport.xform.offset
   => &data.Vec2(#)
-    (p.x - c.x) / f_viewport.scale - offset.x + c.x
-    (p.y - c.y) / f_viewport.scale - offset.y + c.y
+    (p.x - c.x) / f_viewport.xform.scale - offset.x + c.x
+    (p.y - c.y) / f_viewport.xform.scale - offset.y + c.y
 
 :surfaceToItem = ##
   \!data.Vec2\
   p\data.Vec2\$
   c := &dom.ClientRect().center
-  offset := f_viewport.offset
+  offset := f_viewport.xform.offset
   => &data.Vec2(#)
-    p.x - offset.x + c.x - c.x / f_viewport.scale
-    p.y - offset.y + c.y - c.y / f_viewport.scale
+    p.x - offset.x + c.x - c.x / f_viewport.xform.scale
+    p.y - offset.y + c.y - c.y / f_viewport.xform.scale
 
 :view2item = ##
   \!data.Vec2\
   p\!data.Vec2\$
   xform\!dom.Xform\$
   // TODO: Use f_viewport and xform to compute.
-  => p.minus(xform.position).minus(f_viewport.offset)
+  => p.minus(xform.position).minus(f_viewport.xform.offset)

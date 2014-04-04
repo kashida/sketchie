@@ -2,4 +2,4 @@
   ^('zd', '0', 'default')
 
 :trigger
-  f_viewport.reset()
+  f_viewport.xform.reset()

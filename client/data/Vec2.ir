@@ -2,6 +2,9 @@
   @x&\n\$
   @y&\n\$
 
+:clone+\!%.Vec2\
+  => &%.Vec2(@x, @y)
+
 :serializable+\O\
   => [@x, @y]
 
