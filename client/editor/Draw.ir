@@ -21,16 +21,16 @@
   orig_image := @.image
   ^()
 
-  if !img_spec
-    // No image remaining.
-    f_page.selection.clear()
-    if orig_image
-      f_page.list.remove(orig_image)
-  else
+  if img_spec
     if orig_image
       img_spec.makeImageItem(orig_image)
     else
       img_spec.makeNewImageItem()
+  else
+    // No image remaining.
+    f_page.selection.clear()
+    if orig_image
+      f_page.list.remove(orig_image)
 
 :dispatch
   evt\Event\$

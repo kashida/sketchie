@@ -9,6 +9,17 @@
 :rect+\!data.Rect\
   => dom.elemRect(@element)
 
+:set
+  s\n\$
+  r\n\$
+  x\n\$
+  y\n\$
+  @scale = s
+  @rotation = r
+  @position.x = x
+  @position.y = y
+  @setXform()
+
 :position*
   @position = value
   @setXform()
@@ -22,12 +33,13 @@
   @setXform()
 
 :@setXform
-  xforms := ['translate(' + @position.x + 'px,' + @position.y + 'px)']
+  xforms := []
+  if @position.x != 0 || @position.y != 0
+    xforms.push('translate(' + @position.x + 'px,' + @position.y + 'px)')
   if @rotation
     xforms.push('rotate(' + @rotation + 'rad)')
-  s := @.scale
-  if s != 1.0
-    xforms.push('scale(' + s + ')')
+  if @scale != 1.0
+    xforms.push('scale(' + @scale + ')')
   @element.style['-webkit-transform'] = xforms.join(' ')
 
 :@clearXform
