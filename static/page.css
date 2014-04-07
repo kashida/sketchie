@@ -24,8 +24,15 @@
 }
 
 body {
+  /*
+   * position:fixed and 100% size so it catches all mouse evetns even when there
+   * is no other elements do.
+   */
   -webkit-user-select: none;
+  height: 100%;
   overflow: hidden;
+  position: fixed;
+  width: 100%;
 }
 .itemlist {
   position: fixed;
