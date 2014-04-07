@@ -5,9 +5,9 @@
   @scale+\n\ 1.0
 
 :centerPosition+\!data.Vec2\
-  => dom.elemRect(@element).center.plus(@position)
+  => dom.elemRect(@element.firstElementChild).center.plus(@position)
 :positionBR+\!data.Vec2\
-  => dom.elemPositionBR(@element).plus(@position)
+  => dom.elemPositionBR(@element.firstElementChild).plus(@position)
 :rect+\!data.Rect\
   => dom.elemRect(@element)
 
