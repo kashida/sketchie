@@ -1,6 +1,6 @@
 Temporary representation of image item.
 ::
-  @position+\data.Vec2\$
+  @position+\!data.Vec2\$
   @dataUrl+\s\$
 
 :makeImageItem\!model.Image\
@@ -24,14 +24,8 @@ Temporary representation of image item.
 :mergeImageItem\!model.Image\
   img\model.Image\$
   bbox\data.Rect\$
-  old_xform := img.xform.snapshot
   img.src = @.dataUrl
-  img.xform.centerPosition = ui.Coords.item2doc(#, old_xform)
-    // New image center position in the old item coords.
-    #.
-      @.position
-      minus(bbox.p00)
-      plus(img.xform.rect.center)
+  img.xform.position = img.xform.position.plus(bbox.p00).plus(@position)
   f_page.selection.select(img)
   => img
 

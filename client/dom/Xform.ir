@@ -1,12 +1,8 @@
 ::
   @element\!Element\$
-  @position+\data.Vec2\ &data.Vec2(0.0, 0.0)
+  @position+\!data.Vec2\ &data.Vec2(0.0, 0.0)
   @rotation+\n\ 0.0
   @scale+\n\ 1.0
-
-Creates a new xform detached from the element.
-:snapshot+\!%.XformSnapshot\
-  => &%.XformSnapshot(@)
 
 :centerPosition+\!data.Vec2\
   => dom.elemRect(@element).center.plus(@position)
@@ -28,11 +24,6 @@ Creates a new xform detached from the element.
 
 :position*
   @position = value
-  @setXform()
-
-:centerPosition*
-  value\!data.Vec2\$
-  @position = value.minus(dom.elemPositionBR(@element).div(2.0))
   @setXform()
 
 :rotation*

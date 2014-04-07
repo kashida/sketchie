@@ -38,18 +38,18 @@ Translates between the three coordinate systems:
 :item2view = ##
   \!data.Vec2\
   p\!data.Vec2\$
-  xform\!dom.Xform|!dom.XformSnapshot\$
+  xform\!dom.Xform\$
   => %.Coords.doc2view(%.Coords.item2doc(p, xform))
 
 :item2doc = ##
   \!data.Vec2\
   p\!data.Vec2\$
-  xform\!dom.Xform|!dom.XformSnapshot\$
+  xform\!dom.Xform\$
   => #.
     p
     mult(xform.scale)
     rotate(xform.rotation)
-    plus(xform.centerPosition)
+    plus(xform.position)
 
 :doc2view = ##
   \!data.Vec2\
@@ -63,7 +63,7 @@ Translates between the three coordinate systems:
 :view2item = ##
   \!data.Vec2\
   p\!data.Vec2\$
-  xform\!dom.Xform|!dom.XformSnapshot\$
+  xform\!dom.Xform\$
   => %.Coords.doc2item(%.Coords.view2doc(p), xform)
 
 :view2doc = ##
@@ -78,9 +78,9 @@ Translates between the three coordinate systems:
 :doc2item = ##
   \!data.Vec2\
   p\!data.Vec2\$
-  xform\!dom.Xform|!dom.XformSnapshot\$
+  xform\!dom.Xform\$
   => #.
     p
-    minus(xform.centerPosition)
+    minus(xform.position)
     rotate(-xform.rotation)
     div(xform.scale)
