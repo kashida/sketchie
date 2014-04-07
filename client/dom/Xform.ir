@@ -9,7 +9,7 @@
 :positionBR+\!data.Vec2\
   => dom.elemPositionBR(@element.firstElementChild).plus(@position)
 :rect+\!data.Rect\
-  => dom.elemRect(@element)
+  => dom.elemRect(@element.firstElementChild)
 
 :set
   s\n\$

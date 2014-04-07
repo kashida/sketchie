@@ -63,10 +63,10 @@ Canvas that's fixed to the viewport size.
       bbox.expandToInclude(item_p)
     else
       bbox = &data.Rect(item_p.x, item_p.y, item_p.x, item_p.y)
-  // item coord's origin is at the center of image. but canvas position needs 
+  // Item coord's origin is at the center of image. but canvas position needs 
   // to be specified with the item div's coords.
   @bbox = bbox
-  @canvas.setToRect(@bbox.plus(img.xform.rect.center))
+  @canvas.setToRect(@bbox)
   // Adjust the canvas coords for the difference.
   @canvas.ctx.translate(-@bbox.x0, -@bbox.y0)
 
