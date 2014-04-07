@@ -60,8 +60,8 @@
       node.removeChild(c)
     => str
   newstr := ''
-  // TODO: move the use of @text.element to model.Text.
-  cursor_div_index := until_children(@text.element, ##)
+  // TODO: move the use of @text.textEl to model.Text.
+  cursor_div_index := until_children(@text.textEl, ##)
     \b\
     c\Node\$
     if c == cursor.anchorNode

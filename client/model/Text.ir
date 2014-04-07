@@ -1,8 +1,10 @@
 ::<%.Item
   el\!Element\?
+  @textEl+\!Element\ dom.createDiv([])
   @onblur\F\
   @editing\b\ false
   ^(el)
+  @.element.appendChild(@textEl)
 
 :dispose
   @unlisten()
@@ -23,11 +25,11 @@
   => img
 
 :text+\s\
-  => @.element.innerText
+  => @textEl.innerText
 :text*
   str\s\$
-  @.element.innerHTML = ''
-  @.element.appendChild(@makeMinimumTextDiv(str))
+  @.emptyChildren()
+  @textEl.appendChild(@makeMinimumTextDiv(str))
 
 :<selectable
   => ^() && !@editing
@@ -37,12 +39,11 @@
   if !e
     @unlisten()
   @editing = e
-  @.element.contentEditable = e
-  @.element.style['-webkit-user-select'] = e ? 'text' : 'none'
+  @textEl.contentEditable = e
+  @textEl.style['-webkit-user-select'] = e ? 'text' : 'none'
 
 :emptyChildren
-  while @.element.firstChild
-    @.element.removeChild(@.element.firstChild)
+  @textEl.innerHTML = ''
 
 :@makeMinimumTextDiv
   str\s\? ''
@@ -55,7 +56,7 @@
 Make sure there is at least one div left when there is backspace in text
 edit mode.
 :backspace
-  el:= @.element
+  el:= @textEl
   el.normalize()
   if el.childNodes.length == 1 && el.firstChild.tagName == 'BR'
     el.removeChild(el.firstChild)
@@ -68,24 +69,24 @@ edit mode.
   beginning\b\$
   onblur\F\?
   window.getSelection().collapse(#)
-    @.element
-    beginning ? 0 : @.element.innerText.length
+    @textEl
+    beginning ? 0 : @textEl.innerText.length
   @.focus()
   if onblur
     @unlisten()
     @onblur = onblur
-    dom.listen(@.element, 'blur', @onblur)
+    dom.listen(@textEl, 'blur', @onblur)
 
 :@unlisten
   if @onblur
-    dom.unlisten(@.element, 'blur', @onblur)
+    dom.unlisten(@textEl, 'blur', @onblur)
 
 :moveChildrenFrom
   other\%.Text\$
   start\n\? 0
   i := start
-  while i < other.element.childNodes.length
-    @.element.appendChild(other.element.childNodes[i])
+  while i < other.textEl.childNodes.length
+    @textEl.appendChild(other.textEl.childNodes[i])
 
 :@trimEndWhitespace
   str\s\$
@@ -94,7 +95,7 @@ edit mode.
 :normalize
   // if true, clean up empty div's and remove the item if it ends up empty.
   remove\b\$
-  el := @.element
+  el := @textEl
   el.normalize()
   // Remove end spaces from all the text nodes.
   dom.eachChild(el, ##)
