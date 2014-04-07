@@ -5,6 +5,8 @@ Temporary representation of image item.
 
 :makeImageItem\!model.Image\
   img\model.Image\?
+  // TODO: img != undefined pass shouldn't happen anymore
+  // (still used from stencil, but it shouldn't be using here).
   add_img := !img
   if img
     // Refresh the transform.
@@ -19,19 +21,33 @@ Temporary representation of image item.
   f_page.selection.select(img)
   => img
 
+:mergeImageItem\!model.Image\
+  img\model.Image\$
+  bbox\data.Rect\$
+  old_xform := img.xform.snapshot
+  img.src = @.dataUrl
+  img.xform.centerPosition = ui.Coords.item2doc(#, old_xform)
+    // New image center position in the old item coords.
+    #.
+      @.position
+      minus(bbox.p00)
+      plus(img.xform.rect.center)
+  f_page.selection.select(img)
+  => img
+
 Make a new image item assuming the given position is viewport position.
 The new item's xform is made to reverse the current viewport xform.
 :makeNewImageItem\!model.Image\
   img := &model.Image()
   img.src = @.dataUrl
-  size := &data.Vec2(img.width, img.height).mult(0.5)
+  center := &data.Vec2(img.width, img.height).mult(0.5)
   // Set the scale to counter the viewport scaling.
   scale := 1.0 / f_viewport.xform.scale
   p := #.
     // Pixel position converted to the document translation.
     @position.mult(scale)
     // Scaling of the item is around its center, so counter the difference.
-    minus(size.mult(1.0 - scale))
+    minus(center.mult(1.0 - scale))
     // Counter the viewport translation.
     minus(f_viewport.xform.offset)
   img.xform.set(scale, 0, p.x, p.y)

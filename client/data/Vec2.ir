@@ -15,20 +15,31 @@
 
 :minus\!%.Vec2\
   other\%.Vec2\$
-  => &%.Vec2(@.x - other.x, @.y - other.y)
+  => &%.Vec2(@x - other.x, @y - other.y)
 
 :plus\!%.Vec2\
   other\n|!%.Vec2\$
   if other instanceof %.Vec2
-    => &%.Vec2(@.x + other.x, @.y + other.y)
+    => &%.Vec2(@x + other.x, @y + other.y)
   else
-    => &%.Vec2(@.x + other, @.y + other)
+    => &%.Vec2(@x + other, @y + other)
 
 :plus2n\!%.Vec2\
   other_x\n\$
   other_y\n\$
-  => &%.Vec2(@.x + other_x, @.y + other_y)
+  => &%.Vec2(@x + other_x, @y + other_y)
 
 :mult\!%.Vec2\
   s\n\$
-  => &%.Vec2(@.x * s, @.y * s)
+  => &%.Vec2(@.x * s, @y * s)
+
+:div\!%.Vec2\
+  s\n\$
+  => &%.Vec2(@x / s, @y / s)
+
+:rotate\!%.Vec2\
+  // In radian.
+  r\n\$
+  s := Math.sin(r)
+  c := Math.cos(r)
+  => &%.Vec2(@x * c - @y * s, @x * s + @y * c)

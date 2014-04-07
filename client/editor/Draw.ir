@@ -23,7 +23,7 @@
 
   if img_spec
     if orig_image
-      img_spec.makeImageItem(orig_image)
+      img_spec.mergeImageItem(orig_image, f_surface.bbox)
     else
       img_spec.makeNewImageItem()
   else

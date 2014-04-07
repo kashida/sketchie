@@ -44,6 +44,10 @@
     y0 = y1 = 0.5 * (y0 + y1)
   => &%.Rect(x0, y0, x1, y1)
 
+:plus\!%.Rect\
+  p\!%.Vec2\$
+  => &%.Rect(@x0 + p.x, @y0 + p.y, @x1 + p.x, @y1 + p.y)
+
 In place expansion of the rect to include the given point.
 :expandToInclude
   p\data.Vec2\$
@@ -68,5 +72,5 @@ In place expansion of the rect to include the given point.
     inrange(other.x0, other.x1, @x1)
     inrange(other.y0, other.y1, @y1)
 
-:center+\%.Vec2\
+:center+\!%.Vec2\
   => &%.Vec2((@x0 + @x1) * 0.5, (@y0 + @y1) * 0.5)

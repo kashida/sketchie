@@ -3,6 +3,7 @@ Canvas that's fixed to the viewport size.
   canvas_or_w\HTMLCanvasElement|n\$
   h\n\?
   @canvas\!dom.Canvas\ &dom.Canvas(canvas_or_w, h)
+  @bbox+\data.Rect\
 
 :element+\HTMLCanvasElement\
   => @canvas.element
@@ -62,9 +63,12 @@ Canvas that's fixed to the viewport size.
       bbox.expandToInclude(item_p)
     else
       bbox = &data.Rect(item_p.x, item_p.y, item_p.x, item_p.y)
-  @canvas.setToRect(\!data.Rect\(bbox))
+  // item coord's origin is at the center of image. but canvas position needs 
+  // to be specified with the item div's coords.
+  @bbox = bbox
+  @canvas.setToRect(@bbox.plus(img.xform.rect.center))
   // Adjust the canvas coords for the difference.
-  @canvas.ctx.translate(-bbox.x0, -bbox.y0)
+  @canvas.ctx.translate(-@bbox.x0, -@bbox.y0)
 
 :@setCanvasXformToItem
   img\!model.Image\$

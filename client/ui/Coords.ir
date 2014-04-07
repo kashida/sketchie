@@ -8,16 +8,6 @@ Translates between the three coordinate systems:
 - Item. Top-left corner of the item is the origin. Pixel scale by default.
 ::
 
-:doc2view = ##
-  \!data.Vec2\
-  p\data.Vec2\$
-  c := &dom.ClientRect().center
-  // TODO: Consider view's rotation and flipping.
-  offset := f_viewport.xform.offset
-  => &data.Vec2(#)
-    (p.x + offset.x - c.x) * f_viewport.xform.scale + c.x
-    (p.y + offset.y - c.y) * f_viewport.xform.scale + c.y
-
 :itemToSurface = ##
   \!data.Vec2\
   p\data.Vec2\$
@@ -45,9 +35,52 @@ Translates between the three coordinate systems:
     p.x - offset.x + c.x - c.x / f_viewport.xform.scale
     p.y - offset.y + c.y - c.y / f_viewport.xform.scale
 
+:item2view = ##
+  \!data.Vec2\
+  p\!data.Vec2\$
+  xform\!dom.Xform|!dom.XformSnapshot\$
+  => %.Coords.doc2view(%.Coords.item2doc(p, xform))
+
+:item2doc = ##
+  \!data.Vec2\
+  p\!data.Vec2\$
+  xform\!dom.Xform|!dom.XformSnapshot\$
+  => #.
+    p
+    mult(xform.scale)
+    rotate(xform.rotation)
+    plus(xform.centerPosition)
+
+:doc2view = ##
+  \!data.Vec2\
+  p\data.Vec2\$
+  // TODO: Consider view's rotation and flipping.
+  => #.
+    p
+    plus(f_viewport.xform.offset)
+    mult(f_viewport.xform.scale)
+
 :view2item = ##
   \!data.Vec2\
   p\!data.Vec2\$
-  xform\!dom.Xform\$
-  // TODO: Use f_viewport and xform to compute.
-  => p.minus(xform.position).minus(f_viewport.xform.offset)
+  xform\!dom.Xform|!dom.XformSnapshot\$
+  => %.Coords.doc2item(%.Coords.view2doc(p), xform)
+
+:view2doc = ##
+  \!data.Vec2\
+  p\!data.Vec2\$
+  // TODO: Consider view's rotation and flipping.
+  => #.
+    p
+    div(f_viewport.xform.scale)
+    minus(f_viewport.xform.offset)
+
+:doc2item = ##
+  \!data.Vec2\
+  p\!data.Vec2\$
+  xform\!dom.Xform|!dom.XformSnapshot\$
+  => #.
+    p
+    minus(xform.centerPosition)
+    rotate(-xform.rotation)
+    div(xform.scale)

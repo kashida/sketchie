@@ -1,0 +1,11 @@
+::
+  live_xform\%.Xform\$
+  @position+\data.Vec2\ live_xform.position.clone
+  @rotation+\n\ live_xform.rotation
+  @scale+\n\ live_xform.scale
+  @rect+\!data.Rect\ live_xform.rect.clone
+
+:centerPosition+\!data.Vec2\
+  => @rect.center.plus(@position)
+:positionBR+\!data.Vec2\
+  => @rect.plus(@position)
