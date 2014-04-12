@@ -44,7 +44,7 @@ Works for extension too if statically built and linked.
     dom.createDiv('img_undolist')
     f_mode_indicator.element
     f_global_actions.element
-  f_selection_marker.element.appendChild(f_selection_actions.element)
+    f_selection_actions.element
 
 :@initGlobalComponents
   f_sketchie = this

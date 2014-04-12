@@ -243,13 +243,10 @@ body {
 }
 
 .selection_box {
-  left: 1px;
-  bottom: 1px;
-  position: absolute;
-  top: 100%;
-  width: 1000px;
-  margin-top: 10px;
-  margin-left: -10px;
+  left: 0px;
+  bottom: 0px;
+  position: fixed;
+  margin: 0 0 2px 20px;
 }
 .selection_box .button {
   display: inline-block;
