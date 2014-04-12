@@ -46,8 +46,8 @@
     f_editor_modes.changeModeTo('te')
 
   // Draw / stencil mode change.
-  else if key == c('S')
-    f_editor_modes.changeModeTo('s')
+  //else if key == c('S')
+  //  f_editor_modes.changeModeTo('s')
 
   // Mark image alpha locked.
   else if key == c('X')

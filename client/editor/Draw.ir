@@ -37,8 +37,8 @@
   if evt.keyCode == DOM_VK_ESCAPE || evt.keyCode == c('A')
     f_editor_modes.popMode()
 
-  if evt.keyCode == c('S')
-    f_editor_modes.popMode('s')
+  //if evt.keyCode == c('S')
+  //  f_editor_modes.popMode('s')
 
   else
     ^(evt)

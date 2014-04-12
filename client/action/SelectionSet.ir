@@ -1,7 +1,7 @@
 ::<%.Set
   actions := [#]
     &%.Delete()
-    &%.Merge()
+    //&%.Merge()
     &%.Duplicate()
     &%.ClearSelection()
     &%.ToBottomZ()
