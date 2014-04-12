@@ -1,5 +1,5 @@
 ::<%.Action
-  ^('E', 'S:x', 'export')
+  ^('E', 'X:s', 'export')
 
 :trigger
   f_page.selection.clear()

@@ -22,10 +22,10 @@
     key += shift
 
   // Selection control.
-  if key == c('H')
-    @holdSelection()
-  else if key == c('H') + shift
-    @unholdAll()
+  //if key == c('H')
+  //  @holdSelection()
+  //else if key == c('H') + shift
+  //  @unholdAll()
 
   // Transform.
   else if key == c('R')
@@ -50,12 +50,12 @@
   //  f_editor_modes.changeModeTo('s')
 
   // Mark image alpha locked.
-  else if key == c('X')
-    f_item_palette.toggleAlphaLock()
+  //else if key == c('X')
+  //  f_item_palette.toggleAlphaLock()
 
   // Adjust the image blend alpha.
-  else if key == DOM_VK_COMMA + shift || key == DOM_VK_PERIOD + shift
-    f_item_palette.blendAlphaAdjust(evt.keyCode == DOM_VK_PERIOD ? 1 : -1)
+  //else if key == DOM_VK_COMMA + shift || key == DOM_VK_PERIOD + shift
+  //  f_item_palette.blendAlphaAdjust(evt.keyCode == DOM_VK_PERIOD ? 1 : -1)
 
   // Viewport control.
   else if key == DOM_VK_LEFT
