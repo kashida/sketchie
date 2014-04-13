@@ -70,7 +70,10 @@ Sync to local file system -- currently not used.
       entry.createWriter(##, @err)
         writer\FileWriter\$
         writer.onerror = @writererr
-        writer.write(data)
+        writer.onwriteend = ##
+          if writer.length == 0
+            writer.write(data)
+        writer.truncate(0)
 
 :@writererr
   e\ProgressEvent\$
