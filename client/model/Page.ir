@@ -5,3 +5,12 @@
 :clear
   @list.clear()
   @selection.clear()
+
+Make the dom suitable for saving.
+:freeze
+  @list.freeze()
+  // TODO: Keep the selection and restore.
+  @selection.clear()
+
+:restore
+  @list.restore()

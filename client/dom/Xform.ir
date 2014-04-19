@@ -4,6 +4,26 @@
   @rotation+\n\ 0.0
   @scale+\n\ 1.0
 
+:loadFromElement
+  element\!Element\$
+  @.position = \!data.Vec2\(data.Vec2.fromStr(dom.attr(element, 'sk_position')))
+  @.rotation = dom.attr(element, 'sk_rotation') || 0
+  s := dom.attr(element, 'sk_scale')
+  if s !== null && s !== ""
+    @.scale = parseFloat(s)
+
+:freeze
+  dom.setAttr(@element, 'sk_position', @position.str)
+  if @rotation != 0
+    dom.setAttr(@element, 'sk_rotation', @rotation.toString())
+  if @scale != 1.0
+    dom.setAttr(@element, 'sk_scale', @scale.toString())
+
+:restore
+  dom.setAttr(@element, 'sk_position')
+  dom.setAttr(@element, 'sk_alpha_lock')
+  dom.setAttr(@element, 'sk_alpha_blend')
+
 :centerPosition+\!data.Vec2\
   => dom.elemRect(@element.firstElementChild).center.plus(@position)
 :positionBR+\!data.Vec2\

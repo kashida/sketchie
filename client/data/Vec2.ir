@@ -2,6 +2,14 @@
   @x&\n\$
   @y&\n\$
 
+:str+\!s\
+  => JSON.stringify(@.serializable)
+
+:fromStr = ##
+  \%.Vec2\
+  str\s\$
+  => %.Vec2.createFromObj(\!A.<n>\(JSON.parse(str)))
+
 :clone+\!%.Vec2\
   => &%.Vec2(@x, @y)
 

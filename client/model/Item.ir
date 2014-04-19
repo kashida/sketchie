@@ -44,6 +44,29 @@
   item.isActive = obj.c
   => item
 
+:createFromElement = ##
+  \!%.Item\
+  element\!Element\$
+  item := %.Image.createFromElement(element)
+  if !item
+    item = %.Text.createFromElement(element)
+  item.xform.loadFromElement(element)
+  item.alphaLock = !!dom.attr(element, 'sk_alpha_lock')
+  item.blendAlpha = parseFloat(dom.attr(element, 'sk_blend_alpha'))
+  => item
+
+:freeze
+  @xform.freeze()
+  if @alphaLock
+    dom.setAttr(@element, 'sk_alpha_lock', 'true')
+  if @blendAlpha != 1
+    dom.setAttr(@element, 'sk_blend_alpha', @blendAlpha.toString())
+
+:restore
+  @xform.restore()
+  dom.setAttr(@element, 'sk_alpha_lock')
+  dom.setAttr(@element, 'sk_blend_alpha')
+
 :dispose
   @element.item = null
   @element.dragger = null

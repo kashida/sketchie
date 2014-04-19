@@ -20,9 +20,16 @@
   obj\!O\$
   if !obj.text
     => null
-  img := &%.Text()
-  img.text = obj.text
-  => img
+  txt := &%.Text()
+  txt.text = obj.text
+  => txt
+
+:createFromElement = ##
+  \!%.Text\
+  element\!Element\$
+  txt := &%.Text()
+  txt.text = element.innerText
+  => txt
 
 :text+\s\
   => @textEl.innerText

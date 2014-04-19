@@ -19,6 +19,16 @@
   img.src = obj.src
   => img
 
+:createFromElement = ##
+  \%.Image\
+  element\!Element\$
+  imgs := element.getElementsByTagName('img')
+  if !imgs || imgs.length != 1
+    => null
+  img := &%.Image()
+  img.src = imgs[0].src
+  => img
+
 :src+\s\
   => @img.src
 :src*

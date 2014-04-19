@@ -25,6 +25,21 @@ All child elements need to be blessed when added, and disposed when removed.
     obj\!O\$
     => %.Item.createFromObj(obj)
 
+:loadFromNodes
+  list\!NodeList\$
+  for i := 0; i < list.length; i++
+    @.appendEnd(%.Item.createFromElement(list[i]))
+
+:freeze
+  @.each(##)
+    item\!%.Item\$
+    item.freeze()
+
+:restore
+  @.each(##)
+    item\!%.Item\$
+    item.restore()
+
 :clear
   @element.innerHTML = ''
 

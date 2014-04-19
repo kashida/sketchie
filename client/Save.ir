@@ -7,7 +7,10 @@
   => &Blob([@.json], {type: 'application/json'})
 
 :html+\s\
-  => Templates.page({#})
+  // TODO: Freeze / restore items one by one and stream them so we don't need to
+  // hold the html text coyp of the entire document in memory.
+  f_page.freeze()
+  page := Templates.page({#})
     editor: false
     script: ''
     init: ''
@@ -15,6 +18,8 @@
       '<div class="itemlist">'
       dom.id('itemlist').innerHTML
       '</div>\n'
+  f_page.restore()
+  => page
 
 :htmlBlob+\!Blob\
   => &Blob([@.html], {type: 'text/html'})
