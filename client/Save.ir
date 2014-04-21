@@ -25,10 +25,12 @@
   => &Blob([@.html], {type: 'text/html'})
 
 :store
+  fname\s\$
   // Send everything in the item list.
   if run_as_extension
-    @storeToSyncFs('sketchie.sktch', @.jsonBlob)
-    @storeToSyncFs('sketchie.html', @.htmlBlob)
+    //@storeToSyncFs('sketchie.sktch', @.jsonBlob)
+    //@storeToSyncFs('sketchie.html', @.htmlBlob)
+    @storeToSyncFs(fname, @.htmlBlob)
   else
     xhrPost(location.pathname.replace(#), @.json)
       /\.html$/i

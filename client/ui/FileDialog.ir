@@ -1,0 +1,31 @@
+::
+  @element+\!Element\ @createElement()
+  // TODO: Find a way to automatically link member element vars to divs in
+  // the html.
+  @dialogEl+\!Element\ dom.id('file_dialog', @element)
+  @filenameEl+\!Element\ dom.id('filename', @element)
+  @saveEl\!Element\ dom.id('save', @element)
+  @cancelEl\!Element\ dom.id('cancel', @element)
+  @isActive+\b\ false
+  @callback\?f(?string)\
+  dom.listen(@saveEl, 'click', ##)
+    @deactivate(true)
+  dom.listen(@cancelEl, 'click', ##)
+    @deactivate(false)
+
+:@createElement
+  el := dom.createDiv('file_dialog_container')
+  el.innerHTML = Templates['dialog']({})
+  => el
+
+:@deactivate
+  success\b\$
+  @element.classList.remove('show')
+  @callback && @callback(success ? @filenameEl.value : null)
+  @isActive = false
+
+:save
+  cb\f(?string)\$
+  @callback = cb
+  @element.classList.add('show')
+  @isActive = true

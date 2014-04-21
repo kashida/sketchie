@@ -1,6 +1,7 @@
 ::id = ##
   str\s\$
-  => document.getElementsByClassName(str)[0]
+  el\Element\? document
+  => el.getElementsByClassName(str)[0]
 
 ::create = ##
   tag\s\$

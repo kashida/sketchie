@@ -16,4 +16,6 @@
     --
     f_hex_control.deactivate()
     =>
-  f_editor_modes.editor.dispatch(evt)
+  // TODO: Drop the special casing for the file dialog.
+  if !f_file_dialog.isActive
+    f_editor_modes.editor.dispatch(evt)

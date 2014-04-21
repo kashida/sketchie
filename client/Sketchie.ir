@@ -9,13 +9,14 @@ Works for extension too if statically built and linked.
   f_selection_actions = &action.SelectionSet()
   f_selection_marker = &ui.SelectionMarker()
   f_mode_indicator = &ui.ModeIndicator()
+  f_file_dialog = &ui.FileDialog()
   dom.appendChildren(document.body, [#])
     f_selection_marker.element
     dom.findOrCreate('div', {class: 'itemlist'})
     dom.createDiv('draw_cursor')
     dom.svgCreate('svg', {class: 'control_root'})
     dom.createDiv('input_layer')
-    dom.create('form', {}, [dom.createDiv('palette_container', [#])])
+    dom.createDiv('palette_container', [#])
       dom.createDiv(['tool_palette', 'palette'], [#])
         dom.createDiv('sample_box', [#])
           dom.create('canvas', {class: 'tool_sample'})
@@ -45,6 +46,7 @@ Works for extension too if statically built and linked.
     f_mode_indicator.element
     f_global_actions.element
     f_selection_actions.element
+    f_file_dialog.element
 
 :@initGlobalComponents
   f_sketchie = this

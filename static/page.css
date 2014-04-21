@@ -275,3 +275,28 @@ body {
   transition-duration: 0.3s;
   transition-timing-function: ease-out;
 }
+
+.file_dialog_container {
+  display: none;
+}
+
+.file_dialog_container.show {
+  display: inherit;
+}
+
+.backdrop {
+  background-color: black;
+  height: 100%;
+  opacity: 0.3;
+  position: absolute;
+  width: 100%;
+}
+
+.file_dialog {
+  background-color: #eee;
+  position: absolute;
+  height: 80%;
+  left: 10%;
+  top: 10%;
+  width: 80%;
+}

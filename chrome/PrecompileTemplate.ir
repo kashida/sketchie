@@ -1,18 +1,17 @@
 ::
-  @template_file\s\ 'static/page.html'
 
 :@precompile\s\
+  file\s\$
   // Load the template file.
-  if !_fs.existsSync(@template_file)
-    throw @template_file + ' not found.'
-  tmpl := _fs.readFileSync(@template_file, 'utf8')
+  path := 'static/' + file
+  if !_fs.existsSync(path)
+    throw path + ' not found.'
+  tmpl := _fs.readFileSync(path, 'utf8')
 
   // Render.
   => _.template(tmpl).source
 
 :code
-  => [#].join('\n')
-    'var Templates = {'
-    'page: '
-    @precompile()
-    '};'
+  => 'var Templates = {' + [#].join(',\n') + '};'
+    'page: ' + @precompile('page.html')
+    'dialog: ' + @precompile('dialog.html')

@@ -3,4 +3,6 @@
 
 :trigger
   f_page.selection.clear()
-  &Save().store()
+  f_file_dialog.save(##)
+    fname\?string\$
+    fname && &Save().store(fname)
