@@ -294,9 +294,24 @@ body {
 
 .file_dialog {
   background-color: #eee;
+  border-radius: 7px;
+  box-shadow: 4px 6px 5px 5px rgba(0, 0, 0, 0.5);
   position: absolute;
   height: 80%;
   left: 10%;
   top: 10%;
   width: 80%;
+}
+
+.file_dialog > .title {
+  margin: 2px auto 2px 20px;
+}
+
+.file_dialog > .file_line {
+  display: flex;
+  margin: 0 5px 0 5px;
+}
+
+.file_dialog > .file_line > .filename {
+  flex-grow: 1;
 }

@@ -1,13 +1,15 @@
+TODO: Merge this with chrome/PrecompiledTemplate.
 ::
   @ctxt\Context\$
   @handlers\HandlerSet\$
-  @template_file\s\ 'static/page.html'
 
 :@precompile\s\
+  file\s\$
   // Load the template file.
-  if !_fs.existsSync(@template_file)
-    throw @template_file + ' not found.'
-  tmpl := _fs.readFileSync(@template_file, 'utf8')
+  path := 'static/' + file
+  if !_fs.existsSync(path)
+    throw path + ' not found.'
+  tmpl := _fs.readFileSync(path, 'utf8')
 
   // Render.
   => _.template(tmpl).source
@@ -19,8 +21,8 @@
   @ctxt.res.writeHead(200, {'Content-Type': 'text/javascript'})
   @ctxt.res.write([#].join('\n'))
     'var Templates = {'
-    'page: '
-    @precompile()
+    'page: ' + @precompile('page.html') + ','
+    'dialog: ' + @precompile('dialog.html') + ','
     '};'
   @ctxt.response(200)
   => true
