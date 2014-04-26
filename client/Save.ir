@@ -25,12 +25,11 @@
   => &Blob([@.html], {type: 'text/html'})
 
 :store
-  fname\s\$
   // Send everything in the item list.
   if run_as_extension
-    //@storeToSyncFs('sketchie.sktch', @.jsonBlob)
-    //@storeToSyncFs('sketchie.html', @.htmlBlob)
-    @storeToSyncFs(fname, @.htmlBlob)
+    //@storeToSyncFs(@.jsonBlob, 'sketchie.sktch')
+    //@storeToSyncFs(@.htmlBlob, 'sketchie.html')
+    @storeToSyncFs(@.htmlBlob)
   else
     xhrPost(location.pathname.replace(#), @.json)
       /\.html$/i
@@ -64,23 +63,46 @@ Sync to local file system -- currently not used.
         l(reader.readAsText(file))
 
 :@storeToSyncFs
-  fname\s\$
   data\!Blob\$
+  fname\s\?
   chrome.syncFileSystem.requestFileSystem(##)
   //webkitRequestFileSystem(window.PERSISTENT, 5 * 1024 * 1024, ##, @err)
     fs\FileSystem\$
     //chrome.syncFileSystem.getUsageAndQuota(fs, ##)
     //  info\O\$
     //  l(info)
-    fs.root.getFile(fname, {create: true}, ##, @err)
-      entry\FileEntry\$
-      entry.createWriter(##, @err)
-        writer\FileWriter\$
-        writer.onerror = @writererr
-        writer.onwriteend = ##
-          if writer.length == 0
-            writer.write(data)
-        writer.truncate(0)
+    if fname
+      @saveToFile(fs, data, fname)
+    else
+      @saveWithDialog(fs, data)
+
+:@saveToFile
+  fs\FileSystem\$
+  data\!Blob\$
+  fname\s\$
+  fs.root.getFile(fname, {create: true}, ##, @err)
+    entry\FileEntry\$
+    entry.createWriter(##, @err)
+      writer\FileWriter\$
+      writer.onerror = @writererr
+      writer.onwriteend = ##
+        if writer.length == 0
+          writer.write(data)
+      writer.truncate(0)
+
+:@saveWithDialog
+  fs\FileSystem\$
+  data\!Blob\$
+  fs.root.createReader().readEntries(##, @err)
+    entries\!A.<!Entry>\$
+    files := []
+    for  i := 0; i < entries.length; ++i
+      if entries[i].isFile
+        files.push(entries[i].name)
+
+    f_file_dialog.save(##, files)
+      fname\?string\$
+      fname && @saveToFile(fs, data, fname)
 
 :@writererr
   e\ProgressEvent\$

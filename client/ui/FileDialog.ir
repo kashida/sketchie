@@ -6,6 +6,7 @@
   @filenameEl+\!Element\ dom.id('filename', @element)
   @saveEl\!Element\ dom.id('save', @element)
   @cancelEl\!Element\ dom.id('cancel', @element)
+  @fileListEl_\!Element\ dom.id('file_list', @element)
   @isActive+\b\ false
   @callback\?f(?string)\
   dom.listen(@saveEl, 'click', ##)
@@ -26,6 +27,19 @@
 
 :save
   cb\f(?string)\$
+  files\!A.<s>\$
   @callback = cb
+  @fillFileList(files)
   @element.classList.add('show')
   @isActive = true
+
+:@fillFileList
+  files\!A.<s>\$
+  @fileListEl_.innerHTML = ''
+  dom.appendChildren(@fileListEl_, files.map(##))
+    file\s\$
+    entry := dom.createDiv('file_entry')
+    entry.innerHTML = file
+    dom.listen(entry, 'click', ##)
+      @filenameEl.value = file
+    => entry
