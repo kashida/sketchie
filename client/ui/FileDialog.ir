@@ -27,8 +27,10 @@
 
 :save
   cb\f(?string)\$
+  default_file\s\$
   files\!A.<s>\$
   @callback = cb
+  @filenameEl.value = default_file
   @fillFileList(files)
   @element.classList.add('show')
   @isActive = true

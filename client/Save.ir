@@ -102,9 +102,11 @@ Sync to local file system -- currently not used.
       if entries[i].isFile
         files.push(entries[i].name)
 
-    f_file_dialog.save(##, files)
-      fname\?string\$
-      fname && @saveToFile(fs, data, fname)
+    User.fileName(##)
+      default_file_name\s\$
+      f_file_dialog.save(##, default_file_name, files)
+        fname\?string\$
+        fname && @saveToFile(fs, data, fname)
 
 :@writererr
   e\ProgressEvent\$
