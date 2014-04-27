@@ -101,6 +101,7 @@ Sync to local file system -- currently not used.
     for  i := 0; i < entries.length; ++i
       if entries[i].isFile
         files.push(entries[i].name)
+    files.sort()
 
     User.fileName(##)
       default_file_name\s\$
