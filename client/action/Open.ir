@@ -1,0 +1,6 @@
+::<%.Action
+  ^('O', 'O:s', 'open')
+
+:trigger
+  f_page.selection.clear()
+  &Load().load(true)

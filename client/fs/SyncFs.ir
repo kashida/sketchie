@@ -1,0 +1,73 @@
+::<%.FileSystem
+  @fs\FileSystem\
+  
+:@filesystem
+  cb\f(!FileSystem)\$
+  if @fs
+    cb(@fs)
+  else
+    chrome.syncFileSystem.requestFileSystem(##)
+    //webkitRequestFileSystem(window.PERSISTENT, 5 * 1024 * 1024, ##, @err)
+      fs\FileSystem\$
+      //chrome.syncFileSystem.getUsageAndQuota(fs, ##)
+      //  info\O\$
+      //  l(info)
+      @fs = fs
+      cb(\!FileSystem\(@fs))
+
+:<fileList
+  cb\f(!A.<s>)\$
+  @filesystem(##)
+    fs\!FileSystem\$
+    fs.root.createReader().readEntries(##, @err)
+      entries\!A.<!Entry>\$
+      files := []
+      for  i := 0; i < entries.length; ++i
+        if entries[i].isFile
+          files.push(entries[i].name)
+      files.sort()
+      cb(files)
+
+:<load
+  fname\s\$
+  cb\f(s)\$
+  @filesystem(##)
+    fs\FileSystem\$
+    fs.root.getFile(fname, {}, ##, @err)
+      entry\FileEntry\$
+      entry.file(##)
+        file\!Blob\$
+        reader := &FileReader()
+        reader.onload = ##
+          ev\ProgressEvent\$
+          if ev.loaded < ev.total
+            =>
+          cb(ev.target.result)
+        reader.readAsText(file, 'utf-8')
+
+:<save
+  data\!Blob\$
+  fname\s\$
+  cb\f(s)\$
+  @filesystem(##)
+    fs\!FileSystem\$
+    fs.root.getFile(fname, {create: true}, ##, @err)
+      entry\FileEntry\$
+      entry.createWriter(##, @err)
+        writer\FileWriter\$
+        writer.onerror = @writererr
+        writer.onwriteend = ##
+          if writer.length == 0
+            writer.write(data)
+            cb(fname)
+        writer.truncate(0)
+
+:@writererr
+  e\ProgressEvent\$
+  l('SyncFs writer error')
+  l(e)
+
+:@err
+  e\FileError\$
+  l('SyncFs error')
+  l(e)

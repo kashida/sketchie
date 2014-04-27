@@ -27,8 +27,7 @@
 :store
   // Send everything in the item list.
   if run_as_extension
-    //@storeToSyncFs(@.jsonBlob, 'sketchie.sktch')
-    //@storeToSyncFs(@.htmlBlob, 'sketchie.html')
+    //@storeToSyncFs(@.jsonBlob)
     @storeToSyncFs(@.htmlBlob)
   else
     xhrPost(location.pathname.replace(#), @.json)
@@ -39,75 +38,40 @@
 :exportLocal
   chrome.fileSystem.chooseEntry({type: 'saveFile'}, ##)
     entry\Entry\?
-    if entry
-      entry.createWriter(##, @err)
-        writer\FileWriter\$
-        writer.onerror = @writererr
-        writer.onwriteend = ##
-          // TODO: show some on-screen response.
-          l('write complete')
-        writer.write(@.htmlBlob)
-
-Sync to local file system -- currently not used.
-:@storeToFs
-  chrome.fileSystem.chooseEntry({type: 'openFile'}, ##)
-    entry\Entry\?
-    if entry
-      entry.file(##)
-        file\!File\$
-        reader := &FileReader()
-        reader.onerror = @writererr
-        reader.onloadend = ##
-          e\Event\$
-          l(e.target.result)
-        l(reader.readAsText(file))
-
-:@storeToSyncFs
-  data\!Blob\$
-  fname\s\?
-  chrome.syncFileSystem.requestFileSystem(##)
-  //webkitRequestFileSystem(window.PERSISTENT, 5 * 1024 * 1024, ##, @err)
-    fs\FileSystem\$
-    //chrome.syncFileSystem.getUsageAndQuota(fs, ##)
-    //  info\O\$
-    //  l(info)
-    if fname
-      @saveToFile(fs, data, fname)
-    else
-      @saveWithDialog(fs, data)
-
-:@saveToFile
-  fs\FileSystem\$
-  data\!Blob\$
-  fname\s\$
-  fs.root.getFile(fname, {create: true}, ##, @err)
-    entry\FileEntry\$
+    if !entry
+        =>
     entry.createWriter(##, @err)
       writer\FileWriter\$
       writer.onerror = @writererr
       writer.onwriteend = ##
-        if writer.length == 0
-          writer.write(data)
-          User.storeFileName(fname)
-      writer.truncate(0)
+        // TODO: show some on-screen response.
+        l('write complete')
+      writer.write(@.htmlBlob)
 
+:@storeToSyncFs
+  data\!Blob\$
+  fname\s\?
+  if fname
+    @saveToFile(data, fname)
+  else
+    @saveWithDialog(data)
 
 :@saveWithDialog
-  fs\FileSystem\$
   data\!Blob\$
-  fs.root.createReader().readEntries(##, @err)
-    entries\!A.<!Entry>\$
-    files := []
-    for  i := 0; i < entries.length; ++i
-      if entries[i].isFile
-        files.push(entries[i].name)
-    files.sort()
-
+  f_fs.fileList(##)
+    files\!A.<s>\$
     User.fileName(##)
       default_file_name\s\$
-      f_file_dialog.save(##, default_file_name, files)
+      f_file_dialog.save(default_file_name, files, ##)
         fname\?string\$
-        fname && @saveToFile(fs, data, fname)
+        fname && @saveToFile(data, fname)
+
+:@saveToFile
+  data\!Blob\$
+  fname\s\$
+  f_fs.save(data, fname, ##)
+    fname\s\$
+    User.storeFileName(fname)
 
 :@writererr
   e\ProgressEvent\$
@@ -116,5 +80,5 @@ Sync to local file system -- currently not used.
 
 :@err
   e\FileError\$
-  l('Save error')
+  l('Export error')
   l(e)

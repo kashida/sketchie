@@ -2,14 +2,15 @@
   @element+\!Element\ @createElement()
   // TODO: Find a way to automatically link member element vars to divs in
   // the html.
-  @dialogEl+\!Element\ dom.id('file_dialog', @element)
-  @filenameEl+\!Element\ dom.id('filename', @element)
-  @saveEl\!Element\ dom.id('save', @element)
+  @dialogEl\!Element\ dom.id('file_dialog', @element)
+  @titleEl\!Element\ dom.id('title', @element)
+  @filenameEl\!Element\ dom.id('filename', @element)
+  @actionEl\!Element\ dom.id('action', @element)
   @cancelEl\!Element\ dom.id('cancel', @element)
   @fileListEl_\!Element\ dom.id('file_list', @element)
   @isActive+\b\ false
   @callback\?f(?string)\
-  dom.listen(@saveEl, 'click', ##)
+  dom.listen(@actionEl, 'click', ##)
     @deactivate(true)
   dom.listen(@cancelEl, 'click', ##)
     @deactivate(false)
@@ -26,12 +27,25 @@
   @isActive = false
 
 :save
-  cb\f(?string)\$
   default_file\s\$
   files\!A.<s>\$
+  cb\f(?string)\$
   @callback = cb
   @filenameEl.value = default_file
   @fillFileList(files)
+  @titleEl.innerHTML = 'Save To:'
+  @actionEl.innerHTML = 'save'
+  @element.classList.add('show')
+  @isActive = true
+
+:open
+  files\!A.<s>\$
+  cb\f(?string)\$
+  @callback = cb
+  @filenameEl.value = ''
+  @fillFileList(files)
+  @titleEl.innerHTML = 'Open:'
+  @actionEl.innerHTML = 'open'
   @element.classList.add('show')
   @isActive = true
 

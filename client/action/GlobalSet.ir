@@ -1,11 +1,13 @@
 ::<%.Set
   actions := [#]
+    &%.Group('file', [#])
+      &%.Open()
+      &%.Save()
+      &%.Export()
     &%.Group('add', [#])
       &%.NewDraw()
       &%.NewText()
       //&%.Paste()
-    &%.Save()
-    &%.Export()
     //&%.BackToList()
     //&%.Group('zoom', [#])
     //  &%.ZoomIn()

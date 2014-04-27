@@ -1,7 +1,7 @@
 ::
   @element+\!Element\ dom.id('itemlist')
   if run_as_extension
-    &Load().asyncLoad()
+    &Load().load(false)
   else
     dom.eachChild(@element, ##)
       el\!Element\$
@@ -40,9 +40,6 @@ All child elements need to be blessed when added, and disposed when removed.
     item\!%.Item\$
     item.restore()
 
-:clear
-  @element.innerHTML = ''
-
 :@children\!NodeList\
   => @element.children
 :@toItem
@@ -55,6 +52,10 @@ All child elements need to be blessed when added, and disposed when removed.
     el\Element\$
     arr.push(\!%.Item\(el.item))
   => arr
+
+:clear
+  @.remove(@.childrenArray)
+  @element.innerHTML = ''
 
 :first+\%.Item\
   => @toItem(@element.firstElementChild)
