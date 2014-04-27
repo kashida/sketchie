@@ -21,6 +21,8 @@
     // We can probably drop this when syncfs is working.
     "unlimitedStorage",
     // Need this for execCommand('paste').
-    "clipboardRead"
+    "clipboardRead",
+    // Store config.
+    "storage"
   ]
 }

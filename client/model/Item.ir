@@ -52,7 +52,11 @@
     item = %.Text.createFromElement(element)
   item.xform.loadFromElement(element)
   item.alphaLock = !!dom.attr(element, 'sk_alpha_lock')
-  item.blendAlpha = parseFloat(dom.attr(element, 'sk_blend_alpha'))
+  alpha := dom.attr(element, 'sk_blend_alpha')
+  if alpha
+    alpha_value := parseFloat(alpha)
+    if alpha_value >= 0 && alpha_value <= 1.0
+      item.blendAlpha = alpha_value
   => item
 
 :freeze

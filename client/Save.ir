@@ -88,7 +88,9 @@ Sync to local file system -- currently not used.
       writer.onwriteend = ##
         if writer.length == 0
           writer.write(data)
+          User.storeFileName(fname)
       writer.truncate(0)
+
 
 :@saveWithDialog
   fs\FileSystem\$

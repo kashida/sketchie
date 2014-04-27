@@ -1,0 +1,11 @@
+::
+
+:fileName = ##
+  cb\f(s)\$
+  chrome.storage.sync.get('file_name', ##)
+    fname\O\$
+    cb(fname && fname.file_name || 'sketchie.html')
+
+:storeFileName = ##
+  fname\s\$
+  chrome.storage.sync.set({file_name: fname})
