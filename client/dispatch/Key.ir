@@ -16,6 +16,6 @@
     --
     f_hex_control.deactivate()
     =>
-  // TODO: Drop the special casing for the file dialog.
-  if !f_file_dialog.isActive
+  // TODO: Make ModalContainer participate in editor.Mode too?
+  if !ui.ModalContainer.isActive()
     f_editor_modes.editor.dispatch(evt)

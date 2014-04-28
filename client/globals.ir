@@ -2,8 +2,6 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
 :~
   /** @type {Sketchie} */
   var f_sketchie;
-  /** @type {ui.FileDialog} */
-  var f_file_dialog;
   /** @type {ui.Viewport} */
   var f_viewport;
   /** @type {ui.Surface} */

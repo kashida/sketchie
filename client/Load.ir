@@ -14,7 +14,7 @@
   isHtml\b\$
   f_fs.fileList(##)
     files\!A.<s>\$
-    f_file_dialog.open(files, ##)
+    ui.FileDialog.open(files, ##)
       fname\?string\$
       fname && @readFromSyncFs(fname, true)
 

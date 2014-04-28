@@ -18,7 +18,7 @@
   => elem
 
 ::createDiv = ##
-  cls\s|A.<s>\$
+  cls\s|A.<s>\? []
   children\A.<Element>\?
   div := %.create('div', null, children)
   if cls instanceof Array
@@ -168,3 +168,12 @@ TODO: drop this and use elemRect.
   cb\f(!Element,n)\$
   for i := 0; i < el.childNodes.length; i++
     cb(el.childNodes[i], i)
+
+TODO: This is implicitly assuming the template only had one element.
+::build = ##
+  id\s\$
+  params\!O\? {}
+  div := %.createDiv()
+  div.innerHTML = Templates[id](params)
+  assert(div.children.length == 1)
+  => div.firstChild

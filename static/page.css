@@ -276,11 +276,11 @@ body {
   transition-timing-function: ease-out;
 }
 
-.file_dialog_container {
+.modal_container {
   display: none;
 }
 
-.file_dialog_container.show {
+.modal_container.show {
   display: inherit;
 }
 
@@ -292,7 +292,7 @@ body {
   width: 100%;
 }
 
-.file_dialog {
+.dialog {
   background-color: #eee;
   border-radius: 5px;
   box-shadow: 4px 6px 5px 5px rgba(0, 0, 0, 0.5);
@@ -303,33 +303,33 @@ body {
   width: 80%;
 }
 
-.file_dialog > .title {
+.dialog > .title {
   margin: 2px auto 2px 20px;
 }
 
-.file_dialog > .file_line {
+.dialog > .file_line {
   display: flex;
   margin: 5px 7px;
 }
 
-.file_dialog > .file_line > .filename {
+.dialog > .file_line > .filename {
   flex-grow: 1;
 }
 
-.file_dialog > .file_list {
+.dialog > .file_list {
   background-color: white;
   box-shadow: inset 0 0 3px 2px gray;
   margin: 5px 7px;
   padding: 5px;
 }
 
-.file_dialog > .file_list > .file_entry {
+.dialog > .file_list > .file_entry {
   border: solid cadetblue;
   border-width: 0 0 2px 0;
   margin: 2px 5px;
   padding: 0 5px;
 }
 
-.file_dialog > .file_list > .file_entry:hover {
+.dialog > .file_list > .file_entry:hover {
   background-color: khaki;
 }

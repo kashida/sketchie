@@ -15,4 +15,6 @@ TODO: Merge this with server/TemplateHandler.
 :code
   => 'var Templates = {' + [#].join(',\n') + '};'
     'page: ' + @precompile('page.html')
+    'modal_container: ' + @precompile('modal_container.html')
     'dialog: ' + @precompile('dialog.html')
+    'yesno: ' + @precompile('yesno.html')

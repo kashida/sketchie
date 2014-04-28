@@ -12,6 +12,7 @@ SERVER_IR=$(wildcard server/*.ir)
 SERVER_JS=$(patsubst %.ir,%.js,$(subst server,compiled/server,$(SERVER_IR)))
 CHROME_IR=$(wildcard chrome/*.ir)
 CHROME_JS=$(patsubst %.ir,%.js,$(subst chrome,compiled/chrome,$(CHROME_IR)))
+SHARED_JS=compiled/chrome/PrecompileTemplate.js
 
 CLOSURE_ARGS=
 CLOSURE_ARGS+=-jar closure/compiler.jar
@@ -97,7 +98,7 @@ compiled/_sketchie.js: $(CLIENT_JS) $(CLIENT_PKG)
 	@echo '===== VERIFY client: compiling'
 	java $(CLOSURE_ARGS) --js_output_file $@ --js $(CLIENT_PKG) \
 	$(addprefix --js ,$(shell $(SORTJS) $(CLIENT_JS))) || \
-	rm $@
+	(rm -f $@ && false)
 
 run: compiled/server.js
 	mkdir -p static/images
@@ -108,11 +109,11 @@ compiled/server.js: compiled/_server.js
 	@echo '===== MERGE server'
 	ir2js --merge --basedir=compiled --outfile=$@ $(SERVER_JS)
 
-compiled/_server.js: $(SERVER_JS) $(SERVER_PKG)
+compiled/_server.js: $(SERVER_JS) $(SHARED_JS) $(SERVER_PKG)
 	@echo '===== VERIFY server: compiling'
 	java $(CLOSURE_ARGS) --js_output_file $@ --js $(SERVER_PKG) \
-	$(addprefix --js ,$(shell $(SORTJS) $(SERVER_JS))) || \
-	rm $@
+	$(addprefix --js ,$(SERVER_JS) $(SHARED_JS)) || \
+	(rm -f $@ && false)
 
 tests: compiled/_tests.js
 	rm -f data/_save_test.html
@@ -126,7 +127,7 @@ compiled/_tests.js: $(CLIENT_JS) $(TESTS_JS) $(CLIENT_PKG)
 	@echo '===== VERIFY tests: compiling'
 	java $(CLOSURE_ARGS) --js_output_file $@ --js $(CLIENT_PKG) \
 	$(addprefix --js ,$(shell $(SORTJS) $(CLIENT_JS) $(TESTS_JS))) || \
-	rm $@
+	(rm -f $@ && false)
 
 
 ############################################################
@@ -140,7 +141,7 @@ compiled/_pages.js: $(CHROME_JS) $(CHROME_PKG)
 	@echo '===== VERIFY chrome pages script: compiling'
 	java $(CLOSURE_ARGS) --js_output_file $@ --js $(CHROME_PKG) \
 	$(addprefix --js ,$(shell $(SORTJS) $(CHROME_JS))) || \
-	rm $@
+	(rm -f $@ && false)
 
 crapp: compiled/pages.js client
 	rm -rf app

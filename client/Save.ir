@@ -62,7 +62,7 @@
     files\!A.<s>\$
     User.fileName(##)
       default_file_name\s\$
-      f_file_dialog.save(default_file_name, files, ##)
+      ui.FileDialog.save(default_file_name, files, ##)
         fname\?string\$
         fname && @saveToFile(data, fname)
 

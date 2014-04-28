@@ -1,5 +1,5 @@
 ::
-  @element+\!Element\ @createElement()
+  @element+\!Element\ dom.build('dialog')
   // TODO: Find a way to automatically link member element vars to divs in
   // the html.
   @dialogEl\!Element\ dom.id('file_dialog', @element)
@@ -8,46 +8,48 @@
   @actionEl\!Element\ dom.id('action', @element)
   @cancelEl\!Element\ dom.id('cancel', @element)
   @fileListEl_\!Element\ dom.id('file_list', @element)
-  @isActive+\b\ false
-  @callback\?f(?string)\
+  @callback\?f(?s)\
   dom.listen(@actionEl, 'click', ##)
     @deactivate(true)
   dom.listen(@cancelEl, 'click', ##)
     @deactivate(false)
 
-:@createElement
-  el := dom.createDiv('file_dialog_container')
-  el.innerHTML = Templates['dialog']({})
-  => el
-
 :@deactivate
   success\b\$
-  @element.classList.remove('show')
   @callback && @callback(success ? @filenameEl.value : null)
-  @isActive = false
+  %.ModalContainer.pop()
+
+:save = ##
+  default_file\s\$
+  files\!A.<s>\$
+  cb\f(?s)\$
+  &%.FileDialog().save(default_file, files, cb)
 
 :save
   default_file\s\$
   files\!A.<s>\$
-  cb\f(?string)\$
+  cb\f(?s)\$
   @callback = cb
   @filenameEl.value = default_file
   @fillFileList(files)
   @titleEl.innerHTML = 'Save To:'
   @actionEl.innerHTML = 'save'
-  @element.classList.add('show')
-  @isActive = true
+  %.ModalContainer.push(@element)
+
+:open = ##
+  files\!A.<s>\$
+  cb\f(?s)\$
+  &%.FileDialog().open(files, cb)
 
 :open
   files\!A.<s>\$
-  cb\f(?string)\$
+  cb\f(?s)\$
   @callback = cb
   @filenameEl.value = ''
   @fillFileList(files)
   @titleEl.innerHTML = 'Open:'
   @actionEl.innerHTML = 'open'
-  @element.classList.add('show')
-  @isActive = true
+  %.ModalContainer.push(@element)
 
 :@fillFileList
   files\!A.<s>\$
