@@ -1,5 +1,5 @@
 ::
-  @element+\!Element\ dom.build('dialog')
+  @element+\!Element\ dom.build('file')
   // TODO: Find a way to automatically link member element vars to divs in
   // the html.
   @dialogEl\!Element\ dom.id('file_dialog', @element)

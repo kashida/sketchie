@@ -16,5 +16,5 @@ TODO: Merge this with server/TemplateHandler.
   => 'var Templates = {' + [#].join(',\n') + '};'
     'page: ' + @precompile('page.html')
     'modal_container: ' + @precompile('modal_container.html')
-    'dialog: ' + @precompile('dialog.html')
+    'file: ' + @precompile('file.html')
     'yesno: ' + @precompile('yesno.html')

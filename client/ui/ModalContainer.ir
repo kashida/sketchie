@@ -1,0 +1,38 @@
+::
+  @element+\!Element\ dom.build('modal_container')
+  @dialogEls\!A.<!Element>\ []
+
+:@instance = \%.ModalContainer\(null)
+
+:get = ##
+  \!%.ModalContainer\
+  if !%.ModalContainer.instance
+    %.ModalContainer.instance = &%.ModalContainer()
+  => %.ModalContainer.instance
+
+:push = ##
+  dialog\!Element\$
+  %.ModalContainer.get().push(dialog)
+
+:pop = ##
+  %.ModalContainer.get().pop()
+
+:isActive = ##
+  \b\
+  => %.ModalContainer.get().isActive
+
+:push
+  dialog\!Element\$
+  if @dialogEls.length > 0
+    @element.removeChild(@dialogEls[@dialogEls.length - 1])
+  @dialogEls.push(dialog)
+  @element.appendChild(dialog)
+  @element.classList.add('show')
+
+:pop
+  @element.removeChild(@dialogEls.pop())
+  if @dialogEls.length == 0
+    @element.classList.remove('show')
+
+:isActive+\b\
+  => @dialogEls.length > 0
