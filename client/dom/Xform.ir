@@ -18,11 +18,19 @@
     dom.setAttr(@element, 'sk_rotation', @rotation.toString())
   if @scale != 1.0
     dom.setAttr(@element, 'sk_scale', @scale.toString())
+  xform := @makeXform()
+  // Need to set as a style attribute. Setting as element.style[property] will
+  // not work for the styles that Chrome doesn't understand.
+  dom.setAttr(@element, 'style', [#].join('; '))
+    'transform: ' + xform
+    '-ms-transform: ' + xform
+    '-webkit-transform: ' + xform
 
 :restore
   dom.setAttr(@element, 'sk_position')
   dom.setAttr(@element, 'sk_alpha_lock')
   dom.setAttr(@element, 'sk_alpha_blend')
+  @setXform()
 
 :centerPosition+\!data.Vec2\
   => dom.elemRect(@element.firstElementChild).center.plus(@position)
@@ -54,7 +62,7 @@
   @scale = value
   @setXform()
 
-:@setXform
+:@makeXform\s\
   xforms := []
   if @position.x != 0 || @position.y != 0
     xforms.push('translate(' + @position.x + 'px,' + @position.y + 'px)')
@@ -62,7 +70,10 @@
     xforms.push('rotate(' + @rotation + 'rad)')
   if @scale != 1.0
     xforms.push('scale(' + @scale + ')')
-  @element.style['-webkit-transform'] = xforms.join(' ')
+  => xforms.join(' ')
+
+:@setXform
+  @element.style['-webkit-transform'] = @makeXform()
 
 :@clearXform
   @element.style['-webkit-transform'] = ''
