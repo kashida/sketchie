@@ -52,20 +52,9 @@
   @filesystem(##)
     fs\!FileSystem\$
     fs.root.getFile(fname, {create: true}, ##, @err)
-      entry\FileEntry\$
-      entry.createWriter(##, @err)
-        writer\FileWriter\$
-        writer.onerror = @writererr
-        writer.onwriteend = ##
-          if writer.length == 0
-            writer.write(data)
-            cb(fname)
-        writer.truncate(0)
-
-:@writererr
-  e\ProgressEvent\$
-  l('SyncFs writer error')
-  l(e)
+      entry\!FileEntry\$
+      fs.write(entry, data, ##)
+        cb(fname)
 
 :@err
   e\FileError\$

@@ -38,15 +38,7 @@
 :exportLocal
   chrome.fileSystem.chooseEntry({type: 'saveFile'}, ##)
     entry\Entry\?
-    if !entry
-        =>
-    entry.createWriter(##, @err)
-      writer\FileWriter\$
-      writer.onerror = @writererr
-      writer.onwriteend = ##
-        // TODO: show some on-screen response.
-        l('write complete')
-      writer.write(@.htmlBlob)
+    entry && fs.write(\!Entry\(entry), @.htmlBlob)
 
 :@storeToSyncFs
   data\!Blob\$
@@ -72,13 +64,3 @@
   f_fs.save(data, fname, ##)
     fname\s\$
     User.storeFileName(fname)
-
-:@writererr
-  e\ProgressEvent\$
-  l('Writer error')
-  l(e)
-
-:@err
-  e\FileError\$
-  l('Export error')
-  l(e)

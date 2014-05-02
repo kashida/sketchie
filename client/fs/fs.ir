@@ -1,0 +1,23 @@
+::write = ##
+  entry\!Entry\$
+  data\!Blob\$
+  cb\f()\?
+  entry.createWriter(##, fs.err)
+    writer\FileWriter\$
+    writer.onerror = fs.writerErr
+    writer.onwriteend = ##
+      // TODO: show some on-screen response.
+      if writer.length == 0
+        writer.write(data)
+        cb && cb()
+    writer.truncate(0)
+
+::writerErr = ##
+  e\ProgressEvent\$
+  l('FileSystem writer error')
+  l(e)
+
+::err = ##
+  e\FileError\$
+  l('FileSystem error')
+  l(e)
