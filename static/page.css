@@ -293,9 +293,14 @@ body {
 }
 
 .dialog {
+  align-items: stretch;
+  align-content: stretch;
   background-color: #eee;
   border-radius: 5px;
   box-shadow: 4px 6px 5px 5px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
   position: absolute;
   max-height: 80%;
   left: 10%;
@@ -304,11 +309,13 @@ body {
 }
 
 .dialog > .title {
-  margin: 2px auto 2px 20px;
+  flex: 0 0 auto;
+  margin: 7px auto 2px 7px;
 }
 
 .dialog > .file_line {
   display: flex;
+  flex: 0 0 auto;
   margin: 5px 7px;
 }
 
@@ -319,7 +326,9 @@ body {
 .dialog > .file_list {
   background-color: white;
   box-shadow: inset 0 0 3px 2px gray;
+  flex: 1 1 auto;
   margin: 5px 7px;
+  overflow: auto;
   padding: 5px;
 }
 
