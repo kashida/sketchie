@@ -58,7 +58,7 @@ Works for extension too if statically built and linked.
   f_tool_palette = &palette.Tool()
   f_item_palette = &palette.Item()
   f_cursor = &ui.Cursor()
-  f_fs = &fs.SyncFs()
+  f_fs = &io.SyncFs()
 
   f_editor_modes = &editor.Modes('l', {#})
     'l': &editor.List()

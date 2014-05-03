@@ -36,5 +36,5 @@ Global components of the app -- i.e. only one instance in the lifetime of the ap
   var f_selection_actions;
   /** @type {model.Page} */
   var f_page;
-  /** @type {fs.FileSystem} */
+  /** @type {io.FileSystem} */
   var f_fs;

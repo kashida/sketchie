@@ -38,7 +38,7 @@
 :exportLocal
   chrome.fileSystem.chooseEntry({type: 'saveFile'}, ##)
     entry\Entry\?
-    entry && fs.write(\!Entry\(entry), @.htmlBlob)
+    entry && io.write(\!Entry\(entry), @.htmlBlob)
 
 :@storeToSyncFs
   data\!Blob\$

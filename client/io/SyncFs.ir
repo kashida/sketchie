@@ -53,7 +53,7 @@
     fs\!FileSystem\$
     fs.root.getFile(fname, {create: true}, ##, @err)
       entry\!FileEntry\$
-      fs.write(entry, data, ##)
+      %.write(entry, data, ##)
         cb(fname)
 
 :@err
