@@ -26,28 +26,4 @@
 
 :shiftOneWithOverlap
   send_back\b\$
-  // First find a selected item and then find a non-selected item that has
-  // overlapping region with one of the selected items.
-  found_selected := []
-  to_move := []
-  found := false
-  f_page.list.until(send_back, ##)
-    item\model.Item\$
-    if f_page.selection.isSelected(item)
-      found_selected.push(item)
-    else if found_selected.length > 0
-      to_move.push(item)
-      if dom.overlapWithAny(item.element, found_selected.map(##))
-        item\%.Item\$
-        => item.element
-        --
-        // All the non-selected items after the first selected maybe
-        // non-overlapping, so we need this flag.
-        found = true
-        => true
-    => false
-  if to_move.length > 0 && found
-    if send_back
-      f_page.list.insertBefore(found_selected[0], to_move)
-    else
-      f_page.list.insertAfter(found_selected[0], to_move)
+  &%.ZShifter(send_back).shift()

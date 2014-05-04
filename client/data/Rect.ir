@@ -64,6 +64,14 @@ In place expansion of the rect to include the given point.
     Math.max(@x1, other.x1)
     Math.max(@y1, other.y1)
 
+:doesOverlap\b\
+  other\!%.Rect\$
+  => #&&
+    @x0 < other.x1
+    @x1 > other.x0
+    @y0 < other.y1
+    @y1 > other.y0
+
 :within\!%.Rect\
   other\!%.Rect\$
   => &%.Rect(#)

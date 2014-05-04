@@ -1,0 +1,51 @@
+Shifts the z position of the selected item by by a minimum amount that has
+visual difference. I.e. it only considers items that have overlapping regions
+with the selected items.
+
+Not all the selected items are considered or moved, as long as there is at least
+one selected item that has visual change.
+
+It actually moves the non-selected items (instead of moving the selected items),
+e.g. if there are items [S N O] where S is a selected item, N is a non-selected
+item with no overlap with S, and O is also a non-selected item but with overlap
+with S, [N O] are moved to before S. N has to move too, in order to preserve
+the relative order of N and O.
+::
+  @send_back\b\$
+  @found_selected\!A.<!model.Item>\ []
+  @found_selected_bbox\!A.<!data.Rect>\ []
+  @to_move\!A.<!model.Item>\ []
+  @found\b\ false
+
+:shift
+  @findElementsToMove()
+  if @to_move.length > 0 && @found
+    if @send_back
+      f_page.list.insertBefore(@found_selected[0], @to_move)
+    else
+      f_page.list.insertAfter(@found_selected[0], @to_move)
+
+First find a selected item and then find a non-selected item that has
+overlapping region with one of the selected items.
+:@findElementsToMove
+  f_page.list.until(@send_back, ##)
+    item\!model.Item\$
+    if f_page.selection.isSelected(item)
+      @found_selected.push(item)
+      @found_selected_bbox.push(item.xform.bbox)
+    else if @found_selected.length > 0
+      @to_move.push(item)
+      if @doesOverlapWithAny(item.xform.bbox, @found_selected_bbox)
+        // All the non-selected items after the first selected maybe
+        // non-overlapping, so we need this flag.
+        @found = true
+        => true
+    => false
+
+:@doesOverlapWithAny\b\
+  bbox\!data.Rect\$
+  regions\!A.<!data.Rect>\$
+  => regions.some(##)
+    r\!data.Rect\$
+    // TODO: Consider rotation and scaling.
+    => bbox.doesOverlap(r)

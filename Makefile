@@ -107,7 +107,7 @@ run: compiled/server.js
 
 compiled/server.js: compiled/_server.js
 	@echo '===== MERGE server'
-	ir2js --merge --basedir=compiled --outfile=$@ $(SERVER_JS)
+	ir2js --merge --basedir=compiled --outfile=$@ $(SERVER_JS) $(SHARED_JS)
 
 compiled/_server.js: $(SERVER_JS) $(SHARED_JS) $(SERVER_PKG)
 	@echo '===== VERIFY server: compiling'

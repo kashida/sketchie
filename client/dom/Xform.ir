@@ -32,10 +32,15 @@
   dom.setAttr(@element, 'sk_alpha_blend')
   @setXform()
 
+Document coords position, bottom-right position, and bounding-box.
 :centerPosition+\!data.Vec2\
   => dom.elemRect(@element.firstElementChild).center.plus(@position)
 :positionBR+\!data.Vec2\
   => dom.elemPositionBR(@element.firstElementChild).plus(@position)
+:bbox+\!data.Rect\
+  => @.rect.plus(@position)
+
+Item coords rect.
 :rect+\!data.Rect\
   => dom.elemRect(@element.firstElementChild)
 
