@@ -57,7 +57,12 @@ TODO: Normalize to a smaller dom tree, e.g. div around br isn't necessary.
 :@makeMinimumTextDiv
   str\s\? ''
   div := dom.create('div')
-  lines := str.trim().split('\n')
+  str = str.trim()
+  if !str
+    div.appendChild(dom.create('br'))
+    => div
+
+  lines := str.split('\n')
   lines.forEach(##)
     line\s\$
     index\n\$
@@ -66,8 +71,6 @@ TODO: Normalize to a smaller dom tree, e.g. div around br isn't necessary.
       brdiv := dom.create('div')
       brdiv.appendChild(dom.create('br'))
       div.appendChild(brdiv)
-  if !lines.length
-    div.appendChild(dom.create('br'))
   => div
 
 Make sure there is at least one div left when there is backspace in text
