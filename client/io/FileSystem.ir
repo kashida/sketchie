@@ -1,13 +1,13 @@
 ::
 
 :fileList
-  cb\f(!A.<s>)\$
+  cb\f(A<s>)\$
 
 :load
   fname\s\$
   cb\f(s)\$
 
 :save
-  data\!Blob\$
+  data\Blob\$
   fname\s\$
   cb\f(s)\$

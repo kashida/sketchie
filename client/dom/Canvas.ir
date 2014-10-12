@@ -1,23 +1,20 @@
 Convenience wrapper for the html canvas.
 ::
-  // If two values, (width, height).  if one value, (canvas_element).
-  // x and y, if provided, specify the logical position of this canvas in
-  // document coords.
-  canvas_or_w\HTMLCanvasElement|n\$
-  h\n\?
-  @element+\HTMLCanvasElement\
-  @ctx+\CanvasRenderingContext2D\
+  @element+\HTMLCanvasElement\$
+  @ctx+\CanvasRenderingContext2D\ \CanvasRenderingContext2D\(#)
+    @element.getContext('2d')
   @scale\n\ 1.0
-  if h
-    @element = %.create('canvas')
-    @element.width = canvas_or_w
-    @element.height = h
-  else
-    @element = \HTMLCanvasElement\(canvas_or_w)
-  @ctx = @element.getContext('2d')
+
+:fromSize = ##
+  w\n\$
+  h\n\$
+  e := ~create('canvas')
+  e.width = w
+  e.height = h
+  => &~(e)
 
 :opacity*
-  val\?s|n\$
+  val\s|n|-\$
   @element.style.opacity = val
 
 :show
@@ -40,18 +37,18 @@ TODO: Make it a private method.
   @element.width = @element.clientWidth / @scale
   @element.height = @element.clientHeight / @scale
 
-:pixelData+\!pixel.Data\
-  => &pixel.Data(@ctx.getImageData(0, 0, @element.width, @element.height))
+:pixelData+\$pixel.Data\
+  => &$pixel.Data(@ctx.getImageData(0, 0, @element.width, @element.height))
 
-:duplicate\!HTMLCanvasElement\
-  cvs := %.create('canvas')
+:duplicate\HTMLCanvasElement\
+  cvs := ~create('canvas')
   cvs.width = @element.width
   cvs.height = @element.height
   cvs.getContext('2d').putImageData(@.pixelData.pixels, 0, 0)
   => cvs
 
 :copyFrom
-  cvs\!HTMLCanvasElement\$
+  cvs\HTMLCanvasElement\$
   @ctx.putImageData(cvs.getContext('2d').getImageData(#), 0, 0)
     0
     0
@@ -66,7 +63,7 @@ TODO: Make it a private method.
   @.scale = 1.0
 
 :setToRect
-  r\!data.Rect\$
+  r\$data.Rect\$
   @element.style.left = r.x0 + 'px'
   @element.style.top = r.y0 + 'px'
   @element.style.width = r.w + 'px'

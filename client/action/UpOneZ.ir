@@ -1,4 +1,4 @@
-::<%.Action
+::^~Action
   ^('ZOrderU', 'N:s', 'z up')
 
 :trigger

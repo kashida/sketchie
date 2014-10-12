@@ -2,8 +2,10 @@ Canvas that's fixed to the viewport size.
 ::
   canvas_or_w\HTMLCanvasElement|n\$
   h\n\?
-  @canvas\!dom.Canvas\ &dom.Canvas(canvas_or_w, h)
-  @bbox+\data.Rect\
+  @canvas\$dom.Canvas\ canvas_or_w instanceof HTMLCanvasElement ? # : #
+    &$dom.Canvas(canvas_or_w)
+    $dom.Canvas.fromSize(canvas_or_w, \n\(h))
+  @bbox+\$data.Rect|-\
 
 :element+\HTMLCanvasElement\
   => @canvas.element
@@ -11,21 +13,21 @@ Canvas that's fixed to the viewport size.
 :context+\CanvasRenderingContext2D\
   => @canvas.ctx
 
-:duplicateCanvas\!HTMLCanvasElement\
+:duplicateCanvas\HTMLCanvasElement\
   => @canvas.duplicate()
 
 :copyFrom
-  cvs\!HTMLCanvasElement\$
+  cvs\HTMLCanvasElement\$
   @canvas.copyFrom(cvs)
 
 :clear
   @canvas.clear()
 
-:pixelData+\!pixel.Data\
+:pixelData+\$pixel.Data\
   => @canvas.pixelData
 
 :attachToImage
-  img\!model.Image\$
+  img\$model.Image\$
   img.element.appendChild(@canvas.element)
 
 :attachBeforeElement
@@ -36,7 +38,7 @@ Canvas that's fixed to the viewport size.
   @canvas.detach()
 
 :activate
-  img\model.Image\$
+  img\$model.Image|-\$
   drawImage\b\? true
   @canvas.show()
   // TODO: This save probably needs to be done after canvas.setToRect is
@@ -53,16 +55,16 @@ Canvas that's fixed to the viewport size.
   @.updateAlphaLock(!!img && img.alphaLock)
 
 :@setCanvasToCoverViewport
-  img\!model.Image\$
+  img\$model.Image\$
   // Item coordinates bbox of the viewport.
   bbox := null
-  &dom.ClientRect().points.forEach(##)
-    p\!data.Vec2\$
-    item_p := ui.Coords.view2item(p, \!dom.Xform\(img.xform))
+  &$dom.ClientRect().points.forEach(##)
+    p\$data.Vec2\$
+    item_p := ~Coords.view2item(p, \$dom.Xform\(img.xform))
     if bbox
       bbox.expandToInclude(item_p)
     else
-      bbox = &data.Rect(item_p.x, item_p.y, item_p.x, item_p.y)
+      bbox = &$data.Rect(item_p.x, item_p.y, item_p.x, item_p.y)
   // Item coord's origin is at the center of image. but canvas position needs 
   // to be specified with the item div's coords.
   @bbox = bbox
@@ -71,7 +73,7 @@ Canvas that's fixed to the viewport size.
   @canvas.ctx.translate(-@bbox.x0, -@bbox.y0)
 
 :@setCanvasXformToItem
-  img\!model.Image\$
+  img\$model.Image\$
   p := img.xform.position
   @canvas.ctx.translate(-p.x, -p.y)
 
@@ -95,24 +97,24 @@ Canvas that's fixed to the viewport size.
 
 Val is the opacity value [0, 1.0], but resets to default when null.
 :opacity*
-  val\?s|n\$
+  val\s|n|-\$
   @canvas.opacity = val
 
 Takes view coordinates and returns [r, g, b, a] array in [0, 255] range.
-:pickColor\data.Color\
+:pickColor\$data.Color\
   x\n\$
   y\n\$
   scale := f_viewport.xform.scale
   pixels := @canvas.ctx.getImageData(x / scale, y / scale, 1, 1)
   d := pixels.data
-  => data.Color.fromByteRange(d[0], d[1], d[2], d[3])
+  => $data.Color.fromByteRange(d[0], d[1], d[2], d[3])
 
-:imageSpec\pixel.PositionedPixels\
-  orig_img\!model.Image\?
+:imageSpec\$pixel.PositionedPixels|-\
+  orig_img\$model.Image\?
   // Produce image spec of this surface plus the original image.
   // Size of the image is reduced to the tight bound.
   pixelData := @canvas.pixelData
   => #?
     orig_img
-    &pixel.Merge(pixelData, orig_img).pixels()
+    &$pixel.Merge(pixelData, orig_img).pixels()
     pixelData.positioned()

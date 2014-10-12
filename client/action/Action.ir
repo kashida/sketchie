@@ -1,6 +1,6 @@
 ::
   @name+\s\$
-  @key+\s|!A.<s>\? ''
+  @key+\s|A<s>\? ''
   @text+\s\? ''
 
 :isActive+\b\

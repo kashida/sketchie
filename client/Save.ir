@@ -1,9 +1,9 @@
 ::
 
-:json+\!Blob\
+:json+\Blob\
   => JSON.stringify(f_page.list.serializable)
 
-:jsonBlob+\!Blob\
+:jsonBlob+\Blob\
   => &Blob([@.json], {type: 'application/json'})
 
 :html+\s\
@@ -16,12 +16,12 @@
     init: ''
     contents: #+
       '<div class="itemlist">'
-      dom.id('itemlist').innerHTML
+      $dom.id('itemlist').innerHTML
       '</div>\n'
   f_page.restore()
   => page
 
-:htmlBlob+\!Blob\
+:htmlBlob+\Blob\
   => &Blob([@.html], {type: 'text/html'})
 
 :store
@@ -37,11 +37,11 @@
 
 :exportLocal
   chrome.fileSystem.chooseEntry({type: 'saveFile'}, ##)
-    entry\Entry\?
-    entry && io.write(\!Entry\(entry), @.htmlBlob)
+    entry\Entry|-\?
+    entry && $io.write(\Entry\(entry), @.htmlBlob)
 
 :@storeToSyncFs
-  data\!Blob\$
+  data\Blob\$
   fname\s\?
   if fname
     @saveToFile(data, fname)
@@ -49,17 +49,17 @@
     @saveWithDialog(data)
 
 :@saveWithDialog
-  data\!Blob\$
+  data\Blob\$
   f_fs.fileList(##)
-    files\!A.<s>\$
+    files\A<s>\$
     User.fileName(##)
       default_file_name\s\$
-      ui.FileDialog.save(default_file_name, files, ##)
-        fname\?string\$
+      $ui.FileDialog.save(default_file_name, files, ##)
+        fname\s|-\$
         fname && @saveToFile(data, fname)
 
 :@saveToFile
-  data\!Blob\$
+  data\Blob\$
   fname\s\$
   f_fs.save(data, fname, ##)
     fname\s\$

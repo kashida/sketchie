@@ -2,52 +2,52 @@
   @x&\n\$
   @y&\n\$
 
-:str+\!s\
+:str+\s\
   => JSON.stringify(@.serializable)
 
 :fromStr = ##
-  \%.Vec2\
+  \~\
   str\s\$
-  => %.Vec2.createFromObj(\!A.<n>\(JSON.parse(str)))
+  => ~.createFromObj(\A<n>\(JSON.parse(str)))
 
-:clone+\!%.Vec2\
-  => &%.Vec2(@x, @y)
+:clone+\~\
+  => &~(@x, @y)
 
 :serializable+\O\
   => [@x, @y]
 
 :createFromObj = ##
-  \!%.Vec2\
-  list\!A.<n>\$
-  => &%.Vec2(list[0], list[1])
+  \~\
+  list\A<n>\$
+  => &~(list[0], list[1])
 
-:minus\!%.Vec2\
-  other\%.Vec2\$
-  => &%.Vec2(@x - other.x, @y - other.y)
+:minus\~\
+  other\~\$
+  => &~(@x - other.x, @y - other.y)
 
-:plus\!%.Vec2\
-  other\n|!%.Vec2\$
-  if other instanceof %.Vec2
-    => &%.Vec2(@x + other.x, @y + other.y)
+:plus\~\
+  other\n|~\$
+  if other instanceof ~
+    => &~(@x + other.x, @y + other.y)
   else
-    => &%.Vec2(@x + other, @y + other)
+    => &~(@x + other, @y + other)
 
-:plus2n\!%.Vec2\
+:plus2n\~\
   other_x\n\$
   other_y\n\$
-  => &%.Vec2(@x + other_x, @y + other_y)
+  => &~(@x + other_x, @y + other_y)
 
-:mult\!%.Vec2\
+:mult\~\
   s\n\$
-  => &%.Vec2(@.x * s, @y * s)
+  => &~(@.x * s, @y * s)
 
-:div\!%.Vec2\
+:div\~\
   s\n\$
-  => &%.Vec2(@x / s, @y / s)
+  => &~(@x / s, @y / s)
 
-:rotate\!%.Vec2\
+:rotate\~\
   // In radian.
   r\n\$
   s := Math.sin(r)
   c := Math.cos(r)
-  => &%.Vec2(@x * c - @y * s, @x * s + @y * c)
+  => &~(@x * c - @y * s, @x * s + @y * c)

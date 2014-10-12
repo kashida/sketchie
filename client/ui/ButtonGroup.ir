@@ -1,13 +1,13 @@
 ::
-  @title\string\$
-  @element+\Element\ dom.createDiv(['buttongroup'])
-  @buttons\A.<%.Button>\ []
+  @title\s\$
+  @element+\Element\ $dom.createDiv(['buttongroup'])
+  @buttons\A<~Button>\ []
   @element.appendChild(#)
-    dom.createDiv('buttongroup_label', [#])
-      dom.createText(@title)
+    $dom.createDiv('buttongroup_label', [#])
+      $dom.createText(@title)
 
 :add
-  act\action.Action\$
-  b := &ui.Button(act)
+  act\$action.Action\$
+  b := &$ui.Button(act)
   @buttons.push(b)
   @element.appendChild(b.element)

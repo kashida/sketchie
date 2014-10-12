@@ -1,20 +1,20 @@
 // Copy the selected item.
-::<%.Action
+::^~Action
   ^('Dup', 'C', 'copy')
 
 :trigger
   // Need to make a copy because f_page.selection.list gets destroyed
   // during the copies.
   f_page.selection.list.slice(0).forEach(##)
-    item\model.Item\$
-    if item instanceof model.Text
+    item\$model.Item\$
+    if item instanceof $model.Text
       f_editor_modes.changeModeTo('tc')
     else
-      @copyImageItem(\model.Image\(item))
+      @copyImageItem(\$model.Image\(item))
 
 :@copyImageItem
-  orig_item\model.Image\$
-  img := &pixel.PositionedPixels(#).makeImageItem()
+  orig_item\$model.Image\$
+  img := &$pixel.PositionedPixels(#).makeImageItem()
     orig_item.xform.position.plus(10)
     orig_item.src
   img.xform.rotation = orig_item.xform.rotation

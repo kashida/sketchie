@@ -4,7 +4,7 @@
   y\n\$
   r\n\$
   lerp\n\$
-  color\data.Color\$
+  color\$data.Color\$
   if lerp != 0
     gradient := ctx.createRadialGradient(x, y, 0, x, y, r)
     gradient.addColorStop(0, color.rgba)

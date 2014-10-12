@@ -1,14 +1,14 @@
-::<%.Set
+::^~Set
   actions := [#]
-    &%.Delete()
-    //&%.Merge()
-    &%.Duplicate()
-    &%.ClearSelection()
-    &%.ToBottomZ()
-    &%.ToTopZ()
-    &%.DownOneZ()
-    &%.UpOneZ()
-  ^(actions, &ui.SelectionBox())
+    &~Delete()
+    //&~Merge()
+    &~Duplicate()
+    &~ClearSelection()
+    &~ToBottomZ()
+    &~ToTopZ()
+    &~DownOneZ()
+    &~UpOneZ()
+  ^(actions, &$ui.SelectionBox())
 
 :init
   f_page.selection.onChange.then(##)

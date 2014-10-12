@@ -1,13 +1,13 @@
-::<%.Dragger
-  @item\model.Item\
-  @center\data.Vec2\
-  @start_dist\n?\
+::^~Dragger
+  @item\$model.Item|-\
+  @center\$data.Vec2|-\
+  @start_dist\n|-\
 
 :activate
-  item\model.Item\$
+  item\$model.Item\$
   @item = item
   @center = item.xform.rect.center
-  @start = null
+  @start_dist = null
   f_dispatcher.dragStart(@)
 
 :deactivate
@@ -16,7 +16,7 @@
   @start_dist = null
   f_dispatcher.dragTerminate()
 
-:<dragUpdate
+:dragUpdate^
   evt\Event\$
   dx := evt.clientX - @center.x
   dy := evt.clientY - @center.y

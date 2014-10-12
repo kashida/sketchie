@@ -1,63 +1,63 @@
 ::
-  @element+\!Element\ dom.build('file')
+  @element+\Element\ $dom.build('file')
   // TODO: Find a way to automatically link member element vars to divs in
   // the html.
-  @dialogEl\!Element\ dom.id('file_dialog', @element)
-  @titleEl\!Element\ dom.id('title', @element)
-  @filenameEl\!Element\ dom.id('filename', @element)
-  @actionEl\!Element\ dom.id('action', @element)
-  @cancelEl\!Element\ dom.id('cancel', @element)
-  @fileListEl_\!Element\ dom.id('file_list', @element)
-  @callback\?f(?s)\
-  dom.listen(@actionEl, 'click', ##)
+  @dialogEl\Element\ $dom.id('file_dialog', @element)
+  @titleEl\Element\ $dom.id('title', @element)
+  @filenameEl\Element\ $dom.id('filename', @element)
+  @actionEl\Element\ $dom.id('action', @element)
+  @cancelEl\Element\ $dom.id('cancel', @element)
+  @fileListEl_\Element\ $dom.id('file_list', @element)
+  @callback\f(s|-)|-\
+  $dom.listen(@actionEl, 'click', ##)
     @deactivate(true)
-  dom.listen(@cancelEl, 'click', ##)
+  $dom.listen(@cancelEl, 'click', ##)
     @deactivate(false)
 
 :@deactivate
   success\b\$
   @callback && @callback(success ? @filenameEl.value : null)
-  %.ModalContainer.pop()
+  ~ModalContainer.pop()
 
 :save = ##
   default_file\s\$
-  files\!A.<s>\$
-  cb\f(?s)\$
-  &%.FileDialog().save(default_file, files, cb)
+  files\A<s>\$
+  cb\f(s|-)\$
+  &~().save(default_file, files, cb)
 
 :save
   default_file\s\$
-  files\!A.<s>\$
-  cb\f(?s)\$
+  files\A<s>\$
+  cb\f(s|-)\$
   @callback = cb
   @filenameEl.value = default_file
   @fillFileList(files)
   @titleEl.innerHTML = 'Save To:'
   @actionEl.innerHTML = 'save'
-  %.ModalContainer.push(@element)
+  ~ModalContainer.push(@element)
 
 :open = ##
-  files\!A.<s>\$
-  cb\f(?s)\$
-  &%.FileDialog().open(files, cb)
+  files\A<s>\$
+  cb\f(s|-)\$
+  &~().open(files, cb)
 
 :open
-  files\!A.<s>\$
-  cb\f(?s)\$
+  files\A<s>\$
+  cb\f(s|-)\$
   @callback = cb
   @filenameEl.value = ''
   @fillFileList(files)
   @titleEl.innerHTML = 'Open:'
   @actionEl.innerHTML = 'open'
-  %.ModalContainer.push(@element)
+  ~ModalContainer.push(@element)
 
 :@fillFileList
-  files\!A.<s>\$
+  files\A<s>\$
   @fileListEl_.innerHTML = ''
-  dom.appendChildren(@fileListEl_, files.map(##))
+  $dom.appendChildren(@fileListEl_, files.map(##))
     file\s\$
-    entry := dom.createDiv('file_entry')
+    entry := $dom.createDiv('file_entry')
     entry.innerHTML = file
-    dom.listen(entry, 'click', ##)
+    $dom.listen(entry, 'click', ##)
       @filenameEl.value = file
     => entry

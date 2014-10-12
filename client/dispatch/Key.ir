@@ -1,6 +1,6 @@
 ::
   // Key control.
-  dom.listen(document.body, 'keyup', ##)
+  $dom.listen(\Element\(document.body), 'keyup', ##)
     evt\KeyboardEvent\$
     @dispatch(evt)
 
@@ -17,5 +17,5 @@
     f_hex_control.deactivate()
     =>
   // TODO: Make ModalContainer participate in editor.Mode too?
-  if !ui.ModalContainer.isActive()
+  if !$ui.ModalContainer.isActive()
     f_editor_modes.editor.dispatch(evt)

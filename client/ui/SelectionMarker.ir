@@ -1,5 +1,5 @@
 ::
-  @element+\Element\ dom.createDiv('selection_marker')
+  @element+\Element\ $dom.createDiv('selection_marker')
 
 :init
   f_page.selection.onChange.then(##)
@@ -12,7 +12,7 @@
       @setRect()
 
 :rect*
-  r\data.Rect\$
+  r\$data.Rect|-\$
   if r
     @element.style.width = r.w + 'px'
     @element.style.height = r.h + 'px'
@@ -31,16 +31,16 @@
 
   rect := null
   f_page.selection.list.forEach(##)
-    item\model.Item\$
+    item\$model.Item\$
     // TODO: elemRect doesn't consider rotation or scaling.
-    //r := dom.elemRect(\!Element\(item.element))
+    //r := $dom.elemRect(\!Element\(item.element))
     p := item.xform.position
     if !rect
-      rect = &data.Rect(p.x, p.y, p.x, p.y)
+      rect = &$data.Rect(p.x, p.y, p.x, p.y)
     else
       rect.expandToInclude(p)
     pBR := item.xform.positionBR
     rect.expandToInclude(pBR)
-  @.rect = data.Rect.fromVecs(#).within(&dom.ClientRect().expand(-10))
-    ui.Coords.doc2view(rect.p00)
-    ui.Coords.doc2view(rect.p11)
+  @.rect = $data.Rect.fromVecs(#).within(&$dom.ClientRect().expand(-10))
+    ~Coords.doc2view(rect.p00)
+    ~Coords.doc2view(rect.p11)

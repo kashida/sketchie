@@ -1,33 +1,33 @@
 Wrapper of HTML's ImageData.
 ::
-  @pixels+\!ImageData\$
+  @pixels+\ImageData\$
 
 :width+\n\
   => @pixels.width
 :height+\n\
   => @pixels.height
 
-:positioned\pixel.PositionedPixels\
-  offset\!data.Vec2\? &data.Vec2(0, 0)
+:positioned\~PositionedPixels|-\
+  offset\\? $data.Vec2(0, 0)
   rect := @.tightBound()
   if !rect
     => null
-  => &pixel.PositionedPixels(#)
+  => &~PositionedPixels(#)
     rect.p00.plus(offset)
     @.urlWithCrop(rect)
 
 :urlWithCrop\s\
   // Coords relative to @pixels.
-  rect\data.Rect\$
+  rect\$data.Rect\$
   w := rect.w + 1
   h := rect.h + 1
-  cvs := &dom.Canvas(w, h)
+  cvs := $dom.Canvas.fromSize(w, h)
   cvs.ctx.putImageData(@pixels, -rect.x0, -rect.y0, rect.x0, rect.y0, w, h)
   => cvs.dataUrl()
 
 Finds the rectangle in the image where @pixels actually have colors.
 Resulting coordinates are relative to the @pixels.
-:tightBound\data.Rect\
+:tightBound\$data.Rect|-\
   miny := minx := maxy := maxx := null
   has_value := ##
     x\n\$
@@ -46,13 +46,13 @@ Resulting coordinates are relative to the @pixels.
     if row_has_value(y)
       miny = y
       break
-  if miny === null
+  if miny == null
     => null
   for y = @pixels.height - 1; y >= miny; y--
     if row_has_value(y)
       maxy = y
       break
-  if maxy === null
+  if maxy == null
     => null
 
   // Find the minimum and maximum x values that has any pixel.
@@ -66,12 +66,12 @@ Resulting coordinates are relative to the @pixels.
     if col_has_value(x)
       minx = x
       break
-  if minx === null
+  if minx == null
     => null
   for x = @pixels.width - 1; x >= minx; x--
     if col_has_value(x)
       maxx = x
       break
-  if maxx === null
+  if maxx == null
     => null
-  => &data.Rect(minx, miny, maxx, maxy)
+  => &$data.Rect(minx, miny, maxx, maxy)

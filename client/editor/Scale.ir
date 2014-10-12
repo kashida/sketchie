@@ -1,8 +1,8 @@
-::<%.Editor
-  @dragger\drag.Scale\ &drag.Scale()
+::^~Editor
+  @dragger\\ $drag.Scale()
   ^()
 
-:<activate\b\
+:activate^\b\
   sub_mode\s\$
   @dragger.activate(f_page.selection.head)
   => true

@@ -1,7 +1,7 @@
-::<%.Action
+::^~Action
   ^('ExpSelDown', 'J:s', 'expand down')
 
 :trigger
   current := f_page.selection.head
-  &model.MoveSelection(true, true)
+  &$model.MoveSelection(true, true)
   f_page.selection.add(current)

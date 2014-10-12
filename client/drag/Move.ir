@@ -1,8 +1,8 @@
-::<%.Dragger
-  @item\model.Item\$
-  @mouse_pos\data.Vec2\
-  @base_pos\data.Vec2\
-  dom.listen(@item.element, 'mousedown', ##)
+::^~Dragger
+  @item\$model.Item\$
+  @mouse_pos\\ $data.Vec2(0, 0)
+  @base_pos\\ $data.Vec2(0, 0)
+  $dom.listen(\Element\(@item.element), 'mousedown', ##)
     evt\Event\$
     @dragStart(evt)
 
@@ -12,20 +12,20 @@
     =>
   if evt.shiftKey || evt.ctrlKey
     => false
-  @mouse_pos = &data.Vec2(evt.clientX, evt.clientY)
-  @base_pos = @item.xform.position
+  @mouse_pos = &$data.Vec2(evt.clientX, evt.clientY)
+  @base_pos = \$data.Vec2\(@item.xform.position)
   f_dispatcher.dragStart(@)
   evt.preventDefault()
   f_editor_modes.popAll()
   => true
 
-:<dragUpdate
+:dragUpdate^
   evt\Event\$
   scale := f_viewport.xform.scale
-  @item.xform.position = &data.Vec2(#)
+  @item.xform.position = &$data.Vec2(#)
     @base_pos.x + (evt.clientX - @mouse_pos.x) / scale
     @base_pos.y + (evt.clientY - @mouse_pos.y) / scale
 
-:<dragEnd
+:dragEnd^
   evt\Event\$
   @.dragUpdate(evt)

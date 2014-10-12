@@ -1,9 +1,9 @@
 ::
-  @pixelData\%.Data\$
+  @pixelData\~Data\$
   // this gets added to the outside of the pixels bound.
-  @orig_img\!model.Image\$
+  @orig_img\$model.Image\$
 
-:pixels\%.PositionedPixels\
+:pixels\~PositionedPixels|-\
   // tight bounds of the pixels in canvas (i.e. viewport) coordinates.
   pixels_rect := @pixelData.tightBound()
   if !pixels_rect
@@ -11,18 +11,18 @@
 
   // Find the rect that can contain pixels_rect and the transformed image
   // in document coords.
-  img0 := ui.Coords.itemToSurface(@orig_img.xform.position)
-  img1 := ui.Coords.itemToSurface(@orig_img.xform.positionBR)
-  union := &%.UnionRect(pixels_rect)
-  union.add(@orig_img, &data.Rect(img0.x, img0.y, img1.x, img1.y))
+  img0 := $ui.Coords.itemToSurface(@orig_img.xform.position)
+  img1 := $ui.Coords.itemToSurface(@orig_img.xform.positionBR)
+  union := &~UnionRect(pixels_rect)
+  union.add(@orig_img, &$data.Rect(img0.x, img0.y, img1.x, img1.y))
   u := union.rect
   if !u
     => null
 
   // New temp canvas, logically located at (u.x0, u.y0) in surface coords.
-  cvs := &dom.Canvas(u.w + 1, u.h + 1)
+  cvs := $dom.Canvas.fromSize(u.w + 1, u.h + 1)
   ctx := cvs.ctx
-  &%.XformDrawImage(#).noAlpha()
+  &~XformDrawImage(#).noAlpha()
     ctx
     @orig_img
     img0.minus(u.p00)

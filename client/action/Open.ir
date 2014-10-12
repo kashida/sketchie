@@ -1,4 +1,4 @@
-::<%.Action
+::^~Action
   ^('O', 'O:s', 'open')
 
 :trigger

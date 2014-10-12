@@ -1,24 +1,24 @@
-::<%.Editor
-  @text\model.Text\
+::^~Editor
+  @text\$model.Text|-\
   ^()
 
-:<activate\b\
+:activate^\b\
   sub_mode\s\$
   create_new := sub_mode == 'o'
   cursor_top := sub_mode == 'i'
 
   if create_new
     // Add a text box at the right location and make it visible.
-    @text = %.Text.makeTextItem('', f_page.selection.head)
+    @text = ~.makeTextItem('', f_page.selection.head)
     f_page.list.appendEnd([@text])
   else
     if !f_page.selection.isHeadText
       => false
-    @text = \!model.Text\(f_page.selection.head)
+    @text = \$model.Text\(f_page.selection.head)
 
   if sub_mode == 'c'
     // This is a copy request.
-    t := %.Text.makeTextItem(@text.text)
+    t := ~.makeTextItem(@text.text)
     t.xform.position = @text.xform.position.plus(10)
     f_page.list.appendEnd(t)
     => false
@@ -29,7 +29,7 @@
     f_editor_modes.popMode()
   => true
 
-:<deactivate
+:deactivate^
   @text.editable = false
   @text.normalize(true)
   if @text.element
@@ -56,7 +56,7 @@
     i := index
     while i < node.childNodes.length
       c := node.childNodes[i]
-      str += dom.nodeText(c)
+      str += $dom.nodeText(c)
       node.removeChild(c)
     => str
   newstr := ''
@@ -81,7 +81,7 @@
     => false
 
   // Move all the rest div's to a new item.
-  newtext := %.Text.makeTextItem(newstr, @text)
+  newtext := ~.makeTextItem(newstr, @text)
   newtext.moveChildrenFrom(@text, cursor_div_index + 1)
   f_page.list.appendEnd(newtext)
 
@@ -108,28 +108,29 @@
     @text.backspace()
 
 :makeTextItem = ##
-  \!model.Text\
+  \$model.Text\
   str\s\$
-  ref_item\model.Item\?
-  t := &model.Text()
+  ref_item\$model.Item\?
+  t := &$model.Text()
   t.text = str
   t.editable = false
   t.xform.position = ref_item ? # : #
     ref_item.xform.position.plus2n(0, ref_item.xform.rect.h + 2)
-    &data.Vec2(window.pageXOffset + 15, window.pageYOffset + 15)
+    &$data.Vec2(window.pageXOffset + 15, window.pageYOffset + 15)
   => t
 
 :collapseSelected = ##
   // Collapse texts in y order.
   // Create an empty text item and add the elements.
-  newtext := %.Text.makeTextItem('')
+  newtext := ~.makeTextItem('')
   newtext.emptyChildren()
 
   is_first := true
   while f_page.selection.isAny
     item := f_page.list.topIn(f_page.selection.list)
-    f_page.selection.remove(item)
-    if !(item instanceof model.Text)
+    if item
+      f_page.selection.remove(item)
+    if !(item instanceof $model.Text)
       continue
     newtext.moveChildrenFrom(item)
     if is_first

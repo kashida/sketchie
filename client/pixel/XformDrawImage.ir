@@ -1,7 +1,7 @@
 ::
   @ctx\CanvasRenderingContext2D\$
-  @img\!model.Image\$
-  @offset\data.Vec2\? &data.Vec2(0, 0)
+  @img\$model.Image\$
+  @offset\\? $data.Vec2(0, 0)
 
 :noAlpha
   @draw(false)

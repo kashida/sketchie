@@ -1,6 +1,6 @@
-::<%.Item
-  el\!Element\?
-  @img+\!Image\ (el && \!Image\(el.firstChild)) || &Image()
+::^~Item
+  el\Element\?
+  @img+\Image\ (el && \Image\(el.firstChild)) || &Image()
   ^(el)
   @.element.style['-webkit-user-select'] = 'none'
   @.element.appendChild(@img)
@@ -11,21 +11,21 @@
   => obj
 
 :createFromObj = ##
-  \%.Image\
-  obj\!O\$
+  \~|-\
+  obj\O\$
   if !obj.src
     => null
-  img := &%.Image()
+  img := &~()
   img.src = obj.src
   => img
 
 :createFromElement = ##
-  \%.Image\
-  element\!Element\$
+  \~|-\
+  element\Element\$
   imgs := element.getElementsByTagName('img')
   if !imgs || imgs.length != 1
     => null
-  img := &%.Image()
+  img := &~()
   img.src = imgs[0].src
   => img
 

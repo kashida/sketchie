@@ -19,7 +19,7 @@
 :code+\s\
   key := @evt.keyCode
   key_str := #||
-    %.EventKey.SPECIAL_KEYS[key]
+    ~.SPECIAL_KEYS[key]
     key >= 32 && key < 127 ? String.fromCharCode(key) : 'xxx'
   mod := ''
   if @evt.shiftKey

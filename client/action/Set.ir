@@ -1,22 +1,22 @@
 ::
-  @actions\!A.<!%.Action|!%.Group>\$
-  @box+\!ui.ButtonBox\$
-  @keyMap\!O.<!%.Action>\ {}
+  @actions\A<~Action|~Group>\$
+  @box+\$ui.ButtonBox\$
+  @keyMap\O<~Action>\ {}
   @addActions(@actions, @box)
 
 :@addActions
-  acts\!A.<!%.Action|!%.Group>\$
-  container\!ui.ButtonBox|ui.ButtonGroup\$
+  acts\A<~Action|~Group>\$
+  container\$ui.ButtonBox|$ui.ButtonGroup\$
   acts.forEach(##)
-    act\!%.Action|!%.Group\$
-    if act instanceof %.Action
+    act\~Action|~Group\$
+    if act instanceof ~Action
       @addAction(act, container)
     else
       @addGroup(act, container)
 
 :@addAction
-  act\!%.Action\$
-  container\!ui.ButtonBox|ui.ButtonGroup\$
+  act\~Action\$
+  container\$ui.ButtonBox|$ui.ButtonGroup\$
   if act.key
     if act.key instanceof Array
       act.key.forEach(##)
@@ -28,9 +28,9 @@
     container.add(act)
 
 :@addGroup
-  grp\!%.Group\$
-  container\!ui.ButtonBox|ui.ButtonGroup\$
-  actGroup := &ui.ButtonGroup(grp.title)
+  grp\~Group\$
+  container\$ui.ButtonBox|$ui.ButtonGroup\$
+  actGroup := &$ui.ButtonGroup(grp.title)
   @addActions(grp.list, actGroup)
   container.addGroup(actGroup)
 
@@ -39,7 +39,7 @@
 
 :dispatch
   evt\KeyboardEvent\$
-  code := &dispatch.EventKey(evt).code
+  code := &$dispatch.EventKey(evt).code
   if code in @keyMap
     act := @keyMap[code]
     if act.isActive

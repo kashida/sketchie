@@ -1,89 +1,89 @@
 ::
-  @element+\!Element\ dom.id('itemlist')
+  @element+\Element\ $dom.id('itemlist')
   if run_as_extension
     &Load().load(false)
   else
-    dom.eachChild(@element, ##)
-      el\!Element\$
+    $dom.eachChild(@element, ##)
+      el\Element\$
       if !el.item
-        %.Item.create(el)
+        ~Item.create(el)
 
 All child elements need to be blessed when added, and disposed when removed.
 :@dispose
-  item\!%.Item\$
+  item\~Item\$
   @element.removeChild(item.element)
-  item.dispose()
+  ~Item.dispose(item)
 
-:serializable+\!A.<!O>\
+:serializable+\A<O>\
   => @.childrenArray.map(##)
-    item\!%.Item\$
+    item\~Item\$
     => item.serializable
 
 :load
-  list\!A.<!O>\$
+  list\A<O>\$
   @.appendEnd(list.map(##))
-    obj\!O\$
-    => %.Item.createFromObj(obj)
+    obj\O\$
+    => ~Item.createFromObj(obj)
 
 :loadFromNodes
-  list\!NodeList\$
+  list\NodeList\$
   for i := 0; i < list.length; i++
-    @.appendEnd(%.Item.createFromElement(list[i]))
+    @.appendEnd(~Item.createFromElement(list[i]))
 
 :freeze
   @.each(##)
-    item\!%.Item\$
+    item\~Item\$
     item.freeze()
 
 :restore
   @.each(##)
-    item\!%.Item\$
+    item\~Item\$
     item.restore()
 
-:@children\!NodeList\
+:@children\NodeList\
   => @element.children
 :@toItem
   el\Element\$
-  => el ? \!%.Item\(el.item) : null
+  => el ? \~Item\(el.item) : null
 
-:childrenArray+\!A.<!%.Item>\
+:childrenArray+\A<~Item>\
   arr := []
-  dom.eachChild(@element, ##)
+  $dom.eachChild(@element, ##)
     el\Element\$
-    arr.push(\!%.Item\(el.item))
+    arr.push(\~Item\(el.item))
   => arr
 
 :clear
   @.remove(@.childrenArray)
   @element.innerHTML = ''
 
-:first+\%.Item\
+:first+\~Item\
   => @toItem(@element.firstElementChild)
-:last+\!Element\
+:last+\Element\
   => @toItem(@element.lastElementChild)
 :length+\n\
   => @children().length
 :isEmpty+\b\
   => @.length == 0
-:childAt\%.Item\
+:childAt\~Item\
   idx\n\$
   => @toItem(@children()[idx])
 :indexOf\n\
-  item\!%.Item\$
+  item\~Item\$
   for i := 0; i < @.length; i++
     if item.hasElement(@children()[i])
       => i
   => -1
 
 :each
-  cb\f(!%.Item, !Element)\$
-  dom.eachChild(@element, ##)
+  cb\f(~Item, Element)\$
+  $dom.eachChild(@element, ##)
     el\Element\$
-    cb(\!%.Item\(el.item), el)
+    cb(\~Item\(el.item), el)
 
 :until
   back_to_front\b\$
-  cb\f(!%.Item):b\$
+  cb\f(~Item):b\$
   c := @children()
   if back_to_front
     for i := 0; i < c.length; i++
@@ -95,59 +95,59 @@ All child elements need to be blessed when added, and disposed when removed.
         =>
 
 Sort the list of input items into z-order.
-:zOrder\!A.<!%.Item>\
-  items\!A.<!%.Item>\$
+:zOrder\A<~Item>\
+  items\A<~Item>\$
   => @.childrenArray.filter(##)
-    item\%.Item\$
+    item\~Item\$
     => items.indexOf(item) >= 0
 
 :remove
-  items\!%.Item|!A.<!%.Item>\$
-  if items instanceof %.Item
+  items\~Item|A<~Item>\$
+  if items instanceof ~Item
     @dispose(items)
   else
     items.forEach(##)
-      item\!%.Item\$
+      item\~Item\$
       @dispose(item)
 
 :insertFirst
-  items\A.<!%.Item>\$
+  items\A<~Item>\$
   items.forEach(##)
-    item\!%.Item\$
+    item\~Item\$
     @element.insertBefore(item.element, @element.firstChild)
 
 :appendEnd
-  items\!%.Item|!A.<!%.Item>\$
-  if items instanceof %.Item
+  items\~Item|A<~Item>\$
+  if items instanceof ~Item
     @element.appendChild(items.element)
   else
     items.forEach(##)
-      item\!%.Item\$
+      item\~Item\$
       @element.appendChild(item.element)
 
 :insertBefore
-  pivot\%.Item\$
-  items\!A.<!%.Item>\$
+  pivot\~Item\$
+  items\A<~Item>\$
   if pivot
     items.forEach(##)
-      item\!%.Item\$
+      item\~Item\$
       @element.insertBefore(item.element, pivot.element)
   else
     @.appendEnd(items)
 
 :insertAfter
-  pivot\!%.Item\$
-  items\!A.<!%.Item>\$
+  pivot\~Item\$
+  items\A<~Item>\$
   if pivot.element.nextSibling
     items.forEach(##)
-      item\!%.Item\$
+      item\~Item\$
       @element.insertBefore(item.element, pivot.element.nextSibling)
   else
     @.appendEnd(items)
 
 :replace
-  orig_item\!%.Item\$
-  new_item\!%.Item\$
+  orig_item\~Item\$
+  new_item\~Item\$
   next := orig_item.element.nextSibling
   @dispose(orig_item)
   if next
@@ -156,43 +156,43 @@ Sort the list of input items into z-order.
     @element.appendChild(new_item.element)
 
 TODO: Some of top, topIn, bottom, bottomIn shouldn't be necessary. Drop them.
-:top\%.Item\
+:top\~Item|-\
   => @.topIn(@.childrenArray)
-:topIn\%.Item\
-  items\!A.<!%.Item>\$
+:topIn\~Item|-\
+  items\A<~Item>\$
   top_y := null
   top_item := null
   items.forEach(##)
-    item\!%.Item\$
+    item\~Item\$
     p := item.xform.position
-    if top_y === null || p.y < top_y
+    if top_y == null || p.y < top_y
       top_y = p.y
       top_item = item
   => top_item
 
-:bottom\%.Item\
+:bottom\~Item|-\
   => @.bottomIn(@.childrenArray)
-:bottomIn\%.Item\
-  items\!A.<!%.Item>\$
+:bottomIn\~Item|-\
+  items\A<~Item>\$
   bottom_y := null
   bottom_item := null
   items.forEach(##)
-    item\!%.Item\$
+    item\~Item\$
     p := item.xform.position
-    if bottom_y === null || p.y > bottom_y
+    if bottom_y == null || p.y > bottom_y
       bottom_y = p.y
       bottom_item = item
   => bottom_item
 
 All the items that are afeter the specified item (exclusive).
-:after\A.<!%.Item>\
-  item\%.Item\$
+:after\A<~Item>|-\
+  item\~Item\$
   for i := 0; i < @children().length; i++
     if @children()[i] == item.element
       // We can't use array.slice because children is a NodeList.
       list := []
       for j := i + 1; j < @children().length; j++
-        list.push(\!%.Item\(@children()[j].item))
+        list.push(\~Item\(@children()[j].item))
       => list
   // item didn't appear in the list.
   => null

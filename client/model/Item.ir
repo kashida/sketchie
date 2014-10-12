@@ -1,25 +1,28 @@
 ::
   // Taking the parameter as non-nullable, but the member needs to be nullable
   // for disposing.
-  el\!Element\? dom.create('div')
+  el\Element\? $dom.create('div')
   @element+\Element\ el
-  @xform+\dom.Xform\ &dom.Xform(el)
+  @xform+\\ $dom.Xform(el)
   @isActive&\b\ true
   @alphaLock&\b\ false
   @blendAlpha&\n\ 1.0
 
   @element.item = @
-  @element.dragger = &drag.Move(@)
+  @element.dragger = &$drag.Move(@)
   // TODO: unlisten at dispose.
-  dom.listen(@element, 'click', ##)
+  $dom.listen(@element, 'click', ##)
     evt\Event\$
     if @.selectable() && !evt.ctrlKey
       f_page.selection.select(@, evt.shiftKey)
 
 :create = ##
-  \%.Item\
-  el\!Element\$
-  => el.firstChild.tagName == 'IMG' ? &%.Image(el) : &%.Text(el)
+  \~\
+  el\Element\$
+  => el.firstChild.tagName == 'IMG' ? &~Image(el) : &~Text(el)
+
+:serializable+\O\
+  => {}
 
 :baseSerializable+\O\
   => {#}
@@ -31,12 +34,12 @@
     c: @isActive
 
 :createFromObj = ##
-  \!%.Item\
-  obj\!O\$
-  item := %.Image.createFromObj(obj)
+  \~\
+  obj\O\$
+  item := ~Image.createFromObj(obj)
   if !item
-    item = %.Text.createFromObj(obj)
-  item.xform.position = data.Vec2.createFromObj(obj.p)
+    item = ~Text.createFromObj(obj)
+  item.xform.position = $data.Vec2.createFromObj(obj.p)
   item.xform.rotation = obj.r
   item.xform.scale = obj.s
   item.alphaLock = obj.a
@@ -45,14 +48,14 @@
   => item
 
 :createFromElement = ##
-  \!%.Item\
-  element\!Element\$
-  item := %.Image.createFromElement(element)
+  \~\
+  element\Element\$
+  item := ~Image.createFromElement(element)
   if !item
-    item = %.Text.createFromElement(element)
+    item = ~Text.createFromElement(element)
   item.xform.loadFromElement(element)
-  item.alphaLock = !!dom.attr(element, 'sk_alpha_lock')
-  alpha := dom.attr(element, 'sk_blend_alpha')
+  item.alphaLock = !!$dom.attr(element, 'sk_alpha_lock')
+  alpha := $dom.attr(element, 'sk_blend_alpha')
   if alpha
     alpha_value := parseFloat(alpha)
     if alpha_value >= 0 && alpha_value <= 1.0
@@ -62,29 +65,30 @@
 :freeze
   @xform.freeze()
   if @alphaLock
-    dom.setAttr(@element, 'sk_alpha_lock', 'true')
+    $dom.setAttr(@element, 'sk_alpha_lock', 'true')
   if @blendAlpha != 1
-    dom.setAttr(@element, 'sk_blend_alpha', @blendAlpha.toString())
+    $dom.setAttr(@element, 'sk_blend_alpha', @blendAlpha.toString())
 
 :restore
   @xform.restore()
-  dom.setAttr(@element, 'sk_alpha_lock')
-  dom.setAttr(@element, 'sk_blend_alpha')
+  $dom.setAttr(@element, 'sk_alpha_lock')
+  $dom.setAttr(@element, 'sk_blend_alpha')
 
-:dispose
-  @element.item = null
-  @element.dragger = null
-  @element = null
-  @xform = null
+:dispose = ##
+  target\O\$
+  target._element.item = null
+  target._element.dragger = null
+  target._element = null
+  target._xform = null
 
 Returns Item only if the element has an Item associated to it.
 :fromElement = ##
-  \%.Item\
-  el\!Element\$
-  => \%.Item\(el.item)
+  \~\
+  el\Element\$
+  => \~\(el.item)
 
 :hasElement\b\
-  el\!Element\$
+  el\Element\$
   => el == @element
 
 :selectable\b\
@@ -92,3 +96,11 @@ Returns Item only if the element has an Item associated to it.
 
 :focus
   @element.focus()
+
+:isPointerEventTarget*
+  val\b\$
+  @element.style['pointer-events'] = val ? null : 'none'
+
+:opacity*
+  val\n\$
+  @element.style.opacity = val

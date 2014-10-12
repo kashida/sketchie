@@ -21,17 +21,17 @@
   next_item := @findNext()
   if next_item
     if @expand
-      f_page.selection.add(\!model.Item\(next_item))
+      f_page.selection.add(\~Item\(next_item))
     else
-      f_page.selection.select(\!model.Item\(next_item))
+      f_page.selection.select(\~Item\(next_item))
     f_viewport.showItem(next_item)
 
 Find items that is just above and just below the selected item.
-:@findNext\%.Item\
+:@findNext\~Item|-\
   next_item := null
   y := next_y := f_page.selection.head.xform.position.y
   f_page.list.each(##)
-    c\model.Item\$
+    c\~Item\$
     if f_page.selection.isSelected(c)
       =>
     cy := c.xform.position.y

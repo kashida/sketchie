@@ -6,7 +6,7 @@
 ::create = ##
   tag\s\$
   attrs\O\?
-  children\A.<Element>\?
+  children\A<Element>\?
   elem := document.createElement(tag)
   if attrs
     each attr in attrs
@@ -18,9 +18,9 @@
   => elem
 
 ::createDiv = ##
-  cls\s|A.<s>\? []
-  children\A.<Element>\?
-  div := %.create('div', null, children)
+  cls\s|A<s>\? []
+  children\A<Element>\?
+  div := ~create('div', undefined, children)
   if cls instanceof Array
     cls.forEach(##)
       c\s\$
@@ -37,7 +37,7 @@
   \Element\
   tag\s\$
   attrs\O\?
-  children\A.<Element>\?
+  children\A<Element>\?
   ns := 'http://www.w3.org/2000/svg'
   elem := document.createElementNS(ns, tag)
   if attrs
@@ -53,8 +53,8 @@
   \Element\
   text\s\$
   attrs\O\?
-  elem := %.svgCreate('text', attrs)
-  dom.appendChildren(elem, [document.createTextNode(text)])
+  elem := ~svgCreate('text', attrs)
+  ~appendChildren(elem, [document.createTextNode(text)])
   => elem
 
 ::nodeText = ##
@@ -67,7 +67,7 @@
 
 ::appendChildren = ##
   parent\Element\$
-  children\A.<Node>\$
+  children\A<Node>\$
   children.forEach(##)
     child\Node\$
     parent.appendChild(child)
@@ -75,13 +75,13 @@
 ::findOrCreate = ##
   tag\s\$
   attrs\O\$
-  children\A.<Element>\?
+  children\A<Element>\?
   if attrs['class']
-    elem := %.id(attrs['class'])
+    elem := ~id(attrs['class'])
     if elem
       elem.parentNode.removeChild(elem)
       => elem
-  elem = %.create(tag, attrs, children)
+  elem = ~create(tag, attrs, children)
   => elem
 
 ::listen = ##
@@ -106,7 +106,7 @@
   el\Element\$
   name\s\$
   value\s\?
-  if value !== undefined
+  if value != undefined
     el.setAttribute(name, value)
   else
     el.removeAttribute(name)
@@ -114,7 +114,7 @@
 ::isAttr = ##
   el\Element\$
   name\s\$
-  a := %.attr(el, name)
+  a := ~attr(el, name)
   if !a
     => false
   => a == '1' || a == 'true'
@@ -128,37 +128,37 @@
     el.removeAttribute(name)
         
 ::elemPosition = ##
-  \data.Vec2\
+  \$data.Vec2\
   elem\Element\$
-  => &data.Vec2(elem.offsetLeft, elem.offsetTop)
+  => &$data.Vec2(elem.offsetLeft, elem.offsetTop)
 TODO: drop this and use elemRect.
 ::elemPositionBR = ##
-  \data.Vec2\
+  \$data.Vec2\
   elem\Element\$
   // Bottom right corner coordinate.
-  => &data.Vec2(#)
+  => &$data.Vec2(#)
     elem.offsetLeft + elem.offsetWidth
     elem.offsetTop + elem.offsetHeight
 ::elemRect = ##
-  \!data.Rect\
-  elem\!Element\$
-  => &data.Rect(#)
+  \$data.Rect\
+  elem\Element\$
+  => &$data.Rect(#)
     elem.offsetLeft
     elem.offsetTop
     elem.offsetLeft + elem.offsetWidth
     elem.offsetTop + elem.offsetHeight
 
 ::eachChild = ##
-  el\!Element\$
-  cb\f(!Element,n)\$
+  el\Element\$
+  cb\f(Element,n)\$
   for i := 0; i < el.childNodes.length; i++
     cb(el.childNodes[i], i)
 
 TODO: This is implicitly assuming the template only had one element.
 ::build = ##
   id\s\$
-  params\!O\? {}
-  div := %.createDiv()
+  params\O\? {}
+  div := ~createDiv()
   div.innerHTML = Templates[id](params)
   assert(div.children.length == 1)
   => div.firstChild

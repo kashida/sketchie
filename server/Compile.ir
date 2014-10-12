@@ -1,6 +1,6 @@
 ::
   @sub_dir\s\$
-  @allIr\A.<s>\
+  @allIr\A<s>|-\
 
 :@findAllIr
   dir\s\? ''
@@ -18,11 +18,11 @@
   => results
 
 Cached list of all ir files.
-:allIr+\A.<s>\
+:allIr+\A<s>\
   => @allIr || (@allIr = @findAllIr())
 
 :run
-  files\A.<s>\? @.allIr
+  files\A<s>\? @.allIr
   try
     _ir2js.compileFiles(#)
       @sub_dir
@@ -35,7 +35,7 @@ Cached list of all ir files.
     log(e)
 
 JS file list. Paths are relative from compiled/<sub_dir>/.
-:scriptList+\A.<s>\
+:scriptList+\A<s>\
   @.run()
   // prefix path that ends with the separateor, e.g. '/'.
   prefix := _path.join('compiled', @sub_dir, '$').slice(0, -1)

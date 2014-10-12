@@ -1,14 +1,14 @@
-::<drag.Dragger
-  @element\!Element\ dom.id('itemlist')
-  @onChange+\!NullEvent\ &NullEvent()
-  @xform+\!dom.ViewportXform\ &dom.ViewportXform(@element, @onChange)
+::^$drag.Dragger
+  @element\Element\ $dom.id('itemlist')
+  @onChange+\NullEvent\ &NullEvent()
+  @xform+\\ $dom.ViewportXform(@element, @onChange)
   @active\b\ true
   @drag_active\b\ false
-  @mouse_pos\data.Vec2\
-  @base_pos\data.Vec2\
+  @mouse_pos\\ $data.Vec2(0, 0)
+  @base_pos\\ $data.Vec2(0, 0)
   ^()
   @xform.reset()
-  dom.listen(document.body, 'mousedown', ##)
+  $dom.listen(\Element\ (document.body), 'mousedown', ##)
     evt\Event\$
     @dragStart(evt)
 
@@ -19,11 +19,11 @@
 
 Change offset (but not scaling) to put the item in view.
 :showItem
-  item\model.Item\$
+  item\$model.Item\$
   // Viewport and the item in item coord space.
-  cr := &dom.ClientRect()
-  vp0 := ui.Coords.viewToItem(cr.p00)
-  vp1 := ui.Coords.viewToItem(cr.p11)
+  cr := &$dom.ClientRect()
+  vp0 := $ui.Coords.viewToItem(cr.p00)
+  vp1 := $ui.Coords.viewToItem(cr.p11)
   p0 := item.xform.position
   p1 := item.xform.positionBR
 
@@ -37,18 +37,18 @@ Change offset (but not scaling) to put the item in view.
 
 Change scaling and offset to put all the items in view.
 :showAllItems
-  union := &pixel.UnionRect()
+  union := &$pixel.UnionRect()
   union.add(f_page.list.childrenArray)
   r := union.rect
-  cr := &dom.ClientRect()
+  cr := &$dom.ClientRect()
   @xform.set(#)
     r.w / r.h > cr.w / cr.h ? cr.w / r.w : cr.h / r.h
     -r.x0 - r.w * 0.5 + cr.w * 0.5
     -r.y0 - r.h * 0.5 + cr.h * 0.5
 
 :copyTo
-  div\model.Item\$
-  div.style['-webkit-transform'] = @element.style['-webkit-transform']
+  div\$model.Item\$
+  div.element.style['-webkit-transform'] = @element.style['-webkit-transform']
 
 :@dragStart
   evt\Event\$
@@ -56,13 +56,13 @@ Change scaling and offset to put all the items in view.
     =>
   if !evt.ctrlKey
     =>
-  @mouse_pos = &data.Vec2(evt.clientX, evt.clientY)
+  @mouse_pos = &$data.Vec2(evt.clientX, evt.clientY)
   @base_pos = @xform.offset.clone
   f_dispatcher.dragStart(@)
   evt.preventDefault()
   => true
 
-:<dragUpdate
+:dragUpdate^
   evt\Event\$
   if !@active
     =>
@@ -70,7 +70,7 @@ Change scaling and offset to put all the items in view.
     @base_pos.x + (evt.clientX - @mouse_pos.x) / @xform.scale
     @base_pos.y + (evt.clientY - @mouse_pos.y) / @xform.scale
 
-:<dragEnd
+:dragEnd^
   evt\Event\$
   if !@active
     =>

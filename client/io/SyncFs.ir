@@ -1,26 +1,26 @@
-::<%.FileSystem
-  @fs\FileSystem\
+::^~FileSystem
+  @fs\FileSystem|-\
   
 :@filesystem
-  cb\f(!FileSystem)\$
+  cb\f(FileSystem)\$
   if @fs
     cb(@fs)
   else
     chrome.syncFileSystem.requestFileSystem(##)
     //webkitRequestFileSystem(window.PERSISTENT, 5 * 1024 * 1024, ##, @err)
-      fs\FileSystem\$
+      fs\FileSystem|-\$
       //chrome.syncFileSystem.getUsageAndQuota(fs, ##)
       //  info\O\$
       //  l(info)
       @fs = fs
-      cb(\!FileSystem\(@fs))
+      cb(\FileSystem\(@fs))
 
-:<fileList
-  cb\f(!A.<s>)\$
+:fileList^
+  cb\f(A<s>)\$
   @filesystem(##)
-    fs\!FileSystem\$
+    fs\FileSystem\$
     fs.root.createReader().readEntries(##, @err)
-      entries\!A.<!Entry>\$
+      entries\A<Entry>\$
       files := []
       for  i := 0; i < entries.length; ++i
         if entries[i].isFile
@@ -28,7 +28,7 @@
       files.sort()
       cb(files)
 
-:<load
+:load^
   fname\s\$
   cb\f(s)\$
   @filesystem(##)
@@ -36,7 +36,7 @@
     fs.root.getFile(fname, {}, ##, @err)
       entry\FileEntry\$
       entry.file(##)
-        file\!Blob\$
+        file\Blob\$
         reader := &FileReader()
         reader.onload = ##
           ev\ProgressEvent\$
@@ -45,15 +45,15 @@
           cb(ev.target.result)
         reader.readAsText(file, 'utf-8')
 
-:<save
-  data\!Blob\$
+:save^
+  data\Blob\$
   fname\s\$
   cb\f(s)\$
   @filesystem(##)
-    fs\!FileSystem\$
+    fs\FileSystem\$
     fs.root.getFile(fname, {create: true}, ##, @err)
-      entry\!FileEntry\$
-      %.write(entry, data, ##)
+      entry\FileEntry\$
+      ~write(entry, data, ##)
         cb(fname)
 
 :@err

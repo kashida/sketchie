@@ -5,16 +5,18 @@
   @max\n\$
   @reset_value\n\$
   @value+\n\ @reset_value
-  @update_cb\F\
-  @value_renderer\F\
+  @update_cb\F|-\
+  @value_renderer\F|-\
   // TODO: integrate key two resolutions.
   @key_resolution\n\$
   @resolutions\A\ [2, 5, 10, 20]
   @resolution_index\n\ 1
-  b_l := %.Slider.createSliderbox(name, @title, @min, @max, @reset_value)
+  @box\Element|-\
+  @label\Element|-\
+  b_l := ~.createSliderbox(name, @title, @min, @max, @reset_value)
   @box = b_l[0]
   @label = b_l[1]
-  dom.listen(@box, 'click', ##)
+  $dom.listen(@box, 'click', ##)
     evt\Event\$
     // TODO: Remove hex controller code.
     //@.activate()
@@ -119,17 +121,17 @@
   range_min\n\$
   range_max\n\$
   init_value\n\$
-  label := dom.create('div', {class: 'box ' + name + '_label'})
+  label := $dom.create('div', {class: 'box ' + name + '_label'})
   label.innerText = init_value
-  control_div := dom.create('div', null, [#])
-    dom.createText(title + ': ')
+  control_div := $dom.create('div', undefined, [#])
+    $dom.createText(title + ': ')
     label
-  box := dom.id(name)
+  box := $dom.id(name)
   box.classList.add('control_box')
   box.appendChild(control_div)
   => [box, label]
 
-::RadiusSlider < %.Slider
+::RadiusSlider^~Slider
   name\s\$
   title\s\$
   min\n\$

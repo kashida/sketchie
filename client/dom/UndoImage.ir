@@ -1,5 +1,5 @@
 ::
-  @buffer\Element\ %.id('img_undolist')
+  @buffer\Element\ ~id('img_undolist')
   @.reset()
 
 :push
@@ -10,7 +10,7 @@
 :pop
   if !@buffer.hasChildNodes()
     =>
-  f_surface.copyFrom(\!HTMLCanvasElement\(@buffer.lastChild))
+  f_surface.copyFrom(\HTMLCanvasElement\(@buffer.lastChild))
   @buffer.removeChild(@buffer.lastChild)
 
 :reset

@@ -1,7 +1,7 @@
-::<%.Image
+::^~Image
   ^()
 
-:<startSegment
+:startSegment^
   evt\Event\$
   f_strokes.get(f_tool_palette.tool()).reset(#)
     f_color_palette.selectedColor
@@ -9,21 +9,21 @@
     f_tool_palette.lerp()
     @.alphaLock
 
-:<activate\b\
+:activate^\b\
   sub_mode\s\$
   img := f_page.selection.isHeadText ? null : f_page.selection.head
   f_page.selection.clear()
-  @.activateImage(\model.Image\(img))
+  @.activateImage(\$model.Image\(img))
   => true
 
-:<deactivate
+:deactivate^
   img_spec := f_surface.imageSpec(@.image || undefined)
   orig_image := @.image
   ^()
 
   if img_spec
     if orig_image
-      img_spec.mergeImageItem(orig_image, f_surface.bbox)
+      img_spec.mergeImageItem(orig_image, \$data.Rect\(f_surface.bbox))
     else
       img_spec.makeNewImageItem()
   else

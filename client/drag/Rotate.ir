@@ -1,10 +1,10 @@
-::<%.Dragger
-  @item\model.Item\
-  @center\data.Vec2\
-  @start_theta\?n\
+::^~Dragger
+  @item\$model.Item|-\
+  @center\$data.Vec2|-\
+  @start_theta\n|-\
 
 :activate
-  item\model.Item\$
+  item\$model.Item\$
   @item = item
   @center = item.xform.rect.center
   @start_theta = null
@@ -16,7 +16,7 @@
   @start_theta = null
   f_dispatcher.dragTerminate()
 
-:<dragUpdate
+:dragUpdate^
   evt\Event\$
   theta := @find_theta(evt.clientX, evt.clientY)
   if ! @start_theta

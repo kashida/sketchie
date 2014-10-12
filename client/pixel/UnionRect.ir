@@ -1,23 +1,23 @@
 ::
-  init_rect\!data.Rect\?
-  @rect+\data.Rect\
+  init_rect\$data.Rect\?
+  @rect+\$data.Rect|-\
   if init_rect
     @rect = init_rect.clone
 
 :add
-  images\!model.Image|!A.<!model.Image>\$
+  images\$model.Image|A<$model.Image>\$
   // Used only if there is one image.
-  image_rect\!data.Rect\?
-  if images instanceof model.Image
+  image_rect\$data.Rect\?
+  if images instanceof $model.Image
     @addImage(images, image_rect)
   else
     images.forEach(##)
-      image\!model.Image\$
+      image\$model.Image\$
       @addImage(image)
 
 :@addImage
-  img\!model.Image\$
-  img_rect\!data.Rect\?
+  img\$model.Image\$
+  img_rect\$data.Rect\?
   rotation := img.xform.rotation
   scale := img.xform.scale
   xfm_rect := img_rect ? img_rect.clone : img.xform.rect

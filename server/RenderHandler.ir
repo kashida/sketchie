@@ -10,7 +10,7 @@
   => _fs.readFileSync(@template_file, 'utf8')
 
 :reply
-  opt\!O\$
+  opt\O\$
   // Load the template file.
   html := @template()
 
@@ -23,7 +23,7 @@
   opt\O\$
   path\s\$
   tmpl := @template()
-  if tmpl === null
+  if tmpl == null
     =>
 
   @ctxt.tryWithResponse(##)

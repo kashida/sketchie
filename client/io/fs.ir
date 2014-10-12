@@ -1,10 +1,10 @@
 ::write = ##
-  entry\!Entry\$
-  data\!Blob\$
+  entry\Entry\$
+  data\Blob\$
   cb\f()\?
-  entry.createWriter(##, %.err)
+  entry.createWriter(##, ~err)
     writer\FileWriter\$
-    writer.onerror = %.writerErr
+    writer.onerror = ~writerErr
     writer.onwriteend = ##
       // TODO: show some on-screen response.
       if writer.length == 0

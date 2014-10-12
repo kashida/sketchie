@@ -1,4 +1,4 @@
-::<%.Action
+::^~Action
   ^('Del', 'D:s', 'delete')
 
 :trigger

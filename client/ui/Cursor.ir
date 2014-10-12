@@ -1,6 +1,6 @@
 ::
-  @last_p\data.Vec2\
-  @cursor\Element\ dom.id('draw_cursor')
+  @last_p\$data.Vec2|-\
+  @cursor\Element\ $dom.id('draw_cursor')
 
 :div
   => @cursor
@@ -33,4 +33,4 @@
   r := f_tool_palette.radius() * f_viewport.xform.scale
   @cursor.style.left = (x - r) + 'px'
   @cursor.style.top = (y - r) + 'px'
-  @last_p = &data.Vec2(x, y)
+  @last_p = &$data.Vec2(x, y)

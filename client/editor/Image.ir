@@ -1,10 +1,10 @@
-::<%.Editor
-  @undo\dom.UndoImage\ &dom.UndoImage()
+::^~Editor
+  @undo\\ $dom.UndoImage()
   @is_drawing\b\ false
   @stroke&\s\ 'P'
   @prev_stroke\s\ 'E'
   @last_open_palette\s\ 'c'
-  @image+\model.Image\
+  @image+\$model.Image|-\
   @alphaLock+\b\ false
   ^()
 
@@ -12,7 +12,7 @@
   evt\Event\$
 
 :activateImage
-  img\model.Image\$
+  img\$model.Image|-\$
   @image = img
   @alphaLock = !!@image && @image.alphaLock
 
@@ -23,7 +23,7 @@
     f_surface.attachToImage(@image)
     f_stroke_layer.attachToImage(@image)
   else
-    cursor_el := dom.id('draw_cursor')
+    cursor_el := $dom.id('draw_cursor')
     f_surface.attachBeforeElement(cursor_el)
     f_stroke_layer.attachBeforeElement(cursor_el)
   f_surface.activate(@image)
@@ -188,8 +188,8 @@
 
   else
     keystr := String.fromCharCode(evt.keyCode)
-    if keystr in %.Image.brushKeys
-      new_stroke := %.Image.brushKeys[keystr]
+    if keystr in ~.brushKeys
+      new_stroke := ~.brushKeys[keystr]
       if new_stroke != @stroke
         @prev_stroke = @stroke
         @stroke = new_stroke

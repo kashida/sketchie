@@ -1,8 +1,8 @@
 Adjusts stroke parameters.
-::<%.Palette
-  @lerp\ui.Slider\ &ui.Slider('tool_lerp', 'lerp%', 0, 100, 0, 20)
-  @alpha\ui.Slider\ &ui.Slider('tool_alpha', 'alpha%', 0, 100, 100, 20)
-  @radius\ui.RadiusSlider\ &ui.RadiusSlider('tool_radius', 'size', 1, 100, 1, 20)
+::^~Palette
+  @lerp\\ $ui.Slider('tool_lerp', 'lerp%', 0, 100, 0, 20)
+  @alpha\\ $ui.Slider('tool_alpha', 'alpha%', 0, 100, 100, 20)
+  @radius\\ $ui.RadiusSlider('tool_radius', 'size', 1, 100, 1, 20)
   @param_set\O\ {}
   @current_tool\s\ 'P'
   ^('tool_palette')
@@ -13,7 +13,7 @@ Adjusts stroke parameters.
   @radius.callbackUpdate(update_cb)
   each tool in defaultParamSet
     val := defaultParamSet[tool]
-    @param_set[tool] = &%.BrushParam(tool, val[0], val[1], val[2])
+    @param_set[tool] = &~BrushParam(tool, val[0], val[1], val[2])
   @loadParam()
 
 :alpha
@@ -87,7 +87,7 @@ Adjusts stroke parameters.
 :@update
   // The sample canvas could have been hidden after this object is constructed,
   // so we need to re-establish the connection to it every time.
-  sample := dom.id('tool_sample')
+  sample := $dom.id('tool_sample')
   sample.style = 'block'
   sample.width = sample.clientWidth
   sample.height = sample.clientHeight
@@ -107,7 +107,7 @@ Adjusts stroke parameters.
 
   // Draw circle.
   r_f := @scaledRadius()
-  &pixel.DrawCircle(#)
+  &$pixel.DrawCircle(#)
     ctx
     w / 2
     w / 2
@@ -116,7 +116,7 @@ Adjusts stroke parameters.
     f_color_palette.selectedColor
 
   // Update the size marker.
-  dom.id('sample_size').innerText = 'x' + r_f[1]
+  $dom.id('sample_size').innerText = 'x' + r_f[1]
 
   // Cursor is another sample.
   if f_cursor
@@ -126,7 +126,7 @@ Adjusts stroke parameters.
   => @param().tool
 
 :isVisibleTool
-  switch @tool
+  switch @.tool()
     case 'E'
     case 'S'
     => false

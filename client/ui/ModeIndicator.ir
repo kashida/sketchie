@@ -1,7 +1,7 @@
 ::
-  @element+\Element\ dom.createDiv('mode_indicator')
-  @text_el+\Element\ dom.createDiv('mode_indicator_text')
-  @element.appendChild(dom.createText('mode:'))
+  @element+\Element\ $dom.createDiv('mode_indicator')
+  @text_el+\Element\ $dom.createDiv('mode_indicator_text')
+  @element.appendChild($dom.createText('mode:'))
   @element.appendChild(@text_el)
   @text_el.innerHTML = 'LIST'
 

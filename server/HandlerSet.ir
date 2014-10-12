@@ -1,15 +1,15 @@
 ::
-  @ctxt\Context\$
-  @base\RequestHandler\
-  @list\ListHandler\
-  @code\CodeHandler\
-  @testCode\CodeHandler\
-  @html\HtmlHandler\
-  @upload\UploadHandler\
-  @test\TestHandler\
-  @report\ReportHandler\
-  @listRender\RenderHandler\
-  @pageRender\RenderHandler\
+  @ctxt\Context|-\$
+  @base\RequestHandler|-\
+  @list\ListHandler|-\
+  @code\CodeHandler|-\
+  @testCode\CodeHandler|-\
+  @html\HtmlHandler|-\
+  @upload\UploadHandler|-\
+  @test\TestHandler|-\
+  @report\ReportHandler|-\
+  @listRender\RenderHandler|-\
+  @pageRender\RenderHandler|-\
 
 Lazy create the sub-handlers.
 :base+\RequestHandler\

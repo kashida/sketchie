@@ -3,7 +3,7 @@
 :fileName = ##
   cb\f(s)\$
   chrome.storage.sync.get('file_name', ##)
-    fname\O\$
+    fname\O|-\$
     cb(fname && fname.file_name || 'sketchie.html')
 
 :storeFileName = ##

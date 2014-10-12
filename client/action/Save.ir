@@ -1,4 +1,4 @@
-::<%.Action
+::^~Action
   ^('S', 'S:s', 'save')
 
 :trigger

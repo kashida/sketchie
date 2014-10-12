@@ -6,7 +6,7 @@
   @l&\n\$
   @a&\n\? 1
 
-:color+\%.Color\
+:color+\~Color\
   h\n\$
   s\n\$
   l\n\$
@@ -16,7 +16,7 @@
     r\n\$
     g\n\$
     b\n\$
-    => &%.Color(#)
+    => &~Color(#)
       inrange(0, 1, (r + m))
       inrange(0, 1, (g + m))
       inrange(0, 1, (b + m))

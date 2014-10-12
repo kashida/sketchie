@@ -1,18 +1,18 @@
 ::
-  @element+\!Element\ dom.build('yesno')
-  @dialogEl\!Element\ dom.id('yesno_dialog', @element)
-  @messageEl\!Element\ dom.id('message', @element)
-  @yesEl\!Element\ dom.id('yes', @element)
-  @noEl\!Element\ dom.id('no', @element)
-  @callback\?f(b)\
-  dom.listen(@yesEl, 'click', ##)
+  @element+\Element\ $dom.build('yesno')
+  @dialogEl\Element\ $dom.id('yesno_dialog', @element)
+  @messageEl\Element\ $dom.id('message', @element)
+  @yesEl\Element\ $dom.id('yes', @element)
+  @noEl\Element\ $dom.id('no', @element)
+  @callback\f(b)|-\
+  $dom.listen(@yesEl, 'click', ##)
     @deactivate(true)
-  dom.listen(@noEl, 'click', ##)
+  $dom.listen(@noEl, 'click', ##)
     @deactivate(false)
 
 :@deactivate
   result\b\$
-  %.ModalContainer.pop()
+  ~ModalContainer.pop()
   @callback && @callback(result)
 
 :ask
@@ -20,4 +20,4 @@
   cb\f(b)\$
   @callback = cb
   @messageEl.innerHTML = message
-  %.ModalContainer.push(@element)
+  ~ModalContainer.push(@element)

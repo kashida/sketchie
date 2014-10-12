@@ -1,28 +1,28 @@
 ::
-  @element+\!Element\ dom.build('modal_container')
-  @dialogEls\!A.<!Element>\ []
+  @element+\Element\ $dom.build('modal_container')
+  @dialogEls\A<Element>\ []
 
-:@instance = \%.ModalContainer\(null)
+:@instance = \~|-\(null)
 
 :get = ##
-  \!%.ModalContainer\
-  if !%.ModalContainer.instance
-    %.ModalContainer.instance = &%.ModalContainer()
-  => %.ModalContainer.instance
+  \~\
+  if ~.instance
+    ~.instance = &~()
+  => \~\(~.instance)
 
 :push = ##
-  dialog\!Element\$
-  %.ModalContainer.get().push(dialog)
+  dialog\Element\$
+  ~.get().push(dialog)
 
 :pop = ##
-  %.ModalContainer.get().pop()
+  ~.get().pop()
 
 :isActive = ##
   \b\
-  => %.ModalContainer.get().isActive
+  => ~.get().isActive
 
 :push
-  dialog\!Element\$
+  dialog\Element\$
   if @dialogEls.length > 0
     @element.removeChild(@dialogEls[@dialogEls.length - 1])
   @dialogEls.push(dialog)

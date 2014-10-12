@@ -2,8 +2,8 @@
   @req+\_http.ServerRequest\$
   @res+\_http.ServerResponse\$
   @parsed\O\ _url.parse(@req.url, true)
-  @fileType\FileType\
-  @extraScripts&\!A.<s>\ []
+  @fileType\FileType|-\
+  @extraScripts&\A<s>\ []
   @extraInit&\s\ ''
 
 :path+\s\

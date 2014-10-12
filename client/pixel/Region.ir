@@ -1,23 +1,23 @@
 ::
-  @image\model.Image\$
+  @image\$model.Image\$
   @mask\ImageData\$
 
-:intersection\pixel.PositionedPixels\
+:intersection\$pixel.PositionedPixels\
   => @getRegion(false)
 
-:diff\pixel.PositionedPixels\
+:diff\$pixel.PositionedPixels\
   => @getRegion(true)
 
 :@getRegion
   diff\b\$
-  pixels\pixel.PositionedPixels\
+  pixels\$pixel.PositionedPixels\
 
   // Take either intersection or diff of the images.
-  cvs := &dom.Canvas(@image.width, @image.height)
+  cvs := $dom.Canvas.fromSize(@image.width, @image.height)
   cvs.ctx.drawImage(@image.img, 0, 0)
   pixelData := cvs.pixelData
-  sti := ui.Coords.surfaceToItem(&data.Vec2(0, 0))
-  &%.Intersect(pixelData.pixels).update(#)
+  sti := $ui.Coords.surfaceToItem(&$data.Vec2(0, 0))
+  &~Intersect(pixelData.pixels).update(#)
     @mask
     Math.floor(@image.xform.position.x - sti.x)
     Math.floor(@image.xform.position.y - sti.y)
@@ -25,6 +25,6 @@
   rect := pixelData.tightBound()
   if !rect
     => null
-  => &pixel.PositionedPixels(#)
+  => &$pixel.PositionedPixels(#)
     rect.p00.plus(@image.xform.position)
     pixelData.urlWithCrop(rect)

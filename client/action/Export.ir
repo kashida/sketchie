@@ -1,4 +1,4 @@
-::<%.Action
+::^~Action
   ^('E', 'X:s', 'export')
 
 :trigger

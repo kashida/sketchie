@@ -1,10 +1,10 @@
 Temporary representation of image item.
 ::
-  @position+\!data.Vec2\$
+  @position+\$data.Vec2\$
   @dataUrl+\s\$
 
-:makeImageItem\!model.Image\
-  img\model.Image\?
+:makeImageItem\$model.Image\
+  img\$model.Image\?
   // TODO: img != undefined pass shouldn't happen anymore
   // (still used from stencil, but it shouldn't be using here).
   add_img := !img
@@ -13,7 +13,7 @@ Temporary representation of image item.
     img.xform.rotation = 0
     img.xform.scale = 1.0
   else
-    img = &model.Image()
+    img = &$model.Image()
   img.xform.position = @.position
   img.src = @.dataUrl
   if add_img
@@ -21,9 +21,9 @@ Temporary representation of image item.
   f_page.selection.select(img)
   => img
 
-:mergeImageItem\!model.Image\
-  img\model.Image\$
-  bbox\data.Rect\$
+:mergeImageItem\$model.Image\
+  img\$model.Image\$
+  bbox\$data.Rect\$
   img.src = @.dataUrl
   img.xform.position = img.xform.position.plus(bbox.p00).plus(@position)
   f_page.selection.select(img)
@@ -31,10 +31,10 @@ Temporary representation of image item.
 
 Make a new image item assuming the given position is viewport position.
 The new item's xform is made to reverse the current viewport xform.
-:makeNewImageItem\!model.Image\
-  img := &model.Image()
+:makeNewImageItem\$model.Image\
+  img := &$model.Image()
   img.src = @.dataUrl
-  center := &data.Vec2(img.width, img.height).mult(0.5)
+  center := &$data.Vec2(img.width, img.height).mult(0.5)
   // Set the scale to counter the viewport scaling.
   scale := 1.0 / f_viewport.xform.scale
   p := #.

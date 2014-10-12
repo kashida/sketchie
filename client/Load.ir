@@ -13,9 +13,9 @@
 :@loadWithDialog
   isHtml\b\$
   f_fs.fileList(##)
-    files\!A.<s>\$
-    ui.FileDialog.open(files, ##)
-      fname\?string\$
+    files\A<s>\$
+    $ui.FileDialog.open(files, ##)
+      fname\s|-\$
       fname && @readFromSyncFs(fname, true)
 
 :@readFromSyncFs
@@ -32,7 +32,7 @@
     
 :@store
   json\s\$
-  f_page.list.load(\!A.<!O>\(JSON.parse(json)))
+  f_page.list.load(\A<O>\(JSON.parse(json)))
 
 :@storeHtml
   html\s\$

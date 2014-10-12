@@ -9,42 +9,42 @@ Translates between the three coordinate systems:
 ::
 
 :itemToSurface = ##
-  \!data.Vec2\
-  p\data.Vec2\$
-  c := &dom.ClientRect().center
+  \$data.Vec2\
+  p\$data.Vec2\$
+  c := &$dom.ClientRect().center
   offset := f_viewport.xform.offset
-  => &data.Vec2(#)
+  => &$data.Vec2(#)
     p.x + offset.x - c.x + c.x / f_viewport.xform.scale
     p.y + offset.y - c.y + c.y / f_viewport.xform.scale
 
 :viewToItem = ##
-  \!data.Vec2\
-  p\data.Vec2\$
-  c := &dom.ClientRect().center
+  \$data.Vec2\
+  p\$data.Vec2\$
+  c := &$dom.ClientRect().center
   offset := f_viewport.xform.offset
-  => &data.Vec2(#)
+  => &$data.Vec2(#)
     (p.x - c.x) / f_viewport.xform.scale - offset.x + c.x
     (p.y - c.y) / f_viewport.xform.scale - offset.y + c.y
 
 :surfaceToItem = ##
-  \!data.Vec2\
-  p\data.Vec2\$
-  c := &dom.ClientRect().center
+  \$data.Vec2\
+  p\$data.Vec2\$
+  c := &$dom.ClientRect().center
   offset := f_viewport.xform.offset
-  => &data.Vec2(#)
+  => &$data.Vec2(#)
     p.x - offset.x + c.x - c.x / f_viewport.xform.scale
     p.y - offset.y + c.y - c.y / f_viewport.xform.scale
 
 :item2view = ##
-  \!data.Vec2\
-  p\!data.Vec2\$
-  xform\!dom.Xform\$
-  => %.Coords.doc2view(%.Coords.item2doc(p, xform))
+  \$data.Vec2\
+  p\$data.Vec2\$
+  xform\$dom.Xform\$
+  => ~.doc2view(~.item2doc(p, xform))
 
 :item2doc = ##
-  \!data.Vec2\
-  p\!data.Vec2\$
-  xform\!dom.Xform\$
+  \$data.Vec2\
+  p\$data.Vec2\$
+  xform\$dom.Xform\$
   => #.
     p
     mult(xform.scale)
@@ -52,8 +52,8 @@ Translates between the three coordinate systems:
     plus(xform.position)
 
 :doc2view = ##
-  \!data.Vec2\
-  p\data.Vec2\$
+  \$data.Vec2\
+  p\$data.Vec2\$
   // TODO: Consider view's rotation and flipping.
   => #.
     p
@@ -61,14 +61,14 @@ Translates between the three coordinate systems:
     mult(f_viewport.xform.scale)
 
 :view2item = ##
-  \!data.Vec2\
-  p\!data.Vec2\$
-  xform\!dom.Xform\$
-  => %.Coords.doc2item(%.Coords.view2doc(p), xform)
+  \$data.Vec2\
+  p\$data.Vec2\$
+  xform\$dom.Xform\$
+  => ~.doc2item(~.view2doc(p), xform)
 
 :view2doc = ##
-  \!data.Vec2\
-  p\!data.Vec2\$
+  \$data.Vec2\
+  p\$data.Vec2\$
   // TODO: Consider view's rotation and flipping.
   => #.
     p
@@ -76,9 +76,9 @@ Translates between the three coordinate systems:
     minus(f_viewport.xform.offset)
 
 :doc2item = ##
-  \!data.Vec2\
-  p\!data.Vec2\$
-  xform\!dom.Xform\$
+  \$data.Vec2\
+  p\$data.Vec2\$
+  xform\$dom.Xform\$
   => #.
     p
     minus(xform.position)

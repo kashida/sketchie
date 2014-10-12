@@ -1,32 +1,32 @@
-::< %.Image
-  @baseImage\model.Image\
+::^~Image
+  @baseImage\$model.Image|-\
   @action\s\ ''
   @.stroke = 'R'
   ^()
 
-:<activate\b\
+:activate^\b\
   sub_mode\s\$
   if !f_page.selection.isHeadImage
     => false
-  @baseImage = \model.Image\(f_page.selection.head)
+  @baseImage = \$model.Image\(f_page.selection.head)
   f_page.selection.clear()
   @.activateImage(null)
   f_surface.opacity = 0.3
   => true
 
-:<deactivate
+:deactivate^
   mask := f_surface.pixelData.pixels
   ^()
   console.assert(@baseImage)
   f_surface.opacity = null
-  f_page.selection.select(\!model.Image\(@baseImage))
+  f_page.selection.select(\$model.Image\(@baseImage))
   if @action != 'c' && @action != 'x'
     // Canceled.
     =>
 
   // Carry out the requested action.
-  img_spec := &pixel.Region(#).intersection()
-    @baseImage
+  img_spec := &$pixel.Region(#).intersection()
+    \$model.Image\(@baseImage)
     mask
   if !img_spec
     // no intersection of the image and selection.
@@ -34,21 +34,21 @@
 
   created_img := img_spec.makeImageItem()
   if @action == 'x'
-    rest_spec := &pixel.Region(#).diff()
-      @baseImage
+    rest_spec := &$pixel.Region(#).diff()
+      \$model.Image\(@baseImage)
       mask
     // We don't need to make any action if the entire image was selected
     // and the operation was cut (not copy).
     if rest_spec
-      rest_spec.makeImageItem(@baseImage)
+      rest_spec.makeImageItem(\$model.Image\(@baseImage))
   f_page.selection.select(created_img)
   @baseImage = null
   @action = ''
 
-:<startSegment
+:startSegment^
   evt\Event\$
   f_strokes.get(f_tool_palette.tool()).reset(#)
-    data.Color.fromByteRange(200, 170, 70, 255)
+    $data.Color.fromByteRange(200, 170, 70, 255)
     f_tool_palette.radius()
     f_tool_palette.lerp()
     false

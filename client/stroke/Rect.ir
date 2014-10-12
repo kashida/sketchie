@@ -1,12 +1,12 @@
-::< %.Stroke
-  @first_x\n?\
-  @first_y\n?\
-  @last_x\n?\
-  @last_y\n?\
+::^~Stroke
+  @first_x\n|-\
+  @first_y\n|-\
+  @last_x\n|-\
+  @last_y\n|-\
   ^()
 
 :reset
-  color\data.Color\$
+  color\$data.Color\$
   radius\n\$
   lerp\n\$
   alpha_lock\b\$

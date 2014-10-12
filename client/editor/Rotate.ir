@@ -1,8 +1,8 @@
-::<%.Editor
-  @dragger\drag.Rotate\ &drag.Rotate()
+::^~Editor
+  @dragger\\ $drag.Rotate()
   ^()
 
-:<activate\b\
+:activate^\b\
   sub_mode\s\$
   @dragger.activate(f_page.selection.head)
   => true

@@ -12,9 +12,9 @@ with S, [N O] are moved to before S. N has to move too, in order to preserve
 the relative order of N and O.
 ::
   @send_back\b\$
-  @found_selected\!A.<!model.Item>\ []
-  @found_selected_bbox\!A.<!data.Rect>\ []
-  @to_move\!A.<!model.Item>\ []
+  @found_selected\A<~Item>\ []
+  @found_selected_bbox\A<$data.Rect>\ []
+  @to_move\A<~Item>\ []
   @found\b\ false
 
 :shift
@@ -29,7 +29,7 @@ First find a selected item and then find a non-selected item that has
 overlapping region with one of the selected items.
 :@findElementsToMove
   f_page.list.until(@send_back, ##)
-    item\!model.Item\$
+    item\~Item\$
     if f_page.selection.isSelected(item)
       @found_selected.push(item)
       @found_selected_bbox.push(item.xform.bbox)
@@ -43,9 +43,9 @@ overlapping region with one of the selected items.
     => false
 
 :@doesOverlapWithAny\b\
-  bbox\!data.Rect\$
-  regions\!A.<!data.Rect>\$
+  bbox\$data.Rect\$
+  regions\A<$data.Rect>\$
   => regions.some(##)
-    r\!data.Rect\$
+    r\$data.Rect\$
     // TODO: Consider rotation and scaling.
     => bbox.doesOverlap(r)

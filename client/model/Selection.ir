@@ -8,8 +8,8 @@ primary_selection class.
 ::
   // TODO: take item.List as param and use the classes to mark selected items.
   // so we don't need an array here.
-  @list+\!A.<!%.Item>\ []
-  @onChange+\!NullEvent\ &NullEvent()
+  @list+\A<~Item>\ []
+  @onChange+\NullEvent\ &NullEvent()
 
 :clear
   @list = []
@@ -20,15 +20,15 @@ primary_selection class.
   => @list.length == 0
 :count+\n\
   => @list.length
-:head+\%.Item\
+:head+\~Item\
   => @list.length <= 0 ? null : @list[0]
 
 :isSelected\b\
-  item\%.Item\$
+  item\~Item\$
   => item.element.classList.contains('selected')
 
 :select
-  item\!%.Item\$
+  item\~Item\$
   push_to_list\b\? false
   if @.isAny && @.head && @.head.element
     @.head.element.classList.remove('primary_selection')
@@ -39,7 +39,7 @@ primary_selection class.
   else
     // Clean up all the selection from the list.
     @list.forEach(##)
-      item\!model.Item\$
+      item\~Item\$
       if item.element
         item.element.className = ''
     @list = []
@@ -50,7 +50,7 @@ primary_selection class.
   f_item_palette.update()
 
 :add
-  item\%.Item\$
+  item\~Item\$
   // Add as a secondary selection.
   if !item || @list.indexOf(item) >= 0
     =>
@@ -63,7 +63,7 @@ primary_selection class.
   f_item_palette.update()
 
 :remove
-  item\%.Item\$
+  item\~Item\$
   item.element.className = null
   i := 0
   while i < @list.length
@@ -76,7 +76,7 @@ primary_selection class.
 
 :clear
   @list.forEach(##)
-    item\%.Item\$
+    item\~Item\$
     if item.element
       item.element.className = ''
   @list = []
@@ -84,21 +84,21 @@ primary_selection class.
   f_item_palette.close()
 
 :isHeadText+\b\
-  => @.isAny && @.head instanceof %.Text
+  => @.isAny && @.head instanceof ~Text
 
 :isAllText+\b\
   if !@.isAny
     => false
   => @list.every(##)
-    item\%.Item\$
-    => item instanceof %.Text
+    item\~Item\$
+    => item instanceof ~Text
 
 :isHeadImage+\b\
-  => @.isAny && @.head instanceof %.Image
+  => @.isAny && @.head instanceof ~Image
 
 :isAllImage+\b\
   if !@.isAny
     => false
   => @list.every(##)
-    item\%.Item\$
-    => item instanceof %.Image
+    item\~Item\$
+    => item instanceof ~Image

@@ -1,18 +1,18 @@
-::<%.Editor
+::^~Editor
   ^()
 
 :@holdSelection
   f_page.selection.list.forEach(##)
-    item\model.Item\$
+    item\$model.Item\$
     item.isActive = false
-    item.style['pointer-events'] = 'none'
+    item.isPointerEventTarget = false
   f_page.selection.clear()
 
 :@unholdAll
   f_page.list.each(##)
-    item\model.Item\$
+    item\$model.Item\$
     item.isActive = true
-    item.style['pointer-events'] = null
+    item.isPointerEventTarget = true
 
 :dispatch
   evt\Event\$

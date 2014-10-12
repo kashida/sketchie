@@ -1,6 +1,6 @@
 ::
-  @list+\%.List\ &%.List()
-  @selection+\%.Selection\ &%.Selection()
+  @list+\\ ~List()
+  @selection+\\ ~Selection()
 
 :clear
   @list.clear()

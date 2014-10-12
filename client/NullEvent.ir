@@ -1,5 +1,5 @@
 ::
-  @handlers\!A.<f()>\ []
+  @handlers\A<f()>\ []
 
 :then
   handler\f()\$

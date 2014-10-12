@@ -7,7 +7,7 @@ the test will continue to the next one. "test=." is equvalent
   @ctxt\Context\$
   @handlers\HandlerSet\$
 
-:@scriptList\!A.<s>\
+:@scriptList\A<s>\
   scripts := _fs.readdirSync('test').filter(##).map(##)
     fname\s\$
     => fname[0] == '_'

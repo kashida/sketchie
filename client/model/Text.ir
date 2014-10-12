@@ -1,7 +1,7 @@
-::<%.Item
-  el\!Element\?
-  @textEl+\!Element\ dom.createDiv([])
-  @onblur\F\
+::^~Item
+  el\Element\?
+  @textEl+\Element\ $dom.createDiv([])
+  @onblur\F|-\
   @editing\b\ false
   ^(el)
   @.element.appendChild(@textEl)
@@ -16,18 +16,18 @@
   => obj
 
 :createFromObj = ##
-  \%.Text\
-  obj\!O\$
+  \~|-\
+  obj\O\$
   if !obj.text
     => null
-  txt := &%.Text()
+  txt := &~()
   txt.text = obj.text
   => txt
 
 :createFromElement = ##
-  \!%.Text\
-  element\!Element\$
-  txt := &%.Text()
+  \~\
+  element\Element\$
+  txt := &~()
   txt.text = element.innerText
   => txt
 
@@ -38,7 +38,7 @@
   @.emptyChildren()
   @textEl.appendChild(@makeMinimumTextDiv(str))
 
-:<selectable
+:selectable^
   => ^() && !@editing
 
 :editable*
@@ -56,20 +56,20 @@ TODO: Normalize to a smaller dom tree, e.g. div around br isn't necessary.
   We can also use <p> for each line for the consistency (no div or br).
 :@makeMinimumTextDiv
   str\s\? ''
-  div := dom.create('div')
+  div := $dom.create('div')
   str = str.trim()
   if !str
-    div.appendChild(dom.create('br'))
+    div.appendChild($dom.create('br'))
     => div
 
   lines := str.split('\n')
   lines.forEach(##)
     line\s\$
     index\n\$
-    div.appendChild(dom.createText(line))
+    div.appendChild($dom.createText(line))
     if index < lines.length - 1
-      brdiv := dom.create('div')
-      brdiv.appendChild(dom.create('br'))
+      brdiv := $dom.create('div')
+      brdiv.appendChild($dom.create('br'))
       div.appendChild(brdiv)
   => div
 
@@ -95,14 +95,14 @@ edit mode.
   if onblur
     @unlisten()
     @onblur = onblur
-    dom.listen(@textEl, 'blur', @onblur)
+    $dom.listen(@textEl, 'blur', @onblur)
 
 :@unlisten
   if @onblur
-    dom.unlisten(@textEl, 'blur', @onblur)
+    $dom.unlisten(@textEl, 'blur', @onblur)
 
 :moveChildrenFrom
-  other\%.Text\$
+  other\~\$
   start\n\? 0
   i := start
   while i < other.textEl.childNodes.length
@@ -118,7 +118,7 @@ edit mode.
   el := @textEl
   el.normalize()
   // Remove end spaces from all the text nodes.
-  dom.eachChild(el, ##)
+  $dom.eachChild(el, ##)
     div\Element\$
     div.innerText = @trimEndWhitespace(div.innerText)
   // Remove empty first and last elements.
@@ -128,10 +128,10 @@ edit mode.
     while el.lastChild && el.lastChild.innerText == ''
       el.removeChild(el.lastChild)
   // Re-insert br tag to now empty div's.
-  dom.eachChild(el, ##)
+  $dom.eachChild(el, ##)
     div\Element\$
     if div.innerText == ''
-      div.appendChild(dom.create('br'))
+      div.appendChild($dom.create('br'))
   // Remove the element if there's nothing left.
   if remove && el.childNodes.length == 0
     f_page.selection.clear()

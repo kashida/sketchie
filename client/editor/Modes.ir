@@ -1,8 +1,8 @@
 ::
   default_mode\s\$
-  @editors\O.<s, editor.Editor>\$
-  @modes\A.<s>\ [default_mode]
-  @onChange+\!NullEvent\ &NullEvent()
+  @editors\O<s, ~Editor>\$
+  @modes\A<s>\ [default_mode]
+  @onChange+\NullEvent\ &NullEvent()
 
 Current mode.
 :mode+\s\
@@ -10,7 +10,7 @@ Current mode.
   => @modes[@modes.length - 1]
 
 Currently selected editor.
-:editor+\editor.Editor\
+:editor+\~Editor\
   => @editors[@.mode]
   
 :changeModeTo

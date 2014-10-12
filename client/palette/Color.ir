@@ -1,10 +1,10 @@
-::<%.Palette
-  @mix\!ui.Slider\ &ui.Slider('color_mix', 'mix%', 0, 100, 0, 10)
-  @hue\!ui.Slider\ &ui.Slider('color_hue', 'hue%', -300, 300, 0, 10)
-  @sat\!ui.Slider\ &ui.Slider('color_sat', 'sat%', -100, 100, 0, 20)
-  @lgt\!ui.Slider\ &ui.Slider('color_lgt', 'lgt%', -100, 100, 0, 40)
-  @color_sel\Element|data.Hsl\
-  @prev_color\data.Hsl\
+::^~Palette
+  @mix\\ $ui.Slider('color_mix', 'mix%', 0, 100, 0, 10)
+  @hue\\ $ui.Slider('color_hue', 'hue%', -300, 300, 0, 10)
+  @sat\\ $ui.Slider('color_sat', 'sat%', -100, 100, 0, 20)
+  @lgt\\ $ui.Slider('color_lgt', 'lgt%', -100, 100, 0, 40)
+  @color_sel\Element|$data.Hsl\ &$data.Hsl(0, 0, 0)
+  @prev_color\\ $data.Hsl(0, 0, 0)
   ^('color_palette')
   update_cb := ##
     @update()
@@ -44,7 +44,7 @@
 
 :activateControl
   p\s\$
-  (\!ui.Slider\({m: @mix, h:@hue, s:@sat, l:@lgt}[p])).activate()
+  (\$ui.Slider\({m: @mix, h:@hue, s:@sat, l:@lgt}[p])).activate()
 
 :unselect
   if @color_sel instanceof Element
@@ -54,15 +54,15 @@
   if @color_sel instanceof Element
     @color_sel.classList.add('selected')
 
-:@currentColor\data.Hsl\
+:@currentColor\$data.Hsl\
   if @color_sel instanceof Element
     => @color_sel.hsl
-  else if @color_sel instanceof data.Hsl
+  else if @color_sel instanceof $data.Hsl
     => @color_sel
   else
-    => &data.Hsl(0, 0, 0)
+    => &$data.Hsl(0, 0, 0)
   
-:selectedColor+\data.Color\
+:selectedColor+\$data.Color\
   params := @colorAdjustParams()
   => @adjustedColor(#)
     params[0]
@@ -77,7 +77,7 @@
     @lgt.value / 100
     @mix.value / 100
 
-:@adjustedColor\data.Color\
+:@adjustedColor\$data.Color\
   adj_h\n\$
   adj_s\n\$
   adj_l\n\$
@@ -91,7 +91,7 @@
     h += adj_h
   s += adj_s
   l += adj_l
-  => &data.Hsl(h, s, l, a).color
+  => &$data.Hsl(h, s, l, a).color
 
 :@valueRender
   params\O\$
@@ -112,11 +112,11 @@
   => {c:col.rgb}
 
 :setColorRgb
-  c\data.Color\$
+  c\$data.Color\$
   @setColor(c.hsl)
 
 :@setColor
-  hsl\data.Hsl\$
+  hsl\$data.Hsl\$
   @mix.reset()
   @hue.reset()
   @sat.reset()
@@ -125,7 +125,7 @@
   if @color_sel instanceof Element
     @color_sel.classList.remove('selected')
   @color_sel = hsl
-  dom.id('color_name').innerText = '---'
+  $dom.id('color_name').innerText = '---'
   @update()
 
 :swapColors
@@ -184,19 +184,19 @@
     ['40E0D0', 'Turquoise']
     ['007BA7', 'Cerulean']
   //verify = &VerifyColors()
-  cname := dom.id('color_name')
-  csel := dom.id('color_sel')
+  cname := $dom.id('color_name')
+  csel := $dom.id('color_sel')
   colors.forEach(##)
     c\A\$
     i\n\$
     //verify.check(c[0], c[1])
-    elem := dom.create('div')
+    elem := $dom.create('div')
     elem.color_name = c[1]
     elem.style['background-color'] = '#' + c[0]
     elem.classList.remove('selected')
-    elem.hsl = data.Color.fromHexString(c[0]).hsl
+    elem.hsl = $data.Color.fromHexString(c[0]).hsl
     // TODO: make just one listener for all the div's.
-    dom.listen(elem, 'click', ##)
+    $dom.listen(elem, 'click', ##)
       evt\Event\$
       @mix.reset()
       @hue.reset()
@@ -219,14 +219,14 @@
   @update()
 
 :@update
-  dom.id('color_sample0').style['background-color'] = @.selectedColor.rgb
-  dom.id('color_sample1').style['background-color'] = @prev_color.color.rgb
+  $dom.id('color_sample0').style['background-color'] = @.selectedColor.rgb
+  $dom.id('color_sample1').style['background-color'] = @prev_color.color.rgb
 
 ::VerifyColors
-  @last_rgb\A.<n>\ null
+  @last_rgb\A<n>|-\
 
 :check
-  col\data.Color\$
+  col\$data.Color\$
   name\s\$
   rgb := col.array
   if @last_rgb

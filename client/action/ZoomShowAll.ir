@@ -1,4 +1,4 @@
-::<%.Action
+::^~Action
   ^('sa', '0:s', 'show all')
 
 :trigger

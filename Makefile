@@ -4,6 +4,9 @@ CLIENT_PKG=compiled/client/packages.js
 SERVER_PKG=compiled/server/packages.js
 CHROME_PKG=compiled/chrome/packages.js
 
+# TODO: Make ir2js converter generate this file.
+BASE_JS=~/ir2js/compiled/base.js
+
 CLIENT_IR=$(wildcard client/*.ir) $(wildcard client/*/*.ir)
 CLIENT_JS=$(patsubst %.ir,%.js,$(subst client,compiled/client,$(CLIENT_IR)))
 TESTS_IR=$(filter-out test/_%,$(wildcard test/*.ir))
@@ -97,6 +100,7 @@ sort:
 compiled/_sketchie.js: $(CLIENT_JS) $(CLIENT_PKG)
 	@echo '===== VERIFY client: compiling'
 	java $(CLOSURE_ARGS) --js_output_file $@ --js $(CLIENT_PKG) \
+	--js $(BASE_JS) \
 	$(addprefix --js ,$(shell $(SORTJS) $(CLIENT_JS))) || \
 	(rm -f $@ && false)
 

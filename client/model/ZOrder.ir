@@ -1,7 +1,7 @@
 ::
 
 :moveToEnd
-  items\!A.<!%.Item>\$
+  items\A<~Item>\$
   send_back\b\$
   // Preserve the z order among the selected items.
   remove_list := f_page.list.zOrder(items)
@@ -11,7 +11,7 @@
     f_page.list.appendEnd(remove_list)
 
 :shiftOne
-  item\!%.Item\$
+  item\~Item\$
   send_back\b\$
   // TODO: move only the items in viewport.
   idx := f_page.list.indexOf(item)
@@ -26,4 +26,4 @@
 
 :shiftOneWithOverlap
   send_back\b\$
-  &%.ZShifter(send_back).shift()
+  &~ZShifter(send_back).shift()

@@ -1,11 +1,11 @@
 ::
-  @color+\data.Color\
+  @color+\\ $data.Color(0, 0, 0)
   @radius+\n\ 0
   @lerp+\n\ 0
   @alphaLock+\b\ false
 
 :reset
-  color\data.Color\$
+  color\$data.Color\$
   radius\n\$
   lerp\n\$
   alpha_lock\b\$

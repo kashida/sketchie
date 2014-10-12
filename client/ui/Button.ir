@@ -1,8 +1,8 @@
 ::
-  @action\action.Action\$
-  @element+\Element\ dom.createDiv(['button', 'button_' + @action.name])
+  @action\$action.Action\$
+  @element+\Element\ $dom.createDiv(['button', 'button_' + @action.name])
   @element.innerHTML = @action.text
-  dom.listen(@element, 'click', ##)
+  $dom.listen(@element, 'click', ##)
     @trigger()
 
 :@trigger

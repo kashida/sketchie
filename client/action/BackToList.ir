@@ -1,5 +1,5 @@
 // Go back to the list page.
-::<%.Action
+::^~Action
   ^('^', 'U:s', 'list page')
 
 :trigger

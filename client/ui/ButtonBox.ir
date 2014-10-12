@@ -1,19 +1,19 @@
 ::
   clsName\s\$
-  @element+\Element\ dom.createDiv(['buttonbox', clsName])
-  @buttons+\A.<%.Button>\ []
+  @element+\Element\ $dom.createDiv(['buttonbox', clsName])
+  @buttons+\A<~Button>\ []
 
 :add
-  act\action.Action\$
-  b := &ui.Button(act)
+  act\$action.Action\$
+  b := &$ui.Button(act)
   @buttons.push(b)
   @element.appendChild(b.element)
 
 :addGroup
-  group\%.ButtonGroup\$
+  group\~ButtonGroup\$
   @element.appendChild(group.element)
 
 :updateVisibility
   @.buttons.forEach(##)
-    b\%.Button\$
+    b\~Button\$
     b.updateVisibility()

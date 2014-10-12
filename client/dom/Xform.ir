@@ -1,48 +1,48 @@
 ::
-  @element\!Element\$
-  @position+\!data.Vec2\ &data.Vec2(0.0, 0.0)
+  @element\Element\$
+  @position+\\ $data.Vec2(0.0, 0.0)
   @rotation+\n\ 0.0
   @scale+\n\ 1.0
 
 :loadFromElement
-  element\!Element\$
-  @.position = \!data.Vec2\(data.Vec2.fromStr(dom.attr(element, 'sk_position')))
-  @.rotation = dom.attr(element, 'sk_rotation') || 0
-  s := dom.attr(element, 'sk_scale')
-  if s !== null && s !== ""
+  element\Element\$
+  @.position = \$data.Vec2\($data.Vec2.fromStr(~attr(element, 'sk_position')))
+  @.rotation = ~attr(element, 'sk_rotation') || 0
+  s := ~attr(element, 'sk_scale')
+  if s != null && s != ""
     @.scale = parseFloat(s)
 
 :freeze
-  dom.setAttr(@element, 'sk_position', @position.str)
+  ~setAttr(@element, 'sk_position', @position.str)
   if @rotation != 0
-    dom.setAttr(@element, 'sk_rotation', @rotation.toString())
+    ~setAttr(@element, 'sk_rotation', @rotation.toString())
   if @scale != 1.0
-    dom.setAttr(@element, 'sk_scale', @scale.toString())
+    ~setAttr(@element, 'sk_scale', @scale.toString())
   xform := @makeXform()
   // Need to set as a style attribute. Setting as element.style[property] will
   // not work for the styles that Chrome doesn't understand.
-  dom.setAttr(@element, 'style', [#].join('; '))
+  ~setAttr(@element, 'style', [#].join('; '))
     'transform: ' + xform
     '-ms-transform: ' + xform
     '-webkit-transform: ' + xform
 
 :restore
-  dom.setAttr(@element, 'sk_position')
-  dom.setAttr(@element, 'sk_alpha_lock')
-  dom.setAttr(@element, 'sk_alpha_blend')
+  ~setAttr(@element, 'sk_position')
+  ~setAttr(@element, 'sk_alpha_lock')
+  ~setAttr(@element, 'sk_alpha_blend')
   @setXform()
 
 Document coords position, bottom-right position, and bounding-box.
-:centerPosition+\!data.Vec2\
-  => dom.elemRect(@element.firstElementChild).center.plus(@position)
-:positionBR+\!data.Vec2\
-  => dom.elemPositionBR(@element.firstElementChild).plus(@position)
-:bbox+\!data.Rect\
+:centerPosition+\$data.Vec2\
+  => ~elemRect(@element.firstElementChild).center.plus(@position)
+:positionBR+\$data.Vec2\
+  => ~elemPositionBR(@element.firstElementChild).plus(@position)
+:bbox+\$data.Rect\
   => @.rect.plus(@position)
 
 Item coords rect.
-:rect+\!data.Rect\
-  => dom.elemRect(@element.firstElementChild)
+:rect+\$data.Rect\
+  => ~elemRect(@element.firstElementChild)
 
 :set
   s\n\$

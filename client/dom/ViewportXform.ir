@@ -1,8 +1,8 @@
 ::
-  @element\!Element\$
-  @onChange+\!NullEvent\$
+  @element\Element\$
+  @onChange+\NullEvent\$
   @scale+\n\ 1.0
-  @offset+\!data.Vec2\ &data.Vec2(0, 0)
+  @offset+\\ $data.Vec2(0, 0)
 
 :reset
   @.set(1.0, 0, 0)
@@ -36,7 +36,7 @@ incr should be -1, 0, or 1 where positive is zooming in
 :move
   dx\n\$
   dy\n\$
-  cr := &dom.ClientRect()
+  cr := &$dom.ClientRect()
   @offset.x += dx * cr.w / 3 / @scale
   @offset.y += dy * cr.h / 3 / @scale
   @setViewport()

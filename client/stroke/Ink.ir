@@ -1,9 +1,9 @@
-::< %.Stroke
-  @points\A.<data.Vec2>\ []
+::^~Stroke
+  @points\A<$data.Vec2>\ []
   ^()
 
 :reset
-  color\data.Color\$
+  color\$data.Color\$
   radius\n\$
   lerp\n\$
   alpha_lock\b\$
@@ -14,7 +14,7 @@
 :draw
   x\n\$
   y\n\$
-  @points.push(&data.Vec2(x, y))
+  @points.push(&$data.Vec2(x, y))
   if @points.length < 2
     =>
   p0 := @points[@points.length - 2]
@@ -28,12 +28,12 @@
   f_stroke_layer.clear()
   @setupStroke()
   r := @points.map(##)
-    p\data.Vec2\$
+    p\$data.Vec2\$
     i\n\$
     => @rscale(i, (@points.length - i - 1))
   prev := null
   @points.forEach(##)
-    p\data.Vec2\$
+    p\$data.Vec2\$
     i\n\$
     if prev
       @drawSeg(prev.x, prev.y, p.x, p.y, r[i - 1], r[i])
@@ -100,6 +100,6 @@
   dist := Math.sqrt(dp.x * dp.x + dp.y * dp.y) * scale
   vscale := dist == 0 ? 1.0 : 10.0 / dist
   => #?
-    eindex === undefined
+    eindex == undefined
     minAll([index / 20, vscale, 1.0])
     minAll([index / 20, eindex / 20, vscale, 1.0])

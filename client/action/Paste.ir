@@ -1,6 +1,6 @@
-::<%.Action
+::^~Action
   ^('P', 'V:c', 'paste')
-  dom.listen(document.body, 'paste', ##)
+  $dom.listen(\Element\(document.body), 'paste', ##)
     evt\Event\$
     if f_editor_modes.mode == 'l'
       @paste(evt)
@@ -33,13 +33,13 @@
 :@pasteText
   text\s\$
   // Add a text box at the right location and make it visible.
-  item := editor.Text.makeTextItem(text)
+  item := $editor.Text.makeTextItem(text)
   f_page.list.appendEnd([item])
   item.normalize(true)
 
 :@pasteImage
   url\s\$
   f_page.list.appendEnd(#)
-    &pixel.PositionedPixels(#).makeImageItem()
-      &data.Vec2(window.pageXOffset, window.pageYOffset)
+    &$pixel.PositionedPixels(#).makeImageItem()
+      &$data.Vec2(window.pageXOffset, window.pageYOffset)
       url

@@ -1,9 +1,9 @@
-::< %.Stroke
-  @points\A.<data.Vec2>\ []
+::^~Stroke
+  @points\A<$data.Vec2>\ []
   ^()
 
 :reset
-  color\data.Color\$
+  color\$data.Color\$
   radius\n\$
   lerp\n\$
   alpha_lock\b\$
@@ -13,7 +13,7 @@
 :draw
   x\n\$
   y\n\$
-  @points.push(&data.Vec2(x, y))
+  @points.push(&$data.Vec2(x, y))
   if @points.length < 2
     =>
   ctx := f_stroke_layer.context

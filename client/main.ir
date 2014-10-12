@@ -1,5 +1,5 @@
 Entry point.
 :
   window.addEventListener('load', ##, false)
-    e\Event\$
+    e\Event|-\$
     => &Sketchie()
