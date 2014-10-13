@@ -28,7 +28,7 @@
   input_file\s\$
   replacer\f(s):s\?
   // Check if the input file exists.
-  if !_path.existsSync(input_file)
+  if !_fs.existsSync(input_file)
     => false
 
   // Make a response.

@@ -5,7 +5,7 @@
 :@reply
   // Check if the path exists.
   target_dir := _path.join('data', @ctxt.path)
-  if !_path.existsSync(target_dir)
+  if !_fs.existsSync(target_dir)
     @ctxt.response(404, target_dir)
     =>
 
@@ -13,7 +13,7 @@
   file_list := _fs.readdirSync(target_dir)
   generator := &NameGenerator()
   newname := generator.nextName()
-  while _path.existsSync(_path.join('data', newname))
+  while _fs.existsSync(_path.join('data', newname))
     newname = generator.nextName()
 
   @handlers.listRender.reply({#})

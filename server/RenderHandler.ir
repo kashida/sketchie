@@ -4,7 +4,7 @@
   @template_file\s\$
 
 :@template\s\
-  if !_path.existsSync(@template_file)
+  if !_fs.existsSync(@template_file)
     @ctxt.response(500, @template_file + ' not found')
     throw 'Failed to load template ' + @template_file
   => _fs.readFileSync(@template_file, 'utf8')
